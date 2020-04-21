@@ -1,9 +1,9 @@
 include(GoogleTest)
 
-add_executable(unitTests testOne.cpp)
+add_executable(YoutubeDownloadTest youtubeDownloadTest.cpp)
+target_include_directories(YoutubeDownloadTest PUBLIC /usr/local/include)
+target_include_directories(YoutubeDownloadTest PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_directories(YoutubeDownloadTest PUBLIC /usr/local/lib)
+target_link_libraries(YoutubeDownloadTest gtest)
 
-target_include_directories(unitTests PUBLIC /usr/local/include)
-target_link_directories(unitTests PUBLIC /usr/local/lib)
-target_link_libraries(unitTests gtest)
-
-add_test(NAME test1 COMMAND unitTests)
+add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
