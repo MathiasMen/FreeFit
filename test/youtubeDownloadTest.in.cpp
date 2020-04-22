@@ -20,11 +20,6 @@ TEST(YoutubeDownload, Options)
 
 TEST(YoutubeDownload, Downloader)
 {
-<<<<<<< HEAD:test/youtubeDownloadTest.cpp.in
     YoutubeDownloader* d = new YoutubeDL("${CMAKE_SOURCE_DIR}/tools/YoutubeDL/youtube-dl");
     d->download("https://www.youtube.com/watch?v=nyiNSFp2uf0","${CMAKE_BINARY_DIR}/test");
-=======
-    YoutubeDownloader* d = new YoutubeDL("/Users/mathias/Documents/programming_workspace/FreeFit/tools/YoutubeDL/youtube-dl");
-    d->download("https://www.youtube.com/watch?v=nyiNSFp2uf0","/Users/mathias/Documents/programming_workspace/FreeFit/build");
->>>>>>> 08c9ce23eb919eee733f34f736e37575c919f6d2:test/youtubeDownloadTest.cpp
 }
