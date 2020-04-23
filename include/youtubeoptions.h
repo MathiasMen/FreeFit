@@ -3,17 +3,38 @@
 #include <list>
 #include <string>
 
-class YoutubeOptions
+namespace VideoDownload
 {
-public:
-  std::string getOptions()
+  enum VideoType {Default, MP4, MP3};
+
+  class YoutubeOptions
   {
-    std::string res = {};
-    for(std::string s : options)
-      res += std::string(" ") + s;
-    return res;
+  public:
+    YoutubeOptions() : v_t(VideoType::Default){}
+    virtual std::string getOptionString() = 0;
+    void setVideoFormat(VideoType t){v_t = t;}
+    void addAdditionalOption(std::string s){additional_options.push_back(s);}
+  protected:
+    std::list<std::string> additional_options;
+    VideoType v_t;
   };
-  void addOptions(std::string s){this->options.push_back(s);}
-private:
-  std::list<std::string> options;
-};
+
+  class YoutubeDLOptions : public YoutubeOptions
+  {
+  public:
+    std::string getOptionString() override
+    {
+      std::string res = {};
+      if(v_t == VideoType::MP4)
+        res += " -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]'";
+      else if (v_t == VideoType::MP3)
+        res += "";
+      else
+        res += "";
+
+      for(std::string s : additional_options)
+        res += std::string(" ") + s;
+      return res;
+    }
+  };
+}
