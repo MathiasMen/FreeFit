@@ -13,7 +13,9 @@ class YoutubeDownloader
 public:
     virtual void download(std::string yt_url, std::string out_path) = 0;
     virtual void download(std::string yt_url, std::string out_path, int start_time, int end_time) = 0;
+
     void setVideoFormat(VideoType t){opt->setVideoFormat(t);}
+
 protected:
     const std::string path_to_executable;
     YoutubeOptions* opt;

@@ -11,9 +11,12 @@ namespace VideoDownload
   {
   public:
     YoutubeOptions() : v_t(VideoType::Default){}
+
     virtual std::string getOptionString() = 0;
+    
     void setVideoFormat(VideoType t){v_t = t;}
     void addAdditionalOption(std::string s){additional_options.push_back(s);}
+    
   protected:
     std::list<std::string> additional_options;
     VideoType v_t;
@@ -25,15 +28,19 @@ namespace VideoDownload
     std::string getOptionString() override
     {
       std::string res = {};
-      if(v_t == VideoType::MP4)
-        res += " -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]'";
-      else if (v_t == VideoType::MP3)
-        res += "";
-      else
-        res += "";
+      switch(v_t)
+      {
+        case VideoType::MP4 :
+          res += " -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]'";
+        case VideoType::MP3 :
+          res += "";
+        default:
+          res += "";
+      }
 
       for(std::string s : additional_options)
         res += std::string(" ") + s;
+
       return res;
     }
   };
