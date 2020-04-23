@@ -47,6 +47,6 @@ public:
         cutter->cutVideo(out_path,start_time,end_time);
     }
     private:
-        const std::string path_to_executable = "${CMAKE_SOURCE_DIR}/tools/YoutubeDL/youtube-dl";
+        const std::string path_to_executable = "/Users/mathias/Documents/programming_workspace/FreeFit/tools/YoutubeDL/youtube-dl";
 };
 }
