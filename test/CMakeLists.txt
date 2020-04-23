@@ -1,7 +1,7 @@
 include(GoogleTest)
 
 configure_file(youtubeDownloadTest.in.cpp ${CMAKE_CURRENT_SOURCE_DIR}/youtubeDownloadTest.cpp)
-add_executable(YoutubeDownloadTest youtubeDownloadTest.cpp)
+add_executable(YoutubeDownloadTest youtubeDownloadTest.cpp ${cpp_sources})
 target_include_directories(YoutubeDownloadTest PUBLIC /usr/local/include)
 target_include_directories(YoutubeDownloadTest PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_directories(YoutubeDownloadTest PUBLIC /usr/local/lib)

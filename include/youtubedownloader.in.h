@@ -25,30 +25,12 @@ protected:
 class YoutubeDL : public YoutubeDownloader
 {
 public:
-    YoutubeDL()
-    {
-        this->opt = new YoutubeDLOptions();
-        this->cutter = new ffmpegCutter();
-    }
+    YoutubeDL();
 
-    void download(std::string yt_url, std::string out_path) override
-    {
-        std::string dl_cmnd(this->path_to_executable +
-                            opt->getOptionString() +
-                            " -o \"" +
-                            out_path +
-                            "\" \"" +
-                            yt_url +
-                            "\""); 
-        std::system(dl_cmnd.c_str());
-    }
+    void download(std::string yt_url, std::string out_path) override;
+    void download(std::string yt_url, std::string out_path, int start_time, int end_time) override;
 
-    void download(std::string yt_url, std::string out_path, int start_time, int end_time) override
-    {
-        download(yt_url,out_path);
-        cutter->cutVideo(out_path,start_time,end_time);
-    }
-    private:
-        const std::string path_to_executable = "${CMAKE_SOURCE_DIR}/tools/YoutubeDL/youtube-dl";
+private:
+    const std::string path_to_executable = "${CMAKE_SOURCE_DIR}/tools/YoutubeDL/youtube-dl";
 };
 }
