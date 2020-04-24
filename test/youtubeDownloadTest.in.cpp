@@ -16,7 +16,7 @@ TEST(YoutubeDownload, Options)
     opt.addAdditionalOption("--version");
     opt.addAdditionalOption("--someOtherArgument");
 
-    EXPECT_EQ(opt.getOptionString()," --help --version --someOtherArgument");
+    ASSERT_EQ(opt.getOptionString()," --help --version --someOtherArgument");
 }
 
 TEST(YoutubeDownload, Download)
