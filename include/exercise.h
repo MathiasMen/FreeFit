@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <list>
 
 namespace FreeFit
 {
@@ -9,7 +9,7 @@ namespace FreeFit
     {
         enum ExerciseType {TimeBased, RepetitionBased};
 
-        enum TrainedBodyRegions
+        enum MuscleGroup
             {Shoulder, UpperBack, MiddleBack,
             LowerBack, Chest, Biceps, Triceps,
             Forearms, CoreAbs, SideAbs, Glutes,
@@ -19,12 +19,32 @@ namespace FreeFit
         {
             public:
                 Exercise(){}
+                void setName(std::string n){name = n;}
+                std::string getName(){return name;}
+
+                void setVideoPath(std::string v){video_path = v;}
+                std::string getVideoPath(){return video_path;}
+
+                void setBaseVolume(unsigned int i){base_volume = i;}
+                unsigned int getBaseVolume(){return base_volume;}
+
+                void setExerciseType(ExerciseType e_t){e_type = e_t;}
+                ExerciseType getExerciseType(){return e_type;}
+
+                void addTrainedMuscle(MuscleGroup m)
+                {
+                    trained_areas.push_back(m);
+                    trained_areas.sort();
+                    trained_areas.unique();
+                }
+
+                std::list<MuscleGroup> getTrainedMuscles(){return trained_areas;}
             private:
                 std::string name;
                 std::string video_path;
                 unsigned int base_volume;
-                ExerciseType t;
-                std::vector<TrainedBodyRegions> trained_ares;
+                ExerciseType e_type;
+                std::list<MuscleGroup> trained_areas;
         };
     }
 }
