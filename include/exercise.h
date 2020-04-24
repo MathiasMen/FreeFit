@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <list>
+#include <set>
 
 namespace FreeFit
 {
@@ -31,20 +31,15 @@ namespace FreeFit
                 void setExerciseType(ExerciseType e_t){e_type = e_t;}
                 ExerciseType getExerciseType(){return e_type;}
 
-                void addTrainedMuscle(MuscleGroup m)
-                {
-                    trained_areas.push_back(m);
-                    trained_areas.sort();
-                    trained_areas.unique();
-                }
+                void addTrainedMuscle(MuscleGroup m){trained_areas.insert(m);};
+                std::set<MuscleGroup> getTrainedMuscles(){return trained_areas;}
 
-                std::list<MuscleGroup> getTrainedMuscles(){return trained_areas;}
             private:
                 std::string name;
                 std::string video_path;
                 unsigned int base_volume;
                 ExerciseType e_type;
-                std::list<MuscleGroup> trained_areas;
+                std::set<MuscleGroup> trained_areas;
         };
     }
 }
