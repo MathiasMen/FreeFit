@@ -1,2 +1,4 @@
 *.vscode
 build/*
+include/youtubedownloader.h
+test/youtubeDownloadTest.cpp
