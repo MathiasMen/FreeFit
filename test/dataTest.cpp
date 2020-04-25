@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "include/exercise.h"
 #include "include/workout.h"
+#include "include/profile.h"
 
 int main(int argc, char** argv)
 {
@@ -33,13 +34,15 @@ TEST_F(ExerciseTest, TrainedMusclesLength)
     ASSERT_EQ(e.getTrainedMuscles().size(),3);
 }
 
-TEST_F(ExerciseTest, TrainedMusclesEntry)
+TEST_F(ExerciseTest, TrainedMusclesEntry1)
 {
-    auto it = e.getTrainedMuscles().begin();
-    it++;
-    ASSERT_EQ(*it,FreeFit::Data::MuscleGroup::Shoulder);
+    ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Biceps),1);
 }
 
+TEST_F(ExerciseTest, TrainedMusclesEntry2)
+{
+    ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Harmstrings),0);
+}
 
 class WorkoutTest : public ::testing::Test
 {
@@ -79,4 +82,7 @@ TEST_F(WorkoutTest, WorkoutGeneration3)
     ASSERT_EQ(el_it->getName(),"Ex2");
 }
 
-
+TEST(ProfileTest, Generation)
+{
+    FreeFit::Data::Profile p;   
+}
