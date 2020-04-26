@@ -9,7 +9,8 @@ configure_file(${CMAKE_SOURCE_DIR}/include/youtubedownloader.in.h ${CMAKE_SOURCE
 
 set(cpp_sources ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
     ${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp
-    ${CMAKE_SOURCE_DIR}/src/youtubeoptions.cpp)
+    ${CMAKE_SOURCE_DIR}/src/youtubeoptions.cpp
+    ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp)
 
 enable_testing()
 

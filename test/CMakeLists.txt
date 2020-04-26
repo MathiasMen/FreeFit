@@ -13,5 +13,11 @@ target_include_directories(DataTest PUBLIC ${test_include_dirs})
 target_link_directories(DataTest PUBLIC /usr/local/lib)
 target_link_libraries(DataTest gtest)
 
+add_executable(DataIOTest dataIOTest.cpp ${cpp_sources})
+target_include_directories(DataIOTest PUBLIC ${test_include_dirs})
+target_link_directories(DataIOTest PUBLIC /usr/local/lib)
+target_link_libraries(DataIOTest gtest)
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
+add_test(NAME DataIO COMMAND DataIOTest)
