@@ -10,7 +10,7 @@ void VideoDownload::YoutubeDL::download(std::string yt_url, std::string out_path
 {
     std::string dl_cmnd(this->path_to_executable +
                         opt->getOptionString() +
-                        " -o \"" +
+                        " --no-cache-dir -o \"" +
                         out_path +
                         "\" \"" +
                         yt_url +
