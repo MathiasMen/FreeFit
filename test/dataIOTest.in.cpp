@@ -87,7 +87,7 @@ TEST_F(DataIO, WriteExercisesFile)
     std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
 
     std::string expected = 
-    "<ROOT>\n"
+    "<EXERCISES>\n"
     "  <EXERCISE>\n"
     "    <NAME>\n"
     "      TestExercise\n"
@@ -112,7 +112,7 @@ TEST_F(DataIO, WriteExercisesFile)
     "      </AREA>\n"
     "    </TRAINEDAREAS>\n"
     "  </EXERCISE>\n"
-    "</ROOT>\n";
+    "</EXERCISES>\n";
 
 
     FreeFit::Data::Exercise e;
@@ -127,6 +127,47 @@ TEST_F(DataIO, WriteExercisesFile)
     std::list<FreeFit::Data::Exercise> l {e};
     FreeFit::Data::ExerciseWriter w(out_path);
     w.createNodeTree(l);
+    w.write();
+
+    std::ifstream f(out_path);
+    std::stringstream ss;
+    ss << f.rdbuf();
+
+    ASSERT_EQ(ss.str(),expected);
+}
+
+TEST_F(DataIO, WriteProfileFile)
+{
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
+
+    std::string expected = 
+    "<PROFILE>\n"
+    "  <NAME>\n"
+    "    TestProfile\n"
+    "  </NAME>\n"
+    "  <PICTUREPATH>\n"
+    "    DummyPicturePath\n"
+    "  </PICTUREPATH>\n"
+    "  <DATELASTWORKOUT>\n"
+    "    24.03.1994\n"
+    "  </DATELASTWORKOUT>\n"
+    "  <PATHEXDB>\n"
+    "    DummyExercisesPath\n"
+    "  </PATHEXDB>\n"
+    "  <PERFFACTOR>\n"
+    "    10.000000\n"
+    "  </PERFFACTOR>\n"
+    "</PROFILE>\n";
+
+    FreeFit::Data::Profile p;
+    p.setName("TestProfile");
+    p.setPicturePath("DummyPicturePath");
+    p.setDateLastWorkout("24.03.1994");
+    p.setPathToExerciseDB("DummyExercisesPath");
+    p.setPerformanceFactor(10.0);
+
+    FreeFit::Data::ProfileWriter w(out_path);
+    w.createNodeTree(p);
     w.write();
 
     std::ifstream f(out_path);

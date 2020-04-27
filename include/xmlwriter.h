@@ -7,6 +7,7 @@
 #include <memory>
 #include "include/xmlnode.h"
 #include "include/exercise.h"
+#include "include/profile.h"
 
 namespace FreeFit
 {
@@ -34,6 +35,14 @@ namespace FreeFit
             ExerciseWriter(std::string filepath) : BaseXMLWriter(filepath){}
 
             void createNodeTree(std::list<FreeFit::Data::Exercise> l_e);
+        };
+
+        class ProfileWriter : public BaseXMLWriter
+        {
+        public:
+            ProfileWriter(std::string filepath) : BaseXMLWriter(filepath){}
+
+            void createNodeTree(Profile p);
         };
     }
 }

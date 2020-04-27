@@ -47,14 +47,14 @@ namespace FreeFit
 
         void BaseXMLWriter::writeFile(std::string f, std::string c)
         {
-            std::ofstream out(f);
+            std::ofstream out(f, std::ofstream::trunc);
             out << c;
             out.close();
         }
 
         void ExerciseWriter::createNodeTree(std::list<FreeFit::Data::Exercise> l_e)
         {
-            root = std::make_shared<XMLNode>(nullptr,"ROOT","");
+            root = std::make_shared<XMLNode>(nullptr,"EXERCISES","");
             for (FreeFit::Data::Exercise e_data : l_e)
             {
                 std::shared_ptr<XMLNode> e = std::make_shared<XMLNode>(root,"EXERCISE","");
@@ -75,6 +75,21 @@ namespace FreeFit
                 e->addChild(e_areas);
                 root->addChild(e);
             }
+        }
+
+        void ProfileWriter::createNodeTree(Profile p)
+        {
+            root = std::make_shared<XMLNode>(nullptr,"PROFILE","");
+            std::shared_ptr<XMLNode> p_name = std::make_shared<XMLNode>(root,"NAME",p.getName());
+            std::shared_ptr<XMLNode> p_picture_path = std::make_shared<XMLNode>(root,"PICTUREPATH",p.getPicturePath());
+            std::shared_ptr<XMLNode> p_date_of_last_workout = std::make_shared<XMLNode>(root,"DATELASTWORKOUT",p.getDateLastWorkout());
+            std::shared_ptr<XMLNode> p_path_to_exercise_database = std::make_shared<XMLNode>(root,"PATHEXDB",p.getPathToExerciseDB());
+            std::shared_ptr<XMLNode> p_perf_factor = std::make_shared<XMLNode>(root,"PERFFACTOR",std::to_string(p.getPerformanceFactor()));
+            root->addChild(p_name);
+            root->addChild(p_picture_path);
+            root->addChild(p_date_of_last_workout);
+            root->addChild(p_path_to_exercise_database);
+            root->addChild(p_perf_factor);
         }
     }
 }
