@@ -1,6 +1,9 @@
 #include <memory>
+#include <fstream>
+#include <sstream>
 #include <gtest/gtest.h>
 #include "include/xmlnode.h"
+#include "include/xmlwriter.h"
 
 int main(int argc, char** argv)
 {
@@ -77,4 +80,58 @@ TEST_F(DataIO, FindChildren)
     n->addChild(child3);
     std::list<std::shared_ptr<FreeFit::Data::XMLNode>> l = n->findAllChildren("CHILD_NAME1");
     ASSERT_EQ(l.size(),2);
+}
+
+TEST_F(DataIO, WriteExercisesFile)
+{
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
+
+    std::string expected = 
+    "<ROOT>\n"
+    "  <EXERCISE>\n"
+    "    <NAME>\n"
+    "      TestExercise\n"
+    "    </NAME>\n"
+    "    <VIDEOPATH>\n"
+    "    </VIDEOPATH>\n"
+    "    <BASEVOL>\n"
+    "      20\n"
+    "    </BASEVOL>\n"
+    "    <TYPE>\n"
+    "      1\n"
+    "    </TYPE>\n"
+    "    <TRAINEDAREAS>\n"
+    "      <AREA>\n"
+    "        0\n"
+    "      </AREA>\n"
+    "      <AREA>\n"
+    "        5\n"
+    "      </AREA>\n"
+    "      <AREA>\n"
+    "        10\n"
+    "      </AREA>\n"
+    "    </TRAINEDAREAS>\n"
+    "  </EXERCISE>\n"
+    "</ROOT>\n";
+
+
+    FreeFit::Data::Exercise e;
+    e.setName("TestExercise");
+    e.setBaseVolume(20);
+    e.setExerciseType(FreeFit::Data::ExerciseType::RepetitionBased);
+    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
+    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
+    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
+    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
+
+    std::list<FreeFit::Data::Exercise> l {e};
+    FreeFit::Data::ExerciseWriter w(out_path);
+    w.createNodeTree(l);
+    w.write();
+
+    std::ifstream f(out_path);
+    std::stringstream ss;
+    ss << f.rdbuf();
+
+    ASSERT_EQ(ss.str(),expected);
 }
