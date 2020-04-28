@@ -17,8 +17,10 @@ namespace FreeFit
             std::shared_ptr<XMLNode> findFirstChild(std::string child_name);
             std::list<std::shared_ptr<XMLNode>> findAllChildren(std::string child_name);
             void setValue(std::string v){value = v;}
-            void getXMLString(std::string& res);
-            
+
+            std::string getValue(){return value;}
+            std::string getName(){return name;}
+            std::list<std::shared_ptr<XMLNode>> getChildren(){return children;}
         private:
             XMLNode();
 

@@ -25,48 +25,13 @@ TEST_F(DataIO, NodeAddAndFindChild)
     ASSERT_EQ(child,found_child);
 }
 
-TEST_F(DataIO, NodeGetXMLString)
-{
-    std::shared_ptr<FreeFit::Data::XMLNode> child = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD","SomeChild");
-    n->addChild(child);
-    std::string res = 
-        "<ROOT>\n"
-        "<CHILD>\n"
-        "SomeChild\n"
-        "</CHILD>\n"
-        "</ROOT>\n";
-    std::string cmp;
-    n->getXMLString(cmp);
-    ASSERT_EQ(cmp,res);
-}
-
-TEST_F(DataIO, NodeFindAndGetXMLString)
-{
-    std::shared_ptr<FreeFit::Data::XMLNode> child = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD","SomeChild");
-    n->addChild(child);
-    std::shared_ptr<FreeFit::Data::XMLNode> found_child = n->findFirstChild("CHILD");
-    std::string res = 
-        "<CHILD>\n"
-        "SomeChild\n"
-        "</CHILD>\n";
-    std::string cmp;
-    found_child->getXMLString(cmp);
-    ASSERT_EQ(cmp,res);
-}
-
 TEST_F(DataIO, ModifyChildValue)
 {
     std::shared_ptr<FreeFit::Data::XMLNode> child = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD","SomeChild");
     n->addChild(child);
     std::shared_ptr<FreeFit::Data::XMLNode> found_child = n->findFirstChild("CHILD");
     found_child->setValue("IAmAChild");
-    std::string res = 
-        "<CHILD>\n"
-        "IAmAChild\n"
-        "</CHILD>\n";
-    std::string cmp;
-    found_child->getXMLString(cmp);
-    ASSERT_EQ(cmp,res);
+    ASSERT_EQ(found_child->getValue(),"IAmAChild");
 }
 
 TEST_F(DataIO, FindChildren)

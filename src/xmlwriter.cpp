@@ -7,9 +7,20 @@ namespace FreeFit
         void BaseXMLWriter::write()
         {
             std::string content;
-            root->getXMLString(content);
+            content = writeXMLString(root);
             content = formatXMLString(content);
             writeFile(filepath,content);
+        }
+
+        std::string BaseXMLWriter::writeXMLString(std::shared_ptr<XMLNode> n)
+        {
+                std::string res;
+                res += "<"  + n->getName() + ">\n";
+                res += (n->getValue().empty() ? "" : n->getValue() + "\n");
+                for(std::shared_ptr<XMLNode> c : n->getChildren())
+                    res += writeXMLString(c);
+                res += "</" + n->getName() + ">\n";
+                return res;
         }
 
         std::string BaseXMLWriter::formatXMLString(std::string s_xml)

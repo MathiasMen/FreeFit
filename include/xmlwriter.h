@@ -21,6 +21,7 @@ namespace FreeFit
             void write();
 
         protected:
+            std::string writeXMLString(std::shared_ptr<XMLNode> n);
             std::string formatXMLString(std::string s_xml);
             void indent_string(std::string& s,int indent_level);
             void writeFile(std::string f, std::string c);
