@@ -2,3 +2,4 @@
 build/*
 include/youtubedownloader.h
 test/youtubeDownloadTest.cpp
+test/dataIOTest.cpp
