@@ -4,6 +4,8 @@
 #include <gtest/gtest.h>
 #include "include/xmlnode.h"
 #include "include/xmlwriter.h"
+#include "include/xmlreader.h"
+#include <regex>
 
 int main(int argc, char** argv)
 {
@@ -140,4 +142,11 @@ TEST_F(DataIO, WriteProfileFile)
     ss << f.rdbuf();
 
     ASSERT_EQ(ss.str(),expected);
+}
+
+TEST_F(DataIO, ReadXML)
+{
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
 }
