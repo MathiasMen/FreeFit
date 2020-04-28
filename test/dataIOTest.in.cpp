@@ -149,4 +149,5 @@ TEST_F(DataIO, ReadXML)
     std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
     FreeFit::Data::BaseXMLReader r(out_path);
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
+    ASSERT_EQ(pt->findFirstChild("NAME")->getValue(),"TestProfile");
 }
