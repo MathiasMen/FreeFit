@@ -144,10 +144,18 @@ TEST_F(DataIO, WriteProfileFile)
     ASSERT_EQ(ss.str(),expected);
 }
 
-TEST_F(DataIO, ReadXML)
+TEST_F(DataIO, ReadXML1)
 {
     std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
     FreeFit::Data::BaseXMLReader r(out_path);
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
     ASSERT_EQ(pt->findFirstChild("NAME")->getValue(),"TestProfile");
+}
+
+TEST_F(DataIO, ReadXML2)
+{
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
+    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
 }
