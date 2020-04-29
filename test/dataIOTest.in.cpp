@@ -20,7 +20,7 @@ class NodeTest : public ::testing::Test
         std::shared_ptr<FreeFit::Data::XMLNode> n = std::make_shared<FreeFit::Data::XMLNode>(nullptr, "ROOT","");
 };
 
-TEST_F(NodeTest, NodeAddAndFindChild)
+TEST_F(NodeTest, FindChild)
 {
     std::shared_ptr<FreeFit::Data::XMLNode> child = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD","SomeChild");
     n->addChild(child);
