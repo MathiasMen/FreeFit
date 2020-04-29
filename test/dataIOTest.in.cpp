@@ -5,6 +5,7 @@
 #include "include/xmlnode.h"
 #include "include/xmlwriter.h"
 #include "include/xmlreader.h"
+#include "include/parser.h"
 #include <regex>
 
 int main(int argc, char** argv)
@@ -158,4 +159,34 @@ TEST_F(DataIO, ReadXML2)
     FreeFit::Data::BaseXMLReader r(out_path);
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
+}
+
+TEST_F(DataIO, ExerciseTreeParser)
+{
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/ExerciseTreeParser.xml";
+
+    FreeFit::Data::Exercise e1,e2;
+    e1.setName("TestExercise1");
+    e1.setBaseVolume(20);
+    e1.setExerciseType(FreeFit::Data::ExerciseType::RepetitionBased);
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
+
+    e2.setName("TestExercise2");
+    e2.setBaseVolume(30);
+    e2.setExerciseType(FreeFit::Data::ExerciseType::TimeBased);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Calves);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
+
+    std::list<FreeFit::Data::Exercise> l_out {e1,e2};
+    FreeFit::Data::ExerciseWriter w(out_path);
+    w.createNodeTree(l_out);
+    w.write();
+
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
+
+    FreeFit::Data::ExerciseTreeParser p;
+    std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
+    ASSERT_EQ(l_in.rbegin()->getBaseVolume(),30);
 }
