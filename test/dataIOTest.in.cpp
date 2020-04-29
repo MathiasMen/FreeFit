@@ -14,13 +14,13 @@ int main(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
-class DataIO : public ::testing::Test
+class NodeTest : public ::testing::Test
 {
     protected:
         std::shared_ptr<FreeFit::Data::XMLNode> n = std::make_shared<FreeFit::Data::XMLNode>(nullptr, "ROOT","");
 };
 
-TEST_F(DataIO, NodeAddAndFindChild)
+TEST_F(NodeTest, NodeAddAndFindChild)
 {
     std::shared_ptr<FreeFit::Data::XMLNode> child = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD","SomeChild");
     n->addChild(child);
@@ -28,7 +28,7 @@ TEST_F(DataIO, NodeAddAndFindChild)
     ASSERT_EQ(child,found_child);
 }
 
-TEST_F(DataIO, ModifyChildValue)
+TEST_F(NodeTest, ModifyChildValue)
 {
     std::shared_ptr<FreeFit::Data::XMLNode> child = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD","SomeChild");
     n->addChild(child);
@@ -37,7 +37,7 @@ TEST_F(DataIO, ModifyChildValue)
     ASSERT_EQ(found_child->getValue(),"IAmAChild");
 }
 
-TEST_F(DataIO, FindChildren)
+TEST_F(NodeTest, FindChildren)
 {
     std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME1","SomeChild");
     std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME2","SomeChild");
@@ -50,10 +50,14 @@ TEST_F(DataIO, FindChildren)
     ASSERT_EQ(l.size(),2);
 }
 
-TEST_F(DataIO, WriteExercisesFile)
+class ExerciseXMLTest : public ::testing::Test
 {
-    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
+    protected:
+        std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
+};
 
+TEST_F(ExerciseXMLTest, WriteXMLFile)
+{
     std::string expected = 
     "<EXERCISES>\n"
     "  <EXERCISE>\n"
@@ -104,10 +108,49 @@ TEST_F(DataIO, WriteExercisesFile)
     ASSERT_EQ(ss.str(),expected);
 }
 
-TEST_F(DataIO, WriteProfileFile)
+TEST_F(ExerciseXMLTest, ReadXML)
 {
-    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
+    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
+}
 
+TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
+{
+    FreeFit::Data::Exercise e1,e2;
+    e1.setName("TestExercise1");
+    e1.setBaseVolume(20);
+    e1.setExerciseType(FreeFit::Data::ExerciseType::RepetitionBased);
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
+
+    e2.setName("TestExercise2");
+    e2.setBaseVolume(30);
+    e2.setExerciseType(FreeFit::Data::ExerciseType::TimeBased);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Calves);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
+
+    std::list<FreeFit::Data::Exercise> l_out {e1,e2};
+    FreeFit::Data::ExerciseWriter w(out_path);
+    w.createNodeTree(l_out);
+    w.write();
+
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
+
+    FreeFit::Data::ExerciseTreeParser p;
+    std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
+    ASSERT_EQ(l_in.rbegin()->getBaseVolume(),30);
+}
+
+class ProfileXMLTest : public ::testing::Test
+{
+    protected:
+        std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
+};
+
+TEST_F(ProfileXMLTest, WriteXMLFile)
+{
     std::string expected = 
     "<PROFILE>\n"
     "  <NAME>\n"
@@ -145,56 +188,15 @@ TEST_F(DataIO, WriteProfileFile)
     ASSERT_EQ(ss.str(),expected);
 }
 
-TEST_F(DataIO, ReadProfileXML)
+TEST_F(ProfileXMLTest, ReadXML)
 {
-    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
     FreeFit::Data::BaseXMLReader r(out_path);
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
     ASSERT_EQ(pt->findFirstChild("NAME")->getValue(),"TestProfile");
 }
 
-TEST_F(DataIO, ReadExerciseXML)
+TEST_F(ProfileXMLTest, ParseXMLNodeTree)
 {
-    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
-    FreeFit::Data::BaseXMLReader r(out_path);
-    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
-    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
-}
-
-TEST_F(DataIO, ExerciseTreeParser)
-{
-    std::string out_path = "${CMAKE_BINARY_DIR}/test/ExerciseTreeParser.xml";
-
-    FreeFit::Data::Exercise e1,e2;
-    e1.setName("TestExercise1");
-    e1.setBaseVolume(20);
-    e1.setExerciseType(FreeFit::Data::ExerciseType::RepetitionBased);
-    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
-    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
-
-    e2.setName("TestExercise2");
-    e2.setBaseVolume(30);
-    e2.setExerciseType(FreeFit::Data::ExerciseType::TimeBased);
-    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Calves);
-    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
-
-    std::list<FreeFit::Data::Exercise> l_out {e1,e2};
-    FreeFit::Data::ExerciseWriter w(out_path);
-    w.createNodeTree(l_out);
-    w.write();
-
-    FreeFit::Data::BaseXMLReader r(out_path);
-    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
-
-    FreeFit::Data::ExerciseTreeParser p;
-    std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
-    ASSERT_EQ(l_in.rbegin()->getBaseVolume(),30);
-}
-
-TEST_F(DataIO, ProfileTreeParser)
-{
-    std::string out_path = "${CMAKE_BINARY_DIR}/test/ExerciseTreeParser.xml";
-
     FreeFit::Data::Profile p_out;
     p_out.setName("TestProfile");
     p_out.setPicturePath("DummyPicturePath");
