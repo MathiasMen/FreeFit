@@ -86,7 +86,6 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     "  </EXERCISE>\n"
     "</EXERCISES>\n";
 
-
     FreeFit::Data::Exercise e;
     e.setName("TestExercise");
     e.setBaseVolume(20);
@@ -140,7 +139,15 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
 
     FreeFit::Data::ExerciseTreeParser p;
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
+    ASSERT_EQ(l_in.begin()->getName(),"TestExercise1");
+    ASSERT_EQ(l_in.begin()->getBaseVolume(),20);
+    ASSERT_EQ(l_in.begin()->getExerciseType(),FreeFit::Data::ExerciseType::RepetitionBased);
+    ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Biceps),0);
+
+    ASSERT_EQ(l_in.rbegin()->getName(),"TestExercise2");
     ASSERT_EQ(l_in.rbegin()->getBaseVolume(),30);
+    ASSERT_EQ(l_in.rbegin()->getExerciseType(),FreeFit::Data::ExerciseType::TimeBased);
+    ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Glutes),0);
 }
 
 class ProfileXMLTest : public ::testing::Test
@@ -213,5 +220,10 @@ TEST_F(ProfileXMLTest, ParseXMLNodeTree)
 
     FreeFit::Data::ProfileTreeParser p;
     FreeFit::Data::Profile p_in = p.parse(pt);
+    
     ASSERT_EQ(p_out.getName(),p_in.getName());
+    ASSERT_EQ(p_out.getPicturePath(),p_in.getPicturePath());
+    ASSERT_EQ(p_out.getDateLastWorkout(),p_in.getDateLastWorkout());
+    ASSERT_EQ(p_out.getPathToExerciseDB(),p_in.getPathToExerciseDB());
+    ASSERT_EQ(p_out.getPerformanceFactor(),p_in.getPerformanceFactor());    
 }
