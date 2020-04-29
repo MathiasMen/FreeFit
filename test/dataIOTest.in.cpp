@@ -145,7 +145,7 @@ TEST_F(DataIO, WriteProfileFile)
     ASSERT_EQ(ss.str(),expected);
 }
 
-TEST_F(DataIO, ReadXML1)
+TEST_F(DataIO, ReadProfileXML)
 {
     std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
     FreeFit::Data::BaseXMLReader r(out_path);
@@ -153,7 +153,7 @@ TEST_F(DataIO, ReadXML1)
     ASSERT_EQ(pt->findFirstChild("NAME")->getValue(),"TestProfile");
 }
 
-TEST_F(DataIO, ReadXML2)
+TEST_F(DataIO, ReadExerciseXML)
 {
     std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteExerciseFileTest.xml";
     FreeFit::Data::BaseXMLReader r(out_path);
@@ -190,7 +190,6 @@ TEST_F(DataIO, ExerciseTreeParser)
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
     ASSERT_EQ(l_in.rbegin()->getBaseVolume(),30);
 }
-
 
 TEST_F(DataIO, ProfileTreeParser)
 {
