@@ -190,3 +190,27 @@ TEST_F(DataIO, ExerciseTreeParser)
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
     ASSERT_EQ(l_in.rbegin()->getBaseVolume(),30);
 }
+
+
+TEST_F(DataIO, ProfileTreeParser)
+{
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/ExerciseTreeParser.xml";
+
+    FreeFit::Data::Profile p_out;
+    p_out.setName("TestProfile");
+    p_out.setPicturePath("DummyPicturePath");
+    p_out.setDateLastWorkout("24.03.1994");
+    p_out.setPathToExerciseDB("DummyExercisesPath");
+    p_out.setPerformanceFactor(10.0);
+
+    FreeFit::Data::ProfileWriter w(out_path);
+    w.createNodeTree(p_out);
+    w.write();
+
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
+
+    FreeFit::Data::ProfileTreeParser p;
+    FreeFit::Data::Profile p_in = p.parse(pt);
+    ASSERT_EQ(p_out.getName(),p_in.getName());
+}

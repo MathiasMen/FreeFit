@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include "include/exercise.h"
+#include "include/profile.h"
 #include "include/xmlnode.h"
 
 namespace FreeFit
@@ -41,11 +42,30 @@ namespace FreeFit
                     return l;
                 }
         };
-/*
+
         class ProfileTreeParser
         {
+            public:
+                ProfileTreeParser(){}
+                Profile parse(std::shared_ptr<XMLNode> root)
+                {
+                    Profile p;
+                    if(root->findFirstChild("NAME"))
+                        p.setName(root->findFirstChild("NAME")->getValue());
 
+                    if(root->findFirstChild("PICTUREPATH"))
+                        p.setPicturePath(root->findFirstChild("PICTUREPATH")->getValue());
+
+                    if(root->findFirstChild("DATELASTWORKOUT"))
+                        p.setDateLastWorkout(root->findFirstChild("DATELASTWORKOUT")->getValue());
+
+                    if(root->findFirstChild("PATHEXDB"))
+                        p.setPathToExerciseDB(root->findFirstChild("PATHEXDB")->getValue());
+
+                    if(root->findFirstChild("PERFFACTOR"))
+                        p.setPerformanceFactor(std::stod(root->findFirstChild("PERFFACTOR")->getValue()));
+                    return p;
+                }
         };
-*/
     }
 }
