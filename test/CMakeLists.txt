@@ -12,7 +12,9 @@ target_include_directories(YoutubeDownloadTest PUBLIC ${test_include_dirs})
 target_link_directories(YoutubeDownloadTest PUBLIC /usr/local/lib)
 target_link_libraries(YoutubeDownloadTest gtest)
 
-add_executable(DataTest dataTest.cpp)
+add_executable( DataTest
+                dataTest.cpp
+                ${CMAKE_SOURCE_DIR}/src/workout.cpp)
 target_include_directories(DataTest PUBLIC ${test_include_dirs})
 target_link_directories(DataTest PUBLIC /usr/local/lib)
 target_link_libraries(DataTest gtest)
