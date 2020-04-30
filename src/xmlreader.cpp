@@ -19,22 +19,22 @@ namespace FreeFit
             removeSubstring(in_content," ");
             removeSubstring(in_content,"\n");
             removeSubstring(in_content,"\t");
-            root = parseXMLString(in_content);
+            root = XMLStringToData(in_content);
         }
 
-        std::shared_ptr<XMLNode> BaseXMLReader::parseXMLString(std::string s,std::shared_ptr<XMLNode> p)
+        std::shared_ptr<XMLNode> BaseXMLReader::XMLStringToData(std::string s,std::shared_ptr<XMLNode> p)
         {
-            std::string node_name = findNodeName(s);
-            std::string node_value = findNodeValue(s);
+            std::string node_name = getNodeNameFromCurrentString(s);
+            std::string node_value = getNodeValueFromCurrentString(s);
             std::shared_ptr<XMLNode> n = std::make_shared<XMLNode>(nullptr,node_name,node_value);
 
             for(std::string c : extractChildrenStrings(s,node_name))
-                n->addChild(parseXMLString(c,n));
+                n->addChild(XMLStringToData(c,n));
 
             return n;
         }
 
-        std::string BaseXMLReader::findNodeName(std::string n, int offset)
+        std::string BaseXMLReader::getNodeNameFromCurrentString(std::string n, int offset)
         {
             size_t name_tag_start = n.find_first_of("<",offset);
             size_t name_tag_end = n.find_first_of(">",offset);
@@ -42,7 +42,7 @@ namespace FreeFit
             return n.substr(name_tag_start+1,name_length);
         }
 
-        std::string BaseXMLReader::findNodeValue(std::string n)
+        std::string BaseXMLReader::getNodeValueFromCurrentString(std::string n)
         {
             size_t start_tag_end = n.find_first_of(">");
             size_t end_tag_start = n.find_first_of("<",start_tag_end);
@@ -61,12 +61,12 @@ namespace FreeFit
             removeSubstring(s,"<"+parent_node_name+">");
             removeSubstring(s,"</"+parent_node_name+">");
 
-            if(s.find("<") == std::string::npos)
+            if(!isStringXMLNode(s))
                 return std::list<std::string>();
 
             while(!s.empty())
             {
-                std::string node_name = findNodeName(s);
+                std::string node_name = getNodeNameFromCurrentString(s);
                 std::string node_start_tag = "<" + node_name + ">";
                 std::string node_end_tag = "</" + node_name + ">";
 
@@ -77,6 +77,11 @@ namespace FreeFit
                 removeSubstring(s,node_content);
             }
             return children_strings;
+        }
+
+        bool BaseXMLReader::isStringXMLNode(std::string s)
+        {
+            return (s.find("<") != std::string::npos);
         }
 
         void BaseXMLReader::removeSubstring(std::string& str, const std::string& sub_str)

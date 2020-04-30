@@ -22,10 +22,11 @@ namespace FreeFit
 
             void createNodeTree();
 
-            std::shared_ptr<XMLNode> parseXMLString(std::string s,std::shared_ptr<XMLNode> p = nullptr);
-            std::string findNodeName(std::string n, int offset = 0);
-            std::string findNodeValue(std::string n);
+            std::shared_ptr<XMLNode> XMLStringToData(std::string s,std::shared_ptr<XMLNode> p = nullptr);
+            std::string getNodeNameFromCurrentString(std::string n, int offset = 0);
+            std::string getNodeValueFromCurrentString(std::string n);
             std::list<std::string> extractChildrenStrings(std::string s,std::string parent_node_name);
+            bool isStringXMLNode(std::string);
             void removeSubstring(std::string& str, const std::string& sub_str);
 
             std::string filepath;
