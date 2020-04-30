@@ -20,7 +20,8 @@ target_link_libraries(DataTest gtest)
 add_executable( DataIOTest
                 dataIOTest.cpp
                 ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
-                ${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp)
+                ${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp
+                ${CMAKE_SOURCE_DIR}/src/parser.cpp)
 target_include_directories(DataIOTest PUBLIC ${test_include_dirs})
 target_link_directories(DataIOTest PUBLIC /usr/local/lib)
 target_link_libraries(DataIOTest gtest)
