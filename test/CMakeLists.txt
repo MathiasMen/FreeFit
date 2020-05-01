@@ -29,6 +29,18 @@ target_include_directories(DataIOTest PUBLIC ${test_include_dirs})
 target_link_directories(DataIOTest PUBLIC /usr/local/lib)
 target_link_libraries(DataIOTest gtest)
 
+set(qt_sources 
+	${CMAKE_SOURCE_DIR}/src/mainwindow.cpp)
+
+set(qt_headers
+	${CMAKE_SOURCE_DIR}/include/mainwindow.h)
+
+qt5_wrap_cpp(moc_sources ${qt_headers})
+    
+add_executable(ExerciseGUITest exerciseGUITest.cpp ${qt_sources} ${qt_headers} ${moc_sources})
+target_link_libraries(ExerciseGUITest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_include_directories(ExerciseGUITest PUBLIC ${CMAKE_SOURCE_DIR})
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
