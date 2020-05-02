@@ -14,5 +14,4 @@ int main(int argc, char *argv[])
     QDialog* d = new FreeFit::GUI::ExerciseEditor();
     d->resize(500,500);
     d->exec();
-    a.exec();
 }
