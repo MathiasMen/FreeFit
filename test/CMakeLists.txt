@@ -33,7 +33,8 @@ set(qt_sources
 	${CMAKE_SOURCE_DIR}/src/mainwindow.cpp)
 
 set(qt_headers
-	${CMAKE_SOURCE_DIR}/include/mainwindow.h)
+    ${CMAKE_SOURCE_DIR}/include/mainwindow.h
+    ${CMAKE_SOURCE_DIR}/include/exerciseeditor.h)
 
 qt5_wrap_cpp(moc_sources ${qt_headers})
     
