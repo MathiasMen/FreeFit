@@ -154,7 +154,9 @@ namespace FreeFit
                 ly = new QGridLayout(this);
 
                 add_button = new QPushButton("Add Exercise",this);
+                download_all_button = new QPushButton("Download All",this);
                 connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
+                connect(download_all_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
                 exercise_area = new QGroupBox("Exercises to download", this);
                 exercise_area_ly = new QVBoxLayout(exercise_area);
@@ -168,11 +170,13 @@ namespace FreeFit
                 scroll_area->setWidgetResizable(true);
 
                 ly->addWidget(add_button,0,0,1,1);
+                ly->addWidget(download_all_button,0,3,1,1);
                 ly->addWidget(scroll_area,1,0,4,4);
                 this->setLayout(ly);
             };
         private:
             QPushButton* add_button;
+            QPushButton* download_all_button;
             QScrollArea* scroll_area;
             QGroupBox* exercise_area;
             QVBoxLayout* exercise_area_ly;
@@ -182,6 +186,11 @@ namespace FreeFit
             {
                 ExerciseItem* e = new ExerciseItem(exercise_area);
                 exercise_area_ly->addWidget(e);
+            }
+
+            void downloadAllExercises()
+            {
+                std::cout << "Stub: Download all was started!" << std::endl;
             }
         };
     }
