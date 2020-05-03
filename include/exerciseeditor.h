@@ -109,20 +109,30 @@ namespace FreeFit
                 start_time  = new EditableLine("...",this);
                 stop_time   = new EditableLine("...",this);
 
+                delete_item = new QPushButton("Delete",this);
+                connect(delete_item,&QPushButton::clicked,this,&ExerciseItem::deleteClicked);
+
                 int row_counter = -1;
-                ly->addWidget(name_label,++row_counter,0);
-                ly->addWidget(url_label,++row_counter,0);
-                ly->addWidget(start_time_label,++row_counter,0);
-                ly->addWidget(stop_time_label,++row_counter,0);
+                int col_counter = -1;
+                ly->addWidget(name_label,++row_counter,++col_counter);
+                ly->addWidget(url_label,++row_counter,col_counter);
+                ly->addWidget(start_time_label,++row_counter,col_counter);
+                ly->addWidget(stop_time_label,++row_counter,col_counter);
 
                 row_counter = -1;
-                ly->addWidget(name,++row_counter,1);
-                ly->addWidget(url,++row_counter,1);
-                ly->addWidget(start_time,++row_counter,1);
-                ly->addWidget(stop_time,++row_counter,1);
+                ly->addWidget(name,++row_counter,++col_counter);
+                ly->addWidget(url,++row_counter,col_counter);
+                ly->addWidget(start_time,++row_counter,col_counter);
+                ly->addWidget(stop_time,++row_counter,col_counter);
+
+                ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             }
 
         private:
+            void deleteClicked()
+            {
+                emit deleteItemTriggered(this);
+            }
 
             void paintEvent(QPaintEvent* e)
             {
@@ -143,6 +153,10 @@ namespace FreeFit
             EditableLine* url;
             EditableLine* start_time;
             EditableLine* stop_time;
+
+            QPushButton* delete_item;
+        signals:
+            void deleteItemTriggered(ExerciseItem*);
         };
 
         class ExerciseEditor : public QDialog
@@ -162,8 +176,7 @@ namespace FreeFit
                 exercise_area_ly = new QVBoxLayout(exercise_area);
                 exercise_area->setLayout(exercise_area_ly);
 
-                ExerciseItem* e = new ExerciseItem(exercise_area);
-                exercise_area_ly->addWidget(e);
+                addExercise();
 
                 scroll_area = new QScrollArea(this);
                 scroll_area->setWidget(exercise_area);
@@ -186,11 +199,17 @@ namespace FreeFit
             {
                 ExerciseItem* e = new ExerciseItem(exercise_area);
                 exercise_area_ly->addWidget(e);
+                connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             }
 
             void downloadAllExercises()
             {
                 std::cout << "Stub: Download all was started!" << std::endl;
+            }
+
+            void deleteExercise(ExerciseItem* e)
+            {
+                exercise_area_ly->removeWidget(e);
             }
         };
     }
