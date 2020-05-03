@@ -71,7 +71,6 @@ namespace FreeFit
                 std::shared_ptr<XMLNode> e = std::make_shared<XMLNode>(root,"EXERCISE","");
                 std::shared_ptr<XMLNode> e_name = std::make_shared<XMLNode>(e,"NAME",e_data.getName());
                 std::shared_ptr<XMLNode> e_video_path = std::make_shared<XMLNode>(e,"VIDEOPATH",e_data.getVideoPath());
-                std::shared_ptr<XMLNode> e_type = std::make_shared<XMLNode>(e,"TYPE",std::to_string(e_data.getExerciseType()));
                 std::shared_ptr<XMLNode> e_areas = std::make_shared<XMLNode>(e,"TRAINEDAREAS","");
                 for (auto m : e_data.getTrainedMuscles())
                 {
@@ -80,7 +79,6 @@ namespace FreeFit
                 }
                 e->addChild(e_name);
                 e->addChild(e_video_path);
-                e->addChild(e_type);
                 e->addChild(e_areas);
                 root->addChild(e);
             }

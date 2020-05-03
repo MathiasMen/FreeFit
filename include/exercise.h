@@ -7,8 +7,6 @@ namespace FreeFit
 {
     namespace Data
     {
-        enum ExerciseType {TimeBased, RepetitionBased};
-
         enum MuscleGroup
             {Shoulder, UpperBack, MiddleBack,
             LowerBack, Chest, Biceps, Triceps,
@@ -25,16 +23,12 @@ namespace FreeFit
                 void setVideoPath(std::string v){video_path = v;}
                 std::string getVideoPath(){return video_path;}
 
-                void setExerciseType(ExerciseType e_t){e_type = e_t;}
-                ExerciseType getExerciseType(){return e_type;}
-
                 void addTrainedMuscle(MuscleGroup m){trained_areas.insert(m);};
                 std::set<MuscleGroup> getTrainedMuscles(){return trained_areas;}
 
             private:
                 std::string name;
                 std::string video_path;
-                ExerciseType e_type;
                 std::set<MuscleGroup> trained_areas;
         };
     }

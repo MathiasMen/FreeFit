@@ -66,9 +66,6 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     "    </NAME>\n"
     "    <VIDEOPATH>\n"
     "    </VIDEOPATH>\n"
-    "    <TYPE>\n"
-    "      1\n"
-    "    </TYPE>\n"
     "    <TRAINEDAREAS>\n"
     "      <AREA>\n"
     "        0\n"
@@ -85,7 +82,6 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
 
     FreeFit::Data::Exercise e;
     e.setName("TestExercise");
-    e.setExerciseType(FreeFit::Data::ExerciseType::RepetitionBased);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
@@ -114,12 +110,10 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
 {
     FreeFit::Data::Exercise e1,e2;
     e1.setName("TestExercise1");
-    e1.setExerciseType(FreeFit::Data::ExerciseType::RepetitionBased);
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
 
     e2.setName("TestExercise2");
-    e2.setExerciseType(FreeFit::Data::ExerciseType::TimeBased);
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Calves);
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
 
@@ -134,11 +128,9 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     FreeFit::Data::ExerciseTreeParser p;
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
     ASSERT_EQ(l_in.begin()->getName(),"TestExercise1");
-    ASSERT_EQ(l_in.begin()->getExerciseType(),FreeFit::Data::ExerciseType::RepetitionBased);
     ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Biceps),0);
 
     ASSERT_EQ(l_in.rbegin()->getName(),"TestExercise2");
-    ASSERT_EQ(l_in.rbegin()->getExerciseType(),FreeFit::Data::ExerciseType::TimeBased);
     ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Glutes),0);
 }
 

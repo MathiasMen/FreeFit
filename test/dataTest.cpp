@@ -16,18 +16,12 @@ class ExerciseTest : public ::testing::Test
 
         virtual void SetUp()
         {
-            e.setExerciseType(FreeFit::Data::ExerciseType::TimeBased);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
         }
 };
-
-TEST_F(ExerciseTest, ExerciseType)
-{
-    ASSERT_EQ(e.getExerciseType(),FreeFit::Data::ExerciseType::TimeBased);
-}
 
 TEST_F(ExerciseTest, TrainedMusclesLength)
 {

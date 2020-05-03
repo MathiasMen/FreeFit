@@ -13,7 +13,6 @@ namespace FreeFit
             std::string video_url;
             std::string video_start_time;
             std::string video_end_time;
-            std::string exercise_type;
             std::list<std::string> muscle_areas;
         };
     }
