@@ -25,9 +25,6 @@ namespace FreeFit
                 void setVideoPath(std::string v){video_path = v;}
                 std::string getVideoPath(){return video_path;}
 
-                void setBaseVolume(unsigned int i){base_volume = i;}
-                unsigned int getBaseVolume(){return base_volume;}
-
                 void setExerciseType(ExerciseType e_t){e_type = e_t;}
                 ExerciseType getExerciseType(){return e_type;}
 
@@ -37,7 +34,6 @@ namespace FreeFit
             private:
                 std::string name;
                 std::string video_path;
-                unsigned int base_volume;
                 ExerciseType e_type;
                 std::set<MuscleGroup> trained_areas;
         };

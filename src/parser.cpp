@@ -18,9 +18,6 @@ namespace FreeFit
                 if(e_ptr->findFirstChild("VIDEOPATH"))
                     e.setVideoPath(e_ptr->findFirstChild("VIDEOPATH")->getValue());
 
-                if(e_ptr->findFirstChild("BASEVOL"))
-                    e.setBaseVolume(std::stoi(e_ptr->findFirstChild("BASEVOL")->getValue()));
-
                 if(e_ptr->findFirstChild("TYPE"))
                     e.setExerciseType(static_cast<ExerciseType>(std::stoi(e_ptr->findFirstChild("TYPE")->getValue())));
 
