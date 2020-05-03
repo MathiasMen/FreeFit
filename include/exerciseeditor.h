@@ -110,7 +110,9 @@ namespace FreeFit
                 stop_time   = new EditableLine("...",this);
 
                 delete_item = new QPushButton("Delete",this);
+                download_item = new QPushButton("Download",this);
                 connect(delete_item,&QPushButton::clicked,this,&ExerciseItem::deleteClicked);
+                connect(download_item,&QPushButton::clicked,this,&ExerciseItem::downloadClicked);
 
                 int row_counter = -1;
                 int col_counter = -1;
@@ -126,12 +128,19 @@ namespace FreeFit
                 ly->addWidget(stop_time,++row_counter,col_counter);
 
                 ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
+
+                ly->addWidget(download_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             }
 
         private:
             void deleteClicked()
             {
                 emit deleteItemTriggered(this);
+            }
+
+            void downloadClicked()
+            {
+                emit downloadItemTriggered(this);
             }
 
             void paintEvent(QPaintEvent* e)
@@ -155,8 +164,10 @@ namespace FreeFit
             EditableLine* stop_time;
 
             QPushButton* delete_item;
+            QPushButton* download_item;
         signals:
             void deleteItemTriggered(ExerciseItem*);
+            void downloadItemTriggered(ExerciseItem*);
         };
 
         class ExerciseEditor : public QDialog
@@ -200,16 +211,23 @@ namespace FreeFit
                 ExerciseItem* e = new ExerciseItem(exercise_area);
                 exercise_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
+                connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
+            }
+
+            void downloadExercise(ExerciseItem* e)
+            {
+                std::cout << "Stub: Download for one item was started!" << std::endl;
             }
 
             void downloadAllExercises()
             {
                 std::cout << "Stub: Download all was started!" << std::endl;
             }
-
+            
             void deleteExercise(ExerciseItem* e)
             {
                 exercise_area_ly->removeWidget(e);
+                disconnect(e,nullptr,nullptr,nullptr);
             }
         };
     }
