@@ -16,7 +16,7 @@
 #include <QStyle>
 
 #include <iostream>
-#include <vector>
+#include <set>
 
 #include "include/newexercisedemand.h"
 
@@ -205,6 +205,7 @@ namespace FreeFit
             QGroupBox* exercise_area;
             QVBoxLayout* exercise_area_ly;
             QGridLayout* ly;
+            std::set<ExerciseItem*> exercises_to_download;
         private slots:
             void addExercise()
             {
@@ -212,6 +213,7 @@ namespace FreeFit
                 exercise_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
+                exercises_to_download.insert(e);
             }
 
             void downloadExercise(ExerciseItem* e)
@@ -226,6 +228,7 @@ namespace FreeFit
             
             void deleteExercise(ExerciseItem* e)
             {
+                exercises_to_download.erase(e);
                 exercise_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
             }
