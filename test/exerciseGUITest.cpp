@@ -1,16 +1,26 @@
-#include <QApplication>
-#include <QMainWindow>
-#include <QWidget>
-#include <QLabel>
-#include <QDialog>
+#include <gtest/gtest.h>
 
-#include <iostream>
+#include <QDialog>
 
 #include "include/exerciseeditor.h"
 
+/*
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+    QDialog* d = new FreeFit::GUI::ExerciseEditor();
+    d->exec();
+}
+*/
+
+int main(int argc, char** argv)
+{
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+TEST(ExerciseEditor,LaunchEditor)
+{
     QDialog* d = new FreeFit::GUI::ExerciseEditor();
     d->exec();
 }
