@@ -4,15 +4,6 @@
 
 #include "include/exerciseeditor.h"
 
-/*
-int main(int argc, char *argv[])
-{
-	QApplication a(argc, argv);
-    QDialog* d = new FreeFit::GUI::ExerciseEditor();
-    d->exec();
-}
-*/
-
 int main(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
