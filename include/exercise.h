@@ -3,16 +3,12 @@
 #include <string>
 #include <set>
 
+#include "include/datadefinitions.h"
+
 namespace FreeFit
 {
     namespace Data
     {
-        enum MuscleGroup
-            {Shoulder, UpperBack, MiddleBack,
-            LowerBack, Chest, Biceps, Triceps,
-            Forearms, CoreAbs, SideAbs, Glutes,
-            Thigh, Harmstrings, Tibia, Calves};
-        
         class Exercise
         {
             public:

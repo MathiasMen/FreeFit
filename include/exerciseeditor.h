@@ -14,6 +14,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QStyle>
+#include <QListWidget>
 
 #include <iostream>
 #include <set>
@@ -72,6 +73,8 @@ namespace FreeFit
                 connect(l,&ClickableLabel::labelClicked,this,&EditableLine::showLineEdit);
                 connect(le,&WriteableLine::textMessageBecauseFocusLost,this,&EditableLine::showLabelAndSetText);
             }
+
+            std::string getContent(){return le->text().toStdString();}
         public slots:
             void showLineEdit()
             {
@@ -88,17 +91,45 @@ namespace FreeFit
             WriteableLine* le;
         };
         
+        struct MuscleGroups
+        {
+            MuscleGroups()
+            {
+                strings.push_back("Shoulder");
+                strings.push_back("UpperBack");
+                strings.push_back("MiddleBack");
+                strings.push_back("LowerBack");
+                strings.push_back("Chest");
+                strings.push_back("Biceps");
+                strings.push_back("Triceps");
+                strings.push_back("Forearms");
+                strings.push_back("CoreAbs");
+                strings.push_back("SideAbs");
+                strings.push_back("Glutes");
+                strings.push_back("Thigh");
+                strings.push_back("Harmstrings");
+                strings.push_back("Tibia");
+                strings.push_back("Calves");
+            };
+            std::vector<std::string> strings;
+        };
+
         class ExerciseItem : public QWidget
         {
             Q_OBJECT
         public:
-            ExerciseItem(QWidget* parent):QWidget(parent)
+            ExerciseItem(QWidget* parent):QWidget(parent),muscle_definitions()
             {
                 this->setFocusPolicy(Qt::ClickFocus);
                 this->setStyleSheet("background-color:blue;");
 
                 ly = new QGridLayout(this);
                 
+                muscle_list = new QListWidget(this);
+                muscle_list->setSelectionMode(QAbstractItemView::MultiSelection);
+                for (auto m : muscle_definitions.strings)
+                    QListWidgetItem* i = new QListWidgetItem(QString::fromStdString(m),muscle_list);
+
                 name_label = new QLabel("Name:",this);
                 url_label = new QLabel("URL:",this);
                 start_time_label = new QLabel("Start Time:",this);
@@ -116,6 +147,9 @@ namespace FreeFit
 
                 int row_counter = -1;
                 int col_counter = -1;
+                ly->addWidget(muscle_list,++row_counter,++col_counter,4,1);
+
+                row_counter = -1;
                 ly->addWidget(name_label,++row_counter,++col_counter);
                 ly->addWidget(url_label,++row_counter,col_counter);
                 ly->addWidget(start_time_label,++row_counter,col_counter);
@@ -131,6 +165,14 @@ namespace FreeFit
 
                 ly->addWidget(download_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             }
+            
+            std::string getName(){return name->getContent();};
+
+            std::string getURL(){return url->getContent();};
+
+            std::string getVideoStartTime(){return start_time->getContent();};
+
+            std::string getVideoEndTime(){return stop_time->getContent();};
 
         private:
             void deleteClicked()
@@ -153,6 +195,8 @@ namespace FreeFit
 
             QGridLayout* ly;
 
+            QListWidget* muscle_list;
+
             QLabel* name_label;
             QLabel* url_label;
             QLabel* start_time_label;
@@ -165,6 +209,8 @@ namespace FreeFit
 
             QPushButton* delete_item;
             QPushButton* download_item;
+
+            MuscleGroups muscle_definitions;
         signals:
             void deleteItemTriggered(ExerciseItem*);
             void downloadItemTriggered(ExerciseItem*);
@@ -214,6 +260,17 @@ namespace FreeFit
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
                 exercises_to_download.insert(e);
+            }
+
+            NewExerciseDemand* generateNewExerciseDemand(ExerciseItem* e)
+            {
+                NewExerciseDemand* d = new NewExerciseDemand();
+                d->name = e->getName();
+                d->video_url = e->getURL();
+                d->video_start_time = e->getVideoStartTime();
+                d->video_end_time = e->getVideoEndTime();
+                //d->muscle_areas = e->getMuscleAreas();
+                return d;
             }
 
             void downloadExercise(ExerciseItem* e)
