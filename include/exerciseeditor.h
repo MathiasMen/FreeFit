@@ -174,6 +174,13 @@ namespace FreeFit
 
             std::string getVideoEndTime(){return stop_time->getContent();};
 
+            std::list<std::string> getMuscleAreas()
+            {
+                std::list<std::string> l;
+                for (auto area_item_ptr : muscle_list->selectedItems())
+                    l.push_back(area_item_ptr->text().toStdString());
+                return l;
+            };
         private:
             void deleteClicked()
             {
@@ -269,7 +276,7 @@ namespace FreeFit
                 d->video_url = e->getURL();
                 d->video_start_time = e->getVideoStartTime();
                 d->video_end_time = e->getVideoEndTime();
-                //d->muscle_areas = e->getMuscleAreas();
+                d->muscle_areas = e->getMuscleAreas();
                 return d;
             }
 
