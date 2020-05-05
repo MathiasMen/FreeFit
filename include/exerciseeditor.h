@@ -323,11 +323,6 @@ namespace FreeFit
             {
                 return ee->exercises_to_download.size();
             }
-
-            void pushOkButton(ExerciseEditor* ee)
-            {
-                ee->button_box->button(QDialogButtonBox::Ok)->click();
-            }
         };
     }
 }
