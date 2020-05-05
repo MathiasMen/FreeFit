@@ -150,9 +150,14 @@ namespace FreeFit
                     QListWidgetItem* i = new QListWidgetItem(QString::fromStdString(m),muscle_list);
 
                 name_label = new QLabel("Name:",this);
-                url_label = new QLabel("URL:",this);
+                url_label = new QLabel("Youtube-URL:",this);
                 start_time_label = new QLabel("Start Time:",this);
                 stop_time_label = new QLabel("Stop Time:",this);
+
+                name_label->setToolTip("No special characters allowed.");
+                url_label->setToolTip("Youtube-links only.");
+                start_time_label->setToolTip("Enter seconds between 0 and 999.");
+                stop_time_label->setToolTip("Enter seconds between 0 and 999.");
 
                 name        = new EditableLine("...",this);
                 url         = new EditableLine("...",this);
@@ -167,7 +172,7 @@ namespace FreeFit
                 auto func_url_regex = [url_regex](std::string s)->bool{return std::regex_match(s,url_regex);};
                 url->setValidationFunction(func_url_regex);
 
-                std::regex int_range_regex("[1-9][0-9]{0,2}");
+                std::regex int_range_regex("[0-9]{0,3}");
                 auto func_int_regex = [int_range_regex](std::string s)->bool{return std::regex_match(s,int_range_regex);};
                 start_time->setValidationFunction(func_int_regex);
                 stop_time->setValidationFunction(func_int_regex);
