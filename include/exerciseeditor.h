@@ -15,6 +15,7 @@
 #include <QPainter>
 #include <QStyle>
 #include <QListWidget>
+#include <QDialogButtonBox>
 
 #include <iostream>
 #include <set>
@@ -223,13 +224,21 @@ namespace FreeFit
             void downloadItemTriggered(ExerciseItem*);
         };
 
+        class ExerciseEditorValidator;
+
         class ExerciseEditor : public QDialog
         {
             Q_OBJECT
+        friend ExerciseEditorValidator;
         public:
             ExerciseEditor()
             {                
                 ly = new QGridLayout(this);
+
+                button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+                
+                connect(button_box, &QDialogButtonBox::accepted, this, &QDialog::accept);
+                connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
                 add_button = new QPushButton("Add Exercise",this);
                 download_all_button = new QPushButton("Download All",this);
@@ -249,9 +258,11 @@ namespace FreeFit
                 ly->addWidget(add_button,0,0,1,1);
                 ly->addWidget(download_all_button,0,3,1,1);
                 ly->addWidget(scroll_area,1,0,4,4);
+                ly->addWidget(button_box,5,0,1,5);
                 this->setLayout(ly);
             };
         private:
+            QDialogButtonBox* button_box;
             QPushButton* add_button;
             QPushButton* download_all_button;
             QScrollArea* scroll_area;
@@ -295,6 +306,27 @@ namespace FreeFit
                 exercises_to_download.erase(e);
                 exercise_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
+            }
+        };
+
+        class ExerciseEditorValidator
+        {
+        public:
+            ExerciseEditorValidator(){};
+            
+            void pushAddButton(ExerciseEditor* ee)
+            {
+                ee->add_button->click();
+            }
+
+            int getNumberOfExercises(ExerciseEditor* ee)
+            {
+                return ee->exercises_to_download.size();
+            }
+
+            void pushOkButton(ExerciseEditor* ee)
+            {
+                ee->button_box->button(QDialogButtonBox::Ok)->click();
             }
         };
     }
