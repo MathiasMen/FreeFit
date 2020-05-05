@@ -172,6 +172,11 @@ namespace FreeFit
                 start_time->setValidationFunction(func_int_regex);
                 stop_time->setValidationFunction(func_int_regex);
 
+                name->validateText();
+                url->validateText();
+                start_time->validateText();
+                stop_time->validateText();
+
                 delete_item = new QPushButton("Delete",this);
                 download_item = new QPushButton("Download",this);
                 connect(delete_item,&QPushButton::clicked,this,&ExerciseItem::deleteClicked);
