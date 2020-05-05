@@ -19,6 +19,8 @@
 
 #include <iostream>
 #include <set>
+#include <functional>
+#include <regex>
 
 #include "include/newexercisedemand.h"
 
@@ -67,15 +69,16 @@ namespace FreeFit
                 this->setFocusPolicy(Qt::StrongFocus);
                 l = new ClickableLabel(text,this);
                 le = new WriteableLine(text,this);
-                l->setStyleSheet("background-color:green;");
-                le->setStyleSheet("background-color:red;");
                 this->addWidget(l);
                 this->addWidget(le);
                 connect(l,&ClickableLabel::labelClicked,this,&EditableLine::showLineEdit);
                 connect(le,&WriteableLine::textMessageBecauseFocusLost,this,&EditableLine::showLabelAndSetText);
+                connect(le,&QLineEdit::textChanged,this,&EditableLine::validateText);
             }
 
             std::string getContent(){return le->text().toStdString();}
+
+            void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
         public slots:
             void showLineEdit()
             {
@@ -87,9 +90,25 @@ namespace FreeFit
                 this->setCurrentWidget(l);
                 l->setText(t);
             }
+
+            void validateText()
+            {
+                if(!validate_function(le->text().toStdString()))
+                {
+                    l->setStyleSheet("background-color:red;");
+                    le->setStyleSheet("background-color:red;");
+                }
+                else
+                {
+                    l->setStyleSheet("background-color:green;");
+                    le->setStyleSheet("background-color:green;");
+                }
+            }
         private:
             ClickableLabel* l;
             WriteableLine* le;
+
+            std::function<bool(std::string)> validate_function;
         };
         
         struct MuscleGroups
@@ -122,7 +141,6 @@ namespace FreeFit
             ExerciseItem(QWidget* parent):QWidget(parent),muscle_definitions()
             {
                 this->setFocusPolicy(Qt::ClickFocus);
-                this->setStyleSheet("background-color:blue;");
 
                 ly = new QGridLayout(this);
                 
@@ -140,6 +158,19 @@ namespace FreeFit
                 url         = new EditableLine("...",this);
                 start_time  = new EditableLine("...",this);
                 stop_time   = new EditableLine("...",this);
+
+                std::regex name_regex("[a-zA-Z0-9\\s]{1,256}");
+                auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
+                name->setValidationFunction(func_name_regex);
+
+                std::regex url_regex("https:\\/\\/www\\.youtube\\.com\\/watch?.*");
+                auto func_url_regex = [url_regex](std::string s)->bool{return std::regex_match(s,url_regex);};
+                url->setValidationFunction(func_url_regex);
+
+                std::regex int_range_regex("[1-9][0-9]{0,2}");
+                auto func_int_regex = [int_range_regex](std::string s)->bool{return std::regex_match(s,int_range_regex);};
+                start_time->setValidationFunction(func_int_regex);
+                stop_time->setValidationFunction(func_int_regex);
 
                 delete_item = new QPushButton("Delete",this);
                 download_item = new QPushButton("Download",this);
