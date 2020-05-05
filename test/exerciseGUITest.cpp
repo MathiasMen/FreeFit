@@ -3,6 +3,7 @@
 #include <QDialog>
 
 #include "include/exerciseeditor.h"
+#include "include/newexercisedemand.h"
 
 int my_argc;
 char** my_argv;
@@ -31,4 +32,17 @@ TEST(ExerciseEditor,AddButton)
     v.pushAddButton(e);
     int n_exercises = v.getNumberOfExercises(e);    
     ASSERT_EQ(n_exercises,2);
+}
+
+TEST(ExerciseEditor,ExerciseDemand)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor();
+    e->exec();
+    FreeFit::GUI::ExerciseEditorValidator v;
+    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand(e);
+    ASSERT_EQ(d->name,"...");
+    ASSERT_EQ(d->video_url,"...");
+    ASSERT_EQ(d->video_start_time,"...");
+    ASSERT_EQ(d->video_end_time,"...");
 }

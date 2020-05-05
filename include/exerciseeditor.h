@@ -323,6 +323,11 @@ namespace FreeFit
             {
                 return ee->exercises_to_download.size();
             }
+
+            NewExerciseDemand* getFirstExerciseDemand(ExerciseEditor* ee)
+            {
+                return ee->generateNewExerciseDemand(*(ee->exercises_to_download.begin()));
+            }
         };
     }
 }
