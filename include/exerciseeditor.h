@@ -290,15 +290,10 @@ namespace FreeFit
                 connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
                 connect(download_all_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
-                exercise_area = new QGroupBox("Exercises to download", this);
-                exercise_area_ly = new QVBoxLayout(exercise_area);
-                exercise_area->setLayout(exercise_area_ly);
-
-                addExercise();
-
                 scroll_area = new QScrollArea(this);
-                scroll_area->setWidget(exercise_area);
-                scroll_area->setWidgetResizable(true);
+                scroll_area_ly = new QVBoxLayout(scroll_area);
+                scroll_area->setLayout(scroll_area_ly);
+                addExercise();
 
                 ly->addWidget(add_button,0,0,1,1);
                 ly->addWidget(download_all_button,0,3,1,1);
@@ -311,15 +306,14 @@ namespace FreeFit
             QPushButton* add_button;
             QPushButton* download_all_button;
             QScrollArea* scroll_area;
-            QGroupBox* exercise_area;
-            QVBoxLayout* exercise_area_ly;
+            QVBoxLayout* scroll_area_ly;
             QGridLayout* ly;
             std::set<ExerciseItem*> exercises_to_download;
         private slots:
             void addExercise()
             {
-                ExerciseItem* e = new ExerciseItem(exercise_area);
-                exercise_area_ly->addWidget(e);
+                ExerciseItem* e = new ExerciseItem(this);
+                scroll_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
                 exercises_to_download.insert(e);
@@ -349,8 +343,9 @@ namespace FreeFit
             void deleteExercise(ExerciseItem* e)
             {
                 exercises_to_download.erase(e);
-                exercise_area_ly->removeWidget(e);
+                scroll_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
+                delete e;
             }
         };
 
