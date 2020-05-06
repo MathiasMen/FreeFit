@@ -58,10 +58,16 @@ TEST(ExerciseEditor,NonStandardInput)
     v.setFirstExerciseURLText(e,ex_url);
     v.setFirstExerciseStartTimeText(e,ex_start);
     v.setFirstExerciseStopTimeText(e,ex_end);
+    v.setFirstExerciseMuscleArea(e,0);
+    v.setFirstExerciseMuscleArea(e,2);
 
     FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand(e);
+
+    auto it = d->muscle_areas.begin();
     ASSERT_EQ(d->name,ex_name);
     ASSERT_EQ(d->video_url,ex_url);
     ASSERT_EQ(d->video_start_time,ex_start);
     ASSERT_EQ(d->video_end_time,ex_end);
+    ASSERT_EQ(*it,"Shoulder");
+    ASSERT_EQ(*(++it),"MiddleBack");
 }

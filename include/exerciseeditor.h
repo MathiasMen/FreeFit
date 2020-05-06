@@ -402,6 +402,11 @@ namespace FreeFit
                 e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
             }
 
+            void setFirstExerciseMuscleArea(ExerciseEditor* ee, int id)
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                e->muscle_list->setCurrentRow(id,QItemSelectionModel::Select);
+            }
         };
     }
 }
