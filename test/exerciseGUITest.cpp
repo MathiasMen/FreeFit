@@ -4,6 +4,7 @@
 
 #include "include/exerciseeditor.h"
 #include "include/newexercisedemand.h"
+#include "include/profile.h"
 
 int my_argc;
 char** my_argv;
@@ -16,26 +17,41 @@ int main(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
-TEST(ExerciseEditor,LaunchEditor)
+class ExerciseEditor : public ::testing::Test
+{
+    protected:
+    FreeFit::Data::Profile p;
+
+    virtual void SetUp()
+    {
+        p.setName("John Doe");
+        p.setDateLastWorkout("31.12.2000");
+        p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+        p.setPerformanceFactor(1.0);
+        p.setPicturePath("none");
+    }
+};
+
+TEST_F(ExerciseEditor,LaunchEditor)
 {
     QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ExerciseEditor* d = new FreeFit::GUI::ExerciseEditor();
+    FreeFit::GUI::ExerciseEditor* d = new FreeFit::GUI::ExerciseEditor(p);
 }
 
-TEST(ExerciseEditor,AddButton)
+TEST_F(ExerciseEditor,AddButton)
 {
     QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor();
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v;
     v.pushAddButton(e);
     int n_exercises = v.getNumberOfExercises(e);    
     ASSERT_EQ(n_exercises,2);
 }
 
-TEST(ExerciseEditor,ExerciseDemand)
+TEST_F(ExerciseEditor,ExerciseDemand)
 {
     QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor();
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v;
     FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand(e);
     ASSERT_EQ(d->name,"...");
@@ -44,7 +60,7 @@ TEST(ExerciseEditor,ExerciseDemand)
     ASSERT_EQ(d->video_end_time,"...");
 }
 
-TEST(ExerciseEditor,NonStandardInput)
+TEST_F(ExerciseEditor,NonStandardInput)
 {
     std::string ex_name = "Pushup";
     std::string ex_url = "https://www.youtube.com/watch?v=BxIUwbb1Nzg";
@@ -52,7 +68,7 @@ TEST(ExerciseEditor,NonStandardInput)
     std::string ex_end = "3";
     
     QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor();
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v;
     v.setFirstExerciseNameText(e,ex_name);
     v.setFirstExerciseURLText(e,ex_url);
