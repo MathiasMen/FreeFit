@@ -23,6 +23,7 @@
 #include <regex>
 
 #include "include/newexercisedemand.h"
+#include "include/profile.h"
 
 namespace FreeFit
 {
@@ -276,7 +277,7 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            ExerciseEditor()
+            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p)
             {                
                 ly = new QGridLayout(this);
 
@@ -309,6 +310,8 @@ namespace FreeFit
             QVBoxLayout* scroll_area_ly;
             QGridLayout* ly;
             std::set<ExerciseItem*> exercises_to_download;
+
+            FreeFit::Data::Profile p;
         private slots:
             void addExercise()
             {
