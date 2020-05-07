@@ -63,25 +63,36 @@ namespace FreeFit
             out.close();
         }
 
+        std::shared_ptr<XMLNode> ExerciseWriter::exerciseToNode(FreeFit::Data::Exercise ex)
+        {
+            std::shared_ptr<XMLNode> e = std::make_shared<XMLNode>(root,"EXERCISE","");
+            std::shared_ptr<XMLNode> e_name = std::make_shared<XMLNode>(e,"NAME",ex.getName());
+            std::shared_ptr<XMLNode> e_video_path = std::make_shared<XMLNode>(e,"VIDEOPATH",ex.getVideoPath());
+            std::shared_ptr<XMLNode> e_areas = std::make_shared<XMLNode>(e,"TRAINEDAREAS","");
+            for (auto m : ex.getTrainedMuscles())
+            {
+                std::shared_ptr<XMLNode> e_area = std::make_shared<XMLNode>(e_areas,"AREA",std::to_string(m));
+                e_areas->addChild(e_area);
+            }
+            e->addChild(e_name);
+            e->addChild(e_video_path);
+            e->addChild(e_areas);
+            return e;
+        }
+
+        void ExerciseWriter::addExercisesToNodeTree(std::list<FreeFit::Data::Exercise> l_e)
+        {
+            for (FreeFit::Data::Exercise e_data : l_e)
+            {
+                std::shared_ptr<XMLNode> e = exerciseToNode(e_data);
+                root->addChild(e);
+            }
+        }
+
         void ExerciseWriter::createNodeTree(std::list<FreeFit::Data::Exercise> l_e)
         {
             root = std::make_shared<XMLNode>(nullptr,"EXERCISES","");
-            for (FreeFit::Data::Exercise e_data : l_e)
-            {
-                std::shared_ptr<XMLNode> e = std::make_shared<XMLNode>(root,"EXERCISE","");
-                std::shared_ptr<XMLNode> e_name = std::make_shared<XMLNode>(e,"NAME",e_data.getName());
-                std::shared_ptr<XMLNode> e_video_path = std::make_shared<XMLNode>(e,"VIDEOPATH",e_data.getVideoPath());
-                std::shared_ptr<XMLNode> e_areas = std::make_shared<XMLNode>(e,"TRAINEDAREAS","");
-                for (auto m : e_data.getTrainedMuscles())
-                {
-                    std::shared_ptr<XMLNode> e_area = std::make_shared<XMLNode>(e_areas,"AREA",std::to_string(m));
-                    e_areas->addChild(e_area);
-                }
-                e->addChild(e_name);
-                e->addChild(e_video_path);
-                e->addChild(e_areas);
-                root->addChild(e);
-            }
+            addExercisesToNodeTree(l_e);
         }
 
         void ProfileWriter::createNodeTree(Profile p)

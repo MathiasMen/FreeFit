@@ -35,6 +35,8 @@ namespace FreeFit
         public:
             ExerciseWriter(std::string filepath) : BaseXMLWriter(filepath){}
 
+            std::shared_ptr<XMLNode> exerciseToNode(FreeFit::Data::Exercise ex);
+            void addExercisesToNodeTree(std::list<FreeFit::Data::Exercise> l_e);
             void createNodeTree(std::list<FreeFit::Data::Exercise> l_e);
         };
 
