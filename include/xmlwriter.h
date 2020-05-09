@@ -38,6 +38,7 @@ namespace FreeFit
             std::shared_ptr<XMLNode> exerciseToNode(FreeFit::Data::Exercise ex);
             void addExercisesToNodeTree(std::list<FreeFit::Data::Exercise> l_e);
             void createNodeTree(std::list<FreeFit::Data::Exercise> l_e);
+            void copyNodeTree(std::shared_ptr<XMLNode> new_root);
         };
 
         class ProfileWriter : public BaseXMLWriter

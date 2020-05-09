@@ -95,6 +95,11 @@ namespace FreeFit
             addExercisesToNodeTree(l_e);
         }
 
+        void ExerciseWriter::copyNodeTree(std::shared_ptr<XMLNode> new_root)
+        {
+            root = new_root;
+        }
+
         void ProfileWriter::createNodeTree(Profile p)
         {
             root = std::make_shared<XMLNode>(nullptr,"PROFILE","");
