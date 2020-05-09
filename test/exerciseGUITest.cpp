@@ -5,6 +5,7 @@
 #include "include/exerciseeditor.h"
 #include "include/newexercisedemand.h"
 #include "include/profile.h"
+#include "include/newexercisedemandhandler.h"
 
 int my_argc;
 char** my_argv;
@@ -86,4 +87,9 @@ TEST_F(ExerciseEditor,NonStandardInput)
     ASSERT_EQ(d->video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"MiddleBack");
+}
+
+TEST(NewExerciseDemandHandler, Init)
+{
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/test/exercises.xml");
 }
