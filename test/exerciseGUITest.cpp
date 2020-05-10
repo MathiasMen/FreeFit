@@ -116,7 +116,7 @@ TEST(NewExerciseDemandHandler, AddExecuteDemand)
     d->name = "Pushup";
     d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
     d->video_start_time = "35";
-    d->video_end_time = "40";
+    d->video_end_time = "38";
     d->muscle_areas.push_back("Shoulder");
     d->muscle_areas.push_back("Chest");
     h.addDemand(d);
