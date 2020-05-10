@@ -344,7 +344,9 @@ namespace FreeFit
 
             void downloadAllExercises()
             {
-                std::cout << "Stub: Download all was started!" << std::endl;
+                for(auto e : exercises_to_download)
+                    demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                demand_handler.executeDemands();
             }
             
             void deleteExercise(ExerciseItem* e)
