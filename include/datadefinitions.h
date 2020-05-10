@@ -8,6 +8,6 @@ namespace FreeFit
             {Shoulder, UpperBack, MiddleBack,
             LowerBack, Chest, Biceps, Triceps,
             Forearms, CoreAbs, SideAbs, Glutes,
-            Thigh, Harmstrings, Tibia, Calves};
+            Thigh, Harmstrings, Tibia, Calves, Error};
     }
 }

@@ -36,6 +36,44 @@ namespace FreeFit
 
             }
 
+            FreeFit::Data::MuscleGroup stringToMuscleGroup(std::string s)
+            {
+                switch(s)
+                {
+                    case "Shoulder":
+                        return FreeFit::Data::MuscleGroup::Shoulder;
+                    case "UpperBack":
+                        return FreeFit::Data::MuscleGroup::UpperBack;
+                    case "MiddleBack":
+                        return FreeFit::Data::MuscleGroup::MiddleBack;
+                    case "LowerBack":
+                        return FreeFit::Data::MuscleGroup::LowerBack;
+                    case "Chest":
+                        return FreeFit::Data::MuscleGroup::Chest;
+                    case "Biceps":
+                        return FreeFit::Data::MuscleGroup::Biceps;
+                    case "Triceps":
+                        return FreeFit::Data::MuscleGroup::Triceps;
+                    case "Forearms":
+                        return FreeFit::Data::MuscleGroup::Forearms;
+                    case "CoreAbs":
+                        return FreeFit::Data::MuscleGroup::CoreAbs;
+                    case "SideAbs":
+                        return FreeFit::Data::MuscleGroup::SideAbs;
+                    case "Glutes":
+                        return FreeFit::Data::MuscleGroup::Glutes;
+                    case "Thigh":
+                        return FreeFit::Data::MuscleGroup::Thigh;
+                    case "Harmstrings":
+                        return FreeFit::Data::MuscleGroup::Harmstrings;
+                    case "Tibia":
+                        return FreeFit::Data::MuscleGroup::Tibia;
+                    case "Calves":
+                        return FreeFit::Data::MuscleGroup::Calves;
+                    default:
+                        return FreeFit::Data::MuscleGroup::Error;
+                }
+            }
         private:
             std::queue<std::shared_ptr<GUI::NewExerciseDemand>> demands;
             std::string path_to_db;
