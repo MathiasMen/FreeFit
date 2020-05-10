@@ -41,7 +41,11 @@ qt5_wrap_cpp(moc_sources ${qt_headers})
 add_executable( ExerciseGUITest
                 exerciseGUITest.cpp
                 ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp
                 ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+                ${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp
+                ${CMAKE_SOURCE_DIR}/src/youtubeoptions.cpp
+                ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
                 ${qt_sources} ${qt_headers} ${moc_sources})
 target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
