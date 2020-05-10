@@ -21,8 +21,10 @@
 #include <set>
 #include <functional>
 #include <regex>
+#include <memory>
 
 #include "include/newexercisedemand.h"
+#include "include/newexercisedemandhandler.h"
 #include "include/profile.h"
 
 namespace FreeFit
@@ -277,7 +279,7 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p)
+            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p),demand_handler(t_p.getPathToExerciseDB())
             {                
                 ly = new QGridLayout(this);
 
@@ -312,6 +314,7 @@ namespace FreeFit
             std::set<ExerciseItem*> exercises_to_download;
 
             FreeFit::Data::Profile p;
+            FreeFit::Data::NewExerciseDemandHandler demand_handler;
         private slots:
             void addExercise()
             {
@@ -335,7 +338,8 @@ namespace FreeFit
 
             void downloadExercise(ExerciseItem* e)
             {
-                std::cout << "Stub: Download for one item was started!" << std::endl;
+                demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                demand_handler.executeDemands();
             }
 
             void downloadAllExercises()
