@@ -38,7 +38,11 @@ set(qt_headers
 
 qt5_wrap_cpp(moc_sources ${qt_headers})
     
-add_executable(ExerciseGUITest exerciseGUITest.cpp ${qt_sources} ${qt_headers} ${moc_sources})
+add_executable( ExerciseGUITest
+                exerciseGUITest.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+                ${qt_sources} ${qt_headers} ${moc_sources})
 target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
 target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 

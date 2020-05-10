@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 
+#include <memory>
+
 #include <QDialog>
 
 #include "include/exerciseeditor.h"
@@ -92,4 +94,17 @@ TEST_F(ExerciseEditor,NonStandardInput)
 TEST(NewExerciseDemandHandler, Init)
 {
     FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/test/exercises.xml");
+}
+
+TEST(NewExerciseDemandHandler, AddDemand)
+{
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/test/exercises.xml");
+    std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
+    d->name = "Pushup";
+    d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
+    d->video_start_time = "35";
+    d->video_end_time = "40";
+    d->muscle_areas.push_back("Shoulder");
+    d->muscle_areas.push_back("Chest");
+    h.addDemand(d);
 }

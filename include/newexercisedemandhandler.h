@@ -21,18 +21,23 @@ namespace FreeFit
                 w = std::make_shared<ExerciseWriter>(path_to_db);
             }
 
-            void addDemand(NewExerciseDemand* d)
+            void addDemand(std::shared_ptr<GUI::NewExerciseDemand> d)
             {
                 demands.push(d);
             }
 
             void executeDemands()
             {
-                w.copyNodeTree(r.read());
-                
+                w->copyNodeTree(r->read());
             }
+
+            void downloadVideo(std::string url, std::string start_time, std::string stop_time)
+            {
+
+            }
+
         private:
-            std::queue<std::shared_ptr<NewExerciseDemand>> demands;
+            std::queue<std::shared_ptr<GUI::NewExerciseDemand>> demands;
             std::string path_to_db;
             std::shared_ptr<BaseXMLReader> r;
             std::shared_ptr<ExerciseWriter> w;
