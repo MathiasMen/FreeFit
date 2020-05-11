@@ -425,6 +425,12 @@ namespace FreeFit
                 e->download_item->click();
             }
 
+            void pushFirstDeleteButton()
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                e->delete_item->click();
+            }
+
             GUI::NewExerciseDemand getLastDemand(){return *last_demand;}
         private:
             ExerciseEditor* ee;

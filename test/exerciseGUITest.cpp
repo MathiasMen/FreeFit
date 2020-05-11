@@ -51,6 +51,19 @@ TEST_F(ExerciseEditor,AddButton)
     ASSERT_EQ(n_exercises,2);
 }
 
+TEST_F(ExerciseEditor,DeleteButton)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
+    v.pushAddButton();
+    v.pushFirstDeleteButton();
+    int n_exercises = v.getNumberOfExercises();    
+    ASSERT_EQ(n_exercises,2);
+}
+
+
 TEST_F(ExerciseEditor,ExerciseDemand)
 {
     QApplication a(my_argc,my_argv);
