@@ -121,7 +121,7 @@ namespace FreeFit
             std::shared_ptr<BaseXMLReader> getXMLReader(){return h->r;}
             std::shared_ptr<ExerciseWriter> getExerciseWriter(){return h->w;}
             std::shared_ptr<VideoDownload::YoutubeDL> getYoutubeDownloader(){return h->yt;}
-
+            size_t getNumberOfDemands(){return h->demands.size();}            
         private:
             NewExerciseDemandHandler* h;
         };

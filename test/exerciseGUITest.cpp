@@ -149,7 +149,8 @@ TEST(NewExerciseDemandHandler, Init)
 
 TEST(NewExerciseDemandHandler, AddDemand)
 {
-    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddDemandTestExercises.xml");
+    FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
     std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
     d->name = "Pushup";
     d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
@@ -158,6 +159,7 @@ TEST(NewExerciseDemandHandler, AddDemand)
     d->muscle_areas.push_back("Shoulder");
     d->muscle_areas.push_back("Chest");
     h.addDemand(d);
+    ASSERT_EQ(v.getNumberOfDemands(),1);
 }
 
 TEST(NewExerciseDemandHandler, AddExecuteDemand)
