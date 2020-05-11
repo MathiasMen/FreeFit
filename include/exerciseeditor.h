@@ -358,59 +358,61 @@ namespace FreeFit
             }
         };
 
-        class ExerciseEditorValidator
+        class ExerciseEditorValidator : public QWidget
         {
         public:
-            ExerciseEditorValidator(){};
-            
-            void pushAddButton(ExerciseEditor* ee)
+            ExerciseEditorValidator(ExerciseEditor* t_ee):ee(t_ee){};
+
+            void pushAddButton()
             {
                 ee->add_button->click();
             }
 
-            int getNumberOfExercises(ExerciseEditor* ee)
+            int getNumberOfExercises()
             {
                 return ee->exercises_to_download.size();
             }
 
-            NewExerciseDemand* getFirstExerciseDemand(ExerciseEditor* ee)
+            NewExerciseDemand* getFirstExerciseDemand()
             {
                 return ee->generateNewExerciseDemand(*(ee->exercises_to_download.begin()));
             }
 
-            void setFirstExerciseNameText(ExerciseEditor* ee, std::string s)
+            void setFirstExerciseNameText(std::string s)
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->name->le->setText(QString::fromStdString(s));
                 e->name->le->textMessageBecauseFocusLost(e->name->le->text());
             }
 
-            void setFirstExerciseURLText(ExerciseEditor* ee, std::string s)
+            void setFirstExerciseURLText(std::string s)
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->url->le->setText(QString::fromStdString(s));
                 e->url->le->textMessageBecauseFocusLost(e->url->le->text());
             }
 
-            void setFirstExerciseStartTimeText(ExerciseEditor* ee, std::string s)
+            void setFirstExerciseStartTimeText(std::string s)
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->start_time->le->setText(QString::fromStdString(s));
                 e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
             }
 
-            void setFirstExerciseStopTimeText(ExerciseEditor* ee, std::string s)
+            void setFirstExerciseStopTimeText(std::string s)
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->stop_time->le->setText(QString::fromStdString(s));
                 e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
             }
 
-            void setFirstExerciseMuscleArea(ExerciseEditor* ee, int id)
+            void setFirstExerciseMuscleArea(int id)
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->muscle_list->setCurrentRow(id,QItemSelectionModel::Select);
             }
+        private:
+            ExerciseEditor* ee;
         };
     }
 }

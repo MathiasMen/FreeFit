@@ -45,9 +45,9 @@ TEST_F(ExerciseEditor,AddButton)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-    FreeFit::GUI::ExerciseEditorValidator v;
-    v.pushAddButton(e);
-    int n_exercises = v.getNumberOfExercises(e);    
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
+    int n_exercises = v.getNumberOfExercises();    
     ASSERT_EQ(n_exercises,2);
 }
 
@@ -55,8 +55,8 @@ TEST_F(ExerciseEditor,ExerciseDemand)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-    FreeFit::GUI::ExerciseEditorValidator v;
-    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand(e);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
     ASSERT_EQ(d->name,"...");
     ASSERT_EQ(d->video_url,"...");
     ASSERT_EQ(d->video_start_time,"...");
@@ -72,15 +72,43 @@ TEST_F(ExerciseEditor,NonStandardInput)
     
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-    FreeFit::GUI::ExerciseEditorValidator v;
-    v.setFirstExerciseNameText(e,ex_name);
-    v.setFirstExerciseURLText(e,ex_url);
-    v.setFirstExerciseStartTimeText(e,ex_start);
-    v.setFirstExerciseStopTimeText(e,ex_end);
-    v.setFirstExerciseMuscleArea(e,0);
-    v.setFirstExerciseMuscleArea(e,2);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setFirstExerciseNameText(ex_name);
+    v.setFirstExerciseURLText(ex_url);
+    v.setFirstExerciseStartTimeText(ex_start);
+    v.setFirstExerciseStopTimeText(ex_end);
+    v.setFirstExerciseMuscleArea(0);
+    v.setFirstExerciseMuscleArea(2);
 
-    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand(e);
+    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
+
+    auto it = d->muscle_areas.begin();
+    ASSERT_EQ(d->name,ex_name);
+    ASSERT_EQ(d->video_url,ex_url);
+    ASSERT_EQ(d->video_start_time,ex_start);
+    ASSERT_EQ(d->video_end_time,ex_end);
+    ASSERT_EQ(*it,"Shoulder");
+    ASSERT_EQ(*(++it),"MiddleBack");
+}
+
+TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
+{
+    std::string ex_name = "Pushup";
+    std::string ex_url = "https://www.youtube.com/watch?v=BxIUwbb1Nzg";
+    std::string ex_start = "2";
+    std::string ex_end = "3";
+    
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setFirstExerciseNameText(ex_name);
+    v.setFirstExerciseURLText(ex_url);
+    v.setFirstExerciseStartTimeText(ex_start);
+    v.setFirstExerciseStopTimeText(ex_end);
+    v.setFirstExerciseMuscleArea(0);
+    v.setFirstExerciseMuscleArea(2);
+
+    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
 
     auto it = d->muscle_areas.begin();
     ASSERT_EQ(d->name,ex_name);
