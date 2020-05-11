@@ -15,6 +15,11 @@ namespace FreeFit
         void BaseXMLReader::createNodeTree()
         {
             std::ifstream in(filepath);
+            if(!in.is_open())
+            {
+                root = nullptr;
+                return;
+            }
             std::string in_content((std::istreambuf_iterator<char>(in)),std::istreambuf_iterator<char>());
             removeSubstring(in_content," ");
             removeSubstring(in_content,"\n");

@@ -5,6 +5,7 @@
 
 #include "include/xmlreader.h"
 #include "include/xmlwriter.h"
+#include "include/xmlnode.h"
 #include "include/newexercisedemand.h"
 #include "include/exercise.h"
 #include "include/youtubedownloader.h"
@@ -31,7 +32,11 @@ namespace FreeFit
 
             void executeDemands()
             {
-                w->copyNodeTree(r->read());
+                std::shared_ptr<FreeFit::Data::XMLNode> n = r->read();
+                if(n == nullptr)
+                    w->createNodeTree(std::list<FreeFit::Data::Exercise>());
+                else
+                    w->copyNodeTree(n);
                 std::list<FreeFit::Data::Exercise> lst;
                 while(!demands.empty())
                 {
