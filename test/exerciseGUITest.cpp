@@ -164,7 +164,7 @@ TEST(NewExerciseDemandHandler, AddDemand)
 
 TEST(NewExerciseDemandHandler, AddExecuteDemand)
 {
-    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddExecuteDemand.xml");
     std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
     d->name = "Situp";
     d->video_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
@@ -174,8 +174,34 @@ TEST(NewExerciseDemandHandler, AddExecuteDemand)
     d->muscle_areas.push_back("Chest");
     h.addDemand(d);
     h.executeDemands();
+
+    std::string expected_exercises_xml = 
+    "<EXERCISES>\n"
+    "  <EXERCISE>\n"
+    "    <NAME>\n"
+    "      Situp\n"
+    "    </NAME>\n"
+    "    <VIDEOPATH>\n"
+    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4\n"
+    "    </VIDEOPATH>\n"
+    "    <TRAINEDAREAS>\n"
+    "      <AREA>\n"
+    "        0\n"
+    "      </AREA>\n"
+    "      <AREA>\n"
+    "        4\n"
+    "      </AREA>\n"
+    "    </TRAINEDAREAS>\n"
+    "  </EXERCISE>\n"
+    "</EXERCISES>\n";
+
     std::ifstream f1("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4");
     std::ifstream f2("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4");
+    std::ifstream f3("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddExecuteDemand.xml");
+    std::stringstream ss;
+    ss << f3.rdbuf();
+
     ASSERT_TRUE(f1.is_open());
     ASSERT_TRUE(f2.is_open());
+    ASSERT_EQ(ss.str(),expected_exercises_xml);
 }
