@@ -66,7 +66,7 @@ TEST_F(ExerciseEditor,ExerciseDemand)
 TEST_F(ExerciseEditor,NonStandardInput)
 {
     std::string ex_name = "Pushup";
-    std::string ex_url = "https://www.youtube.com/watch?v=BxIUwbb1Nzg";
+    std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
     std::string ex_start = "2";
     std::string ex_end = "3";
     
@@ -94,7 +94,7 @@ TEST_F(ExerciseEditor,NonStandardInput)
 TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
 {
     std::string ex_name = "Pushup";
-    std::string ex_url = "https://www.youtube.com/watch?v=BxIUwbb1Nzg";
+    std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
     std::string ex_start = "2";
     std::string ex_end = "3";
     
@@ -108,13 +108,16 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     v.setFirstExerciseMuscleArea(0);
     v.setFirstExerciseMuscleArea(2);
 
-    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
+    v.connectToDownloadSignalsOfItems();
+    v.pushFirstDownloadButton();
 
-    auto it = d->muscle_areas.begin();
-    ASSERT_EQ(d->name,ex_name);
-    ASSERT_EQ(d->video_url,ex_url);
-    ASSERT_EQ(d->video_start_time,ex_start);
-    ASSERT_EQ(d->video_end_time,ex_end);
+    FreeFit::GUI::NewExerciseDemand d = v.getLastDemand();
+
+    auto it = d.muscle_areas.begin();
+    ASSERT_EQ(d.name,ex_name);
+    ASSERT_EQ(d.video_url,ex_url);
+    ASSERT_EQ(d.video_start_time,ex_start);
+    ASSERT_EQ(d.video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"MiddleBack");
 }
@@ -141,10 +144,10 @@ TEST(NewExerciseDemandHandler, AddExecuteDemand)
 {
     FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
     std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
-    d->name = "Pushup";
-    d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
-    d->video_start_time = "35";
-    d->video_end_time = "38";
+    d->name = "Situp";
+    d->video_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
+    d->video_start_time = "50";
+    d->video_end_time = "53";
     d->muscle_areas.push_back("Shoulder");
     d->muscle_areas.push_back("Chest");
     h.addDemand(d);

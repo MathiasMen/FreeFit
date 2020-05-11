@@ -360,6 +360,7 @@ namespace FreeFit
 
         class ExerciseEditorValidator : public QWidget
         {
+            Q_OBJECT
         public:
             ExerciseEditorValidator(ExerciseEditor* t_ee):ee(t_ee){};
 
@@ -411,8 +412,28 @@ namespace FreeFit
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->muscle_list->setCurrentRow(id,QItemSelectionModel::Select);
             }
+
+            void connectToDownloadSignalsOfItems()
+            {
+                for (auto e : ee->exercises_to_download)
+                    connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
+            }
+
+            void pushFirstDownloadButton()
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                e->download_item->click();
+            }
+
+            GUI::NewExerciseDemand getLastDemand(){return *last_demand;}
         private:
             ExerciseEditor* ee;
+            std::shared_ptr<GUI::NewExerciseDemand> last_demand;
+        private slots:
+            void saveDemandFromDownloadClicked(ExerciseItem* e)
+            {
+                last_demand = std::shared_ptr<GUI::NewExerciseDemand>(ee->generateNewExerciseDemand(e));
+            }
         };
     }
 }
