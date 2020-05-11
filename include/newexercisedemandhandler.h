@@ -14,8 +14,11 @@ namespace FreeFit
 {
     namespace Data
     {
+        class NewExerciseDemandHandlerValidator;
+
         class NewExerciseDemandHandler
         {
+        friend NewExerciseDemandHandlerValidator;
         public:
             NewExerciseDemandHandler(std::string t_path_to_db):path_to_db(t_path_to_db)
             {
@@ -107,6 +110,20 @@ namespace FreeFit
             std::shared_ptr<BaseXMLReader> r;
             std::shared_ptr<ExerciseWriter> w;
             std::shared_ptr<VideoDownload::YoutubeDL> yt;
+        };
+
+        class NewExerciseDemandHandlerValidator
+        {
+        public:
+            NewExerciseDemandHandlerValidator(NewExerciseDemandHandler* t_h):h(t_h){}
+
+            std::string getPathToDB(){return h->path_to_db;}
+            std::shared_ptr<BaseXMLReader> getXMLReader(){return h->r;}
+            std::shared_ptr<ExerciseWriter> getExerciseWriter(){return h->w;}
+            std::shared_ptr<VideoDownload::YoutubeDL> getYoutubeDownloader(){return h->yt;}
+
+        private:
+            NewExerciseDemandHandler* h;
         };
     }
 }

@@ -138,6 +138,13 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
 TEST(NewExerciseDemandHandler, Init)
 {
     FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+
+    FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
+
+    ASSERT_EQ(v.getPathToDB(),"/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+    ASSERT_NE(v.getXMLReader(),nullptr);
+    ASSERT_NE(v.getExerciseWriter(),nullptr);
+    ASSERT_NE(v.getYoutubeDownloader(),nullptr);
 }
 
 TEST(NewExerciseDemandHandler, AddDemand)
