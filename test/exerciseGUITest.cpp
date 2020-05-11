@@ -174,4 +174,8 @@ TEST(NewExerciseDemandHandler, AddExecuteDemand)
     d->muscle_areas.push_back("Chest");
     h.addDemand(d);
     h.executeDemands();
+    std::ifstream f1("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4");
+    std::ifstream f2("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4");
+    ASSERT_TRUE(f1.is_open());
+    ASSERT_TRUE(f2.is_open());
 }
