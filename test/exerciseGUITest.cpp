@@ -143,6 +143,22 @@ TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
     ASSERT_FALSE(v.isFirstExerciseNameValid());
 }
 
+TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+
+    v.setFirstExerciseURLText("https://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
+    ASSERT_FALSE(v.isFirstExerciseURLValid());
+
+    v.setFirstExerciseURLText("http://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
+    ASSERT_FALSE(v.isFirstExerciseURLValid());
+
+    v.setFirstExerciseURLText("https://www.youtube.com/embed/nyiNSFp2uf0?start=2&end=7&version=3");
+    ASSERT_FALSE(v.isFirstExerciseURLValid());
+}
+
 TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
 {
     std::string ex_name = "Pushup";
