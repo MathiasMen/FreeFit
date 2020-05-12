@@ -175,6 +175,22 @@ TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
     ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
 }
 
+TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+
+    v.setFirstExerciseStopTimeText("abc");
+    ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
+
+    v.setFirstExerciseStopTimeText("12!");
+    ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
+
+    v.setFirstExerciseStopTimeText("1234");
+    ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
+}
+
 TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
 {
     std::string ex_name = "Pushup";
