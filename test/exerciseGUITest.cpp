@@ -63,7 +63,6 @@ TEST_F(ExerciseEditor,DeleteButton)
     ASSERT_EQ(n_exercises,2);
 }
 
-
 TEST_F(ExerciseEditor,ExerciseDemand)
 {
     QApplication a(my_argc,my_argv);
@@ -102,6 +101,27 @@ TEST_F(ExerciseEditor,NonStandardInput)
     ASSERT_EQ(d->video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"MiddleBack");
+}
+
+TEST_F(ExerciseEditor,ValidateFunctionTrue)
+{
+    std::string ex_name = "Pushup";
+    std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
+    std::string ex_start = "2";
+    std::string ex_end = "3";
+    
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setFirstExerciseNameText(ex_name);
+    v.setFirstExerciseURLText(ex_url);
+    v.setFirstExerciseStartTimeText(ex_start);
+    v.setFirstExerciseStopTimeText(ex_end);
+
+    ASSERT_TRUE(v.isFirstExerciseNameValid());
+    ASSERT_TRUE(v.isFirstExerciseURLValid());
+    ASSERT_TRUE(v.isFirstExerciseStartTimeValid());
+    ASSERT_TRUE(v.isFirstExerciseStopTimeValid());
 }
 
 TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)

@@ -99,17 +99,19 @@ namespace FreeFit
                 l->setText(t);
             }
 
-            void validateText()
+            bool validateText()
             {
                 if(!validate_function(le->text().toStdString()))
                 {
                     l->setStyleSheet("background-color:red;");
                     le->setStyleSheet("background-color:red;");
+                    return false;
                 }
                 else
                 {
                     l->setStyleSheet("background-color:green;");
                     le->setStyleSheet("background-color:green;");
+                    return true;
                 }
             }
         private:
@@ -411,6 +413,30 @@ namespace FreeFit
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->muscle_list->setCurrentRow(id,QItemSelectionModel::Select);
+            }
+
+            bool isFirstExerciseNameValid()
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                return e->name->validateText();
+            }
+
+            bool isFirstExerciseURLValid()
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                return e->url->validateText();
+            }
+
+            bool isFirstExerciseStartTimeValid()
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                return e->start_time->validateText();
+            }
+
+            bool isFirstExerciseStopTimeValid()
+            {
+                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                return e->stop_time->validateText();
             }
 
             void connectToDownloadSignalsOfItems()
