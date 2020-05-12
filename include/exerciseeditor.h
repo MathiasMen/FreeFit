@@ -97,6 +97,7 @@ namespace FreeFit
             {
                 this->setCurrentWidget(l);
                 l->setText(t);
+                emit textChanged();
             }
 
             bool validateText()
@@ -114,6 +115,8 @@ namespace FreeFit
                     return true;
                 }
             }
+        signals:
+            void textChanged();
         private:
             ClickableLabel* l;
             WriteableLine* le;
@@ -234,6 +237,29 @@ namespace FreeFit
                     l.push_back(area_item_ptr->text().toStdString());
                 return l;
             };
+
+            bool inputIsValid()
+            {
+                return (name->validateText() && url->validateText() && start_time->validateText() && stop_time->validateText());
+            }
+
+            void highlightAsFaulty()
+            {
+                this->setStyleSheet("background-color:red;");
+                connect(name,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+                connect(url,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+                connect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+                connect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            }
+        private slots:
+            void resetStylesheetOnce()
+            {
+                this->setStyleSheet("");
+                disconnect(name,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+                disconnect(url,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+                disconnect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+                disconnect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            }
         private:
             void deleteClicked()
             {
@@ -340,14 +366,24 @@ namespace FreeFit
 
             void downloadExercise(ExerciseItem* e)
             {
-                demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
-                demand_handler.executeDemands();
+                if(e->inputIsValid())
+                {
+                    demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                    demand_handler.executeDemands();
+                }
+                else
+                    e->highlightAsFaulty();
             }
 
             void downloadAllExercises()
             {
                 for(auto e : exercises_to_download)
-                    demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                {
+                    if(e->inputIsValid())
+                        demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                    else
+                        e->highlightAsFaulty();
+                }
                 demand_handler.executeDemands();
             }
             
