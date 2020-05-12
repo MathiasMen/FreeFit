@@ -155,8 +155,24 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
     v.setFirstExerciseURLText("http://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
     ASSERT_FALSE(v.isFirstExerciseURLValid());
 
-    v.setFirstExerciseURLText("https://www.youtube.com/embed/nyiNSFp2uf0?start=2&end=7&version=3");
+    v.setFirstExerciseURLText("https://www.youtube.com/embed/nyiNSFp2uf0");
     ASSERT_FALSE(v.isFirstExerciseURLValid());
+}
+
+TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+
+    v.setFirstExerciseStartTimeText("abc");
+    ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
+
+    v.setFirstExerciseStartTimeText("12!");
+    ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
+
+    v.setFirstExerciseStartTimeText("1234");
+    ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
 }
 
 TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
