@@ -71,10 +71,10 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     "        0\n"
     "      </AREA>\n"
     "      <AREA>\n"
-    "        5\n"
+    "        1\n"
     "      </AREA>\n"
     "      <AREA>\n"
-    "        10\n"
+    "        5\n"
     "      </AREA>\n"
     "    </TRAINEDAREAS>\n"
     "  </EXERCISE>\n"
@@ -83,9 +83,9 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     FreeFit::Data::Exercise e;
     e.setName("TestExercise");
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
-    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
+    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
-    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
+    e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
 
     std::list<FreeFit::Data::Exercise> l {e};
     FreeFit::Data::ExerciseWriter w(out_path);
@@ -111,11 +111,11 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     FreeFit::Data::Exercise e1,e2;
     e1.setName("TestExercise1");
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
-    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
 
     e2.setName("TestExercise2");
-    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Calves);
-    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Arms);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
 
     std::list<FreeFit::Data::Exercise> l_out {e1,e2};
     FreeFit::Data::ExerciseWriter w(out_path);
@@ -128,10 +128,10 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     FreeFit::Data::ExerciseTreeParser p;
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
     ASSERT_EQ(l_in.begin()->getName(),"TestExercise1");
-    ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Biceps),0);
+    ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Back),0);
 
     ASSERT_EQ(l_in.rbegin()->getName(),"TestExercise2");
-    ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Glutes),0);
+    ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Legs),0);
 }
 
 class ProfileXMLTest : public ::testing::Test

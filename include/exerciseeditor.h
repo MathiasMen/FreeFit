@@ -33,6 +33,34 @@ namespace FreeFit
     {
         class ExerciseEditorValidator;
 
+        class ToggleableLabel : public QLabel
+        {
+            Q_OBJECT
+        friend ExerciseEditorValidator;
+        public:
+            ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent){}
+
+            bool isToggled(){return toggled;}
+
+        protected:
+            void mousePressEvent(QMouseEvent* ev) override
+            {
+                this->clicked();
+                QLabel::mousePressEvent(ev);
+            }
+
+            void clicked()
+            {
+                toggled = !toggled;
+                if(toggled)
+                    this->setStyleSheet("background-color:blue;");
+                else
+                    this->setStyleSheet("");
+            }
+        private:
+            bool toggled;
+        };
+
         class ClickableLabel : public QLabel
         {
             Q_OBJECT
@@ -150,10 +178,15 @@ namespace FreeFit
 
                 ly = new QGridLayout(this);
                 
-                muscle_list = new QListWidget(this);
-                muscle_list->setSelectionMode(QAbstractItemView::MultiSelection);
+                QWidget* hashtag_widget = new QWidget(this);
+                QHBoxLayout* hashtag_layout = new QHBoxLayout(hashtag_widget);
+                hashtag_widget->setLayout(hashtag_layout);
                 for (auto m : muscle_definitions.strings)
-                    QListWidgetItem* i = new QListWidgetItem(QString::fromStdString(m),muscle_list);
+                {
+                    ToggleableLabel* t = new ToggleableLabel(QString::fromStdString(m),hashtag_widget);
+                    hashtag_layout->addWidget(t);
+                    hashtag_labels.push_back(t);
+                }
 
                 name_label = new QLabel("Name:",this);
                 url_label = new QLabel("Youtube-URL:",this);
@@ -195,9 +228,7 @@ namespace FreeFit
 
                 int row_counter = -1;
                 int col_counter = -1;
-                ly->addWidget(muscle_list,++row_counter,++col_counter,4,1);
 
-                row_counter = -1;
                 ly->addWidget(name_label,++row_counter,++col_counter);
                 ly->addWidget(url_label,++row_counter,col_counter);
                 ly->addWidget(start_time_label,++row_counter,col_counter);
@@ -212,6 +243,8 @@ namespace FreeFit
                 ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
 
                 ly->addWidget(download_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
+
+                ly->addWidget(hashtag_widget,++row_counter,0,col_counter,2,Qt::AlignCenter);
             }
             
             std::string getName(){return name->getContent();};
@@ -225,8 +258,9 @@ namespace FreeFit
             std::list<std::string> getMuscleAreas()
             {
                 std::list<std::string> l;
-                for (auto area_item_ptr : muscle_list->selectedItems())
-                    l.push_back(area_item_ptr->text().toStdString());
+                for (auto label : hashtag_labels)
+                    if(label->isToggled())
+                        l.push_back(label->text().toStdString());
                 return l;
             };
 
@@ -273,8 +307,6 @@ namespace FreeFit
 
             QGridLayout* ly;
 
-            QListWidget* muscle_list;
-
             QLabel* name_label;
             QLabel* url_label;
             QLabel* start_time_label;
@@ -289,6 +321,7 @@ namespace FreeFit
             QPushButton* download_item;
 
             MuscleGroups muscle_definitions;
+            std::vector<ToggleableLabel*> hashtag_labels;
         signals:
             void deleteItemTriggered(ExerciseItem*);
             void downloadItemTriggered(ExerciseItem*);
@@ -440,7 +473,8 @@ namespace FreeFit
             void setFirstExerciseMuscleArea(int id)
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
-                e->muscle_list->setCurrentRow(id,QItemSelectionModel::Select);
+                e->hashtag_labels[id]->clicked();
+                std::cout << e->hashtag_labels[id]->text().toStdString() << std::endl;
             }
 
             bool isFirstExerciseNameValid()
