@@ -73,34 +73,16 @@ namespace FreeFit
             {
                 if (s == "Shoulder")
                     return FreeFit::Data::MuscleGroup::Shoulder;
-                else if (s == "UpperBack")
-                    return FreeFit::Data::MuscleGroup::UpperBack;
-                else if (s == "MiddleBack")
-                    return FreeFit::Data::MuscleGroup::MiddleBack;
-                else if (s == "LowerBack")
-                    return FreeFit::Data::MuscleGroup::LowerBack;
+                else if (s == "Back")
+                    return FreeFit::Data::MuscleGroup::Back;
                 else if (s == "Chest")
                     return FreeFit::Data::MuscleGroup::Chest;
-                else if (s == "Biceps")
-                    return FreeFit::Data::MuscleGroup::Biceps;
-                else if (s == "Triceps")
-                    return FreeFit::Data::MuscleGroup::Triceps;
-                else if (s == "Forearms")
-                    return FreeFit::Data::MuscleGroup::Forearms;
-                else if (s == "CoreAbs")
-                    return FreeFit::Data::MuscleGroup::CoreAbs;
-                else if (s == "SideAbs")
-                    return FreeFit::Data::MuscleGroup::SideAbs;
-                else if (s == "Glutes")
-                    return FreeFit::Data::MuscleGroup::Glutes;
-                else if (s == "Thigh")
-                    return FreeFit::Data::MuscleGroup::Thigh;
-                else if (s == "Harmstrings")
-                    return FreeFit::Data::MuscleGroup::Harmstrings;
-                else if (s == "Tibia")
-                    return FreeFit::Data::MuscleGroup::Tibia;
-                else if (s == "Calves")
-                    return FreeFit::Data::MuscleGroup::Calves;
+                else if (s == "Abs")
+                    return FreeFit::Data::MuscleGroup::Abs;
+                else if (s == "Arms")
+                    return FreeFit::Data::MuscleGroup::Arms;
+                else if (s == "Legs")
+                    return FreeFit::Data::MuscleGroup::Legs;
                 else
                     return FreeFit::Data::MuscleGroup::Error;
             }

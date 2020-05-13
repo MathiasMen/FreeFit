@@ -129,21 +129,13 @@ namespace FreeFit
             MuscleGroups()
             {
                 strings.push_back("Shoulder");
-                strings.push_back("UpperBack");
-                strings.push_back("MiddleBack");
-                strings.push_back("LowerBack");
+                strings.push_back("Back");
                 strings.push_back("Chest");
-                strings.push_back("Biceps");
-                strings.push_back("Triceps");
-                strings.push_back("Forearms");
-                strings.push_back("CoreAbs");
-                strings.push_back("SideAbs");
-                strings.push_back("Glutes");
-                strings.push_back("Thigh");
-                strings.push_back("Harmstrings");
-                strings.push_back("Tibia");
-                strings.push_back("Calves");
+                strings.push_back("Abs");
+                strings.push_back("Arms");
+                strings.push_back("Legs");
             };
+
             std::vector<std::string> strings;
         };
 

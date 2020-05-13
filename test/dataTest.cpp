@@ -17,9 +17,9 @@ class ExerciseTest : public ::testing::Test
         virtual void SetUp()
         {
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
-            e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Biceps);
+            e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
-            e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Glutes);
+            e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
         }
 };
 
@@ -30,12 +30,12 @@ TEST_F(ExerciseTest, TrainedMusclesLength)
 
 TEST_F(ExerciseTest, TrainedMusclesEntry1)
 {
-    ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Biceps),1);
+    ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Back),1);
 }
 
 TEST_F(ExerciseTest, TrainedMusclesEntry2)
 {
-    ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Harmstrings),0);
+    ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Arms),0);
 }
 
 class WorkoutTest : public ::testing::Test
