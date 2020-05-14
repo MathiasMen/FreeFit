@@ -359,6 +359,7 @@ namespace FreeFit
                 ly->addWidget(add_button,0,0,1,1);
                 ly->addWidget(download_all_button,0,3,1,1);
                 ly->addWidget(scroll_area,1,0,4,4);
+                ly->addWidget(button_box,5,0,4,4,Qt::AlignCenter);
                 this->setLayout(ly);
             };
         private:
