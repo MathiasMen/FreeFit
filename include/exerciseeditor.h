@@ -174,6 +174,7 @@ namespace FreeFit
         public:
             ExerciseItem(QWidget* parent):QWidget(parent),muscle_definitions()
             {
+                this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
                 this->setFocusPolicy(Qt::ClickFocus);
 
                 ly = new QGridLayout(this);
@@ -346,23 +347,27 @@ namespace FreeFit
                 connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
                 connect(download_all_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
+                exercise_area = new QWidget(this);
+                exercise_area_ly = new QVBoxLayout(exercise_area);
+                exercise_area->setLayout(exercise_area_ly);
+
                 scroll_area = new QScrollArea(this);
-                scroll_area_ly = new QVBoxLayout(scroll_area);
-                scroll_area->setLayout(scroll_area_ly);
+                scroll_area->setWidget(exercise_area);
+                scroll_area->setWidgetResizable(true);
                 addExercise();
 
                 ly->addWidget(add_button,0,0,1,1);
                 ly->addWidget(download_all_button,0,3,1,1);
                 ly->addWidget(scroll_area,1,0,4,4);
-                ly->addWidget(button_box,5,0,1,5);
                 this->setLayout(ly);
             };
         private:
             QDialogButtonBox* button_box;
             QPushButton* add_button;
             QPushButton* download_all_button;
+            QWidget* exercise_area;        
+            QVBoxLayout* exercise_area_ly;                
             QScrollArea* scroll_area;
-            QVBoxLayout* scroll_area_ly;
             QGridLayout* ly;
             std::set<ExerciseItem*> exercises_to_download;
 
@@ -372,7 +377,7 @@ namespace FreeFit
             void addExercise()
             {
                 ExerciseItem* e = new ExerciseItem(this);
-                scroll_area_ly->addWidget(e);
+                exercise_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
                 exercises_to_download.insert(e);
@@ -415,7 +420,7 @@ namespace FreeFit
             void deleteExercise(ExerciseItem* e)
             {
                 exercises_to_download.erase(e);
-                scroll_area_ly->removeWidget(e);
+                exercise_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
                 delete e;
             }
@@ -474,7 +479,6 @@ namespace FreeFit
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->hashtag_labels[id]->clicked();
-                std::cout << e->hashtag_labels[id]->text().toStdString() << std::endl;
             }
 
             bool isFirstExerciseNameValid()
