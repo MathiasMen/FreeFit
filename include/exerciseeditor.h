@@ -184,7 +184,7 @@ namespace FreeFit
                 hashtag_widget->setLayout(hashtag_layout);
                 for (auto m : muscle_definitions.strings)
                 {
-                    ToggleableLabel* t = new ToggleableLabel(QString::fromStdString(m),hashtag_widget);
+                    ToggleableLabel* t = new ToggleableLabel("#" + QString::fromStdString(m),hashtag_widget);
                     hashtag_layout->addWidget(t);
                     hashtag_labels.push_back(t);
                 }
