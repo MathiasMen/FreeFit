@@ -185,7 +185,7 @@ namespace FreeFit
                 for (auto m : muscle_definitions.strings)
                 {
                     ToggleableLabel* t = new ToggleableLabel("#" + QString::fromStdString(m),hashtag_widget);
-                    hashtag_layout->addWidget(t);
+                    hashtag_layout->addWidget(t,0,Qt::AlignLeft);
                     hashtag_labels.push_back(t);
                 }
 
@@ -245,7 +245,7 @@ namespace FreeFit
 
                 ly->addWidget(download_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
 
-                ly->addWidget(hashtag_widget,++row_counter,0,col_counter,2,Qt::AlignCenter);
+                ly->addWidget(hashtag_widget,++row_counter,0,col_counter,2,Qt::AlignLeft);
             }
             
             std::string getName(){return name->getContent();};
