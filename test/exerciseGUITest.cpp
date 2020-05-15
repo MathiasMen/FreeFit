@@ -38,12 +38,14 @@ class ExerciseEditor : public ::testing::Test
 TEST_F(ExerciseEditor,LaunchEditor)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* d = new FreeFit::GUI::ExerciseEditor(p);
 }
 
 TEST_F(ExerciseEditor,AddButton)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddButton.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
@@ -54,6 +56,7 @@ TEST_F(ExerciseEditor,AddButton)
 TEST_F(ExerciseEditor,DeleteButton)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DeleteButton.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
@@ -66,6 +69,7 @@ TEST_F(ExerciseEditor,DeleteButton)
 TEST_F(ExerciseEditor,ExerciseDemand)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
@@ -83,6 +87,7 @@ TEST_F(ExerciseEditor,NonStandardInput)
     std::string ex_end = "3";
     
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NonStandardInput.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.setFirstExerciseNameText(ex_name);
@@ -111,6 +116,7 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
     std::string ex_end = "3";
     
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionTrue.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.setFirstExerciseNameText(ex_name);
@@ -127,6 +133,7 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
 TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionNameWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
@@ -146,6 +153,7 @@ TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionURLWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
@@ -162,6 +170,7 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStartTimeWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
@@ -178,6 +187,7 @@ TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
 {
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStopTimeWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
@@ -199,6 +209,7 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     std::string ex_end = "3";
     
     QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckDemandContent.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.setFirstExerciseNameText(ex_name);
@@ -224,11 +235,11 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
 
 TEST(NewExerciseDemandHandler, Init)
 {
-    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerInit.xml");
 
     FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
 
-    ASSERT_EQ(v.getPathToDB(),"/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+    ASSERT_EQ(v.getPathToDB(),"/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerInit.xml");
     ASSERT_NE(v.getXMLReader(),nullptr);
     ASSERT_NE(v.getExerciseWriter(),nullptr);
     ASSERT_NE(v.getYoutubeDownloader(),nullptr);
@@ -236,7 +247,7 @@ TEST(NewExerciseDemandHandler, Init)
 
 TEST(NewExerciseDemandHandler, AddDemand)
 {
-    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddDemandTestExercises.xml");
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerAddDemand.xml");
     FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
     std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
     d->name = "Pushup";
@@ -251,7 +262,7 @@ TEST(NewExerciseDemandHandler, AddDemand)
 
 TEST(NewExerciseDemandHandler, ExecuteDemand)
 {
-    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExecuteDemand.xml");
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerExecuteDemand.xml");
     std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
     d->name = "Situp";
     d->video_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
@@ -284,7 +295,7 @@ TEST(NewExerciseDemandHandler, ExecuteDemand)
 
     std::ifstream f1("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4");
     std::ifstream f2("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4");
-    std::ifstream f3("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExecuteDemand.xml");
+    std::ifstream f3("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerExecuteDemand.xml");
     std::stringstream ss;
     ss << f3.rdbuf();
 
@@ -295,7 +306,7 @@ TEST(NewExerciseDemandHandler, ExecuteDemand)
 
 TEST(NewExerciseDemandHandler, AddExercisesToExistingXML)
 {
-    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddExercisesToExistingXML.xml");
+    FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerAddExercisesToExistingXML.xml");
     std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
     d->name = "Situp";
     d->video_url = "https://www.youtube.com/watch?v=v7jhAYyNMuE";
@@ -345,7 +356,7 @@ TEST(NewExerciseDemandHandler, AddExercisesToExistingXML)
     "  </EXERCISE>\n"
     "</EXERCISES>\n";
 
-    std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddExercisesToExistingXML.xml");
+    std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerAddExercisesToExistingXML.xml");
     std::stringstream ss;
     ss << f.rdbuf();
     ASSERT_EQ(ss.str(),expected_exercises_xml);

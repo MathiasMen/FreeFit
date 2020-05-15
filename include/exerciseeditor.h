@@ -261,7 +261,7 @@ namespace FreeFit
                 std::list<std::string> l;
                 for (auto label : hashtag_labels)
                     if(label->isToggled())
-                        l.push_back(label->text().toStdString());
+                        l.push_back(label->text().remove(QChar('#')).toStdString());
                 return l;
             };
 
@@ -506,6 +506,7 @@ namespace FreeFit
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->hashtag_labels[id]->clicked();
+                std::cout << e->hashtag_labels[id]->text().toStdString() << std::endl;
             }
 
             bool isFirstExerciseNameValid()
