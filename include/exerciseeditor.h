@@ -53,7 +53,7 @@ namespace FreeFit
             {
                 toggled = !toggled;
                 if(toggled)
-                    this->setStyleSheet("background-color:blue;");
+                    this->setStyleSheet("border-color:blue;color:blue;" );
                 else
                     this->setStyleSheet("");
             }
