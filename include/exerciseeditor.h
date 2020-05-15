@@ -172,7 +172,7 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;            
         public:
-            ExerciseItem(QWidget* parent):QWidget(parent),muscle_definitions()
+            ExerciseItem(QWidget* parent):QWidget(parent),muscle_definitions(),default_color("black")
             {
                 this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
                 this->setFocusPolicy(Qt::ClickFocus);
@@ -278,10 +278,20 @@ namespace FreeFit
                 connect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
                 connect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
             }
+
+            void setDefaultBackgroundColor(std::string c)
+            {
+                default_color = c;
+            }
+
+            void setDefaultBackground()
+            {
+                this->setStyleSheet("background-color:" + QString::fromStdString(default_color) + ";");
+            }
         private slots:
             void resetStylesheetOnce()
             {
-                this->setStyleSheet("");
+                setDefaultBackground();
                 disconnect(name,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
                 disconnect(url,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
                 disconnect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
@@ -305,7 +315,7 @@ namespace FreeFit
                 QPainter p(this);
                 style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
             }
-
+            std::string default_color;
             QGridLayout* ly;
 
             QLabel* name_label;
@@ -382,6 +392,21 @@ namespace FreeFit
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
                 exercises_to_download.insert(e);
+                repaintExerciseBackgrounds();
+            }
+
+            void repaintExerciseBackgrounds()
+            {
+                unsigned int e_counter = 0;
+                for (auto e : exercises_to_download)
+                {
+                    if(e_counter % 2 == 0)
+                        e->setDefaultBackgroundColor("darkgray");
+                    else
+                        e->setDefaultBackgroundColor("dimgray");
+                    e->setDefaultBackground();
+                    ++e_counter;
+                }
             }
 
             NewExerciseDemand* generateNewExerciseDemand(ExerciseItem* e)
@@ -424,6 +449,7 @@ namespace FreeFit
                 exercise_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
                 delete e;
+                repaintExerciseBackgrounds();
             }
         };
 
