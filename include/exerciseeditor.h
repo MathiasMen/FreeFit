@@ -506,7 +506,6 @@ namespace FreeFit
             {
                 ExerciseItem* e = *(ee->exercises_to_download.begin());
                 e->hashtag_labels[id]->clicked();
-                std::cout << e->hashtag_labels[id]->text().toStdString() << std::endl;
             }
 
             bool isFirstExerciseNameValid()
