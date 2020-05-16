@@ -13,7 +13,22 @@ namespace FreeFit
         public:
             XMLNode(std::shared_ptr<XMLNode> t_parent, std::string t_name, std::string t_value);
 
-            void addChild(std::shared_ptr<XMLNode> n){children.push_back(n);}
+            inline bool operator==(const XMLNode& rhs)
+            {
+                return (this->name == rhs.name && this->value == rhs.value);
+            }
+
+            void addChild(std::shared_ptr<XMLNode> n)
+            {
+                bool isInChildren = false;
+                for (auto c : children)
+                    if (*c == *n)
+                        isInChildren = true;
+                
+                if (!isInChildren)
+                    children.push_back(n);
+            }
+            
             std::shared_ptr<XMLNode> findFirstChild(std::string child_name);
             std::list<std::shared_ptr<XMLNode>> findAllChildren(std::string child_name);
             void setValue(std::string v){value = v;}

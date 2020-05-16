@@ -50,6 +50,20 @@ TEST_F(NodeTest, FindChildren)
     ASSERT_EQ(l.size(),2);
 }
 
+TEST_F(NodeTest, EqualityOperatorTrue)
+{
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"NODENAME","NODEVALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"NODENAME","NODEVALUE");
+    ASSERT_TRUE(*child1 == *child2);
+}
+
+TEST_F(NodeTest, EqualityOperatorFalse)
+{
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"NODENAME","NODEVALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"NODENAME","ANOTHERNODEVALUE");
+    ASSERT_FALSE(*child1 == *child2);
+}
+
 class ExerciseXMLTest : public ::testing::Test
 {
     protected:
