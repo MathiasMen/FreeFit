@@ -64,6 +64,49 @@ TEST_F(NodeTest, EqualityOperatorFalse)
     ASSERT_FALSE(*child1 == *child2);
 }
 
+TEST_F(NodeTest, EqualityInChildrenTrue)
+{
+    std::shared_ptr<FreeFit::Data::XMLNode> root1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"ROOT","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> root2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"ROOT","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"CHILD","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"CHILD","VALUE");
+
+    root1->addChild(child1);
+    root2->addChild(child2);
+    ASSERT_TRUE(*root1 == *root2);
+}
+
+TEST_F(NodeTest, EqualityInChildrenFalse)
+{
+    std::shared_ptr<FreeFit::Data::XMLNode> root1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"ROOT","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> root2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"ROOT","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"CHILD","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"CHILD","NOTVALUE");
+
+    root1->addChild(child1);
+    root2->addChild(child2);
+    ASSERT_FALSE(*root1 == *root2);
+}
+
+TEST_F(NodeTest, AddExistingNodeWithChildren)
+{
+    std::shared_ptr<FreeFit::Data::XMLNode> root = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"ROOT","VALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"C","CHILDVALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"C","CHILDVALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> grandChild11 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"GC","GCVALUE1");
+    std::shared_ptr<FreeFit::Data::XMLNode> grandChild12 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"GC","GCVALUE2");
+    std::shared_ptr<FreeFit::Data::XMLNode> grandChild21 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"GC","GCVALUE1");
+    std::shared_ptr<FreeFit::Data::XMLNode> grandChild22 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"GC","GCVALUE2");
+
+    child1->addChild(grandChild11);
+    child1->addChild(grandChild12);
+    child2->addChild(grandChild21);
+    child2->addChild(grandChild22);
+    root->addChild(child1);
+    root->addChild(child2);
+    ASSERT_EQ(root->getChildren().size(),1);
+}
+
 TEST_F(NodeTest, AddAlreadyExistingNode)
 {
     std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(n,"NODENAME","NODEVALUE");

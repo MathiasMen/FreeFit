@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <iostream>
 
 namespace FreeFit
 {
@@ -15,7 +16,29 @@ namespace FreeFit
 
             inline bool operator==(const XMLNode& rhs)
             {
-                return (this->name == rhs.name && this->value == rhs.value);
+                bool childrenEqual = true;
+                for (auto c : children)
+                {
+                    bool isNodeAlreadyInChildren = false;
+                    for (auto c_rhs : rhs.children)
+                        if (*c == *c_rhs)
+                        {
+                            isNodeAlreadyInChildren = true;
+                            break;
+                        }
+                    if (!isNodeAlreadyInChildren)
+                    {
+                        childrenEqual = false;
+                        break;
+                    }
+                }
+                std::cout << this->name << " / " << this->value << " == " << rhs.name << " / " << rhs.value << " : " << childrenEqual << " " << (this->name == rhs.name) << " " << (this->value == rhs.value) << std::endl;
+                return (childrenEqual && this->name == rhs.name && this->value == rhs.value);
+            }
+
+            inline bool operator!=(const XMLNode& rhs)
+            {
+                return !(*this == rhs);
             }
 
             void addChild(std::shared_ptr<XMLNode> n)
@@ -28,7 +51,7 @@ namespace FreeFit
                 if (!isInChildren)
                     children.push_back(n);
             }
-            
+
             std::shared_ptr<XMLNode> findFirstChild(std::string child_name);
             std::list<std::shared_ptr<XMLNode>> findAllChildren(std::string child_name);
             void setValue(std::string v){value = v;}
