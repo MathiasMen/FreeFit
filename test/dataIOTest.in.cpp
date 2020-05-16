@@ -39,9 +39,9 @@ TEST_F(NodeTest, ModifyChildValue)
 
 TEST_F(NodeTest, FindChildren)
 {
-    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME1","SomeChild");
-    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME2","SomeChild");
-    std::shared_ptr<FreeFit::Data::XMLNode> child3 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME1","SomeChild");
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME1","Value1");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME2","Value2");
+    std::shared_ptr<FreeFit::Data::XMLNode> child3 = std::make_shared<FreeFit::Data::XMLNode>(n,"CHILD_NAME1","Value3");
 
     n->addChild(child1);
     n->addChild(child2);
@@ -62,6 +62,15 @@ TEST_F(NodeTest, EqualityOperatorFalse)
     std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"NODENAME","NODEVALUE");
     std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(nullptr,"NODENAME","ANOTHERNODEVALUE");
     ASSERT_FALSE(*child1 == *child2);
+}
+
+TEST_F(NodeTest, AddAlreadyExistingNode)
+{
+    std::shared_ptr<FreeFit::Data::XMLNode> child1 = std::make_shared<FreeFit::Data::XMLNode>(n,"NODENAME","NODEVALUE");
+    std::shared_ptr<FreeFit::Data::XMLNode> child2 = std::make_shared<FreeFit::Data::XMLNode>(n,"NODENAME","NODEVALUE");
+    n->addChild(child1);
+    n->addChild(child2);
+    ASSERT_EQ(n->getChildren().size(),1);
 }
 
 class ExerciseXMLTest : public ::testing::Test
