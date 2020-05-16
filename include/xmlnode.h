@@ -32,7 +32,6 @@ namespace FreeFit
                         break;
                     }
                 }
-                std::cout << this->name << " / " << this->value << " == " << rhs.name << " / " << rhs.value << " : " << childrenEqual << " " << (this->name == rhs.name) << " " << (this->value == rhs.value) << std::endl;
                 return (childrenEqual && this->name == rhs.name && this->value == rhs.value);
             }
 
