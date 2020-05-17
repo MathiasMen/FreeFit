@@ -130,6 +130,9 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     "    <NAME>\n"
     "      TestExercise\n"
     "    </NAME>\n"
+    "    <VIDEOURL>\n"
+    "      https://www.youtube.com/watch?v=-kwe1EOiWMY\n"
+    "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
     "    </VIDEOPATH>\n"
     "    <TRAINEDAREAS>\n"
@@ -148,6 +151,7 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
 
     FreeFit::Data::Exercise e;
     e.setName("TestExercise");
+    e.setVideoURL("https://www.youtube.com/watch?v=-kwe1EOiWMY");
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
