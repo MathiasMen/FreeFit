@@ -50,6 +50,7 @@ namespace FreeFit
                         e.addTrainedMuscle(stringToMuscleGroup(a));
                     std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/" + d->name + "_" + d->video_start_time + "_" + d->video_end_time + ".mp4";
                     downloadVideo(d->video_url,out_path,d->video_start_time,d->video_end_time);
+                    e.setVideoURL(d->video_url);
                     e.setVideoPath(out_path);
                     lst.push_back(e);
                     demands.pop();
