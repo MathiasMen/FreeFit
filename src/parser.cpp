@@ -14,6 +14,9 @@ namespace FreeFit
                 Exercise e;
                 if(e_ptr->findFirstChild("NAME"))
                     e.setName(e_ptr->findFirstChild("NAME")->getValue());
+                
+                if(e_ptr->findFirstChild("VIDEOURL"))
+                    e.setVideoURL(e_ptr->findFirstChild("VIDEOURL")->getValue());
 
                 if(e_ptr->findFirstChild("VIDEOPATH"))
                     e.setVideoPath(e_ptr->findFirstChild("VIDEOPATH")->getValue());

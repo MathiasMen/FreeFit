@@ -174,16 +174,19 @@ TEST_F(ExerciseXMLTest, ReadXML)
     FreeFit::Data::BaseXMLReader r(out_path);
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
+    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOURL")->getValue(),"https://www.youtube.com/watch?v=-kwe1EOiWMY");
 }
 
 TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
 {
     FreeFit::Data::Exercise e1,e2;
     e1.setName("TestExercise1");
+    e1.setVideoURL("https://www.youtube.com/watch?v=stuvwxyz123");
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
 
     e2.setName("TestExercise2");
+    e2.setVideoURL("https://www.youtube.com/watch?v=abcdefghijk");
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Arms);
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
 
@@ -198,9 +201,11 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     FreeFit::Data::ExerciseTreeParser p;
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
     ASSERT_EQ(l_in.begin()->getName(),"TestExercise1");
+    ASSERT_EQ(l_in.begin()->getVideoURL(),"https://www.youtube.com/watch?v=stuvwxyz123");
     ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Back),0);
 
     ASSERT_EQ(l_in.rbegin()->getName(),"TestExercise2");
+    ASSERT_EQ(l_in.rbegin()->getVideoURL(),"https://www.youtube.com/watch?v=abcdefghijk");
     ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Legs),0);
 }
 
