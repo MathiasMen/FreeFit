@@ -20,6 +20,7 @@ class ExerciseTest : public ::testing::Test
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
+            e.setVideoURL("https://www.youtube.com/watch?v=-kwe1EOiWMY");
         }
 };
 
@@ -36,6 +37,11 @@ TEST_F(ExerciseTest, TrainedMusclesEntry1)
 TEST_F(ExerciseTest, TrainedMusclesEntry2)
 {
     ASSERT_EQ(e.getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Arms),0);
+}
+
+TEST_F(ExerciseTest, VideoURL)
+{
+    ASSERT_EQ(e.getVideoURL(),"https://www.youtube.com/watch?v=-kwe1EOiWMY");
 }
 
 class WorkoutTest : public ::testing::Test
