@@ -43,6 +43,7 @@ namespace FreeFit
 
             bool isToggled(){return toggled;}
 
+            void click(){clicked();};
         protected:
             void mousePressEvent(QMouseEvent* ev) override
             {
@@ -114,6 +115,11 @@ namespace FreeFit
             }
 
             std::string getContent(){return le->text().toStdString();}
+            void setContent(std::string c)
+            {
+                le->setText(QString::fromStdString(c));
+                l->setText(QString::fromStdString(c));
+            }
 
             void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
         public slots:
@@ -250,8 +256,10 @@ namespace FreeFit
             }
             
             std::string getName(){return name->getContent();};
-            
+            void setName(std::string n){name->setContent(n);};
+
             std::string getURL(){return url->getContent();};
+            void setURL(std::string u){url->setContent(u);};
 
             std::string getVideoStartTime(){return start_time->getContent();};
 
@@ -264,6 +272,17 @@ namespace FreeFit
                     if(label->isToggled())
                         l.push_back(label->text().remove(QChar('#')).toStdString());
                 return l;
+            };
+
+            void setMuscleAreas(std::set<FreeFit::Data::MuscleGroup> muscles)
+            {
+                for (auto h : hashtag_labels)
+                {
+                    std::string h_name = h->text().remove(QChar('#')).toStdString();
+                    for (auto  m : muscles)
+                        if (h_name == muscle_definitions.strings[m])
+                            h->click();
+                }
             };
 
             bool inputIsValid()
@@ -365,7 +384,11 @@ namespace FreeFit
                 scroll_area = new QScrollArea(this);
                 scroll_area->setWidget(exercise_area);
                 scroll_area->setWidgetResizable(true);
-                addExercise();
+                for (auto e_data : demand_handler.getExerciseList())
+                    addExistingExercise(e_data);
+
+                if (exercises_to_download.empty())
+                    addExercise();
 
                 ly->addWidget(add_button,0,0,1,1);
                 ly->addWidget(download_all_button,0,3,1,1);
@@ -392,13 +415,22 @@ namespace FreeFit
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
                 exercises_to_download.insert(e);
+                repaintExerciseBackgrounds();
             }
 
             void addExercise()
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 registerExerciseItem(e);
-                repaintExerciseBackgrounds();
+            }
+
+            void addExistingExercise(FreeFit::Data::Exercise e_dat)
+            {
+                ExerciseItem* e = new ExerciseItem(this);
+                e->setName(e_dat.getName());
+                e->setURL(e_dat.getVideoURL());
+                e->setMuscleAreas(e_dat.getTrainedMuscles());
+                registerExerciseItem(e);
             }
 
             void repaintExerciseBackgrounds()
