@@ -26,6 +26,7 @@
 #include "include/newexercisedemand.h"
 #include "include/newexercisedemandhandler.h"
 #include "include/profile.h"
+#include "include/exercise.h"
 
 namespace FreeFit
 {
@@ -249,7 +250,7 @@ namespace FreeFit
             }
             
             std::string getName(){return name->getContent();};
-
+            
             std::string getURL(){return url->getContent();};
 
             std::string getVideoStartTime(){return start_time->getContent();};
@@ -385,13 +386,18 @@ namespace FreeFit
             FreeFit::Data::Profile p;
             FreeFit::Data::NewExerciseDemandHandler demand_handler;
         private slots:
-            void addExercise()
+            void registerExerciseItem(ExerciseItem* e)
             {
-                ExerciseItem* e = new ExerciseItem(this);
                 exercise_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
                 exercises_to_download.insert(e);
+            }
+
+            void addExercise()
+            {
+                ExerciseItem* e = new ExerciseItem(this);
+                registerExerciseItem(e);
                 repaintExerciseBackgrounds();
             }
 
