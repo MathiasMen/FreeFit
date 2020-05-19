@@ -21,6 +21,12 @@ namespace FreeFit
                 if(e_ptr->findFirstChild("VIDEOPATH"))
                     e.setVideoPath(e_ptr->findFirstChild("VIDEOPATH")->getValue());
 
+                if(e_ptr->findFirstChild("VIDEOSTARTTIME"))
+                    e.setVideoStartTime(e_ptr->findFirstChild("VIDEOSTARTTIME")->getValue());
+
+                if(e_ptr->findFirstChild("VIDEOENDTIME"))
+                    e.setVideoEndTime(e_ptr->findFirstChild("VIDEOENDTIME")->getValue());
+
                 if(e_ptr->findFirstChild("TRAINEDAREAS"))
                     for(auto a : e_ptr->findFirstChild("TRAINEDAREAS")->findAllChildren("AREA"))
                         e.addTrainedMuscle(static_cast<MuscleGroup>(std::stoi(a->getValue())));

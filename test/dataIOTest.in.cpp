@@ -183,6 +183,8 @@ TEST_F(ExerciseXMLTest, ReadXML)
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOURL")->getValue(),"https://www.youtube.com/watch?v=-kwe1EOiWMY");
+    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOSTARTTIME")->getValue(),"2");
+    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOENDTIME")->getValue(),"5");
 }
 
 TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
@@ -190,11 +192,15 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     FreeFit::Data::Exercise e1,e2;
     e1.setName("TestExercise1");
     e1.setVideoURL("https://www.youtube.com/watch?v=stuvwxyz123");
+    e1.setVideoStartTime("1");
+    e1.setVideoEndTime("2");
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
 
     e2.setName("TestExercise2");
     e2.setVideoURL("https://www.youtube.com/watch?v=abcdefghijk");
+    e2.setVideoStartTime("3");
+    e2.setVideoEndTime("4");
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Arms);
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
 
@@ -208,12 +214,17 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
 
     FreeFit::Data::ExerciseTreeParser p;
     std::list<FreeFit::Data::Exercise> l_in = p.parse(pt);
+
     ASSERT_EQ(l_in.begin()->getName(),"TestExercise1");
     ASSERT_EQ(l_in.begin()->getVideoURL(),"https://www.youtube.com/watch?v=stuvwxyz123");
+    ASSERT_EQ(l_in.begin()->getVideoStartTime(),"1");
+    ASSERT_EQ(l_in.begin()->getVideoEndTime(),"2");
     ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Back),0);
 
     ASSERT_EQ(l_in.rbegin()->getName(),"TestExercise2");
     ASSERT_EQ(l_in.rbegin()->getVideoURL(),"https://www.youtube.com/watch?v=abcdefghijk");
+    ASSERT_EQ(l_in.rbegin()->getVideoStartTime(),"3");
+    ASSERT_EQ(l_in.rbegin()->getVideoEndTime(),"4");
     ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Legs),0);
 }
 
