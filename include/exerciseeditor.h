@@ -262,8 +262,10 @@ namespace FreeFit
             void setURL(std::string u){url->setContent(u);};
 
             std::string getVideoStartTime(){return start_time->getContent();};
+            void setVideoStartTime(std::string t){start_time->setContent(t);}
 
             std::string getVideoEndTime(){return stop_time->getContent();};
+            void setVideoEndTime(std::string t){stop_time->setContent(t);}
 
             std::list<std::string> getMuscleAreas()
             {
@@ -430,6 +432,8 @@ namespace FreeFit
                 e->setName(e_dat.getName());
                 e->setURL(e_dat.getVideoURL());
                 e->setMuscleAreas(e_dat.getTrainedMuscles());
+                e->setVideoStartTime(e_dat.getVideoStartTime());
+                e->setVideoEndTime(e_dat.getVideoEndTime());
                 registerExerciseItem(e);
             }
 
