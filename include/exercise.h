@@ -22,6 +22,12 @@ namespace FreeFit
                 void setVideoPath(std::string v){video_path = v;}
                 std::string getVideoPath(){return video_path;}
 
+                void setVideoStartTime(std::string t){video_start_time = t;}
+                std::string getVideoStartTime(){return video_start_time;}
+
+                void setVideoEndTime(std::string t){video_end_time = t;}
+                std::string getVideoEndTime(){return video_end_time;}
+                
                 void addTrainedMuscle(MuscleGroup m){trained_areas.insert(m);};
                 std::set<MuscleGroup> getTrainedMuscles(){return trained_areas;}
 
@@ -29,6 +35,8 @@ namespace FreeFit
                 std::string name;
                 std::string video_url;
                 std::string video_path;
+                std::string video_start_time;
+                std::string video_end_time;
                 std::set<MuscleGroup> trained_areas;
         };
     }
