@@ -134,6 +134,12 @@ namespace FreeFit
                 l->setText(t);
                 emit textChanged();
             }
+            
+            void styleTextAsOldAndValid()
+            {
+                l->setStyleSheet("background-color:DarkSeaGreen;");
+                le->setStyleSheet("background-color:DarkSeaGreen;");
+            }
 
             bool validateText()
             {
@@ -292,6 +298,15 @@ namespace FreeFit
                 return (name->validateText() && url->validateText() && start_time->validateText() && stop_time->validateText());
             }
 
+            void highlightAsOldAndValid()
+            {
+                this->setStyleSheet("background-color:grey;");
+                name->styleTextAsOldAndValid();
+                url->styleTextAsOldAndValid();
+                start_time->styleTextAsOldAndValid();
+                stop_time->styleTextAsOldAndValid();
+            }
+
             void highlightAsFaulty()
             {
                 this->setStyleSheet("background-color:red;");
@@ -387,7 +402,10 @@ namespace FreeFit
                 scroll_area->setWidget(exercise_area);
                 scroll_area->setWidgetResizable(true);
                 for (auto e_data : demand_handler.getExerciseList())
-                    addExistingExercise(e_data);
+                {
+                    ExerciseItem* e = addExistingExercise(e_data);
+                    e->highlightAsOldAndValid();
+                }
 
                 if (exercises_to_download.empty())
                     addExercise();
@@ -420,13 +438,14 @@ namespace FreeFit
                 repaintExerciseBackgrounds();
             }
 
-            void addExercise()
+            ExerciseItem* addExercise()
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 registerExerciseItem(e);
+                return e;
             }
 
-            void addExistingExercise(FreeFit::Data::Exercise e_dat)
+            ExerciseItem* addExistingExercise(FreeFit::Data::Exercise e_dat)
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 e->setName(e_dat.getName());
@@ -435,6 +454,7 @@ namespace FreeFit
                 e->setVideoStartTime(e_dat.getVideoStartTime());
                 e->setVideoEndTime(e_dat.getVideoEndTime());
                 registerExerciseItem(e);
+                return e;
             }
 
             void repaintExerciseBackgrounds()
