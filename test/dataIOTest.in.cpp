@@ -135,6 +135,12 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
     "    </VIDEOPATH>\n"
+    "    <VIDEOSTARTTIME>\n"
+    "      2\n"
+    "    </VIDEOSTARTTIME>\n"
+    "    <VIDEOENDTIME>\n"
+    "      5\n"
+    "    </VIDEOENDTIME>\n"
     "    <TRAINEDAREAS>\n"
     "      <AREA>\n"
     "        0\n"
@@ -156,6 +162,8 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
+    e.setVideoStartTime("2");
+    e.setVideoEndTime("5");
 
     std::list<FreeFit::Data::Exercise> l {e};
     FreeFit::Data::ExerciseWriter w(out_path);
