@@ -32,8 +32,13 @@ namespace FreeFit
             std::list<Exercise> getExerciseList()
             {
                 std::shared_ptr<XMLNode> n = r->read();
-                ExerciseTreeParser p;
-                return p.parse(n);
+                if(n)
+                {
+                    ExerciseTreeParser p;
+                    return p.parse(n);
+                }
+                else
+                    return std::list<Exercise>();
             }
 
             void addDemand(std::shared_ptr<GUI::NewExerciseDemand> d)
