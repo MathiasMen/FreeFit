@@ -27,6 +27,7 @@
 #include "include/newexercisedemandhandler.h"
 #include "include/profile.h"
 #include "include/exercise.h"
+#include "include/xmlreader.h"
 
 namespace FreeFit
 {
@@ -396,7 +397,7 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p),demand_handler(t_p.getPathToExerciseDB())
+            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p),r(t_p.getPathToExerciseDB()),demand_handler(t_p.getPathToExerciseDB())
             {                
                 ly = new QGridLayout(this);
 
@@ -417,7 +418,7 @@ namespace FreeFit
                 scroll_area = new QScrollArea(this);
                 scroll_area->setWidget(exercise_area);
                 scroll_area->setWidgetResizable(true);
-                for (auto e_data : demand_handler.getExerciseList())
+                for (auto e_data : r.getExerciseList())
                 {
                     ExerciseItem* e = addExistingExercise(e_data);
                     e->highlightAsOldAndValid();
@@ -443,6 +444,7 @@ namespace FreeFit
             std::set<ExerciseItem*> exercises_to_download;
 
             FreeFit::Data::Profile p;
+            FreeFit::Data::BaseXMLReader r;
             FreeFit::Data::NewExerciseDemandHandler demand_handler;
         private slots:
             void registerExerciseItem(ExerciseItem* e)

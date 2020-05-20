@@ -233,6 +233,15 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     ASSERT_EQ(*(++it),"Chest");
 }
 
+TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
+{
+    QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/ReadXMLAndPopulateExerciseList.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    ASSERT_EQ(v.getNumberOfExercises(),2);
+}
+
 TEST(DownloadExerciseDemand, Init)
 {
     std::string name = "Name", video_url = "TestURL", video_start_time = "2", video_end_time = "5";
