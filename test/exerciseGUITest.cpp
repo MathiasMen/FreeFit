@@ -67,22 +67,19 @@ TEST_F(ExerciseEditor,DeleteButton)
     ASSERT_EQ(n_exercises,2);
 }
 
-/*
 TEST_F(ExerciseEditor,ExerciseDemand)
 {
     QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    FreeFit::GUI::DownloadExerciseDemand* d = v.getFirstExerciseDemand();
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = v.getFirstExerciseDemand();
     ASSERT_EQ(d->name,"...");
     ASSERT_EQ(d->video_url,"...");
     ASSERT_EQ(d->video_start_time,"...");
     ASSERT_EQ(d->video_end_time,"...");
 }
-*/
 
-/*
 TEST_F(ExerciseEditor,NonStandardInput)
 {
     std::string ex_name = "Pushup";
@@ -101,7 +98,7 @@ TEST_F(ExerciseEditor,NonStandardInput)
     v.setFirstExerciseMuscleArea(0);
     v.setFirstExerciseMuscleArea(2);
 
-    FreeFit::GUI::DownloadExerciseDemand* d = v.getFirstExerciseDemand();
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = v.getFirstExerciseDemand();
 
     auto it = d->muscle_areas.begin();
     ASSERT_EQ(d->name,ex_name);
@@ -111,7 +108,6 @@ TEST_F(ExerciseEditor,NonStandardInput)
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
 }
-*/
 
 TEST_F(ExerciseEditor,ValidateFunctionTrue)
 {
@@ -238,6 +234,31 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     ASSERT_EQ(*(++it),"Chest");
 }
 
+TEST_F(ExerciseEditor,DownloadClickedCheckFileExists)
+{
+    std::string ex_name = "Pushup";
+    std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
+    std::string ex_start = "2";
+    std::string ex_end = "3";
+    
+    QApplication a(my_argc,my_argv);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckFileExists.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setFirstExerciseNameText(ex_name);
+    v.setFirstExerciseURLText(ex_url);
+    v.setFirstExerciseStartTimeText(ex_start);
+    v.setFirstExerciseStopTimeText(ex_end);
+    v.setFirstExerciseMuscleArea(0);
+    v.setFirstExerciseMuscleArea(2);
+
+    v.connectToDownloadSignalsOfItems();
+    v.pushFirstDownloadButton();
+
+    std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_2_3.mp4");
+    ASSERT_TRUE(f.is_open());
+}
+
 TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
 {
     QApplication a(my_argc,my_argv);
@@ -283,7 +304,10 @@ TEST(DownloadExerciseDemandHandler, ExecuteDemand)
     d->muscle_areas.push_back("Shoulder");
     d->muscle_areas.push_back("Chest");
     FreeFit::Data::Exercise e = h.executeDemand(d);
-    ASSERT_EQ(e.getVideoPath(),"/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40.mp4");
+    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40.mp4";
+    std::ifstream f(out_path);
+    ASSERT_EQ(e.getVideoPath(),out_path);
+    ASSERT_TRUE(f.is_open());
 }
 
 /*
