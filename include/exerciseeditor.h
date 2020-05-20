@@ -112,6 +112,7 @@ namespace FreeFit
                 connect(l,&ClickableLabel::labelClicked,this,&EditableLine::showLineEdit);
                 connect(le,&WriteableLine::textMessageBecauseFocusLost,this,&EditableLine::showLabelAndSetText);
                 connect(le,&QLineEdit::textChanged,this,&EditableLine::validateText);
+                connect(le,&QLineEdit::textEdited,this,&EditableLine::textChanged);
             }
 
             std::string getContent(){return le->text().toStdString();}
@@ -132,7 +133,6 @@ namespace FreeFit
             {
                 this->setCurrentWidget(l);
                 l->setText(t);
-                emit textChanged();
             }
             
             void styleTextAsOldAndValid()
@@ -234,6 +234,11 @@ namespace FreeFit
                 url->validateText();
                 start_time->validateText();
                 stop_time->validateText();
+                
+                connect(name,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+                connect(url,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+                connect(start_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+                connect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
 
                 delete_item = new QPushButton("Delete",this);
                 download_item = new QPushButton("Download",this);
@@ -334,6 +339,15 @@ namespace FreeFit
                 disconnect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
                 disconnect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
             }
+
+            void itemChanged()
+            {
+                unchanged = false;
+                disconnect(name,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+                disconnect(url,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+                disconnect(start_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+                disconnect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+            }
         private:
             void deleteClicked()
             {
@@ -352,6 +366,7 @@ namespace FreeFit
                 QPainter p(this);
                 style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
             }
+            
             std::string default_color;
             QGridLayout* ly;
 
@@ -370,6 +385,7 @@ namespace FreeFit
 
             MuscleGroups muscle_definitions;
             std::vector<ToggleableLabel*> hashtag_labels;
+            bool unchanged = true;
         signals:
             void deleteItemTriggered(ExerciseItem*);
             void downloadItemTriggered(ExerciseItem*);
