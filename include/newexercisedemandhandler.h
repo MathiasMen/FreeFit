@@ -6,9 +6,7 @@
 #include "include/xmlreader.h"
 #include "include/xmlwriter.h"
 #include "include/xmlnode.h"
-#include "include/parser.h"
 #include "include/downloadexercisedemand.h"
-#include "include/exercise.h"
 #include "include/youtubedownloader.h"
 
 namespace FreeFit
@@ -27,18 +25,6 @@ namespace FreeFit
                 w = std::make_shared<ExerciseWriter>(path_to_db);
                 yt = std::make_shared<VideoDownload::YoutubeDL>();
                 yt->setVideoFormat(VideoDownload::VideoType::MP4);
-            }
-
-            std::list<Exercise> getExerciseList()
-            {
-                std::shared_ptr<XMLNode> n = r->read();
-                if(n)
-                {
-                    ExerciseTreeParser p;
-                    return p.parse(n);
-                }
-                else
-                    return std::list<Exercise>();
             }
 
             void addDemand(std::shared_ptr<GUI::DownloadExerciseDemand> d)
