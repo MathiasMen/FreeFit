@@ -5,7 +5,7 @@
 #include <QDialog>
 
 #include "include/exerciseeditor.h"
-#include "include/newexercisedemand.h"
+#include "include/downloadexercisedemand.h"
 #include "include/profile.h"
 #include "include/newexercisedemandhandler.h"
 
@@ -231,6 +231,21 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     ASSERT_EQ(d.video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
+}
+
+TEST(DownloadExerciseDemand, Init)
+{
+    std::string name = "Name", video_url = "TestURL", video_start_time = "2", video_end_time = "5";
+
+    FreeFit::GUI::DownloadExerciseDemand d;
+    d.name = name;
+    d.video_url = video_url;
+    d.video_start_time = video_start_time;
+    d.video_end_time = video_end_time;
+    d.muscle_areas.push_back("Shoulders");
+    d.muscle_areas.push_back("Chest");
+
+    ASSERT_EQ(d.muscle_areas.size(),2);
 }
 
 TEST(NewExerciseDemandHandler, Init)

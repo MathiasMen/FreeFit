@@ -7,7 +7,7 @@
 #include "include/xmlwriter.h"
 #include "include/xmlnode.h"
 #include "include/parser.h"
-#include "include/newexercisedemand.h"
+#include "include/downloadexercisedemand.h"
 #include "include/exercise.h"
 #include "include/youtubedownloader.h"
 

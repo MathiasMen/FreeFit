@@ -23,7 +23,7 @@
 #include <regex>
 #include <memory>
 
-#include "include/newexercisedemand.h"
+#include "include/downloadexercisedemand.h"
 #include "include/newexercisedemandhandler.h"
 #include "include/profile.h"
 #include "include/exercise.h"
