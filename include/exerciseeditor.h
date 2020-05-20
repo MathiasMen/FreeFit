@@ -487,9 +487,9 @@ namespace FreeFit
                 }
             }
 
-            NewExerciseDemand* generateNewExerciseDemand(ExerciseItem* e)
+            DownloadExerciseDemand* generateNewExerciseDemand(ExerciseItem* e)
             {
-                NewExerciseDemand* d = new NewExerciseDemand();
+                DownloadExerciseDemand* d = new DownloadExerciseDemand();
                 d->name = e->getName();
                 d->video_url = e->getURL();
                 d->video_start_time = e->getVideoStartTime();
@@ -502,7 +502,7 @@ namespace FreeFit
             {
                 if(e->inputIsValid())
                 {
-                    demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                    demand_handler.addDemand(std::shared_ptr<GUI::DownloadExerciseDemand>(generateNewExerciseDemand(e)));
                     demand_handler.executeDemands();
                 }
                 else
@@ -514,7 +514,7 @@ namespace FreeFit
                 for(auto e : exercises_to_download)
                 {
                     if(e->inputIsValid())
-                        demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
+                        demand_handler.addDemand(std::shared_ptr<GUI::DownloadExerciseDemand>(generateNewExerciseDemand(e)));
                     else
                         e->highlightAsFaulty();
                 }
@@ -547,7 +547,7 @@ namespace FreeFit
                 return ee->exercises_to_download.size();
             }
 
-            NewExerciseDemand* getFirstExerciseDemand()
+            DownloadExerciseDemand* getFirstExerciseDemand()
             {
                 return ee->generateNewExerciseDemand(*(ee->exercises_to_download.begin()));
             }
@@ -628,14 +628,14 @@ namespace FreeFit
                 e->delete_item->click();
             }
 
-            GUI::NewExerciseDemand getLastDemand(){return *last_demand;}
+            GUI::DownloadExerciseDemand getLastDemand(){return *last_demand;}
         private:
             ExerciseEditor* ee;
-            std::shared_ptr<GUI::NewExerciseDemand> last_demand;
+            std::shared_ptr<GUI::DownloadExerciseDemand> last_demand;
         private slots:
             void saveDemandFromDownloadClicked(ExerciseItem* e)
             {
-                last_demand = std::shared_ptr<GUI::NewExerciseDemand>(ee->generateNewExerciseDemand(e));
+                last_demand = std::shared_ptr<GUI::DownloadExerciseDemand>(ee->generateNewExerciseDemand(e));
             }
         };
     }

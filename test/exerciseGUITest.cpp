@@ -72,7 +72,7 @@ TEST_F(ExerciseEditor,ExerciseDemand)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
+    FreeFit::GUI::DownloadExerciseDemand* d = v.getFirstExerciseDemand();
     ASSERT_EQ(d->name,"...");
     ASSERT_EQ(d->video_url,"...");
     ASSERT_EQ(d->video_start_time,"...");
@@ -97,7 +97,7 @@ TEST_F(ExerciseEditor,NonStandardInput)
     v.setFirstExerciseMuscleArea(0);
     v.setFirstExerciseMuscleArea(2);
 
-    FreeFit::GUI::NewExerciseDemand* d = v.getFirstExerciseDemand();
+    FreeFit::GUI::DownloadExerciseDemand* d = v.getFirstExerciseDemand();
 
     auto it = d->muscle_areas.begin();
     ASSERT_EQ(d->name,ex_name);
@@ -222,7 +222,7 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     v.connectToDownloadSignalsOfItems();
     v.pushFirstDownloadButton();
 
-    FreeFit::GUI::NewExerciseDemand d = v.getLastDemand();
+    FreeFit::GUI::DownloadExerciseDemand d = v.getLastDemand();
 
     auto it = d.muscle_areas.begin();
     ASSERT_EQ(d.name,ex_name);
@@ -249,7 +249,7 @@ TEST(NewExerciseDemandHandler, AddDemand)
 {
     FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerAddDemand.xml");
     FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
-    std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = std::make_shared<FreeFit::GUI::DownloadExerciseDemand>();
     d->name = "Pushup";
     d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
     d->video_start_time = "35";
@@ -263,7 +263,7 @@ TEST(NewExerciseDemandHandler, AddDemand)
 TEST(NewExerciseDemandHandler, ExecuteDemand)
 {
     FreeFit::Data::NewExerciseDemandHandler h("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerExecuteDemand.xml");
-    std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = std::make_shared<FreeFit::GUI::DownloadExerciseDemand>();
     d->name = "Situp";
     d->video_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
     d->video_start_time = "50";
@@ -317,7 +317,7 @@ TEST(NewExerciseDemandHandler, AddExerciseToExistingXML)
 {
     std::string xml_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerAddExerciseToExistingXML.xml";
     FreeFit::Data::NewExerciseDemandHandler h(xml_path);
-    std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = std::make_shared<FreeFit::GUI::DownloadExerciseDemand>();
     d->name = "Situp";
     d->video_url = "https://www.youtube.com/watch?v=v7jhAYyNMuE";
     d->video_start_time = "50";
@@ -379,7 +379,7 @@ TEST(NewExerciseDemandHandler, AddExistingExerciseToExistingXML)
 {
     std::string xml_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NewExerciseDemandHandlerAddExistingExerciseToExistingXML.xml";
     FreeFit::Data::NewExerciseDemandHandler h(xml_path);
-    std::shared_ptr<FreeFit::GUI::NewExerciseDemand> d = std::make_shared<FreeFit::GUI::NewExerciseDemand>();
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = std::make_shared<FreeFit::GUI::DownloadExerciseDemand>();
     d->name = "Situp";
     d->video_url = "https://www.youtube.com/watch?v=v7jhAYyNMuE";
     d->video_start_time = "50";

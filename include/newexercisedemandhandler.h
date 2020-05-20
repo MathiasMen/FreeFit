@@ -41,7 +41,7 @@ namespace FreeFit
                     return std::list<Exercise>();
             }
 
-            void addDemand(std::shared_ptr<GUI::NewExerciseDemand> d)
+            void addDemand(std::shared_ptr<GUI::DownloadExerciseDemand> d)
             {
                 demands.push(d);
             }
@@ -56,7 +56,7 @@ namespace FreeFit
                 std::list<FreeFit::Data::Exercise> lst;
                 while(!demands.empty())
                 {
-                    std::shared_ptr<GUI::NewExerciseDemand> d = demands.front();
+                    std::shared_ptr<GUI::DownloadExerciseDemand> d = demands.front();
                     Exercise e;
                     e.setName(d->name);
                     for (auto a : d->muscle_areas)
@@ -103,7 +103,7 @@ namespace FreeFit
                     return FreeFit::Data::MuscleGroup::Error;
             }
 
-            std::queue<std::shared_ptr<GUI::NewExerciseDemand>> demands;
+            std::queue<std::shared_ptr<GUI::DownloadExerciseDemand>> demands;
             std::string path_to_db;
             std::shared_ptr<BaseXMLReader> r;
             std::shared_ptr<ExerciseWriter> w;
