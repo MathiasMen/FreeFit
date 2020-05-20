@@ -27,6 +27,7 @@
 #include "include/downloadexercisedemandhandler.h"
 #include "include/profile.h"
 #include "include/exercise.h"
+#include "include/datadefinitions.h"
 #include "include/xmlreader.h"
 
 namespace FreeFit
@@ -61,7 +62,7 @@ namespace FreeFit
                     this->setStyleSheet("");
             }
         private:
-            bool toggled;
+            bool toggled = false;
         };
 
         class ClickableLabel : public QLabel
@@ -273,6 +274,9 @@ namespace FreeFit
             std::string getURL(){return url->getContent();};
             void setURL(std::string u){url->setContent(u);};
 
+            std::string getVideoPath(){return video_path;};
+            void setVideoPath(std::string p){video_path = p;};
+
             std::string getVideoStartTime(){return start_time->getContent();};
             void setVideoStartTime(std::string t){start_time->setContent(t);}
 
@@ -387,6 +391,7 @@ namespace FreeFit
             MuscleGroups muscle_definitions;
             std::vector<ToggleableLabel*> hashtag_labels;
             bool unchanged = true;
+            std::string video_path = "";
         signals:
             void deleteItemTriggered(ExerciseItem*);
             void downloadItemTriggered(ExerciseItem*);
@@ -397,7 +402,9 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p),r(t_p.getPathToExerciseDB()),demand_handler()
+            ExerciseEditor(FreeFit::Data::Profile t_p)
+                :   p(t_p),demand_handler(),
+                    r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
             {                
                 ly = new QGridLayout(this);
 
@@ -418,11 +425,10 @@ namespace FreeFit
                 scroll_area = new QScrollArea(this);
                 scroll_area->setWidget(exercise_area);
                 scroll_area->setWidgetResizable(true);
+
+                r.read();
                 for (auto e_data : r.getExerciseList())
-                {
-                    ExerciseItem* e = addExistingExercise(e_data);
-                    e->highlightAsOldAndValid();
-                }
+                    addExistingExercise(e_data);
 
                 if (exercise_items.empty())
                     addExercise();
@@ -441,38 +447,82 @@ namespace FreeFit
             QVBoxLayout* exercise_area_ly;                
             QScrollArea* scroll_area;
             QGridLayout* ly;
-            std::set<ExerciseItem*> exercise_items;
+            std::list<ExerciseItem*> exercise_items;
 
             FreeFit::Data::Profile p;
             FreeFit::Data::BaseXMLReader r;
+            FreeFit::Data::ExerciseWriter w;
             FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
+        public slots:
+            void accept() override
+            {   
+                std::list<FreeFit::Data::Exercise> lst;
+                for (auto e : exercise_items)
+                    lst.push_back(exerciseItemToData(e));
+                w.createNodeTree(lst);
+                w.write();
+                QDialog::accept();
+            }
         private slots:
+            FreeFit::Data::MuscleGroup stringToMuscleGroup(std::string s)
+            {
+                if (s == "Shoulder")
+                    return FreeFit::Data::MuscleGroup::Shoulder;
+                else if (s == "Back")
+                    return FreeFit::Data::MuscleGroup::Back;
+                else if (s == "Chest")
+                    return FreeFit::Data::MuscleGroup::Chest;
+                else if (s == "Abs")
+                    return FreeFit::Data::MuscleGroup::Abs;
+                else if (s == "Arms")
+                    return FreeFit::Data::MuscleGroup::Arms;
+                else if (s == "Legs")
+                    return FreeFit::Data::MuscleGroup::Legs;
+                else
+                    return FreeFit::Data::MuscleGroup::Error;
+            }
+
+            FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e)
+            {
+                FreeFit::Data::Exercise e_dat;
+                e_dat.setName(e->getName());
+                e_dat.setVideoURL(e->getURL());
+                e_dat.setVideoPath(e->getVideoPath());
+                e_dat.setVideoStartTime(e->getVideoStartTime());
+                e_dat.setVideoEndTime(e->getVideoEndTime());
+                for (auto m : e->getMuscleAreas())
+                    e_dat.addTrainedMuscle(stringToMuscleGroup(m));
+
+                return e_dat;
+            }
+
             void registerExerciseItem(ExerciseItem* e)
             {
                 exercise_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
-                exercise_items.insert(e);
+                exercise_items.push_back(e);
                 repaintExerciseBackgrounds();
             }
 
-            ExerciseItem* addExercise()
+            void addExercise()
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 registerExerciseItem(e);
-                return e;
             }
 
-            ExerciseItem* addExistingExercise(FreeFit::Data::Exercise e_dat)
+            void addExistingExercise(FreeFit::Data::Exercise e_dat)
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 e->setName(e_dat.getName());
+                e->setVideoPath(e_dat.getVideoPath());
                 e->setURL(e_dat.getVideoURL());
                 e->setMuscleAreas(e_dat.getTrainedMuscles());
                 e->setVideoStartTime(e_dat.getVideoStartTime());
                 e->setVideoEndTime(e_dat.getVideoEndTime());
+
                 registerExerciseItem(e);
-                return e;
+                e->highlightAsOldAndValid();
             }
 
             void repaintExerciseBackgrounds()
@@ -503,7 +553,10 @@ namespace FreeFit
             void downloadExercise(ExerciseItem* e)
             {
                 if(e->inputIsValid())
-                    demand_handler.executeDemand(generateDownloadExerciseDemand(e));
+                {
+                    FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
+                    e->setVideoPath(e_dat.getVideoPath());
+                }
                 else
                     e->highlightAsFaulty();
             }
@@ -516,7 +569,7 @@ namespace FreeFit
             
             void deleteExercise(ExerciseItem* e)
             {
-                exercise_items.erase(e);
+                exercise_items.remove(e);
                 exercise_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
                 delete e;
@@ -579,6 +632,40 @@ namespace FreeFit
                 e->hashtag_labels[id]->clicked();
             }
 
+            void setLastExerciseNameText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->name->le->setText(QString::fromStdString(s));
+                e->name->le->textMessageBecauseFocusLost(e->name->le->text());
+            }
+
+            void setLastExerciseURLText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->url->le->setText(QString::fromStdString(s));
+                e->url->le->textMessageBecauseFocusLost(e->url->le->text());
+            }
+
+            void setLastExerciseStartTimeText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->start_time->le->setText(QString::fromStdString(s));
+                e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
+            }
+
+            void setLastExerciseStopTimeText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->stop_time->le->setText(QString::fromStdString(s));
+                e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
+            }
+
+            void setLastExerciseMuscleArea(int id)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->hashtag_labels[id]->clicked();
+            }
+
             bool isFirstExerciseNameValid()
             {
                 ExerciseItem* e = *(ee->exercise_items.begin());
@@ -612,6 +699,12 @@ namespace FreeFit
             void pushFirstDownloadButton()
             {
                 ExerciseItem* e = *(ee->exercise_items.begin());
+                e->download_item->click();
+            }
+
+            void pushLastDownloadButton()
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
                 e->download_item->click();
             }
 
