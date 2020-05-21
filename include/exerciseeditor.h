@@ -16,6 +16,7 @@
 #include <QStyle>
 #include <QListWidget>
 #include <QDialogButtonBox>
+#include <QSize>
 
 #include <iostream>
 #include <set>

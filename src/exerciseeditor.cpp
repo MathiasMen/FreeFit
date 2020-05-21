@@ -99,7 +99,7 @@ namespace FreeFit
             url_label = new QLabel("Youtube-URL:",this);
             start_time_label = new QLabel("Start Time:",this);
             stop_time_label = new QLabel("Stop Time:",this);
-
+            
             name_label->setToolTip("No special characters allowed.");
             url_label->setToolTip("Youtube-links only.");
             start_time_label->setToolTip("Enter seconds between 0 and 999.");
@@ -109,6 +109,19 @@ namespace FreeFit
             url         = new EditableLine("...",this);
             start_time  = new EditableLine("...",this);
             stop_time   = new EditableLine("...",this);
+
+            const int edit_line_width = 180;
+            const int edit_label_and_line_height = 18;
+
+            name_label->setFixedHeight(edit_label_and_line_height);
+            url_label->setFixedHeight(edit_label_and_line_height);
+            start_time_label->setFixedHeight(edit_label_and_line_height);
+            stop_time_label->setFixedHeight(edit_label_and_line_height);
+
+            name->setFixedSize(edit_line_width,edit_label_and_line_height);
+            url->setFixedSize(edit_line_width,edit_label_and_line_height);
+            start_time->setFixedSize(edit_line_width,edit_label_and_line_height);
+            stop_time->setFixedSize(edit_line_width,edit_label_and_line_height);
 
             std::regex name_regex("[a-zA-Z0-9\\s]{1,256}");
             auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
