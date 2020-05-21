@@ -8,6 +8,7 @@
 #include "include/xmlnode.h"
 #include "include/exercise.h"
 #include "include/downloadexercisedemand.h"
+#include "include/datadefinitions.h"
 #include "include/youtubedownloader.h"
 
 namespace FreeFit
@@ -51,25 +52,6 @@ namespace FreeFit
                 else
                     yt->download(url,out_path);
             }
-
-            FreeFit::Data::MuscleGroup stringToMuscleGroup(std::string s)
-            {
-                if (s == "Shoulder")
-                    return FreeFit::Data::MuscleGroup::Shoulder;
-                else if (s == "Back")
-                    return FreeFit::Data::MuscleGroup::Back;
-                else if (s == "Chest")
-                    return FreeFit::Data::MuscleGroup::Chest;
-                else if (s == "Abs")
-                    return FreeFit::Data::MuscleGroup::Abs;
-                else if (s == "Arms")
-                    return FreeFit::Data::MuscleGroup::Arms;
-                else if (s == "Legs")
-                    return FreeFit::Data::MuscleGroup::Legs;
-                else
-                    return FreeFit::Data::MuscleGroup::Error;
-            }
-
             std::shared_ptr<VideoDownload::YoutubeDL> yt;
         };
 

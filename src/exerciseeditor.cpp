@@ -290,7 +290,7 @@ namespace FreeFit
             e_dat.setVideoStartTime(e->getVideoStartTime());
             e_dat.setVideoEndTime(e->getVideoEndTime());
             for (auto m : e->getMuscleAreas())
-                e_dat.addTrainedMuscle(stringToMuscleGroup(m));
+                e_dat.addTrainedMuscle(FreeFit::Data::stringToMuscleGroup(m));
 
             return e_dat;
         }

@@ -202,24 +202,6 @@ namespace FreeFit
         public slots:
             void accept() override;
         private slots:
-            FreeFit::Data::MuscleGroup stringToMuscleGroup(std::string s)
-            {
-                if (s == "Shoulder")
-                    return FreeFit::Data::MuscleGroup::Shoulder;
-                else if (s == "Back")
-                    return FreeFit::Data::MuscleGroup::Back;
-                else if (s == "Chest")
-                    return FreeFit::Data::MuscleGroup::Chest;
-                else if (s == "Abs")
-                    return FreeFit::Data::MuscleGroup::Abs;
-                else if (s == "Arms")
-                    return FreeFit::Data::MuscleGroup::Arms;
-                else if (s == "Legs")
-                    return FreeFit::Data::MuscleGroup::Legs;
-                else
-                    return FreeFit::Data::MuscleGroup::Error;
-            }
-
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             void registerExerciseItem(ExerciseItem* e);
             void addExercise();
