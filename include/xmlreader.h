@@ -20,18 +20,6 @@ namespace FreeFit
             BaseXMLReader(std::string f);
 
             std::shared_ptr<XMLNode> read();
-
-            std::list<Exercise> getExerciseList()
-            {
-                std::shared_ptr<XMLNode> n = read();
-                if(n)
-                {
-                    ExerciseTreeParser p;
-                    return p.parse(n);
-                }
-                else
-                    return std::list<Exercise>();
-            }
         private:
 
             void createNodeTree();
@@ -45,6 +33,13 @@ namespace FreeFit
 
             std::string filepath;
             std::shared_ptr<XMLNode> root;
+        };
+
+        class ExerciseXMLReader : public BaseXMLReader
+        {
+        public:
+            ExerciseXMLReader(std::string f):BaseXMLReader(f){}
+            std::list<Exercise> getExerciseList();
         };        
     }
 }

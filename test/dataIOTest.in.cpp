@@ -251,7 +251,7 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTreeAndReturnExerciseList)
     w.createNodeTree(l_out);
     w.write();
 
-    FreeFit::Data::BaseXMLReader r(out_path);
+    FreeFit::Data::ExerciseXMLReader r(out_path);
     std::list<FreeFit::Data::Exercise> l_in = r.getExerciseList();
 
     ASSERT_EQ(l_out.begin()->getName(),l_in.begin()->getName());

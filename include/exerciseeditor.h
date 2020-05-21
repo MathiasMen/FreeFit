@@ -196,7 +196,7 @@ namespace FreeFit
             std::list<ExerciseItem*> exercise_items;
 
             FreeFit::Data::Profile p;
-            FreeFit::Data::BaseXMLReader r;
+            FreeFit::Data::ExerciseXMLReader r;
             FreeFit::Data::ExerciseWriter w;
             FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
         public slots:

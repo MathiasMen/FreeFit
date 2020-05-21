@@ -96,5 +96,16 @@ namespace FreeFit
                 str.erase(pos, sub_str.length());
         }
 
+        std::list<Exercise> ExerciseXMLReader::getExerciseList()
+        {
+            std::shared_ptr<XMLNode> n = read();
+            if(n)
+            {
+                ExerciseTreeParser p;
+                return p.parse(n);
+            }
+            else
+                return std::list<Exercise>();
+        }
     }
 }
