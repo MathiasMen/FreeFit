@@ -7,7 +7,7 @@ namespace FreeFit
 {
     namespace GUI
     {
-        struct NewExerciseDemand
+        struct DownloadExerciseDemand
         {
             std::string name;
             std::string video_url;

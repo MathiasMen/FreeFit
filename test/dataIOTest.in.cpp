@@ -6,6 +6,7 @@
 #include "include/xmlwriter.h"
 #include "include/xmlreader.h"
 #include "include/parser.h"
+#include "include/exercise.h"
 #include <regex>
 
 int main(int argc, char** argv)
@@ -227,6 +228,43 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     ASSERT_EQ(l_in.rbegin()->getVideoEndTime(),"4");
     ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Legs),0);
 }
+
+TEST_F(ExerciseXMLTest, ParseXMLNodeTreeAndReturnExerciseList)
+{
+    FreeFit::Data::Exercise e1,e2;
+    e1.setName("TestExercise1");
+    e1.setVideoURL("https://www.youtube.com/watch?v=stuvwxyz123");
+    e1.setVideoStartTime("1");
+    e1.setVideoEndTime("2");
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
+    e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
+
+    e2.setName("TestExercise2");
+    e2.setVideoURL("https://www.youtube.com/watch?v=abcdefghijk");
+    e2.setVideoStartTime("3");
+    e2.setVideoEndTime("4");
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Arms);
+    e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
+
+    std::list<FreeFit::Data::Exercise> l_out {e1,e2};
+    FreeFit::Data::ExerciseWriter w(out_path);
+    w.createNodeTree(l_out);
+    w.write();
+
+    FreeFit::Data::BaseXMLReader r(out_path);
+    std::list<FreeFit::Data::Exercise> l_in = r.getExerciseList();
+
+    ASSERT_EQ(l_out.begin()->getName(),l_in.begin()->getName());
+    ASSERT_EQ(l_out.begin()->getVideoURL(),l_in.begin()->getVideoURL());
+    ASSERT_EQ(l_out.begin()->getVideoStartTime(),l_in.begin()->getVideoStartTime());
+    ASSERT_EQ(l_out.begin()->getVideoEndTime(),l_in.begin()->getVideoEndTime());
+
+    ASSERT_EQ(l_out.rbegin()->getName(),l_in.rbegin()->getName());
+    ASSERT_EQ(l_out.rbegin()->getVideoURL(),l_in.rbegin()->getVideoURL());
+    ASSERT_EQ(l_out.rbegin()->getVideoStartTime(),l_in.rbegin()->getVideoStartTime());
+    ASSERT_EQ(l_out.rbegin()->getVideoEndTime(),l_in.rbegin()->getVideoEndTime());
+}
+
 
 class ProfileXMLTest : public ::testing::Test
 {

@@ -23,10 +23,12 @@
 #include <regex>
 #include <memory>
 
-#include "include/newexercisedemand.h"
-#include "include/newexercisedemandhandler.h"
+#include "include/downloadexercisedemand.h"
+#include "include/downloadexercisedemandhandler.h"
 #include "include/profile.h"
 #include "include/exercise.h"
+#include "include/datadefinitions.h"
+#include "include/xmlreader.h"
 
 namespace FreeFit
 {
@@ -60,7 +62,7 @@ namespace FreeFit
                     this->setStyleSheet("");
             }
         private:
-            bool toggled;
+            bool toggled = false;
         };
 
         class ClickableLabel : public QLabel
@@ -272,6 +274,9 @@ namespace FreeFit
             std::string getURL(){return url->getContent();};
             void setURL(std::string u){url->setContent(u);};
 
+            std::string getVideoPath(){return video_path;};
+            void setVideoPath(std::string p){video_path = p;};
+
             std::string getVideoStartTime(){return start_time->getContent();};
             void setVideoStartTime(std::string t){start_time->setContent(t);}
 
@@ -386,6 +391,7 @@ namespace FreeFit
             MuscleGroups muscle_definitions;
             std::vector<ToggleableLabel*> hashtag_labels;
             bool unchanged = true;
+            std::string video_path = "";
         signals:
             void deleteItemTriggered(ExerciseItem*);
             void downloadItemTriggered(ExerciseItem*);
@@ -396,7 +402,9 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            ExerciseEditor(FreeFit::Data::Profile t_p) : p(t_p),demand_handler(t_p.getPathToExerciseDB())
+            ExerciseEditor(FreeFit::Data::Profile t_p)
+                :   p(t_p),demand_handler(),
+                    r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
             {                
                 ly = new QGridLayout(this);
 
@@ -417,13 +425,12 @@ namespace FreeFit
                 scroll_area = new QScrollArea(this);
                 scroll_area->setWidget(exercise_area);
                 scroll_area->setWidgetResizable(true);
-                for (auto e_data : demand_handler.getExerciseList())
-                {
-                    ExerciseItem* e = addExistingExercise(e_data);
-                    e->highlightAsOldAndValid();
-                }
 
-                if (exercises_to_download.empty())
+                r.read();
+                for (auto e_data : r.getExerciseList())
+                    addExistingExercise(e_data);
+
+                if (exercise_items.empty())
                     addExercise();
 
                 ly->addWidget(add_button,0,0,1,1);
@@ -440,43 +447,88 @@ namespace FreeFit
             QVBoxLayout* exercise_area_ly;                
             QScrollArea* scroll_area;
             QGridLayout* ly;
-            std::set<ExerciseItem*> exercises_to_download;
+            std::list<ExerciseItem*> exercise_items;
 
             FreeFit::Data::Profile p;
-            FreeFit::Data::NewExerciseDemandHandler demand_handler;
+            FreeFit::Data::BaseXMLReader r;
+            FreeFit::Data::ExerciseWriter w;
+            FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
+        public slots:
+            void accept() override
+            {   
+                std::list<FreeFit::Data::Exercise> lst;
+                for (auto e : exercise_items)
+                    lst.push_back(exerciseItemToData(e));
+                w.createNodeTree(lst);
+                w.write();
+                QDialog::accept();
+            }
         private slots:
+            FreeFit::Data::MuscleGroup stringToMuscleGroup(std::string s)
+            {
+                if (s == "Shoulder")
+                    return FreeFit::Data::MuscleGroup::Shoulder;
+                else if (s == "Back")
+                    return FreeFit::Data::MuscleGroup::Back;
+                else if (s == "Chest")
+                    return FreeFit::Data::MuscleGroup::Chest;
+                else if (s == "Abs")
+                    return FreeFit::Data::MuscleGroup::Abs;
+                else if (s == "Arms")
+                    return FreeFit::Data::MuscleGroup::Arms;
+                else if (s == "Legs")
+                    return FreeFit::Data::MuscleGroup::Legs;
+                else
+                    return FreeFit::Data::MuscleGroup::Error;
+            }
+
+            FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e)
+            {
+                FreeFit::Data::Exercise e_dat;
+                e_dat.setName(e->getName());
+                e_dat.setVideoURL(e->getURL());
+                e_dat.setVideoPath(e->getVideoPath());
+                e_dat.setVideoStartTime(e->getVideoStartTime());
+                e_dat.setVideoEndTime(e->getVideoEndTime());
+                for (auto m : e->getMuscleAreas())
+                    e_dat.addTrainedMuscle(stringToMuscleGroup(m));
+
+                return e_dat;
+            }
+
             void registerExerciseItem(ExerciseItem* e)
             {
                 exercise_area_ly->addWidget(e);
                 connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
-                exercises_to_download.insert(e);
+                exercise_items.push_back(e);
                 repaintExerciseBackgrounds();
             }
 
-            ExerciseItem* addExercise()
+            void addExercise()
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 registerExerciseItem(e);
-                return e;
             }
 
-            ExerciseItem* addExistingExercise(FreeFit::Data::Exercise e_dat)
+            void addExistingExercise(FreeFit::Data::Exercise e_dat)
             {
                 ExerciseItem* e = new ExerciseItem(this);
                 e->setName(e_dat.getName());
+                e->setVideoPath(e_dat.getVideoPath());
                 e->setURL(e_dat.getVideoURL());
                 e->setMuscleAreas(e_dat.getTrainedMuscles());
                 e->setVideoStartTime(e_dat.getVideoStartTime());
                 e->setVideoEndTime(e_dat.getVideoEndTime());
+
                 registerExerciseItem(e);
-                return e;
+                e->highlightAsOldAndValid();
             }
 
             void repaintExerciseBackgrounds()
             {
                 unsigned int e_counter = 0;
-                for (auto e : exercises_to_download)
+                for (auto e : exercise_items)
                 {
                     if(e_counter % 2 == 0)
                         e->setDefaultBackgroundColor("darkgray");
@@ -487,9 +539,9 @@ namespace FreeFit
                 }
             }
 
-            NewExerciseDemand* generateNewExerciseDemand(ExerciseItem* e)
+            std::shared_ptr<DownloadExerciseDemand> generateDownloadExerciseDemand(ExerciseItem* e)
             {
-                NewExerciseDemand* d = new NewExerciseDemand();
+                std::shared_ptr<DownloadExerciseDemand> d = std::make_shared<DownloadExerciseDemand>();
                 d->name = e->getName();
                 d->video_url = e->getURL();
                 d->video_start_time = e->getVideoStartTime();
@@ -502,8 +554,8 @@ namespace FreeFit
             {
                 if(e->inputIsValid())
                 {
-                    demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
-                    demand_handler.executeDemands();
+                    FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
+                    e->setVideoPath(e_dat.getVideoPath());
                 }
                 else
                     e->highlightAsFaulty();
@@ -511,19 +563,13 @@ namespace FreeFit
 
             void downloadAllExercises()
             {
-                for(auto e : exercises_to_download)
-                {
-                    if(e->inputIsValid())
-                        demand_handler.addDemand(std::shared_ptr<GUI::NewExerciseDemand>(generateNewExerciseDemand(e)));
-                    else
-                        e->highlightAsFaulty();
-                }
-                demand_handler.executeDemands();
+                for(auto e : exercise_items)
+                    downloadExercise(e);
             }
             
             void deleteExercise(ExerciseItem* e)
             {
-                exercises_to_download.erase(e);
+                exercise_items.remove(e);
                 exercise_area_ly->removeWidget(e);
                 disconnect(e,nullptr,nullptr,nullptr);
                 delete e;
@@ -544,98 +590,138 @@ namespace FreeFit
 
             int getNumberOfExercises()
             {
-                return ee->exercises_to_download.size();
+                return ee->exercise_items.size();
             }
 
-            NewExerciseDemand* getFirstExerciseDemand()
+            std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand()
             {
-                return ee->generateNewExerciseDemand(*(ee->exercises_to_download.begin()));
+                return ee->generateDownloadExerciseDemand(*(ee->exercise_items.begin()));
             }
 
             void setFirstExerciseNameText(std::string s)
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 e->name->le->setText(QString::fromStdString(s));
                 e->name->le->textMessageBecauseFocusLost(e->name->le->text());
             }
 
             void setFirstExerciseURLText(std::string s)
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 e->url->le->setText(QString::fromStdString(s));
                 e->url->le->textMessageBecauseFocusLost(e->url->le->text());
             }
 
             void setFirstExerciseStartTimeText(std::string s)
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 e->start_time->le->setText(QString::fromStdString(s));
                 e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
             }
 
             void setFirstExerciseStopTimeText(std::string s)
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 e->stop_time->le->setText(QString::fromStdString(s));
                 e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
             }
 
             void setFirstExerciseMuscleArea(int id)
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
+                e->hashtag_labels[id]->clicked();
+            }
+
+            void setLastExerciseNameText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->name->le->setText(QString::fromStdString(s));
+                e->name->le->textMessageBecauseFocusLost(e->name->le->text());
+            }
+
+            void setLastExerciseURLText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->url->le->setText(QString::fromStdString(s));
+                e->url->le->textMessageBecauseFocusLost(e->url->le->text());
+            }
+
+            void setLastExerciseStartTimeText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->start_time->le->setText(QString::fromStdString(s));
+                e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
+            }
+
+            void setLastExerciseStopTimeText(std::string s)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
+                e->stop_time->le->setText(QString::fromStdString(s));
+                e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
+            }
+
+            void setLastExerciseMuscleArea(int id)
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
                 e->hashtag_labels[id]->clicked();
             }
 
             bool isFirstExerciseNameValid()
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 return e->name->validateText();
             }
 
             bool isFirstExerciseURLValid()
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 return e->url->validateText();
             }
 
             bool isFirstExerciseStartTimeValid()
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 return e->start_time->validateText();
             }
 
             bool isFirstExerciseStopTimeValid()
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 return e->stop_time->validateText();
             }
 
             void connectToDownloadSignalsOfItems()
             {
-                for (auto e : ee->exercises_to_download)
+                for (auto e : ee->exercise_items)
                     connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
             }
 
             void pushFirstDownloadButton()
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
+                e->download_item->click();
+            }
+
+            void pushLastDownloadButton()
+            {
+                ExerciseItem* e = *(ee->exercise_items.rbegin());
                 e->download_item->click();
             }
 
             void pushFirstDeleteButton()
             {
-                ExerciseItem* e = *(ee->exercises_to_download.begin());
+                ExerciseItem* e = *(ee->exercise_items.begin());
                 e->delete_item->click();
             }
 
-            GUI::NewExerciseDemand getLastDemand(){return *last_demand;}
+            GUI::DownloadExerciseDemand getLastDemand(){return *last_demand;}
         private:
             ExerciseEditor* ee;
-            std::shared_ptr<GUI::NewExerciseDemand> last_demand;
+            std::shared_ptr<GUI::DownloadExerciseDemand> last_demand;
         private slots:
             void saveDemandFromDownloadClicked(ExerciseItem* e)
             {
-                last_demand = std::shared_ptr<GUI::NewExerciseDemand>(ee->generateNewExerciseDemand(e));
+                last_demand = std::shared_ptr<GUI::DownloadExerciseDemand>(ee->generateDownloadExerciseDemand(e));
             }
         };
     }

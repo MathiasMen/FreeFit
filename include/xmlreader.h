@@ -5,7 +5,10 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+
 #include "include/xmlnode.h"
+#include "include/exercise.h"
+#include "include/parser.h"
 
 namespace FreeFit
 {
@@ -18,6 +21,17 @@ namespace FreeFit
 
             std::shared_ptr<XMLNode> read();
 
+            std::list<Exercise> getExerciseList()
+            {
+                std::shared_ptr<XMLNode> n = read();
+                if(n)
+                {
+                    ExerciseTreeParser p;
+                    return p.parse(n);
+                }
+                else
+                    return std::list<Exercise>();
+            }
         private:
 
             void createNodeTree();
