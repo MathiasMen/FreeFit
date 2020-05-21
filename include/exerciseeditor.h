@@ -42,25 +42,13 @@ namespace FreeFit
         friend ExerciseEditorValidator;
         public:
             ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent){}
-
             bool isToggled(){return toggled;}
-
             void click(){clicked();};
-        protected:
-            void mousePressEvent(QMouseEvent* ev) override
-            {
-                this->clicked();
-                QLabel::mousePressEvent(ev);
-            }
 
-            void clicked()
-            {
-                toggled = !toggled;
-                if(toggled)
-                    this->setStyleSheet("border-color:blue;color:blue;" );
-                else
-                    this->setStyleSheet("");
-            }
+        protected:
+            void mousePressEvent(QMouseEvent* ev) override;
+            void clicked();
+
         private:
             bool toggled = false;
         };
@@ -73,11 +61,7 @@ namespace FreeFit
             ClickableLabel(QString text,QWidget* parent):QLabel(text,parent){}
 
         protected:
-            void mousePressEvent(QMouseEvent* ev) override
-            {
-                emit labelClicked();
-                QLabel::mousePressEvent(ev);
-            }
+            void mousePressEvent(QMouseEvent* ev) override;
 
         signals:
             void labelClicked();
@@ -90,11 +74,7 @@ namespace FreeFit
         public:
             WriteableLine(QString text, QWidget* parent):QLineEdit(parent){this->setText(text);}
         protected:
-            void focusOutEvent(QFocusEvent* ev)
-            {
-                emit textMessageBecauseFocusLost(this->text());
-                QLineEdit::focusOutEvent(ev);
-            }
+            void focusOutEvent(QFocusEvent* ev);
         signals:
             void textMessageBecauseFocusLost(QString t);
         };

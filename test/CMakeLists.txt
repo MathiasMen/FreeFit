@@ -47,6 +47,7 @@ add_executable( ExerciseGUITest
                 ${CMAKE_SOURCE_DIR}/src/youtubeoptions.cpp
                 ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
                 ${CMAKE_SOURCE_DIR}/src/parser.cpp
+                ${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp
                 ${qt_sources} ${qt_headers} ${moc_sources})
 target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
