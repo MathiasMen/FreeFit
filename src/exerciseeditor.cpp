@@ -375,5 +375,131 @@ namespace FreeFit
             repaintExerciseBackgrounds();
         }
 
+        std::shared_ptr<DownloadExerciseDemand> ExerciseEditorValidator::getFirstExerciseDemand()
+        {
+            return ee->generateDownloadExerciseDemand(*(ee->exercise_items.begin()));
+        }
+
+        void ExerciseEditorValidator::setFirstExerciseNameText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->name->le->setText(QString::fromStdString(s));
+            e->name->le->textMessageBecauseFocusLost(e->name->le->text());
+        }
+
+        void ExerciseEditorValidator::setFirstExerciseURLText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->url->le->setText(QString::fromStdString(s));
+            e->url->le->textMessageBecauseFocusLost(e->url->le->text());
+        }
+
+        void ExerciseEditorValidator::setFirstExerciseStartTimeText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->start_time->le->setText(QString::fromStdString(s));
+            e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
+        }
+
+        void ExerciseEditorValidator::setFirstExerciseStopTimeText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->stop_time->le->setText(QString::fromStdString(s));
+            e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
+        }
+
+        void ExerciseEditorValidator::setFirstExerciseMuscleArea(int id)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->hashtag_labels[id]->clicked();
+        }
+
+        void ExerciseEditorValidator::setLastExerciseNameText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->name->le->setText(QString::fromStdString(s));
+            e->name->le->textMessageBecauseFocusLost(e->name->le->text());
+        }
+
+        void ExerciseEditorValidator::setLastExerciseURLText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->url->le->setText(QString::fromStdString(s));
+            e->url->le->textMessageBecauseFocusLost(e->url->le->text());
+        }
+
+        void ExerciseEditorValidator::setLastExerciseStartTimeText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->start_time->le->setText(QString::fromStdString(s));
+            e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
+        }
+
+        void ExerciseEditorValidator::setLastExerciseStopTimeText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->stop_time->le->setText(QString::fromStdString(s));
+            e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
+        }
+
+        void ExerciseEditorValidator::setLastExerciseMuscleArea(int id)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->hashtag_labels[id]->clicked();
+        }
+
+        bool ExerciseEditorValidator::isFirstExerciseNameValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->name->validateText();
+        }
+
+        bool ExerciseEditorValidator::isFirstExerciseURLValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->url->validateText();
+        }
+
+        bool ExerciseEditorValidator::isFirstExerciseStartTimeValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->start_time->validateText();
+        }
+
+        bool ExerciseEditorValidator::isFirstExerciseStopTimeValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->stop_time->validateText();
+        }
+
+        void ExerciseEditorValidator::connectToDownloadSignalsOfItems()
+        {
+            for (auto e : ee->exercise_items)
+                connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
+        }
+
+        void ExerciseEditorValidator::pushFirstDownloadButton()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->download_item->click();
+        }
+
+        void ExerciseEditorValidator::pushLastDownloadButton()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->download_item->click();
+        }
+
+        void ExerciseEditorValidator::pushFirstDeleteButton()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->delete_item->click();
+        }
+
+        void ExerciseEditorValidator::saveDemandFromDownloadClicked(ExerciseItem* e)
+        {
+            last_demand = std::shared_ptr<GUI::DownloadExerciseDemand>(ee->generateDownloadExerciseDemand(e));
+        }
+
     }
 }

@@ -236,147 +236,34 @@ namespace FreeFit
             Q_OBJECT
         public:
             ExerciseEditorValidator(ExerciseEditor* t_ee):ee(t_ee){};
+            void pushAddButton(){ee->add_button->click();}
+            int getNumberOfExercises(){return ee->exercise_items.size();}
+            std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand();
 
-            void pushAddButton()
-            {
-                ee->add_button->click();
-            }
-
-            int getNumberOfExercises()
-            {
-                return ee->exercise_items.size();
-            }
-
-            std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand()
-            {
-                return ee->generateDownloadExerciseDemand(*(ee->exercise_items.begin()));
-            }
-
-            void setFirstExerciseNameText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->name->le->setText(QString::fromStdString(s));
-                e->name->le->textMessageBecauseFocusLost(e->name->le->text());
-            }
-
-            void setFirstExerciseURLText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->url->le->setText(QString::fromStdString(s));
-                e->url->le->textMessageBecauseFocusLost(e->url->le->text());
-            }
-
-            void setFirstExerciseStartTimeText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->start_time->le->setText(QString::fromStdString(s));
-                e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
-            }
-
-            void setFirstExerciseStopTimeText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->stop_time->le->setText(QString::fromStdString(s));
-                e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
-            }
-
-            void setFirstExerciseMuscleArea(int id)
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->hashtag_labels[id]->clicked();
-            }
-
-            void setLastExerciseNameText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.rbegin());
-                e->name->le->setText(QString::fromStdString(s));
-                e->name->le->textMessageBecauseFocusLost(e->name->le->text());
-            }
-
-            void setLastExerciseURLText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.rbegin());
-                e->url->le->setText(QString::fromStdString(s));
-                e->url->le->textMessageBecauseFocusLost(e->url->le->text());
-            }
-
-            void setLastExerciseStartTimeText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.rbegin());
-                e->start_time->le->setText(QString::fromStdString(s));
-                e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
-            }
-
-            void setLastExerciseStopTimeText(std::string s)
-            {
-                ExerciseItem* e = *(ee->exercise_items.rbegin());
-                e->stop_time->le->setText(QString::fromStdString(s));
-                e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
-            }
-
-            void setLastExerciseMuscleArea(int id)
-            {
-                ExerciseItem* e = *(ee->exercise_items.rbegin());
-                e->hashtag_labels[id]->clicked();
-            }
-
-            bool isFirstExerciseNameValid()
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                return e->name->validateText();
-            }
-
-            bool isFirstExerciseURLValid()
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                return e->url->validateText();
-            }
-
-            bool isFirstExerciseStartTimeValid()
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                return e->start_time->validateText();
-            }
-
-            bool isFirstExerciseStopTimeValid()
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                return e->stop_time->validateText();
-            }
-
-            void connectToDownloadSignalsOfItems()
-            {
-                for (auto e : ee->exercise_items)
-                    connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
-            }
-
-            void pushFirstDownloadButton()
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->download_item->click();
-            }
-
-            void pushLastDownloadButton()
-            {
-                ExerciseItem* e = *(ee->exercise_items.rbegin());
-                e->download_item->click();
-            }
-
-            void pushFirstDeleteButton()
-            {
-                ExerciseItem* e = *(ee->exercise_items.begin());
-                e->delete_item->click();
-            }
-
+            void setFirstExerciseNameText(std::string s);
+            void setFirstExerciseURLText(std::string s);
+            void setFirstExerciseStartTimeText(std::string s);
+            void setFirstExerciseStopTimeText(std::string s);
+            void setFirstExerciseMuscleArea(int id);
+            void setLastExerciseNameText(std::string s);
+            void setLastExerciseURLText(std::string s);
+            void setLastExerciseStartTimeText(std::string s);
+            void setLastExerciseStopTimeText(std::string s);
+            void setLastExerciseMuscleArea(int id);
+            bool isFirstExerciseNameValid();
+            bool isFirstExerciseURLValid();
+            bool isFirstExerciseStartTimeValid();
+            bool isFirstExerciseStopTimeValid();
+            void connectToDownloadSignalsOfItems();
+            void pushFirstDownloadButton();
+            void pushLastDownloadButton();
+            void pushFirstDeleteButton();
             GUI::DownloadExerciseDemand getLastDemand(){return *last_demand;}
         private:
             ExerciseEditor* ee;
             std::shared_ptr<GUI::DownloadExerciseDemand> last_demand;
         private slots:
-            void saveDemandFromDownloadClicked(ExerciseItem* e)
-            {
-                last_demand = std::shared_ptr<GUI::DownloadExerciseDemand>(ee->generateDownloadExerciseDemand(e));
-            }
+            void saveDemandFromDownloadClicked(ExerciseItem* e);
         };
     }
 }
