@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <memory>
+#include <cstdio>
 
 #include <QDialog>
 
@@ -318,6 +319,7 @@ TEST_F(ExerciseEditor, XMLOutput)
     std::string ex_end = "53";
     
     std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/XMLOutput.xml";
+    const int result = std::remove(out_path.c_str());
     QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB(out_path);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
