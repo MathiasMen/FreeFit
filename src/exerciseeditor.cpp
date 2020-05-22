@@ -246,6 +246,42 @@ namespace FreeFit
             style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
         }
 
+        ExerciseEditorBrowser::ExerciseEditorBrowser(QWidget* parent) : QWidget(parent)
+        {
+            this->setMinimumSize(600,600);
+            this->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+            ly = new QVBoxLayout(this);
+
+            browser = new QWebEngineView(this);
+            address = new QLineEdit(start_url,this);
+
+            connect(address,&QLineEdit::returnPressed,this,&ExerciseEditorBrowser::addressEnterPressed);
+            connect(browser,&QWebEngineView::loadStarted,this,&ExerciseEditorBrowser::browserStartedLoading);
+
+            browser->load(start_url);
+
+            ly->addWidget(address);
+            ly->addWidget(browser);
+            this->setLayout(ly);
+        }
+
+        void ExerciseEditorBrowser::addressEnterPressed()
+        {
+            if (validateAddress())
+                browser->load(QUrl(address->text()));
+        }
+
+        void ExerciseEditorBrowser::browserStartedLoading()
+        {
+            address->setText(browser->url().toString());
+        }
+
+        bool ExerciseEditorBrowser::validateAddress()
+        {
+            std::regex url_regex("https:\\/\\/www\\.youtube\\.com.*");
+            return std::regex_match(address->text().toStdString(),url_regex);
+        }
+
         ExerciseEditor::ExerciseEditor(FreeFit::Data::Profile t_p)
             :   p(t_p),demand_handler(),
                 r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())

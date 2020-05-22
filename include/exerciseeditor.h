@@ -186,42 +186,12 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            ExerciseEditorBrowser(QWidget* parent = nullptr) : QWidget(parent)
-            {
-                this->setMinimumSize(600,600);
-                this->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-                ly = new QVBoxLayout(this);
-
-                browser = new QWebEngineView(this);
-                address = new QLineEdit(start_url,this);
-
-                connect(address,&QLineEdit::returnPressed,this,&ExerciseEditorBrowser::addressEnterPressed);
-                connect(browser,&QWebEngineView::loadStarted,this,&ExerciseEditorBrowser::browserStartedLoading);
-
-                browser->load(start_url);
-
-                ly->addWidget(address);
-                ly->addWidget(browser);
-                this->setLayout(ly);
-            }
+            ExerciseEditorBrowser(QWidget* parent = nullptr);
         private slots:
-            void addressEnterPressed()
-            {
-                if (validateAddress())
-                    browser->load(QUrl(address->text()));
-            }
-
-            void browserStartedLoading()
-            {
-                address->setText(browser->url().toString());
-            }
-
+            void addressEnterPressed();
+            void browserStartedLoading();
         private:
-            bool validateAddress()
-            {
-                std::regex url_regex("https:\\/\\/www\\.youtube\\.com.*");
-                return std::regex_match(address->text().toStdString(),url_regex);
-            }
+            bool validateAddress();
 
             QVBoxLayout* ly;
             QWebEngineView* browser;
