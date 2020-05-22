@@ -182,46 +182,14 @@ namespace FreeFit
             void downloadItemTriggered(ExerciseItem*);
         };
 
-        class ExerciseEditor : public QDialog
-        {
-            Q_OBJECT
-        friend ExerciseEditorValidator;
-        public:
-            ExerciseEditor(FreeFit::Data::Profile t_p);
-        private:
-            QDialogButtonBox* button_box;
-            QPushButton* add_button;
-            QPushButton* download_all_button;
-            QWidget* exercise_area;        
-            QVBoxLayout* exercise_area_ly;                
-            QScrollArea* scroll_area;
-            QGridLayout* ly;
-            std::list<ExerciseItem*> exercise_items;
-
-            FreeFit::Data::Profile p;
-            FreeFit::Data::ExerciseXMLReader r;
-            FreeFit::Data::ExerciseWriter w;
-            FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
-        public slots:
-            void accept() override;
-        private slots:
-            FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
-            void registerExerciseItem(ExerciseItem* e);
-            void addExercise();
-            void addExistingExercise(FreeFit::Data::Exercise e_dat);
-            void repaintExerciseBackgrounds();
-            std::shared_ptr<DownloadExerciseDemand> generateDownloadExerciseDemand(ExerciseItem* e);
-            void downloadExercise(ExerciseItem* e);
-            void downloadAllExercises();            
-            void deleteExercise(ExerciseItem* e);
-        };
-
         class ExerciseEditorBrowser : public QWidget
         {
         Q_OBJECT
         public:
-            ExerciseEditorBrowser()
+            ExerciseEditorBrowser(QWidget* parent = nullptr) : QWidget(parent)
             {
+                this->setMinimumSize(600,600);
+                this->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
                 ly = new QVBoxLayout(this);
 
                 browser = new QWebEngineView(this);
@@ -260,6 +228,41 @@ namespace FreeFit
             QLineEdit* address;
 
             const QString start_url = "https://www.youtube.com";
+        };
+
+        class ExerciseEditor : public QDialog
+        {
+            Q_OBJECT
+        friend ExerciseEditorValidator;
+        public:
+            ExerciseEditor(FreeFit::Data::Profile t_p);
+        private:
+            QDialogButtonBox* button_box;
+            QPushButton* add_button;
+            QPushButton* download_all_button;
+            QWidget* exercise_area;        
+            QVBoxLayout* exercise_area_ly;                
+            QScrollArea* scroll_area;
+            ExerciseEditorBrowser* browser;
+            QGridLayout* ly;
+            std::list<ExerciseItem*> exercise_items;
+
+            FreeFit::Data::Profile p;
+            FreeFit::Data::ExerciseXMLReader r;
+            FreeFit::Data::ExerciseWriter w;
+            FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
+        public slots:
+            void accept() override;
+        private slots:
+            FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
+            void registerExerciseItem(ExerciseItem* e);
+            void addExercise();
+            void addExistingExercise(FreeFit::Data::Exercise e_dat);
+            void repaintExerciseBackgrounds();
+            std::shared_ptr<DownloadExerciseDemand> generateDownloadExerciseDemand(ExerciseItem* e);
+            void downloadExercise(ExerciseItem* e);
+            void downloadAllExercises();            
+            void deleteExercise(ExerciseItem* e);
         };
 
         class ExerciseEditorValidator : public QWidget
