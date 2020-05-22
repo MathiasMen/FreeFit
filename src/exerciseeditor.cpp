@@ -264,10 +264,12 @@ namespace FreeFit
 
             exercise_area = new QWidget(this);
             exercise_area_ly = new QVBoxLayout(exercise_area);
+            exercise_area_ly->addStretch();
             exercise_area->setLayout(exercise_area_ly);
 
             scroll_area = new QScrollArea(this);
             scroll_area->setWidget(exercise_area);
+            scroll_area->setAlignment(Qt::AlignTop);
             scroll_area->setWidgetResizable(true);
 
             r.read();
@@ -313,7 +315,7 @@ namespace FreeFit
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
         {
-            exercise_area_ly->addWidget(e);
+            exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             exercise_items.push_back(e);
