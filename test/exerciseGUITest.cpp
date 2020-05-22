@@ -489,3 +489,11 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     ss << f.rdbuf();
     ASSERT_EQ(ss.str(),expected_exercises_xml);
 }
+
+TEST(ExerciseEditorBrowser, Init)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ExerciseEditorBrowser b;
+    b.show();
+    a.exec();
+}

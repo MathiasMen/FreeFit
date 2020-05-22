@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(FreeFit CXX)
 
 set(CMAKE_PREFIX_PATH /Users/mathias/Qt/5.12.6/clang_64)
-find_package(Qt5 COMPONENTS REQUIRED Core Gui Widgets)
+find_package(Qt5 COMPONENTS REQUIRED Core Gui Widgets WebEngineWidgets)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

@@ -17,6 +17,8 @@
 #include <QListWidget>
 #include <QDialogButtonBox>
 #include <QSize>
+#include <QWebEngineView>
+#include <QKeyEvent>
 
 #include <iostream>
 #include <set>
@@ -212,6 +214,52 @@ namespace FreeFit
             void downloadExercise(ExerciseItem* e);
             void downloadAllExercises();            
             void deleteExercise(ExerciseItem* e);
+        };
+
+        class ExerciseEditorBrowser : public QWidget
+        {
+        Q_OBJECT
+        public:
+            ExerciseEditorBrowser()
+            {
+                ly = new QVBoxLayout(this);
+
+                browser = new QWebEngineView(this);
+                address = new QLineEdit(start_url,this);
+
+                connect(address,&QLineEdit::returnPressed,this,&ExerciseEditorBrowser::addressEnterPressed);
+                connect(browser,&QWebEngineView::loadStarted,this,&ExerciseEditorBrowser::browserStartedLoading);
+
+                browser->load(start_url);
+
+                ly->addWidget(address);
+                ly->addWidget(browser);
+                this->setLayout(ly);
+            }
+        private slots:
+            void addressEnterPressed()
+            {
+                if (validateAddress())
+                    browser->load(QUrl(address->text()));
+            }
+
+            void browserStartedLoading()
+            {
+                address->setText(browser->url().toString());
+            }
+
+        private:
+            bool validateAddress()
+            {
+                std::regex url_regex("https:\\/\\/www\\.youtube\\.com.*");
+                return std::regex_match(address->text().toStdString(),url_regex);
+            }
+
+            QVBoxLayout* ly;
+            QWebEngineView* browser;
+            QLineEdit* address;
+
+            const QString start_url = "https://www.youtube.com";
         };
 
         class ExerciseEditorValidator : public QWidget
