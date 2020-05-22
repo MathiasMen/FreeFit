@@ -54,6 +54,16 @@ target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
 target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets) 
 
+add_executable( ProfileEditorTest
+                profileEditorTest.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+                ${qt_sources} ${qt_headers} ${moc_sources})
+target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
+target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
+target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
