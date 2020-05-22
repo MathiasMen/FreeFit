@@ -4,6 +4,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QDialogButtonBox>
 
 #include "include/profile.h"
 
@@ -28,12 +29,18 @@ namespace FreeFit
                 path_exercises_xml->setText("...");
                 profile_name->setText("...");
 
+                button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+                connect(button_box, &QDialogButtonBox::accepted, this, &QDialog::accept);
+                connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
                 ly->addWidget(label_path_exercises_xml,0,0);
                 ly->addWidget(label_profile_name,1,0);
                 ly->addWidget(path_exercises_xml,0,1);
                 ly->addWidget(profile_name,1,1);
+                ly->addWidget(button_box,2,0,1,2);
             }
         private:
+            FreeFit::Data::Profile p;
             QGridLayout* ly;
 
             QLabel* label_path_exercises_xml;
@@ -42,7 +49,7 @@ namespace FreeFit
             QLineEdit* path_exercises_xml;
             QLineEdit* profile_name;
 
-            FreeFit::Data::Profile p;
+            QDialogButtonBox* button_box; 
         };
     }
 }
