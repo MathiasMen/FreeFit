@@ -279,11 +279,11 @@ namespace FreeFit
 
             browser = new ExerciseEditorBrowser(this);
 
-            ly->addWidget(browser,0,0,5,10,Qt::AlignCenter);
+            ly->addWidget(browser,0,0,5,10);
             ly->addWidget(add_button,0,10,1,1);
             ly->addWidget(download_all_button,0,13,1,1);
             ly->addWidget(scroll_area,1,10,4,4);
-            ly->addWidget(button_box,5,0,1,15,Qt::AlignCenter);
+            ly->addWidget(button_box,5,7);
             this->setLayout(ly);
         }
 
