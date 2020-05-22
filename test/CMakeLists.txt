@@ -61,6 +61,9 @@ qt5_wrap_cpp(profileEditorMocSources ${CMAKE_SOURCE_DIR}/include/profileeditor.h
 add_executable( ProfileEditorTest
                 profileEditorTest.cpp
                 ${profileEditorMocSources}
+                ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+                ${CMAKE_SOURCE_DIR}/src/parser.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
                 )
 target_include_directories(ProfileEditorTest PUBLIC ${test_include_dirs})
 target_link_directories(ProfileEditorTest PUBLIC /usr/local/lib)

@@ -107,5 +107,17 @@ namespace FreeFit
             else
                 return std::list<Exercise>();
         }
+
+        Profile ProfileXMLReader::getProfile()
+        {
+            std::shared_ptr<XMLNode> n = read();
+            if(n)
+            {
+                ProfileTreeParser p;
+                return p.parse(n);
+            }
+            else
+                return Profile();            
+        }
     }
 }

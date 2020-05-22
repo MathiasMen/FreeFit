@@ -7,6 +7,7 @@
 #include <QDialogButtonBox>
 
 #include "include/profile.h"
+#include "include/xmlreader.h"
 
 namespace FreeFit
 {
@@ -16,18 +17,21 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            ProfileEditor(std::string p_path) : QDialog()
+            ProfileEditor(std::string p_path) : QDialog(),r(p_path)
             {
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
+
+                r.read();
+                p = r.getProfile();
 
                 label_path_exercises_xml = new QLabel("Path to Exercises XML:",this);
                 label_profile_name = new QLabel("Name:",this);
 
                 path_exercises_xml = new QLineEdit(this);
                 profile_name = new QLineEdit(this);
-                path_exercises_xml->setText("...");
-                profile_name->setText("...");
+                path_exercises_xml->setText(QString::fromStdString(p.getPathToExerciseDB()));
+                profile_name->setText(QString::fromStdString(p.getName()));
 
                 button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
                 connect(button_box, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -39,8 +43,13 @@ namespace FreeFit
                 ly->addWidget(profile_name,1,1);
                 ly->addWidget(button_box,2,0,1,2);
             }
+        
+            std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
+
+            std::string getName(){return profile_name->text().toStdString();}
         private:
             FreeFit::Data::Profile p;
+            FreeFit::Data::ProfileXMLReader r;
             QGridLayout* ly;
 
             QLabel* label_path_exercises_xml;
