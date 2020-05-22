@@ -30,11 +30,13 @@ target_link_directories(DataIOTest PUBLIC /usr/local/lib)
 target_link_libraries(DataIOTest gtest)
 
 set(qt_sources 
-	${CMAKE_SOURCE_DIR}/src/mainwindow.cpp)
+    ${CMAKE_SOURCE_DIR}/src/mainwindow.cpp
+    ${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp)
 
 set(qt_headers
     ${CMAKE_SOURCE_DIR}/include/mainwindow.h
-    ${CMAKE_SOURCE_DIR}/include/exerciseeditor.h)
+    ${CMAKE_SOURCE_DIR}/include/exerciseeditor.h
+    ${CMAKE_SOURCE_DIR}/include/profileeditor.h)
 
 qt5_wrap_cpp(moc_sources ${qt_headers})
     
@@ -54,17 +56,18 @@ target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
 target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets) 
 
+qt5_wrap_cpp(profileEditorMocSources ${CMAKE_SOURCE_DIR}/include/profileeditor.h)
+
 add_executable( ProfileEditorTest
                 profileEditorTest.cpp
-                ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
-                ${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp
-                ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
-                ${qt_sources} ${qt_headers} ${moc_sources})
-target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
-target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
-target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+                ${profileEditorMocSources}
+                )
+target_include_directories(ProfileEditorTest PUBLIC ${test_include_dirs})
+target_link_directories(ProfileEditorTest PUBLIC /usr/local/lib)
+target_link_libraries(ProfileEditorTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
 add_test(NAME ExerciseGUI COMMAND ExerciseGUITest)
+add_test(NAME ProfileEditor COMMAND ProfileEditorTest)
