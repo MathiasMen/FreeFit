@@ -21,6 +21,8 @@ namespace FreeFit
             BaseXMLReader(std::string f);
 
             std::shared_ptr<XMLNode> read();
+
+            void setInPath(std::string f){filepath = f;}
         private:
 
             void createNodeTree();

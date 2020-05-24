@@ -20,6 +20,7 @@ namespace FreeFit
 
             void write();
 
+            void setOutPath(std::string f){filepath = f;}
         protected:
             std::string writeXMLString(std::shared_ptr<XMLNode> n);
             std::string formatXMLString(std::string s_xml);

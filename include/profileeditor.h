@@ -8,6 +8,7 @@
 
 #include "include/profile.h"
 #include "include/xmlreader.h"
+#include "include/xmlwriter.h"
 
 namespace FreeFit
 {
@@ -17,7 +18,7 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            ProfileEditor(std::string p_path) : QDialog(),r(p_path)
+            ProfileEditor(std::string p_path) : QDialog(),r(p_path),w(p_path)
             {
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
@@ -46,10 +47,23 @@ namespace FreeFit
         
             std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
 
+            void setName(std::string n){profile_name->setText(QString::fromStdString(n));}
             std::string getName(){return profile_name->text().toStdString();}
+
+            void setXMLInPath(std::string f){r.setInPath(f);}
+            void setXMLOutPath(std::string f){w.setOutPath(f);}
+        public slots:
+            void accept() override
+            {
+                p.setName(getName());
+                p.setPathToExerciseDB(getExercisesPath());
+                w.createNodeTree(p);
+                w.write();
+            }
         private:
             FreeFit::Data::Profile p;
             FreeFit::Data::ProfileXMLReader r;
+            FreeFit::Data::ProfileWriter w;
             QGridLayout* ly;
 
             QLabel* label_path_exercises_xml;
