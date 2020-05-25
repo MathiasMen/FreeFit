@@ -41,12 +41,12 @@ void FreeFit::GUI::ExerciseListWidget::exerciseClickedSlot(FreeFit::Data::Exerci
 
 void FreeFit::GUI::ExerciseListWidget::exercisesUnclickableDemand()
 {
-    for (auto it : exercise_widgets)
-        it->setActive(false);
+//    for (auto it : exercise_widgets)
+//        it->setActive(false);
 }
 
 void FreeFit::GUI::ExerciseListWidget::exercisesClickableDemand()
 {
-    for (auto it : exercise_widgets)
-        it->setActive(true);
+//    for (auto it : exercise_widgets)
+//        it->setActive(true);
 }

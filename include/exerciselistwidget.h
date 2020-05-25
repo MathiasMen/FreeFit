@@ -7,7 +7,6 @@
 #include <QScrollArea>
 #include <QVBoxLayout>
 
-#include "include/exercisedata.h"
 #include "include/exercise.h"
 
 namespace FreeFit
@@ -26,7 +25,7 @@ namespace FreeFit
             QVBoxLayout* sub_ly;
             QWidget* sub_widget;
             QScrollArea* scroll_area;
-            std::list<GUI::ExerciseDataWidget*> exercise_widgets;
+            //std::list<GUI::ExerciseDataWidget*> exercise_widgets;
         signals:
             void exerciseClickedSignal(FreeFit::Data::Exercise d);
         public slots:

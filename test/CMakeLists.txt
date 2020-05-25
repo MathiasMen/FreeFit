@@ -72,12 +72,11 @@ target_link_libraries(ProfileEditorTest gtest Qt5::Core Qt5::Gui Qt5::Widgets)
 
 qt5_wrap_cpp(   workoutWidgetExerciseListMocSources
                 ${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
-                ${CMAKE_SOURCE_DIR}/include/exercisedata.h)
+                )
 
 add_executable( WorkoutWidgetExerciseListTest
                 workoutWidgetExerciseListTest.cpp
                 ${workoutWidgetExerciseListMocSources}
-                ${CMAKE_SOURCE_DIR}/src/exercisedata.cpp
                 ${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
                 )
 target_include_directories(WorkoutWidgetExerciseListTest PUBLIC ${test_include_dirs})
