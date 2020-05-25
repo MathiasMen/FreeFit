@@ -83,9 +83,21 @@ target_include_directories(WorkoutWidgetExerciseListTest PUBLIC ${test_include_d
 target_link_directories(WorkoutWidgetExerciseListTest PUBLIC /usr/local/lib)
 target_link_libraries(WorkoutWidgetExerciseListTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
+add_executable( WorkoutGenerationTest
+                workoutGenerationTest.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
+                ${CMAKE_SOURCE_DIR}/src/workout.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+                ${CMAKE_SOURCE_DIR}/src/parser.cpp
+                )
+target_include_directories(WorkoutGenerationTest PUBLIC ${test_include_dirs})
+target_link_directories(WorkoutGenerationTest PUBLIC /usr/local/lib)
+target_link_libraries(WorkoutGenerationTest gtest) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
 add_test(NAME ExerciseGUI COMMAND ExerciseGUITest)
 add_test(NAME ProfileEditor COMMAND ProfileEditorTest)
 add_test(NAME WorkoutWIdgetExerciseList COMMAND WorkoutWidgetExerciseListTest)
+add_test(NAME WorkoutGeneration COMMAND WorkoutGenerationTest)
