@@ -1,4 +1,4 @@
-#include "exercisedata.h"
+#include "include/exercisedata.h"
 
 QString Data::parseBodyPartsToString(std::list<Data::BodyPart> l)
 {

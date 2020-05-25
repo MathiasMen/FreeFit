@@ -3,11 +3,12 @@
 
 #include <list>
 #include <iterator>
-#include <exercisedata.h>
 
 #include <QWidget>
 #include <QScrollArea>
 #include <QVBoxLayout>
+
+#include "include/exercisedata.h"
 
 namespace GUI{
     class ExerciseListWidget : public QWidget

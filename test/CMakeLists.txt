@@ -70,8 +70,23 @@ target_include_directories(ProfileEditorTest PUBLIC ${test_include_dirs})
 target_link_directories(ProfileEditorTest PUBLIC /usr/local/lib)
 target_link_libraries(ProfileEditorTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
+qt5_wrap_cpp(   workoutWidgetExerciseListMocSources
+                ${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
+                ${CMAKE_SOURCE_DIR}/include/exercisedata.h)
+
+add_executable( WorkoutWidgetExerciseListTest
+                workoutWidgetExerciseListTest.cpp
+                ${workoutWidgetExerciseListMocSources}
+                ${CMAKE_SOURCE_DIR}/src/exercisedata.cpp
+                ${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
+                )
+target_include_directories(WorkoutWidgetExerciseListTest PUBLIC ${test_include_dirs})
+target_link_directories(WorkoutWidgetExerciseListTest PUBLIC /usr/local/lib)
+target_link_libraries(WorkoutWidgetExerciseListTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
 add_test(NAME ExerciseGUI COMMAND ExerciseGUITest)
 add_test(NAME ProfileEditor COMMAND ProfileEditorTest)
+add_test(NAME WorkoutWIdgetExerciseList COMMAND WorkoutWidgetExerciseListTest)

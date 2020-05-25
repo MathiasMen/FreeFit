@@ -1,4 +1,4 @@
-#include "exerciselistwidget.h"
+#include "include/exerciselistwidget.h"
 
 GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent, std::list<Data::ExerciseData>* t_lst)
     : QWidget(parent)
