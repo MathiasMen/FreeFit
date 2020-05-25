@@ -25,5 +25,23 @@ namespace FreeFit
             else
                 return FreeFit::Data::MuscleGroup::Error;
         }
+
+        static std::string muscleGroupToString(FreeFit::Data::MuscleGroup m)
+        {
+            if (m == FreeFit::Data::MuscleGroup::Shoulder)
+                return "Shoulder";
+            else if (m == FreeFit::Data::MuscleGroup::Back)
+                return "Back";
+            else if (m == FreeFit::Data::MuscleGroup::Chest)
+                return "Chest";
+            else if (m == FreeFit::Data::MuscleGroup::Abs)
+                return "Abs";
+            else if (m == FreeFit::Data::MuscleGroup::Arms)
+                return "Arms";
+            else if (m == FreeFit::Data::MuscleGroup::Legs)
+                return "Legs";
+            else
+                return "";
+        }
     }
 }
