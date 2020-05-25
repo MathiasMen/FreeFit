@@ -1,6 +1,8 @@
 #include "include/exerciselistwidget.h"
 
-GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent, std::list<Data::ExerciseData>* t_lst)
+#include <iostream>
+
+FreeFit::GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent, std::list<FreeFit::Data::Exercise> t_lst)
     : QWidget(parent)
 {
     scroll_area = new QScrollArea(this);
@@ -12,46 +14,38 @@ GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent, std::list<Data::Exe
     this->setLayout(ly);
 }
 
-std::map<std::string, int> GUI::ExerciseListWidget::count_el_in_list(const std::vector<std::string>& v)
+void FreeFit::GUI::ExerciseListWidget::generateListWidgets(std::list<FreeFit::Data::Exercise> lst)
 {
-    std::map<std::string, int> result;
-    for (auto const& s : v) {
-        ++result[s];
-    }
-    return result;
-}
-
-void GUI::ExerciseListWidget::generateListWidgets(std::list<Data::ExerciseData>* lst)
-{
+/*
     if (sub_widget != nullptr)
         delete sub_widget;
-
+*/
     sub_widget = new QWidget(this);
     sub_ly = new QVBoxLayout(sub_widget);
-    for (auto it : *lst)
+    for (auto e : lst)
     {
-        GUI::ExerciseDataWidget* w = new GUI::ExerciseDataWidget(sub_widget,it);
-        QObject::connect(w,SIGNAL(exerciseClicked(Data::ExerciseData)),this,SLOT(exerciseClickedSlot(Data::ExerciseData)));
-        sub_ly->addWidget(w);
-        exercise_widgets.push_back(w);
-        w->show();
+        //FreeFit::GUI::ExerciseDataWidget* w = new FreeFit::GUI::ExerciseDataWidget(sub_widget,e);
+        //QObject::connect(w,SIGNAL(exerciseClicked(FreeFit::Data::Exercise)),this,SLOT(exerciseClickedSlot(FreeFit::Data::Exercise)));
+        //sub_ly->addWidget(w);
+        //exercise_widgets.push_back(w);
+//        w->show();
     }
     sub_widget->setLayout(sub_ly);
     scroll_area->setWidget(sub_widget);
 }
 
-void GUI::ExerciseListWidget::exerciseClickedSlot(Data::ExerciseData d)
+void FreeFit::GUI::ExerciseListWidget::exerciseClickedSlot(FreeFit::Data::Exercise d)
 {
     emit exerciseClickedSignal(d);
 }
 
-void GUI::ExerciseListWidget::exercisesUnclickableDemand()
+void FreeFit::GUI::ExerciseListWidget::exercisesUnclickableDemand()
 {
     for (auto it : exercise_widgets)
         it->setActive(false);
 }
 
-void GUI::ExerciseListWidget::exercisesClickableDemand()
+void FreeFit::GUI::ExerciseListWidget::exercisesClickableDemand()
 {
     for (auto it : exercise_widgets)
         it->setActive(true);

@@ -1,5 +1,4 @@
-#ifndef EXERCISELISTWIDGET_H
-#define EXERCISELISTWIDGET_H
+#pragma once 
 
 #include <list>
 #include <iterator>
@@ -9,27 +8,31 @@
 #include <QVBoxLayout>
 
 #include "include/exercisedata.h"
+#include "include/exercise.h"
 
-namespace GUI{
-    class ExerciseListWidget : public QWidget
+namespace FreeFit
+{
+    namespace GUI
     {
-        Q_OBJECT
-    public:
-        ExerciseListWidget(QWidget* parent, std::list<Data::ExerciseData>*);
-        void generateListWidgets(std::list<Data::ExerciseData>*);
-    private:
-        QVBoxLayout* ly;
-        QVBoxLayout* sub_ly;
-        QWidget* sub_widget;
-        QScrollArea* scroll_area;
-        std::map<std::string, int> count_el_in_list(const std::vector<std::string>&);
-        std::list<GUI::ExerciseDataWidget*> exercise_widgets;
-    signals:
-        void exerciseClickedSignal(Data::ExerciseData d);
-    public slots:
-        void exerciseClickedSlot(Data::ExerciseData d);
-        void exercisesUnclickableDemand();
-        void exercisesClickableDemand();
-    };
+        class ExerciseListWidget : public QWidget
+        {
+            Q_OBJECT
+        public:
+            ExerciseListWidget(QWidget* parent, std::list<FreeFit::Data::Exercise>);
+        private:
+            void generateListWidgets(std::list<FreeFit::Data::Exercise>);
+
+            QVBoxLayout* ly;
+            QVBoxLayout* sub_ly;
+            QWidget* sub_widget;
+            QScrollArea* scroll_area;
+            std::list<GUI::ExerciseDataWidget*> exercise_widgets;
+        signals:
+            void exerciseClickedSignal(FreeFit::Data::Exercise d);
+        public slots:
+            void exerciseClickedSlot(FreeFit::Data::Exercise d);
+            void exercisesUnclickableDemand();
+            void exercisesClickableDemand();
+        };
+    }
 }
-#endif // EXERCISELISTWIDGET_H
