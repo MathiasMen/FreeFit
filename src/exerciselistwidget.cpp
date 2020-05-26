@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent, FreeFit::Data::Exercise t_e) : QWidget(parent), e_dat(t_e)
+FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,FreeFit::Data::Exercise t_e) : QWidget(parent), e_dat(t_e)
 {
     ly = new QGridLayout(this);
     lbl_name = new QLabel(QString::fromStdString(e_dat.getName()),this);
     lbl_duration = new QLabel("30",this);
-    lbl_n_rounds = new QLabel("3",this);
+    lbl_n_rounds = new QLabel("-/-",this);
     std::string areas = "";
     for (auto a : e_dat.getTrainedMuscles())
         areas.append("#" + FreeFit::Data::muscleGroupToString(a) + " ");
@@ -24,33 +24,38 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent, Fr
     this->setLayout(ly);
 } 
 
-FreeFit::GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent, std::list<FreeFit::Data::Exercise> t_lst)
+void FreeFit::GUI::ExerciseListWidgetItem::setRoundInformation(unsigned int r, unsigned int r_total)
+{
+    lbl_n_rounds->setText(QString("%1 / %2").arg(r).arg(r_total));
+}
+
+
+FreeFit::GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent)
     : QWidget(parent)
 {
     scroll_area = new QScrollArea(this);
-
-    generateListWidgets(t_lst);
 
     ly = new QVBoxLayout(this);
     ly->addWidget(scroll_area);
     this->setLayout(ly);
 }
 
-void FreeFit::GUI::ExerciseListWidget::generateListWidgets(std::list<FreeFit::Data::Exercise> lst)
+void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBase* w)
 {
-/*
-    if (sub_widget != nullptr)
-        delete sub_widget;
-*/
     sub_widget = new QWidget(this);
     sub_ly = new QVBoxLayout(sub_widget);
-    for (auto e : lst)
-    {
-        FreeFit::GUI::ExerciseListWidgetItem* i = new FreeFit::GUI::ExerciseListWidgetItem(sub_widget,e);
-        //QObject::connect(w,SIGNAL(exerciseClicked(FreeFit::Data::Exercise)),this,SLOT(exerciseClickedSlot(FreeFit::Data::Exercise)));
-        sub_ly->addWidget(i);
-        exercise_widgets.push_back(i);
-    }
+    unsigned int rounds_total = w->getRounds();
+
+    for (unsigned int r = 1; r <= rounds_total; r++)
+        for (auto e : w->getExercisesPerRound())
+        {
+            FreeFit::GUI::ExerciseListWidgetItem* i = new FreeFit::GUI::ExerciseListWidgetItem(sub_widget,e);
+            i->setRoundInformation(r,rounds_total);
+            //QObject::connect(w,SIGNAL(exerciseClicked(FreeFit::Data::Exercise)),this,SLOT(exerciseClickedSlot(FreeFit::Data::Exercise)));
+            sub_ly->addWidget(i);
+            exercise_widgets.push_back(i);
+        }
+
     sub_widget->setLayout(sub_ly);
     scroll_area->setWidget(sub_widget);
 }

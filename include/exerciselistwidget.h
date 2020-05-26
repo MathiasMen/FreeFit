@@ -11,6 +11,7 @@
 #include <QLabel>
 
 #include "include/exercise.h"
+#include "include/workout.h"
 #include "include/datadefinitions.h"
 
 namespace FreeFit
@@ -22,6 +23,7 @@ namespace FreeFit
             Q_OBJECT
         public:
             ExerciseListWidgetItem(QWidget*,FreeFit::Data::Exercise);
+            void setRoundInformation(unsigned int, unsigned int);
         private:
             FreeFit::Data::Exercise e_dat;
 
@@ -39,10 +41,10 @@ namespace FreeFit
         {
             Q_OBJECT
         public:
-            ExerciseListWidget(QWidget* parent, std::list<FreeFit::Data::Exercise>);
+            ExerciseListWidget(QWidget* parent);
+            
+            void generateWidgets(FreeFit::Data::WorkoutBase*);
         private:
-            void generateListWidgets(std::list<FreeFit::Data::Exercise>);
-
             QVBoxLayout* ly;
             QVBoxLayout* sub_ly;
             QWidget* sub_widget;

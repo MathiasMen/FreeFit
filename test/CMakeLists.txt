@@ -78,6 +78,7 @@ add_executable( WorkoutWidgetExerciseListTest
                 workoutWidgetExerciseListTest.cpp
                 ${workoutWidgetExerciseListMocSources}
                 ${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/workout.cpp
                 )
 target_include_directories(WorkoutWidgetExerciseListTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutWidgetExerciseListTest PUBLIC /usr/local/lib)
