@@ -30,6 +30,7 @@ class WorkoutTestObject : public ::testing::Test
 
 TEST_F(WorkoutTestObject,Launch)
 {
-    std::list<FreeFit::Data::Exercise> workout_list = w->generate();
-    ASSERT_EQ(workout_list.size(),6);
+    w->generate();
+    ASSERT_EQ(w->getExercisesPerRound().size(),2);
+    ASSERT_EQ(w->getRounds(),3);
 }
