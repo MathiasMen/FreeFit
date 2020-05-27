@@ -68,28 +68,27 @@ class WorkoutTest : public ::testing::Test
             e2.setName("Ex2");
             e3.setName("Ex3");
             w = new FreeFit::Data::AllExercisesWorkout(std::list<FreeFit::Data::Exercise>{e1, e2, e3});
+            w->generate();
         }
 };
 
 TEST_F(WorkoutTest, WorkoutGeneration1)
-{
-    std::list<FreeFit::Data::Exercise> el = w->generate();
-    ASSERT_EQ(el.size(),9);
+{   
+    std::list<FreeFit::Data::Exercise> el = w->getExercisesPerRound();
+    ASSERT_EQ(el.size(),3);
+    ASSERT_EQ(w->getRounds(),3);
 }
 
 TEST_F(WorkoutTest, WorkoutGeneration2)
 {
-    std::list<FreeFit::Data::Exercise> el = w->generate();
+    std::list<FreeFit::Data::Exercise> el = w->getExercisesPerRound();
     ASSERT_EQ(el.begin()->getName(),"Ex1");
 }
 
 TEST_F(WorkoutTest, WorkoutGeneration3)
 {
-    std::list<FreeFit::Data::Exercise> el = w->generate();
+    std::list<FreeFit::Data::Exercise> el = w->getExercisesPerRound();
     auto el_it = el.begin();
-    el_it++;
-    el_it++;
-    el_it++;
     el_it++;
     ASSERT_EQ(el_it->getName(),"Ex2");
 }
