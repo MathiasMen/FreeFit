@@ -12,15 +12,21 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     for (auto a : e_dat.getTrainedMuscles())
         areas.append("#" + FreeFit::Data::muscleGroupToString(a) + " ");
     lbl_trained_areas = new QLabel(QString::fromStdString(areas),this);
-/*
-    QImage  img_thumbnail;
-    lbl_image
-*/
-    
-    ly->addWidget(lbl_name,0,0);
-    ly->addWidget(lbl_duration,0,1);
-    ly->addWidget(lbl_n_rounds,0,2);
-    ly->addWidget(lbl_trained_areas,1,0,1,3);
+
+    if(e_dat.getThumbnailPath() != "")
+    {
+        img_thumbnail = QImage(QString::fromStdString(e_dat.getThumbnailPath()));
+        img_thumbnail = img_thumbnail.scaled(50,50);
+        lbl_image = new QLabel("",this);
+        lbl_image->setPixmap(QPixmap::fromImage(img_thumbnail));
+        lbl_image->adjustSize();
+    }
+
+    ly->addWidget(lbl_image,0,0,2,1);
+    ly->addWidget(lbl_name,0,1);
+    ly->addWidget(lbl_duration,0,2);
+    ly->addWidget(lbl_n_rounds,0,3);
+    ly->addWidget(lbl_trained_areas,1,1,1,3);
     this->setLayout(ly);
 } 
 
@@ -29,6 +35,15 @@ void FreeFit::GUI::ExerciseListWidgetItem::setRoundInformation(unsigned int r, u
     lbl_n_rounds->setText(QString("%1 / %2").arg(r).arg(r_total));
 }
 
+int FreeFit::GUI::ExerciseListWidgetItem::getNameLength()
+{
+    return lbl_name->width();
+}
+
+void FreeFit::GUI::ExerciseListWidgetItem::setNameLength(int l)
+{
+    lbl_name->setMinimumWidth(l);
+}
 
 FreeFit::GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent)
     : QWidget(parent)
@@ -51,10 +66,17 @@ void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBas
         {
             FreeFit::GUI::ExerciseListWidgetItem* i = new FreeFit::GUI::ExerciseListWidgetItem(sub_widget,e);
             i->setRoundInformation(r,rounds_total);
-            //QObject::connect(w,SIGNAL(exerciseClicked(FreeFit::Data::Exercise)),this,SLOT(exerciseClickedSlot(FreeFit::Data::Exercise)));
             sub_ly->addWidget(i);
             exercise_widgets.push_back(i);
         }
+
+    int max_width = 0;
+    for (auto widget : exercise_widgets)
+        if (max_width < widget->getNameLength())
+            max_width = widget->getNameLength();
+
+    for (auto widget : exercise_widgets)
+        widget->setNameLength(max_width);
 
     sub_widget->setLayout(sub_ly);
     scroll_area->setWidget(sub_widget);

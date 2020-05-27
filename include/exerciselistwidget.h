@@ -24,6 +24,8 @@ namespace FreeFit
         public:
             ExerciseListWidgetItem(QWidget*,FreeFit::Data::Exercise);
             void setRoundInformation(unsigned int, unsigned int);
+            int getNameLength();
+            void setNameLength(int);
         private:
             FreeFit::Data::Exercise e_dat;
 
