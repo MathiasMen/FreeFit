@@ -13,12 +13,14 @@
 
 int my_argc;
 char** my_argv;
+QApplication* app;
 
 int main(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
     my_argc = argc;
     my_argv = argv;
+    app = new QApplication(my_argc,my_argv);
     return RUN_ALL_TESTS();
 }
 
@@ -39,14 +41,12 @@ class ExerciseEditor : public ::testing::Test
 
 TEST_F(ExerciseEditor,LaunchEditor)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* d = new FreeFit::GUI::ExerciseEditor(p);
 }
 
 TEST_F(ExerciseEditor,AddButton)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddButton.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -57,7 +57,6 @@ TEST_F(ExerciseEditor,AddButton)
 
 TEST_F(ExerciseEditor,DeleteButton)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DeleteButton.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -70,7 +69,6 @@ TEST_F(ExerciseEditor,DeleteButton)
 
 TEST_F(ExerciseEditor,ExerciseDemand)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -88,7 +86,6 @@ TEST_F(ExerciseEditor,NonStandardInput)
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NonStandardInput.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -117,7 +114,6 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionTrue.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -134,7 +130,6 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
 
 TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionNameWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -154,7 +149,6 @@ TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 
 TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionURLWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -171,7 +165,6 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 
 TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStartTimeWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -188,7 +181,6 @@ TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 
 TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStopTimeWrong.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -210,7 +202,6 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckDemandContent.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -242,7 +233,6 @@ TEST_F(ExerciseEditor,DownloadClickedCheckFileExists)
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckFileExists.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -262,7 +252,6 @@ TEST_F(ExerciseEditor,DownloadClickedCheckFileExists)
 
 TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
 {
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/ReadXMLAndPopulateExerciseList.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
@@ -320,7 +309,6 @@ TEST_F(ExerciseEditor, XMLOutput)
     
     std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/XMLOutput.xml";
     const int result = std::remove(out_path.c_str());
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB(out_path);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
 
@@ -412,7 +400,6 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     out_file << out_content;
     out_file.close();
 
-    QApplication a(my_argc,my_argv);
     p.setPathToExerciseDB(out_path);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
 
@@ -492,8 +479,6 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
 
 TEST(ExerciseEditorBrowser, Init)
 {
-    QApplication a(my_argc,my_argv);
     FreeFit::GUI::ExerciseEditorBrowser b;
     b.show();
-    a.exec();
 }
