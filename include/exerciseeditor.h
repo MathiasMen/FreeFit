@@ -136,6 +136,9 @@ namespace FreeFit
             std::string getVideoPath(){return video_path;};
             void setVideoPath(std::string p){video_path = p;};
 
+            std::string getThumbnailPath(){return thumbnail_path;}
+            void setThumbnailPath(std::string t){thumbnail_path = t;}
+
             std::string getVideoStartTime(){return start_time->getContent();};
             void setVideoStartTime(std::string t){start_time->setContent(t);}
 
@@ -177,6 +180,7 @@ namespace FreeFit
             std::vector<ToggleableLabel*> hashtag_labels;
             bool unchanged = true;
             std::string video_path = "";
+            std::string thumbnail_path = "";
         signals:
             void deleteItemTriggered(ExerciseItem*);
             void downloadItemTriggered(ExerciseItem*);
@@ -187,6 +191,7 @@ namespace FreeFit
         Q_OBJECT
         public:
             ExerciseEditorBrowser(QWidget* parent = nullptr);
+            QWebEngineView* getWebEngineView(){return browser;};
         private slots:
             void addressEnterPressed();
             void browserStartedLoading();
@@ -206,6 +211,7 @@ namespace FreeFit
         friend ExerciseEditorValidator;
         public:
             ExerciseEditor(FreeFit::Data::Profile t_p);
+            void deleteProfile(){delete browser->getWebEngineView()->page();};
         private:
             QDialogButtonBox* button_box;
             QPushButton* add_button;

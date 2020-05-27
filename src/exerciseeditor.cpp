@@ -264,7 +264,7 @@ namespace FreeFit
             ly->addWidget(browser);
             this->setLayout(ly);
         }
-
+        
         void ExerciseEditorBrowser::addressEnterPressed()
         {
             if (validateAddress())
@@ -341,6 +341,7 @@ namespace FreeFit
             e_dat.setName(e->getName());
             e_dat.setVideoURL(e->getURL());
             e_dat.setVideoPath(e->getVideoPath());
+            e_dat.setThumbnailPath(e->getThumbnailPath());
             e_dat.setVideoStartTime(e->getVideoStartTime());
             e_dat.setVideoEndTime(e->getVideoEndTime());
             for (auto m : e->getMuscleAreas())
@@ -409,6 +410,7 @@ namespace FreeFit
             {
                 FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
                 e->setVideoPath(e_dat.getVideoPath());
+                e->setThumbnailPath(e_dat.getThumbnailPath());
             }
             else
                 e->highlightAsFaulty();

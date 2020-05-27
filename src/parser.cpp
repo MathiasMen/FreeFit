@@ -21,6 +21,9 @@ namespace FreeFit
                 if(e_ptr->findFirstChild("VIDEOPATH"))
                     e.setVideoPath(e_ptr->findFirstChild("VIDEOPATH")->getValue());
 
+                if(e_ptr->findFirstChild("THUMBNAILPATH"))
+                    e.setThumbnailPath(e_ptr->findFirstChild("THUMBNAILPATH")->getValue());
+
                 if(e_ptr->findFirstChild("VIDEOSTARTTIME"))
                     e.setVideoStartTime(e_ptr->findFirstChild("VIDEOSTARTTIME")->getValue());
 

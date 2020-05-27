@@ -69,6 +69,7 @@ namespace FreeFit
             std::shared_ptr<XMLNode> e_name = std::make_shared<XMLNode>(e,"NAME",ex.getName());
             std::shared_ptr<XMLNode> e_video_url = std::make_shared<XMLNode>(e,"VIDEOURL",ex.getVideoURL());
             std::shared_ptr<XMLNode> e_video_path = std::make_shared<XMLNode>(e,"VIDEOPATH",ex.getVideoPath());
+            std::shared_ptr<XMLNode> e_thumbnail_path = std::make_shared<XMLNode>(e,"THUMBNAILPATH",ex.getThumbnailPath());
             std::shared_ptr<XMLNode> e_video_start = std::make_shared<XMLNode>(e,"VIDEOSTARTTIME",ex.getVideoStartTime());
             std::shared_ptr<XMLNode> e_video_end = std::make_shared<XMLNode>(e,"VIDEOENDTIME",ex.getVideoEndTime());
             std::shared_ptr<XMLNode> e_areas = std::make_shared<XMLNode>(e,"TRAINEDAREAS","");
@@ -80,6 +81,7 @@ namespace FreeFit
             e->addChild(e_name);
             e->addChild(e_video_url);
             e->addChild(e_video_path);
+            e->addChild(e_thumbnail_path);
             e->addChild(e_video_start);
             e->addChild(e_video_end);
             e->addChild(e_areas);

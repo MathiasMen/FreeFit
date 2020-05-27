@@ -136,6 +136,9 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
     "    </VIDEOPATH>\n"
+    "    <THUMBNAILPATH>\n"
+    "      /Users/somedummypath\n"
+    "    </THUMBNAILPATH>\n"
     "    <VIDEOSTARTTIME>\n"
     "      2\n"
     "    </VIDEOSTARTTIME>\n"
@@ -159,6 +162,7 @@ TEST_F(ExerciseXMLTest, WriteXMLFile)
     FreeFit::Data::Exercise e;
     e.setName("TestExercise");
     e.setVideoURL("https://www.youtube.com/watch?v=-kwe1EOiWMY");
+    e.setThumbnailPath("/Users/somedummypath");
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Back);
     e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
@@ -184,6 +188,7 @@ TEST_F(ExerciseXMLTest, ReadXML)
     std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("NAME")->getValue(),"TestExercise");
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOURL")->getValue(),"https://www.youtube.com/watch?v=-kwe1EOiWMY");
+    ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("THUMBNAILPATH")->getValue(),"/Users/somedummypath");
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOSTARTTIME")->getValue(),"2");
     ASSERT_EQ(pt->findFirstChild("EXERCISE")->findFirstChild("VIDEOENDTIME")->getValue(),"5");
 }
@@ -193,6 +198,7 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
     FreeFit::Data::Exercise e1,e2;
     e1.setName("TestExercise1");
     e1.setVideoURL("https://www.youtube.com/watch?v=stuvwxyz123");
+    e1.setThumbnailPath("/Users/somedummypath1");
     e1.setVideoStartTime("1");
     e1.setVideoEndTime("2");
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
@@ -200,6 +206,7 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
 
     e2.setName("TestExercise2");
     e2.setVideoURL("https://www.youtube.com/watch?v=abcdefghijk");
+    e2.setThumbnailPath("/Users/somedummypath2");
     e2.setVideoStartTime("3");
     e2.setVideoEndTime("4");
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Arms);
@@ -218,12 +225,14 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTree)
 
     ASSERT_EQ(l_in.begin()->getName(),"TestExercise1");
     ASSERT_EQ(l_in.begin()->getVideoURL(),"https://www.youtube.com/watch?v=stuvwxyz123");
+    ASSERT_EQ(l_in.begin()->getThumbnailPath(),"/Users/somedummypath1");
     ASSERT_EQ(l_in.begin()->getVideoStartTime(),"1");
     ASSERT_EQ(l_in.begin()->getVideoEndTime(),"2");
     ASSERT_NE(l_in.begin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Back),0);
 
     ASSERT_EQ(l_in.rbegin()->getName(),"TestExercise2");
     ASSERT_EQ(l_in.rbegin()->getVideoURL(),"https://www.youtube.com/watch?v=abcdefghijk");
+    ASSERT_EQ(l_in.rbegin()->getThumbnailPath(),"/Users/somedummypath2");
     ASSERT_EQ(l_in.rbegin()->getVideoStartTime(),"3");
     ASSERT_EQ(l_in.rbegin()->getVideoEndTime(),"4");
     ASSERT_NE(l_in.rbegin()->getTrainedMuscles().count(FreeFit::Data::MuscleGroup::Legs),0);
@@ -234,6 +243,7 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTreeAndReturnExerciseList)
     FreeFit::Data::Exercise e1,e2;
     e1.setName("TestExercise1");
     e1.setVideoURL("https://www.youtube.com/watch?v=stuvwxyz123");
+    e1.setThumbnailPath("/Users/somedummypath1");
     e1.setVideoStartTime("1");
     e1.setVideoEndTime("2");
     e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
@@ -241,6 +251,7 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTreeAndReturnExerciseList)
 
     e2.setName("TestExercise2");
     e2.setVideoURL("https://www.youtube.com/watch?v=abcdefghijk");
+    e2.setThumbnailPath("/Users/somedummypath2");
     e2.setVideoStartTime("3");
     e2.setVideoEndTime("4");
     e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Arms);
@@ -256,11 +267,13 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTreeAndReturnExerciseList)
 
     ASSERT_EQ(l_out.begin()->getName(),l_in.begin()->getName());
     ASSERT_EQ(l_out.begin()->getVideoURL(),l_in.begin()->getVideoURL());
+    ASSERT_EQ(l_out.begin()->getThumbnailPath(),l_in.begin()->getThumbnailPath());
     ASSERT_EQ(l_out.begin()->getVideoStartTime(),l_in.begin()->getVideoStartTime());
     ASSERT_EQ(l_out.begin()->getVideoEndTime(),l_in.begin()->getVideoEndTime());
 
     ASSERT_EQ(l_out.rbegin()->getName(),l_in.rbegin()->getName());
     ASSERT_EQ(l_out.rbegin()->getVideoURL(),l_in.rbegin()->getVideoURL());
+    ASSERT_EQ(l_out.rbegin()->getThumbnailPath(),l_in.rbegin()->getThumbnailPath());
     ASSERT_EQ(l_out.rbegin()->getVideoStartTime(),l_in.rbegin()->getVideoStartTime());
     ASSERT_EQ(l_out.rbegin()->getVideoEndTime(),l_in.rbegin()->getVideoEndTime());
 }
