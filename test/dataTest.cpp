@@ -21,6 +21,7 @@ class ExerciseTest : public ::testing::Test
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
             e.addTrainedMuscle(FreeFit::Data::MuscleGroup::Legs);
             e.setVideoURL("https://www.youtube.com/watch?v=-kwe1EOiWMY");
+            e.setThumbnailPath("SomeDummyPath");
             e.setVideoStartTime("2");
             e.setVideoEndTime("5");
         }
@@ -44,6 +45,11 @@ TEST_F(ExerciseTest, TrainedMusclesEntry2)
 TEST_F(ExerciseTest, VideoURL)
 {
     ASSERT_EQ(e.getVideoURL(),"https://www.youtube.com/watch?v=-kwe1EOiWMY");
+}
+
+TEST_F(ExerciseTest, ThumbnailPath)
+{
+    ASSERT_EQ(e.getThumbnailPath(),"SomeDummyPath");
 }
 
 TEST_F(ExerciseTest, StartTime)
