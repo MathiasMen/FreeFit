@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QString>
+#include <QMediaPlayer>
 
 #include "include/exerciseviewer.h"
 
@@ -26,8 +27,37 @@ TEST_F(ExerciseView,Launch)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::Exerciseviewer* v = new FreeFit::GUI::Exerciseviewer(nullptr);
+}
+
+TEST_F(ExerciseView,Play)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::Exerciseviewer* v = new FreeFit::GUI::Exerciseviewer(nullptr);
     v->set_media(QString::fromStdString(video_path));
     v->show();
     v->start();
-    a.exec();
+    ASSERT_EQ(v->getViewerState(),QMediaPlayer::PlayingState);    
+}
+
+TEST_F(ExerciseView,Pause)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::Exerciseviewer* v = new FreeFit::GUI::Exerciseviewer(nullptr);
+    v->set_media(QString::fromStdString(video_path));
+    v->show();
+    v->start();
+    v->pause();
+    ASSERT_EQ(v->getViewerState(),QMediaPlayer::PausedState);    
+}
+
+TEST_F(ExerciseView,Stop)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::Exerciseviewer* v = new FreeFit::GUI::Exerciseviewer(nullptr);
+    v->set_media(QString::fromStdString(video_path));
+    v->show();
+    ASSERT_EQ(v->getViewerState(),QMediaPlayer::StoppedState);    
+    v->start();
+    v->stop();
+    ASSERT_EQ(v->getViewerState(),QMediaPlayer::StoppedState);    
 }

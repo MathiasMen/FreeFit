@@ -17,6 +17,7 @@ namespace FreeFit
         public:
             Exerciseviewer(QWidget* = nullptr);
             void set_media(QString);
+            QMediaPlayer::State getViewerState(){return p->state();}
         private:
             QMediaPlayer* p;
         public slots:
