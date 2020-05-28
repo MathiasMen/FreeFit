@@ -108,6 +108,27 @@ target_include_directories(ExerciseViewerTest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseViewerTest PUBLIC /usr/local/lib)
 target_link_libraries(ExerciseViewerTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::MultimediaWidgets) 
 
+qt5_wrap_cpp(   WorkoutWidgetTestMocSources
+                ${CMAKE_SOURCE_DIR}/include/workoutwidget.h
+                ${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
+                ${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
+                )
+
+add_executable( WorkoutWidgetTest
+                workoutWidgetTest.cpp
+                ${WorkoutWidgetTestMocSources}
+                ${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
+                ${CMAKE_SOURCE_DIR}/src/parser.cpp
+                ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+                ${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/exerciseviewer.cpp
+                ${CMAKE_SOURCE_DIR}/src/workout.cpp
+                )
+target_include_directories(WorkoutWidgetTest PUBLIC ${test_include_dirs})
+target_link_directories(WorkoutWidgetTest PUBLIC /usr/local/lib)
+target_link_libraries(WorkoutWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::MultimediaWidgets) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)

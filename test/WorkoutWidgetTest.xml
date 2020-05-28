@@ -1,0 +1,33 @@
+<EXERCISES>
+  <EXERCISE>
+    <NAME>
+      Pushup
+    </NAME>
+    <VIDEOURL>
+      https://www.youtube.com/watch?v=-kwe1EOiWMY
+    </VIDEOURL>
+    <VIDEOPATH>
+      /Users/mathias/Documents/programming_workspace/FreeFit/test/Pushup.mp4
+    </VIDEOPATH>
+    <THUMBNAILPATH>
+      /Users/mathias/Documents/programming_workspace/FreeFit/test/Pushup.jpg
+    </THUMBNAILPATH>
+    <VIDEOSTARTTIME>
+      0
+    </VIDEOSTARTTIME>
+    <VIDEOENDTIME>
+      0
+    </VIDEOENDTIME>
+    <TRAINEDAREAS>
+      <AREA>
+        0
+      </AREA>
+      <AREA>
+        2
+      </AREA>
+      <AREA>
+        3
+      </AREA>
+    </TRAINEDAREAS>
+  </EXERCISE>
+</EXERCISES>
