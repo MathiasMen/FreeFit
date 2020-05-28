@@ -81,12 +81,12 @@ namespace FreeFit
             void recreateClicked(){std::cout << "Recreate!" << std::endl;}
             void playClicked()
             {
-                std::cout << "Play!" << std::endl;
+                exercise_view->start();
             }
 
             void pauseClicked()
             {
-                std::cout << "Pause!" << std::endl;
+                exercise_view->pause();
             }
         private:
             QGridLayout* ly;
