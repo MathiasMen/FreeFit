@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QVideoWidget>
+#include <QSize>
 
 namespace FreeFit
 {
@@ -18,6 +19,7 @@ namespace FreeFit
             Exerciseviewer(QWidget* = nullptr);
             void set_media(QString);
             QMediaPlayer::State getViewerState(){return p->state();}
+            void resizeToCircumventBug();
         private:
             QMediaPlayer* p;
         public slots:
