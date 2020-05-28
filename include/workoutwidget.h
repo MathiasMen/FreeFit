@@ -6,6 +6,7 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QTimer>
 
 #include "include/workout.h"
 #include "include/exerciselistwidget.h"
@@ -15,6 +16,57 @@ namespace FreeFit
 {
     namespace GUI
     {
+        class WorkoutWidgetTimer : public QWidget
+        {
+            Q_OBJECT
+        public:
+            WorkoutWidgetTimer(QWidget* parent) : QWidget(parent)
+            {
+                ly = new QHBoxLayout(this);
+                exercise_duration_timer = new QTimer(this);
+                update_interval_timer = new QTimer(this);
+                update_interval_timer->setInterval(20);
+                time_label = new QLabel(this);
+            }
+
+            void startTimer(unsigned int seconds)
+            {
+                exercise_duration_timer->setInterval(seconds*1000);
+                exercise_duration_timer->setSingleShot(true);
+                connect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
+                connect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
+                exercise_duration_timer->start();
+                update_interval_timer->start();
+            }
+
+            void setDefaultLabelText(){time_label->setText("-/-");}
+            
+            void setTimeText(int milliseconds)
+            {   
+                time_label->setText(QString::number(milliseconds/1000.0,'f',1));
+            }
+
+        private slots:
+            void timerEnded()
+            {
+                disconnect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
+                disconnect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
+                exercise_duration_timer->stop();
+                update_interval_timer->stop();
+                std::cout << "Time is up!" << std::endl;
+            }
+
+            void updateLabel()
+            {
+                setTimeText(exercise_duration_timer->remainingTime());
+            }
+        private:
+            QHBoxLayout* ly;
+            QLabel* time_label;
+            QTimer* exercise_duration_timer;
+            QTimer* update_interval_timer;
+        };
+
         class WorkoutWidgetControl : public QWidget
         {
             Q_OBJECT
@@ -58,6 +110,7 @@ namespace FreeFit
                 exercise_list = new FreeFit::GUI::ExerciseListWidget(this);
                 exercise_view = new FreeFit::GUI::Exerciseviewer(this);
                 control = new WorkoutWidgetControl(this);
+                timer = new WorkoutWidgetTimer(this);
 
                 exercise_list->generateWidgets(w);
                 exercise_list->setMinimumWidth(320);
@@ -72,16 +125,23 @@ namespace FreeFit
 
                 ly->addWidget(exercise_list,0,0,8,1);
                 ly->addWidget(control,8,0,2,1);
-                ly->addWidget(exercise_view,0,1,10,1);
+                ly->addWidget(exercise_view,0,1,8,1);
+                ly->addWidget(timer,8,1,2,1,Qt::AlignCenter);
+
                 this->setLayout(ly);
             }
             void setWorkout(FreeFit::Data::WorkoutBase* t_w){w = t_w;}
 
         private slots:
-            void recreateClicked(){std::cout << "Recreate!" << std::endl;}
+            void recreateClicked()
+            {
+                std::cout << "Recreate!" << std::endl;
+            }
+
             void playClicked()
             {
                 exercise_view->start();
+                timer->startTimer(30);
             }
 
             void pauseClicked()
@@ -94,6 +154,7 @@ namespace FreeFit
             FreeFit::GUI::ExerciseListWidget* exercise_list;
             FreeFit::GUI::Exerciseviewer* exercise_view;
             FreeFit::GUI::WorkoutWidgetControl* control;
+            FreeFit::GUI::WorkoutWidgetTimer* timer;
 
             FreeFit::Data::WorkoutBase* w;
         };
