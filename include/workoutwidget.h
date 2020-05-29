@@ -118,7 +118,6 @@ namespace FreeFit
 
                 exercise_list->generateWidgets(w);
                 exercise_list->setMinimumWidth(320);
-                connect(exercise_list,&ExerciseListWidget::allExercisesFinished,this,&WorkoutWidget::workoutFinished);
 
                 exercise_view->set_media(QString::fromStdString(w->getExercisesPerRound().begin()->getVideoPath()));
                 exercise_view->setMinimumSize(640,360);
@@ -142,8 +141,10 @@ namespace FreeFit
         private slots:
             void nextExercise()
             {
-                exercise_list->advanceCurrentExercise();
-                timer->startTimer(10);
+                if (exercise_list->advanceCurrentExercise())
+                    timer->startTimer(10);
+                else
+                    workoutFinished();
             }
 
             void workoutFinished()

@@ -85,16 +85,16 @@ void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBas
     highlightExercise(&(**current_exercise));
 }
 
-void FreeFit::GUI::ExerciseListWidget::advanceCurrentExercise()
+bool FreeFit::GUI::ExerciseListWidget::advanceCurrentExercise()
 {
     resetHighlightings();
     std::advance(current_exercise,1);
+    
     if (current_exercise == exercise_widgets.end())
-    {
-        emit allExercisesFinished();
-        return;
-    }        
+        return false;
+
     highlightExercise(&(**current_exercise));
+    return true;
 }
 
 void FreeFit::GUI::ExerciseListWidget::highlightExercise(FreeFit::GUI::ExerciseListWidgetItem* e)
