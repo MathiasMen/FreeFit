@@ -288,33 +288,61 @@ class ProfileXMLTest : public ::testing::Test
 TEST_F(ProfileXMLTest, WriteXMLFile)
 {
     std::string expected = 
-    "<PROFILE>\n"
-    "  <NAME>\n"
-    "    TestProfile\n"
-    "  </NAME>\n"
-    "  <PICTUREPATH>\n"
-    "    DummyPicturePath\n"
-    "  </PICTUREPATH>\n"
-    "  <DATELASTWORKOUT>\n"
-    "    24.03.1994\n"
-    "  </DATELASTWORKOUT>\n"
-    "  <PATHEXDB>\n"
-    "    DummyExercisesPath\n"
-    "  </PATHEXDB>\n"
-    "  <PERFFACTOR>\n"
-    "    10.000000\n"
-    "  </PERFFACTOR>\n"
-    "</PROFILE>\n";
+    "<PROFILES>\n"
+    "  <PROFILE>\n"
+    "    <NAME>\n"
+    "      Mathias\n"
+    "    </NAME>\n"
+    "    <PICTUREPATH>\n"
+    "      DummyPicturePath\n"
+    "    </PICTUREPATH>\n"
+    "    <DATELASTWORKOUT>\n"
+    "      23.05.1989\n"
+    "    </DATELASTWORKOUT>\n"
+    "    <PATHEXDB>\n"
+    "      DummyExercisesPath\n"
+    "    </PATHEXDB>\n"
+    "    <PERFFACTOR>\n"
+    "      10.000000\n"
+    "    </PERFFACTOR>\n"
+    "  </PROFILE>\n"
+    "  <PROFILE>\n"
+    "    <NAME>\n"
+    "      Constanze\n"
+    "    </NAME>\n"
+    "    <PICTUREPATH>\n"
+    "      DummyPicturePath\n"
+    "    </PICTUREPATH>\n"
+    "    <DATELASTWORKOUT>\n"
+    "      24.03.1994\n"
+    "    </DATELASTWORKOUT>\n"
+    "    <PATHEXDB>\n"
+    "      DummyExercisesPath\n"
+    "    </PATHEXDB>\n"
+    "    <PERFFACTOR>\n"
+    "      11.000000\n"
+    "    </PERFFACTOR>\n"
+    "  </PROFILE>\n"
+    "</PROFILES>\n";
 
-    FreeFit::Data::Profile p;
-    p.setName("TestProfile");
-    p.setPicturePath("DummyPicturePath");
-    p.setDateLastWorkout("24.03.1994");
-    p.setPathToExerciseDB("DummyExercisesPath");
-    p.setPerformanceFactor(10.0);
+    FreeFit::Data::Profile p1;
+    p1.setName("Mathias");
+    p1.setPicturePath("DummyPicturePath");
+    p1.setDateLastWorkout("23.05.1989");
+    p1.setPathToExerciseDB("DummyExercisesPath");
+    p1.setPerformanceFactor(10.0);
+
+    FreeFit::Data::Profile p2;
+    p2.setName("Constanze");
+    p2.setPicturePath("DummyPicturePath");
+    p2.setDateLastWorkout("24.03.1994");
+    p2.setPathToExerciseDB("DummyExercisesPath");
+    p2.setPerformanceFactor(11.0);
+    
+    std::list<FreeFit::Data::Profile> l {p1,p2};
 
     FreeFit::Data::ProfileWriter w(out_path);
-    w.createNodeTree(p);
+    w.createNodeTree(l);
     w.write();
 
     std::ifstream f(out_path);

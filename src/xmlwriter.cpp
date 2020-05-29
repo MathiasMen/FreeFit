@@ -108,19 +108,36 @@ namespace FreeFit
             root = new_root;
         }
 
-        void ProfileWriter::createNodeTree(Profile p)
+        std::shared_ptr<XMLNode> ProfileWriter::profileToNode(Profile p_dat)
         {
-            root = std::make_shared<XMLNode>(nullptr,"PROFILE","");
-            std::shared_ptr<XMLNode> p_name = std::make_shared<XMLNode>(root,"NAME",p.getName());
-            std::shared_ptr<XMLNode> p_picture_path = std::make_shared<XMLNode>(root,"PICTUREPATH",p.getPicturePath());
-            std::shared_ptr<XMLNode> p_date_of_last_workout = std::make_shared<XMLNode>(root,"DATELASTWORKOUT",p.getDateLastWorkout());
-            std::shared_ptr<XMLNode> p_path_to_exercise_database = std::make_shared<XMLNode>(root,"PATHEXDB",p.getPathToExerciseDB());
-            std::shared_ptr<XMLNode> p_perf_factor = std::make_shared<XMLNode>(root,"PERFFACTOR",std::to_string(p.getPerformanceFactor()));
-            root->addChild(p_name);
-            root->addChild(p_picture_path);
-            root->addChild(p_date_of_last_workout);
-            root->addChild(p_path_to_exercise_database);
-            root->addChild(p_perf_factor);
+            std::shared_ptr<XMLNode> p = std::make_shared<XMLNode>(nullptr,"PROFILE","");
+            std::shared_ptr<XMLNode> p_name = std::make_shared<XMLNode>(p,"NAME",p_dat.getName());
+            std::shared_ptr<XMLNode> p_picture_path = std::make_shared<XMLNode>(p,"PICTUREPATH",p_dat.getPicturePath());
+            std::shared_ptr<XMLNode> p_date_of_last_workout = std::make_shared<XMLNode>(p,"DATELASTWORKOUT",p_dat.getDateLastWorkout());
+            std::shared_ptr<XMLNode> p_path_to_exercise_database = std::make_shared<XMLNode>(p,"PATHEXDB",p_dat.getPathToExerciseDB());
+            std::shared_ptr<XMLNode> p_perf_factor = std::make_shared<XMLNode>(p,"PERFFACTOR",std::to_string(p_dat.getPerformanceFactor()));
+            p->addChild(p_name);
+            p->addChild(p_picture_path);
+            p->addChild(p_date_of_last_workout);
+            p->addChild(p_path_to_exercise_database);
+            p->addChild(p_perf_factor);
+
+            return p;
+        }
+
+        void ProfileWriter::addProfilesToNodeTree(std::list<FreeFit::Data::Profile> l_p)
+        {
+            for (FreeFit::Data::Profile p_data : l_p)
+            {
+                std::shared_ptr<XMLNode> p = profileToNode(p_data);
+                root->addChild(p);
+            }
+        }
+
+        void ProfileWriter::createNodeTree(std::list<FreeFit::Data::Profile> l_p)
+        {
+            root = std::make_shared<XMLNode>(nullptr,"PROFILES","");
+            addProfilesToNodeTree(l_p);
         }
     }
 }

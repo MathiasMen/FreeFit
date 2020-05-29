@@ -47,7 +47,9 @@ namespace FreeFit
         public:
             ProfileWriter(std::string filepath) : BaseXMLWriter(filepath){}
 
-            void createNodeTree(Profile p);
+            std::shared_ptr<XMLNode> profileToNode(FreeFit::Data::Profile p);
+            void addProfilesToNodeTree(std::list<FreeFit::Data::Profile> l_p);
+            void createNodeTree(std::list<FreeFit::Data::Profile> l_p);
         };
     }
 }
