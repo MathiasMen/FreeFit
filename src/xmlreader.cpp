@@ -108,16 +108,18 @@ namespace FreeFit
                 return std::list<Exercise>();
         }
 
-        Profile ProfileXMLReader::getProfile()
+        std::list<Profile> ProfileXMLReader::getProfileList()
         {
-            std::shared_ptr<XMLNode> n = read();
-            if(n)
-            {
-                ProfileTreeParser p;
-                return p.parse(n);
-            }
-            else
-                return Profile();            
+            std::list<Profile> l;
+            ProfileTreeParser p;
+            std::shared_ptr<XMLNode> r = read();
+            for ( auto n : r->findAllChildren("PROFILE"))
+                l.push_back(p.parse(n));
+            
+            if (l.empty())
+                l.push_back(Profile());
+
+            return l;
         }
     }
 }

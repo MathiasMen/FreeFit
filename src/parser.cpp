@@ -38,8 +38,8 @@ namespace FreeFit
             return l;
         }
 
-
         ProfileTreeParser::ProfileTreeParser(){}
+
         Profile ProfileTreeParser::parse(std::shared_ptr<XMLNode> root)
         {
             Profile p;

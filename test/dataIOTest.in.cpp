@@ -297,7 +297,7 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
     "      DummyPicturePath\n"
     "    </PICTUREPATH>\n"
     "    <DATELASTWORKOUT>\n"
-    "      23.05.1989\n"
+    "      01.01.2000\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
     "      DummyExercisesPath\n"
@@ -314,7 +314,7 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
     "      DummyPicturePath\n"
     "    </PICTUREPATH>\n"
     "    <DATELASTWORKOUT>\n"
-    "      24.03.1994\n"
+    "      01.01.2001\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
     "      DummyExercisesPath\n"
@@ -328,14 +328,14 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
     FreeFit::Data::Profile p1;
     p1.setName("Mathias");
     p1.setPicturePath("DummyPicturePath");
-    p1.setDateLastWorkout("23.05.1989");
+    p1.setDateLastWorkout("01.01.2000");
     p1.setPathToExerciseDB("DummyExercisesPath");
     p1.setPerformanceFactor(10.0);
 
     FreeFit::Data::Profile p2;
     p2.setName("Constanze");
     p2.setPicturePath("DummyPicturePath");
-    p2.setDateLastWorkout("24.03.1994");
+    p2.setDateLastWorkout("01.01.2001");
     p2.setPathToExerciseDB("DummyExercisesPath");
     p2.setPerformanceFactor(11.0);
     
@@ -354,33 +354,17 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
 
 TEST_F(ProfileXMLTest, ReadXML)
 {
-    FreeFit::Data::BaseXMLReader r(out_path);
-    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
-    ASSERT_EQ(pt->findFirstChild("NAME")->getValue(),"TestProfile");
-}
+    FreeFit::Data::ProfileXMLReader r(out_path);
+    std::list<FreeFit::Data::Profile> l_p = r.getProfileList();
 
-TEST_F(ProfileXMLTest, ParseXMLNodeTree)
-{
-    FreeFit::Data::Profile p_out;
-    p_out.setName("TestProfile");
-    p_out.setPicturePath("DummyPicturePath");
-    p_out.setDateLastWorkout("24.03.1994");
-    p_out.setPathToExerciseDB("DummyExercisesPath");
-    p_out.setPerformanceFactor(10.0);
-
-    FreeFit::Data::ProfileWriter w(out_path);
-    w.createNodeTree(p_out);
-    w.write();
-
-    FreeFit::Data::BaseXMLReader r(out_path);
-    std::shared_ptr<FreeFit::Data::XMLNode> pt = r.read();
-
-    FreeFit::Data::ProfileTreeParser p;
-    FreeFit::Data::Profile p_in = p.parse(pt);
-    
-    ASSERT_EQ(p_out.getName(),p_in.getName());
-    ASSERT_EQ(p_out.getPicturePath(),p_in.getPicturePath());
-    ASSERT_EQ(p_out.getDateLastWorkout(),p_in.getDateLastWorkout());
-    ASSERT_EQ(p_out.getPathToExerciseDB(),p_in.getPathToExerciseDB());
-    ASSERT_EQ(p_out.getPerformanceFactor(),p_in.getPerformanceFactor());    
+    ASSERT_EQ(l_p.begin()->getName(),"Mathias");
+    ASSERT_EQ(l_p.begin()->getPicturePath(),"DummyPicturePath");
+    ASSERT_EQ(l_p.begin()->getDateLastWorkout(),"01.01.2000");
+    ASSERT_EQ(l_p.begin()->getPathToExerciseDB(),"DummyExercisesPath");
+    ASSERT_EQ(l_p.begin()->getPerformanceFactor(),10.0);
+    ASSERT_EQ(l_p.rbegin()->getName(),"Constanze");
+    ASSERT_EQ(l_p.rbegin()->getPicturePath(),"DummyPicturePath");
+    ASSERT_EQ(l_p.rbegin()->getDateLastWorkout(),"01.01.2001");
+    ASSERT_EQ(l_p.rbegin()->getPathToExerciseDB(),"DummyExercisesPath");
+    ASSERT_EQ(l_p.rbegin()->getPerformanceFactor(),11.0);
 }

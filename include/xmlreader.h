@@ -49,7 +49,7 @@ namespace FreeFit
         {
         public:
             ProfileXMLReader(std::string f):BaseXMLReader(f){}
-            Profile getProfile();
+            std::list<Profile> getProfileList();
         };        
     }
 }
