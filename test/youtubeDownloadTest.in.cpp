@@ -21,23 +21,23 @@ TEST(YoutubeDownload, Options)
 
 TEST(YoutubeDownload, Download)
 {
-    std::string out_path = {"${CMAKE_BINARY_DIR}/test/FlorenceAndTheMachine"};
+    std::string out_path = {"${CMAKE_BINARY_DIR}/test/Pushup.mp4"};
 
     VideoDownload::YoutubeDownloader* d = new VideoDownload::YoutubeDL();
-    d->download("https://www.youtube.com/watch?v=nyiNSFp2uf0",out_path);
+    d->download("https://www.youtube.com/watch?v=-kwe1EOiWMY",out_path);
 
-    std::ifstream f(out_path+".mkv");
+    std::ifstream f(out_path);
     ASSERT_TRUE(f.good());
 }
 
 TEST(YoutubeDownload, DownloadAndResize)
 {
-    std::string out_path = {"${CMAKE_BINARY_DIR}/test/LouReed.mp4"};
+    std::string out_path = {"${CMAKE_BINARY_DIR}/test/Pushup.mp4"};
 
     VideoDownload::YoutubeDownloader* d = new VideoDownload::YoutubeDL();
     d->setVideoFormat(VideoDownload::VideoType::MP4);
-    d->download("https://www.youtube.com/watch?v=oG6fayQBm9w",out_path, 30, 90);
+    d->download("https://www.youtube.com/watch?v=-kwe1EOiWMY",out_path, 30, 90);
 
-    std::ifstream f("${CMAKE_BINARY_DIR}/test/LouReed_resized.mp4");
+    std::ifstream f("${CMAKE_BINARY_DIR}/test/Pushup_resized.mp4");
     ASSERT_TRUE(f.good());
 }
