@@ -27,6 +27,7 @@ TEST_F(ProfileEditor,LaunchEditor)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
+    d->exec();
 }
 
 TEST_F(ProfileEditor,ReadXML)
