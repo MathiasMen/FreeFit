@@ -28,6 +28,7 @@ namespace FreeFit
                 update_interval_timer = new QTimer(this);
                 update_interval_timer->setInterval(20);
                 time_label = new QLabel(this);
+                setDefaultLabelText();
             }
 
             void startTimer(unsigned int seconds)
@@ -164,6 +165,7 @@ namespace FreeFit
             {
                 exercise_view->start();
                 timer->startTimer(10);
+                disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
             }
         private:
             QGridLayout* ly;
