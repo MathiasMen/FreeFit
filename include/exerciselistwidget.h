@@ -60,6 +60,7 @@ namespace FreeFit
             std::list<ExerciseListWidgetItem*> exercise_widgets;
             std::list<FreeFit::GUI::ExerciseListWidgetItem*>::iterator current_exercise;
         signals:
+            void allExercisesFinished();
             void exerciseClickedSignal(FreeFit::Data::Exercise d);
         public slots:
             void exerciseClickedSlot(FreeFit::Data::Exercise d);

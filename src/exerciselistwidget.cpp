@@ -82,17 +82,23 @@ void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBas
     scroll_area->setWidget(sub_widget);
 
     current_exercise  = exercise_widgets.begin();
+    highlightExercise(&(**current_exercise));
 }
 
 void FreeFit::GUI::ExerciseListWidget::advanceCurrentExercise()
 {
+    resetHighlightings();
     std::advance(current_exercise,1);
+    if (current_exercise == exercise_widgets.end())
+    {
+        emit allExercisesFinished();
+        return;
+    }        
     highlightExercise(&(**current_exercise));
 }
 
 void FreeFit::GUI::ExerciseListWidget::highlightExercise(FreeFit::GUI::ExerciseListWidgetItem* e)
 {
-    resetHighlightings();    
     e->setStyleSheet("background-color:red;");
 }
 

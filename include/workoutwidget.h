@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QTimer>
+#include <QMessageBox>
 
 #include "include/workout.h"
 #include "include/exerciselistwidget.h"
@@ -39,15 +40,19 @@ namespace FreeFit
                 update_interval_timer->start();
             }
 
-        signals:
-            void exerciseTimeEnded();
-        private slots:
-            void timerEnded()
+            void stop()
             {
                 disconnect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
                 disconnect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
                 exercise_duration_timer->stop();
                 update_interval_timer->stop();
+            }
+        signals:
+            void exerciseTimeEnded();
+        private slots:
+            void timerEnded()
+            {
+                stop();
                 emit exerciseTimeEnded();
             }
 
@@ -67,6 +72,8 @@ namespace FreeFit
             QLabel* time_label;
             QTimer* exercise_duration_timer;
             QTimer* update_interval_timer;
+
+            bool is_only_paused = false;
         };
 
         class WorkoutWidgetControl : public QWidget
@@ -79,26 +86,21 @@ namespace FreeFit
 
                 recreate_button = new QPushButton("recreate",this);
                 play_button = new QPushButton("play",this);
-                pause_button = new QPushButton("pause",this);
 
                 connect(recreate_button,&QPushButton::clicked,this,&WorkoutWidgetControl::recreateClicked);
                 connect(play_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playClicked);
-                connect(pause_button,&QPushButton::clicked,this,&WorkoutWidgetControl::pauseClicked);
 
                 ly->addWidget(recreate_button);
                 ly->addWidget(play_button);
-                ly->addWidget(pause_button);
             }
         signals:
             void recreateClicked();
             void playClicked();
-            void pauseClicked();
         private:
             QHBoxLayout* ly;
 
             QPushButton* recreate_button;
             QPushButton* play_button;
-            QPushButton* pause_button;
         };
 
         class WorkoutWidget : public QWidget
@@ -116,14 +118,14 @@ namespace FreeFit
 
                 exercise_list->generateWidgets(w);
                 exercise_list->setMinimumWidth(320);
-                
+                connect(exercise_list,&ExerciseListWidget::allExercisesFinished,this,&WorkoutWidget::workoutFinished);
+
                 exercise_view->set_media(QString::fromStdString(w->getExercisesPerRound().begin()->getVideoPath()));
                 exercise_view->setMinimumSize(640,360);
 
                 control->setMinimumWidth(320);
                 connect(control,&WorkoutWidgetControl::recreateClicked,this,&WorkoutWidget::recreateClicked);
                 connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
-                connect(control,&WorkoutWidgetControl::pauseClicked,this,&WorkoutWidget::pauseClicked);
 
                 timer->setMinimumWidth(640);
                 connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::nextExercise);
@@ -144,6 +146,14 @@ namespace FreeFit
                 timer->startTimer(10);
             }
 
+            void workoutFinished()
+            {
+                timer->stop();
+                QMessageBox msg;
+                msg.setText("Workout finished!");
+                msg.exec();
+            }
+
             void recreateClicked()
             {
                 std::cout << "Recreate!" << std::endl;
@@ -154,14 +164,8 @@ namespace FreeFit
                 exercise_view->start();
                 timer->startTimer(10);
             }
-
-            void pauseClicked()
-            {
-                exercise_view->pause();
-            }
         private:
             QGridLayout* ly;
-            unsigned int t = 30;
             FreeFit::GUI::ExerciseListWidget* exercise_list;
             FreeFit::GUI::Exerciseviewer* exercise_view;
             FreeFit::GUI::WorkoutWidgetControl* control;
