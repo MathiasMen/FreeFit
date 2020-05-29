@@ -17,9 +17,12 @@ namespace FreeFit
 {
     namespace GUI
     {
+        class ProfileEditorValidator;
+
         class ProfileEditor : public QDialog
         {
         Q_OBJECT
+        friend ProfileEditorValidator;
         public:
             ProfileEditor(std::string p_path) : QDialog(),r(p_path),w(p_path)
             {
@@ -57,11 +60,8 @@ namespace FreeFit
         
             std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
 
-            void setName(std::string n){profile_name->setText(QString::fromStdString(n));}
             std::string getName(){return profile_name->text().toStdString();}
 
-            void setXMLInPath(std::string f){r.setInPath(f);}
-            void setXMLOutPath(std::string f){w.setOutPath(f);}
         public slots:
 
             void accept() override
@@ -102,6 +102,20 @@ namespace FreeFit
             QLineEdit* profile_name;
 
             QDialogButtonBox* button_box; 
+        };
+
+        class ProfileEditorValidator
+        {
+        public:
+            ProfileEditorValidator(ProfileEditor* t_p) : p(t_p){}
+
+            int getNumberOfLoadedProfiles(){return p->v_p.size();}
+            FreeFit::Data::Profile getProfile(int index){return p->v_p[index];}
+
+            void setName(std::string n){p->profile_name->setText(QString::fromStdString(n));}
+            void setXMLOutPath(std::string f){p->w.setOutPath(f);}
+        private:
+            ProfileEditor* p;
         };
     }
 }
