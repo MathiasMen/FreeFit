@@ -46,12 +46,19 @@ namespace FreeFit
             ExerciseListWidget(QWidget* parent);
             
             void generateWidgets(FreeFit::Data::WorkoutBase*);
+
+            void advanceCurrentExercise();
         private:
+            void highlightExercise(FreeFit::GUI::ExerciseListWidgetItem*);
+
+            void resetHighlightings();
+
             QVBoxLayout* ly;
             QVBoxLayout* sub_ly;
             QWidget* sub_widget;
             QScrollArea* scroll_area;
             std::list<ExerciseListWidgetItem*> exercise_widgets;
+            std::list<FreeFit::GUI::ExerciseListWidgetItem*>::iterator current_exercise;
         signals:
             void exerciseClickedSignal(FreeFit::Data::Exercise d);
         public slots:

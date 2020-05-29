@@ -39,13 +39,8 @@ namespace FreeFit
                 update_interval_timer->start();
             }
 
-            void setDefaultLabelText(){time_label->setText("-/-");}
-            
-            void setTimeText(int milliseconds)
-            {   
-                time_label->setText(QString::number(milliseconds/1000.0,'f',1));
-            }
-
+        signals:
+            void exerciseTimeEnded();
         private slots:
             void timerEnded()
             {
@@ -53,7 +48,7 @@ namespace FreeFit
                 disconnect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
                 exercise_duration_timer->stop();
                 update_interval_timer->stop();
-                std::cout << "Time is up!" << std::endl;
+                emit exerciseTimeEnded();
             }
 
             void updateLabel()
@@ -61,6 +56,13 @@ namespace FreeFit
                 setTimeText(exercise_duration_timer->remainingTime());
             }
         private:
+            void setDefaultLabelText(){time_label->setText("-/-");}
+            
+            void setTimeText(int milliseconds)
+            {   
+                time_label->setText(QString::number(milliseconds/1000.0,'f',1));
+            }
+
             QHBoxLayout* ly;
             QLabel* time_label;
             QTimer* exercise_duration_timer;
@@ -123,6 +125,9 @@ namespace FreeFit
                 connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
                 connect(control,&WorkoutWidgetControl::pauseClicked,this,&WorkoutWidget::pauseClicked);
 
+                timer->setMinimumWidth(640);
+                connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::nextExercise);
+
                 ly->addWidget(exercise_list,0,0,8,1);
                 ly->addWidget(control,8,0,2,1);
                 ly->addWidget(exercise_view,0,1,8,1);
@@ -133,6 +138,12 @@ namespace FreeFit
             void setWorkout(FreeFit::Data::WorkoutBase* t_w){w = t_w;}
 
         private slots:
+            void nextExercise()
+            {
+                exercise_list->advanceCurrentExercise();
+                timer->startTimer(10);
+            }
+
             void recreateClicked()
             {
                 std::cout << "Recreate!" << std::endl;
@@ -141,7 +152,7 @@ namespace FreeFit
             void playClicked()
             {
                 exercise_view->start();
-                timer->startTimer(30);
+                timer->startTimer(10);
             }
 
             void pauseClicked()
@@ -150,7 +161,7 @@ namespace FreeFit
             }
         private:
             QGridLayout* ly;
-
+            unsigned int t = 30;
             FreeFit::GUI::ExerciseListWidget* exercise_list;
             FreeFit::GUI::Exerciseviewer* exercise_view;
             FreeFit::GUI::WorkoutWidgetControl* control;
