@@ -47,7 +47,7 @@ namespace FreeFit
                 selectedProfileChanged(0);
                 connect(profile_name, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
                 connect(path_exercises_xml, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
-                connect(button_box, &QDialogButtonBox::accepted, this, &QDialog::accept);
+                connect(button_box, &QDialogButtonBox::accepted, this, &ProfileEditor::accept);
                 connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
                 ly->addWidget(profile_selection,0,0,1,2);
