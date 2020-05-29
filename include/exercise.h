@@ -34,6 +34,7 @@ namespace FreeFit
                 void addTrainedMuscle(MuscleGroup m){trained_areas.insert(m);};
                 std::set<MuscleGroup> getTrainedMuscles(){return trained_areas;}
 
+                std::string getLength(){return std::to_string(30);}
             private:
                 std::string name;
                 std::string video_url;

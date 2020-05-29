@@ -143,13 +143,18 @@ namespace FreeFit
             void nextExercise()
             {
                 if (exercise_list->advanceCurrentExercise())
-                    timer->startTimer(10);
+                {
+                    timer->startTimer(exercise_list->getLengthOfCurrentExercise());
+                    exercise_view->set_media(QString::fromStdString(exercise_list->getVideoPathOfCurrentExercise()));
+                    exercise_view->start();
+                }
                 else
                     workoutFinished();
             }
 
             void workoutFinished()
             {
+                exercise_view->stop();
                 timer->stop();
                 QMessageBox msg;
                 msg.setText("Workout finished!");
@@ -164,7 +169,7 @@ namespace FreeFit
             void playClicked()
             {
                 exercise_view->start();
-                timer->startTimer(10);
+                timer->startTimer(exercise_list->getLengthOfCurrentExercise());
                 disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
             }
         private:

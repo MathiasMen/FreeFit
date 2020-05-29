@@ -89,12 +89,22 @@ bool FreeFit::GUI::ExerciseListWidget::advanceCurrentExercise()
 {
     resetHighlightings();
     std::advance(current_exercise,1);
-    
+
     if (current_exercise == exercise_widgets.end())
         return false;
 
     highlightExercise(&(**current_exercise));
     return true;
+}
+
+int FreeFit::GUI::ExerciseListWidget::getLengthOfCurrentExercise()
+{
+    return (**current_exercise).getExerciseLength();
+}
+
+std::string FreeFit::GUI::ExerciseListWidget::getVideoPathOfCurrentExercise()
+{
+    return (**current_exercise).getVideoPath();
 }
 
 void FreeFit::GUI::ExerciseListWidget::highlightExercise(FreeFit::GUI::ExerciseListWidgetItem* e)

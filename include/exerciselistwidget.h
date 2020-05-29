@@ -26,6 +26,8 @@ namespace FreeFit
             void setRoundInformation(unsigned int, unsigned int);
             int getNameLength();
             void setNameLength(int);
+            int getExerciseLength(){return std::stoi(e_dat.getLength());}
+            std::string getVideoPath(){return e_dat.getVideoPath();}
         private:
             FreeFit::Data::Exercise e_dat;
 
@@ -48,6 +50,10 @@ namespace FreeFit
             void generateWidgets(FreeFit::Data::WorkoutBase*);
 
             bool advanceCurrentExercise();
+
+            int getLengthOfCurrentExercise();
+
+            std::string getVideoPathOfCurrentExercise();
         private:
             void highlightExercise(FreeFit::GUI::ExerciseListWidgetItem*);
 
