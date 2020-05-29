@@ -87,6 +87,12 @@ namespace FreeFit
                 p.setName(profile_name->text().toStdString());
                 p.setPathToExerciseDB(path_exercises_xml->text().toStdString());
             }
+
+            FreeFit::Data::Profile getCurrentlySelectedData()
+            {
+                return v_p[profile_selection->currentIndex()];
+            }
+
         private:
             std::vector<FreeFit::Data::Profile> v_p;
             FreeFit::Data::ProfileXMLReader r;
