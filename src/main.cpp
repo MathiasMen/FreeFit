@@ -1,5 +1,7 @@
 #include <QApplication>
 
+#include <iostream>
+
 #include "include/mainwindow.h"
 #include "include/profileeditor.h"
 #include "include/exerciseeditor.h"
@@ -9,13 +11,13 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	MainWindow w;
-	w.show();
 	FreeFit::GUI::ProfileEditor* p = new FreeFit::GUI::ProfileEditor("/Users/mathias/Documents/programming_workspace/FreeFit/test/ProfileEditorReadInTest.xml");
 	p->exec();
 	FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p->getCurrentlySelectedData());
 	e->exec();
-	FreeFit::GUI::WorkoutWidget* w = new FreeFit::GUI::WorkoutWidget();
-	w->show();
+	FreeFit::Data::AllExercisesWorkout* w = new FreeFit::Data::AllExercisesWorkout(e->getExerciseData());
+	w->generate();
+	FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w);
+	ww->show();
 	a.exec();
 }
