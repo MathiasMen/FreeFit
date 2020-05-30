@@ -13,11 +13,11 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
         areas.append("#" + FreeFit::Data::muscleGroupToString(a) + " ");
     lbl_trained_areas = new QLabel(QString::fromStdString(areas),this);
 
+    lbl_image = new QLabel("",this);
     if(e_dat.getThumbnailPath() != "")
     {
         img_thumbnail = QImage(QString::fromStdString(e_dat.getThumbnailPath()));
         img_thumbnail = img_thumbnail.scaled(50,50);
-        lbl_image = new QLabel("",this);
         lbl_image->setPixmap(QPixmap::fromImage(img_thumbnail));
         lbl_image->adjustSize();
     }
