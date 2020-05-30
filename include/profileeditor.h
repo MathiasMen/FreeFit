@@ -73,6 +73,7 @@ namespace FreeFit
                     l.push_back(p);
                 w.createNodeTree(l);
                 w.write();
+                QDialog::accept();
             }
 
             void selectedProfileChanged(int index)
