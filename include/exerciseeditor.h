@@ -212,6 +212,7 @@ namespace FreeFit
         public:
             ExerciseEditor(FreeFit::Data::Profile t_p);
             void deleteProfile(){delete browser->getWebEngineView()->page();};
+            std::list<FreeFit::Data::Exercise> getExerciseData();
         private:
             QDialogButtonBox* button_box;
             QPushButton* add_button;

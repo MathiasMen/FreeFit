@@ -431,6 +431,11 @@ namespace FreeFit
             repaintExerciseBackgrounds();
         }
 
+        std::list<FreeFit::Data::Exercise> ExerciseEditor::getExerciseData()
+        {
+            return r.getExerciseList();
+        }
+
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditorValidator::getFirstExerciseDemand()
         {
             return ee->generateDownloadExerciseDemand(*(ee->exercise_items.begin()));
