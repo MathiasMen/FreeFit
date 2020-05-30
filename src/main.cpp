@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "include/mainwindow.h"
 #include "include/profileeditor.h"
 #include "include/exerciseeditor.h"
 #include "include/workoutwidget.h"
