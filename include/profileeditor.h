@@ -26,6 +26,7 @@ namespace FreeFit
         public:
             ProfileEditor(std::string p_path) : QDialog(),r(p_path),w(p_path)
             {
+                this->setWindowTitle("Profiles");
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
 
