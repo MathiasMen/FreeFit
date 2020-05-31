@@ -35,9 +35,16 @@ TEST(YoutubeDownload, DownloadAndResize)
     std::string out_path = {"${CMAKE_BINARY_DIR}/test/Pushup.mp4"};
 
     VideoDownload::YoutubeDownloader* d = new VideoDownload::YoutubeDL();
-    d->setVideoFormat(VideoDownload::VideoType::MP4);
-    d->download("https://www.youtube.com/watch?v=-kwe1EOiWMY",out_path, 30, 90);
+    VideoDownload::VideoCutter* cutter = new VideoDownload::ffmpegCutter();
 
-    std::ifstream f("${CMAKE_BINARY_DIR}/test/Pushup_resized.mp4");
-    ASSERT_TRUE(f.good());
+    d->setVideoFormat(VideoDownload::VideoType::MP4);
+    d->download("https://www.youtube.com/watch?v=-kwe1EOiWMY",out_path);
+    
+    std::ifstream f1(out_path);
+    ASSERT_TRUE(f1.good());
+    
+    out_path = cutter->cutVideo(out_path,30,90);
+    
+    std::ifstream f2("${CMAKE_BINARY_DIR}/test/Pushup_resized.mp4");
+    ASSERT_TRUE(f2.good());
 }

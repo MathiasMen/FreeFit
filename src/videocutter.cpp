@@ -1,6 +1,6 @@
 #include "include/videocutter.h"
 #include <iostream>
-void VideoDownload::ffmpegCutter::cutVideo(std::string out_path, int start_time, int end_time)
+std::string VideoDownload::ffmpegCutter::cutVideo(std::string out_path, int start_time, int end_time)
 {
     int internal_length = end_time - start_time;
     std::string new_name =  out_path.substr(0,out_path.find(".")) +
@@ -15,4 +15,5 @@ void VideoDownload::ffmpegCutter::cutVideo(std::string out_path, int start_time,
                         " -async 1 " +
                         new_name);
     std::system(cut_cmnd.c_str());
+    return new_name;
 }

@@ -10,6 +10,7 @@
 #include "include/downloadexercisedemand.h"
 #include "include/datadefinitions.h"
 #include "include/youtubedownloader.h"
+#include "include/videocutter.h"
 
 namespace FreeFit
 {
@@ -24,8 +25,11 @@ namespace FreeFit
             DownloadExerciseDemandHandler();
             Exercise executeDemand(std::shared_ptr<GUI::DownloadExerciseDemand> d);
         private:
-            void downloadVideo(std::string url, std::string out_path, std::string start_time, std::string stop_time);
+            void downloadVideo(std::string url, std::string out_path);
+            std::string cutVideo(std::string in_path, std::string start_time, std::string stop_time);
+
             std::shared_ptr<VideoDownload::YoutubeDL> yt;
+            VideoDownload::VideoCutter* cutter;
         };
 
         class NewExerciseDemandHandlerValidator

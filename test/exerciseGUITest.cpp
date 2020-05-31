@@ -294,7 +294,7 @@ TEST(DownloadExerciseDemandHandler, ExecuteDemand)
     d->muscle_areas.push_back("Shoulder");
     d->muscle_areas.push_back("Chest");
     FreeFit::Data::Exercise e = h.executeDemand(d);
-    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40.mp4";
+    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40_resized.mp4";
     std::ifstream f(out_path);
     ASSERT_EQ(e.getVideoPath(),out_path);
     ASSERT_TRUE(f.is_open());
@@ -335,7 +335,7 @@ TEST_F(ExerciseEditor, XMLOutput)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4\n"
+    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
     "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.jpg\n"
@@ -382,7 +382,7 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4\n"
+    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
     "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.jpg\n"
@@ -433,7 +433,7 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4\n"
+    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
     "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.jpg\n"
@@ -461,7 +461,7 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/SomethingElse_49_54.mp4\n"
+    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/SomethingElse_49_54_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
     "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/SomethingElse_49_54.jpg\n"
