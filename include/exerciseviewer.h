@@ -22,6 +22,8 @@ namespace FreeFit
             void resizeToCircumventBug();
         private:
             QMediaPlayer* p;
+        signals:
+            void stateChanged(QMediaPlayer::State s);
         public slots:
             void start();
             void pause();

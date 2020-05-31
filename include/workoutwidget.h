@@ -155,6 +155,7 @@ namespace FreeFit
 
             void workoutFinished()
             {
+                disconnect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
                 exercise_view->stop();
                 timer->stop();
                 QMessageBox msg;
@@ -172,6 +173,13 @@ namespace FreeFit
                 exercise_view->start();
                 timer->startTimer(exercise_list->getLengthOfCurrentExercise());
                 disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
+                connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
+            }
+
+            void triggerReplay(QMediaPlayer::State s)
+            {
+                if (s == QMediaPlayer::StoppedState)
+                    exercise_view->start();
             }
         private:
             QGridLayout* ly;

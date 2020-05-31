@@ -5,6 +5,7 @@ FreeFit::GUI::Exerciseviewer::Exerciseviewer(QWidget* parent) : QVideoWidget(par
     p = new QMediaPlayer(this);
     p->setVideoOutput(this);
     p->setMuted(true);
+    connect(p,SIGNAL(stateChanged(QMediaPlayer::State)),this,SIGNAL(stateChanged(QMediaPlayer::State)));
     this->show();
 }
 
