@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QStyleFactory>
 
 #include <iostream>
 
@@ -8,8 +9,8 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
-
+    QApplication a(argc, argv);
+	QApplication::setStyle(QStyleFactory::create("Fusion"));
 	FreeFit::GUI::ProfileEditor* p = new FreeFit::GUI::ProfileEditor("/Users/mathias/Documents/programming_workspace/FreeFit/test/ProfileEditorReadInTest.xml");
 	p->exec();
 	FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p->getCurrentlySelectedData());
