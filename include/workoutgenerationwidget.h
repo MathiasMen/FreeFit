@@ -7,6 +7,7 @@
 #include <QRadioButton>
 #include <QLineEdit>
 #include <QIntValidator>
+#include <QDialogButtonBox>
 
 #include "include/exercise.h"
 #include "include/workout.h"
@@ -17,6 +18,7 @@ namespace FreeFit
     {
         class WorkoutGenerationWidget : public QDialog
         {
+        Q_OBJECT
         public:
             WorkoutGenerationWidget(QWidget* parent = nullptr) : QDialog(parent)
             {
@@ -33,6 +35,10 @@ namespace FreeFit
                 all_exercises_workout->setChecked(true);
                 ly->addWidget(all_exercises_workout,1,0);
 
+                button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+                connect(button_box, &QDialogButtonBox::accepted, this, &WorkoutGenerationWidget::accept);
+                connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
+                ly->addWidget(button_box,2,0);
                 this->setLayout(ly);
             }
 
@@ -41,12 +47,20 @@ namespace FreeFit
                 for (auto w : workout_types)
                     w->setPossibleExercises(e);
             }
+        public slots:
+
+            void accept() override
+            {
+                QDialog::accept();
+            }
+
         private:
             QGridLayout* ly;
             QRadioButton* all_exercises_workout;
             QIntValidator* int_validator;
             QLineEdit* number_of_lines;
             std::list<std::shared_ptr<FreeFit::Data::WorkoutBase>> workout_types;
+            QDialogButtonBox* button_box;
         };
     }
 }
