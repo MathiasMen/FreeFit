@@ -130,13 +130,13 @@ target_link_directories(WorkoutWidgetTest PUBLIC /usr/local/lib)
 target_link_libraries(WorkoutWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::MultimediaWidgets) 
 
 qt5_wrap_cpp(   WorkoutGenerationWidgetTestMocSources
-                ${CMAKE_SOURCE_DIR}/include/workoutwidget.h
+                ${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h
                 )
 
 add_executable( WorkoutGenerationWidgetTest
                 workoutGenerationWidgetTest.cpp
                 ${WorkoutGenerationWidgetTestMocSources}
-                ${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
                 )
 target_include_directories(WorkoutGenerationWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)
