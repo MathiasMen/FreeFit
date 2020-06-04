@@ -129,11 +129,26 @@ target_include_directories(WorkoutWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutWidgetTest PUBLIC /usr/local/lib)
 target_link_libraries(WorkoutWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::MultimediaWidgets) 
 
+qt5_wrap_cpp(   WorkoutGenerationWidgetTestMocSources
+                ${CMAKE_SOURCE_DIR}/include/workoutwidget.h
+                )
+
+add_executable( WorkoutGenerationWidgetTest
+                workoutGenerationWidgetTest.cpp
+                ${WorkoutGenerationWidgetTestMocSources}
+                ${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
+                )
+target_include_directories(WorkoutGenerationWidgetTest PUBLIC ${test_include_dirs})
+target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)
+target_link_libraries(WorkoutGenerationWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
 add_test(NAME ExerciseGUI COMMAND ExerciseGUITest)
 add_test(NAME ProfileEditor COMMAND ProfileEditorTest)
-add_test(NAME WorkoutWIdgetExerciseList COMMAND WorkoutWidgetExerciseListTest)
+add_test(NAME WorkoutWidgetExerciseList COMMAND WorkoutWidgetExerciseListTest)
 add_test(NAME WorkoutGeneration COMMAND WorkoutGenerationTest)
+add_test(NAME WorkoutWidget COMMAND WorkoutWidgetTest)
 add_test(NAME ExerciseViewer COMMAND ExerciseViewerTest)
+add_test(NAME WorkoutGenerationWidget COMMAND WorkoutGenerationWidgetTest)
