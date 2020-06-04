@@ -137,6 +137,7 @@ add_executable( WorkoutGenerationWidgetTest
                 workoutGenerationWidgetTest.cpp
                 ${WorkoutGenerationWidgetTestMocSources}
                 ${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/workout.cpp
                 )
 target_include_directories(WorkoutGenerationWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)
