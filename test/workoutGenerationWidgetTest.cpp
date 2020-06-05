@@ -57,3 +57,14 @@ TEST_F(WorkoutGenerationWidgetTest,Launch)
     w->show();
     a.exec();
 }
+
+TEST_F(WorkoutGenerationWidgetTest,Generate)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
+    w->setPossibleExercises(e_dat);
+    w->show();
+    w->accept();
+    ASSERT_EQ(w->getSelectedWorkout()->getExercisesPerRound().size(),2);
+    ASSERT_EQ(w->getSelectedWorkout()->getRounds(),3);
+}

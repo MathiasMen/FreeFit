@@ -25,6 +25,12 @@ namespace FreeFit
             {
                 workout_data->setPossibleExercises(e);
             }
+        
+            std::list<FreeFit::Data::Exercise> getExercisesPerRound(){return workout_data->getExercisesPerRound();}
+
+            unsigned int getRounds(){return workout_data->getRounds();}
+
+            void generateWorkout(){workout_data->generate();}
         private:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
         };
@@ -63,11 +69,18 @@ namespace FreeFit
                     w->setPossibleExercises(e);
             }
 
+            WorkoutOption* getSelectedWorkout()
+            {
+                for (WorkoutOption* w : workout_options)
+                    if (w->isChecked())
+                        return w;
+                return nullptr;
+            }
         public slots:
 
             void accept() override
             {
-                QDialog::accept();
+                getSelectedWorkout()->generateWorkout();
             }
 
         private:
