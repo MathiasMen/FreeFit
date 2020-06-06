@@ -54,7 +54,7 @@ TEST_F(ProfileEditor,WriteXML)
     "      23.05.1989\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/\n"
+    "      /Users/mathias/Documents/programming_workspace/FreeFit/test/ReadXMLAndPopulateExerciseList.xml\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      10,000000\n"
