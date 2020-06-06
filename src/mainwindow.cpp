@@ -7,13 +7,38 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::run()
 {
-    reInitProfileEditor("/Users/mathias/Documents/programming_workspace/FreeFit/test/ProfileEditorReadInTest.xml");
-	p->exec();
+    this->show();
+    presentProfileEditor("/Users/mathias/Documents/programming_workspace/FreeFit/test/ProfileEditorReadInTest.xml");
+}
+
+void MainWindow::presentProfileEditor(std::string profile_path)
+{
+    reInitProfileEditor(profile_path);
+    connect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
+    this->setCentralWidget(p);
+    p->exec();
+}
+
+void MainWindow::presentExerciseEditor()
+{
     reInitExerciseEditor();
+    connect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
+    this->setCentralWidget(e);
     e->exec();
+}
+
+void MainWindow::presentWorkoutGenerationWidget()
+{
     reInitWorkoutGenerationWidget();
+    connect(w,SIGNAL(accepted()),this,SLOT(presentWorkoutWidget()));
+    this->setCentralWidget(w);
     w->exec();
+}
+
+void MainWindow::presentWorkoutWidget()
+{
     reInitWorkoutWidget();
+    this->setCentralWidget(ww);
     ww->show();
 }
 
