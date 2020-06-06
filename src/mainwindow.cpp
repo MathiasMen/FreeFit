@@ -17,6 +17,7 @@ void MainWindow::presentProfileEditor(std::string profile_path)
     connect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
     this->setCentralWidget(p);
     p->exec();
+    disconnect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
 }
 
 void MainWindow::presentExerciseEditor()
@@ -25,6 +26,7 @@ void MainWindow::presentExerciseEditor()
     connect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
     this->setCentralWidget(e);
     e->exec();
+    disconnect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
 }
 
 void MainWindow::presentWorkoutGenerationWidget()
@@ -33,6 +35,7 @@ void MainWindow::presentWorkoutGenerationWidget()
     connect(w,SIGNAL(accepted()),this,SLOT(presentWorkoutWidget()));
     this->setCentralWidget(w);
     w->exec();
+    disconnect(w,SIGNAL(accepted()),this,SLOT(presentWorkoutWidget()));
 }
 
 void MainWindow::presentWorkoutWidget()
