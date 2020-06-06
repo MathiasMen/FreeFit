@@ -36,7 +36,12 @@ set(qt_sources
 set(qt_headers
     ${CMAKE_SOURCE_DIR}/include/mainwindow.h
     ${CMAKE_SOURCE_DIR}/include/exerciseeditor.h
-    ${CMAKE_SOURCE_DIR}/include/profileeditor.h)
+    ${CMAKE_SOURCE_DIR}/include/profileeditor.h
+    ${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
+    ${CMAKE_SOURCE_DIR}/include/workoutwidget.h
+    ${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h
+    ${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
+    )
 
 qt5_wrap_cpp(moc_sources ${qt_headers})
     
@@ -51,10 +56,15 @@ add_executable( ExerciseGUITest
                 ${CMAKE_SOURCE_DIR}/src/parser.cpp
                 ${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp
                 ${CMAKE_SOURCE_DIR}/src/downloadexercisedemandhandler.cpp
+                ${CMAKE_SOURCE_DIR}/src/exerciseviewer.cpp
+                ${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/workout.cpp
+                ${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
                 ${qt_sources} ${qt_headers} ${moc_sources})
 target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
-target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets) 
+target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets Qt5::MultimediaWidgets) 
 
 qt5_wrap_cpp(profileEditorMocSources ${CMAKE_SOURCE_DIR}/include/profileeditor.h)
 

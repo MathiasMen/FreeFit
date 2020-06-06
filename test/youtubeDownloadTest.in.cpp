@@ -2,6 +2,7 @@
 #include <fstream>
 #include "include/youtubeoptions.h"
 #include "include/youtubedownloader.h"
+#include "include/videocutter.h"
 
 int main(int argc, char** argv)
 {
