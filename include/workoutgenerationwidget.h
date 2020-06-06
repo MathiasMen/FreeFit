@@ -83,6 +83,7 @@ namespace FreeFit
             void accept() override
             {
                 getSelectedWorkout()->generateWorkout();
+                QDialog::accept();
             }
 
         private:
