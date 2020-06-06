@@ -8,6 +8,7 @@ MainWindow::MainWindow(std::string t_profile_path, QWidget *parent) :
 void MainWindow::run()
 {
     this->show();
+    this->resize(1024,640);
     presentProfileEditor();
 }
 

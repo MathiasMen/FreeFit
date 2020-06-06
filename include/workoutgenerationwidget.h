@@ -44,7 +44,6 @@ namespace FreeFit
             WorkoutGenerationWidget(QWidget* parent = nullptr) : QDialog(parent)
             {
                 this->setWindowTitle("Workout details");
-                this->resize(800,600);
                 ly = new QGridLayout(this);
 
                 number_of_lines = new QLineEdit("Enter number of rounds",this);
