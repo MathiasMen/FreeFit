@@ -9,6 +9,9 @@
     <VIDEOPATH>
       /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_0_0.mp4
     </VIDEOPATH>
+    <THUMBNAILPATH>
+      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_0_0.jpg
+    </THUMBNAILPATH>
     <VIDEOSTARTTIME>
       0
     </VIDEOSTARTTIME>
@@ -29,27 +32,24 @@
   </EXERCISE>
   <EXERCISE>
     <NAME>
-      Pushup2
+      Situp
     </NAME>
     <VIDEOURL>
-      https://www.youtube.com/watch?v=-kwe1EOiWMY
+      https://www.youtube.com/watch?v=l5YsDbLN43Y
     </VIDEOURL>
     <VIDEOPATH>
-      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup2_0_0.mp4
+      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_2_5_resized.mp4
     </VIDEOPATH>
+    <THUMBNAILPATH>
+      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_2_5.jpg
+    </THUMBNAILPATH>
     <VIDEOSTARTTIME>
-      0
+      2
     </VIDEOSTARTTIME>
     <VIDEOENDTIME>
-      0
+      5
     </VIDEOENDTIME>
     <TRAINEDAREAS>
-      <AREA>
-        1
-      </AREA>
-      <AREA>
-        2
-      </AREA>
       <AREA>
         3
       </AREA>

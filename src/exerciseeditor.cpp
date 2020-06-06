@@ -371,6 +371,7 @@ namespace FreeFit
             ExerciseItem* e = new ExerciseItem(this);
             e->setName(e_dat.getName());
             e->setVideoPath(e_dat.getVideoPath());
+            e->setThumbnailPath(e_dat.getThumbnailPath());
             e->setURL(e_dat.getVideoURL());
             e->setMuscleAreas(e_dat.getTrainedMuscles());
             e->setVideoStartTime(e_dat.getVideoStartTime());
