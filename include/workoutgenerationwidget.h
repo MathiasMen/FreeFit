@@ -31,6 +31,8 @@ namespace FreeFit
             unsigned int getRounds(){return workout_data->getRounds();}
 
             void generateWorkout(){workout_data->generate();}
+
+            std::shared_ptr<FreeFit::Data::WorkoutBase> getWorkout(){return workout_data;}
         private:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
         };

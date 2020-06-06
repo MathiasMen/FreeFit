@@ -5,6 +5,7 @@
 
 #include "include/profileeditor.h"
 #include "include/exerciseeditor.h"
+#include "include/workoutgenerationwidget.h"
 #include "include/workoutwidget.h"
 
 int main(int argc, char *argv[])
@@ -15,9 +16,10 @@ int main(int argc, char *argv[])
 	p->exec();
 	FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p->getCurrentlySelectedData());
 	e->exec();
-	FreeFit::Data::AllExercisesWorkout* w = new FreeFit::Data::AllExercisesWorkout(e->getExerciseData());
-	w->generate();
-	FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w);
+    FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
+    w->setPossibleExercises(e->getExerciseData());
+	w->exec();
+	FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w->getSelectedWorkout()->getWorkout().get());
 	ww->show();
 	a.exec();
 }

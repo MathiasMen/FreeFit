@@ -9,6 +9,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
 	${CMAKE_SOURCE_DIR}/src/workout.cpp
 	${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
+	${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
 	${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
 	${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
 	${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp
@@ -31,6 +32,7 @@ set(project_headers
 	${CMAKE_SOURCE_DIR}/include/videocutter.h
 	${CMAKE_SOURCE_DIR}/include/workout.h
 	${CMAKE_SOURCE_DIR}/include/workoutwidget.h
+	${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h
 	${CMAKE_SOURCE_DIR}/include/xmlnode.h
 	${CMAKE_SOURCE_DIR}/include/xmlreader.h
 	${CMAKE_SOURCE_DIR}/include/xmlwriter.h
@@ -44,7 +46,8 @@ qt5_wrap_cpp(moc_sources
 	${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
 	${CMAKE_SOURCE_DIR}/include/mainwindow.h
 	${CMAKE_SOURCE_DIR}/include/profileeditor.h
-	${CMAKE_SOURCE_DIR}/include/workoutwidget.h			
+	${CMAKE_SOURCE_DIR}/include/workoutwidget.h	
+	${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h		
 	)
     
 add_executable(app ${project_sources} ${project_headers} ${moc_sources})
