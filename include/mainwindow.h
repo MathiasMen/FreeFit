@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <iostream>
+
 #include <QMainWindow>
 #include <QStackedWidget>
 
@@ -20,4 +23,9 @@ private:
 	FreeFit::GUI::ExerciseEditor* e;
     FreeFit::GUI::WorkoutGenerationWidget* w;
 	FreeFit::GUI::WorkoutWidget* ww;
+
+    void reInitProfileEditor(std::string profile_path);
+    void reInitExerciseEditor();
+    void reInitWorkoutGenerationWidget();
+    void reInitWorkoutWidget();
 };
