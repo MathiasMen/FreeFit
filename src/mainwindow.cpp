@@ -1,19 +1,19 @@
 #include "include/mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), p(nullptr),e(nullptr),w(nullptr),ww(nullptr)
+MainWindow::MainWindow(std::string t_profile_path, QWidget *parent) :
+    QMainWindow(parent), p(nullptr),e(nullptr),w(nullptr),ww(nullptr), profile_path(t_profile_path)
 {
 }
 
 void MainWindow::run()
 {
     this->show();
-    presentProfileEditor("/Users/mathias/Documents/programming_workspace/FreeFit/test/ProfileEditorReadInTest.xml");
+    presentProfileEditor();
 }
 
-void MainWindow::presentProfileEditor(std::string profile_path)
+void MainWindow::presentProfileEditor()
 {
-    reInitProfileEditor(profile_path);
+    reInitProfileEditor();
     connect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
     this->setCentralWidget(p);
     p->exec();
@@ -24,18 +24,22 @@ void MainWindow::presentExerciseEditor()
 {
     reInitExerciseEditor();
     connect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
+    connect(e,SIGNAL(rejected()),this,SLOT(presentProfileEditor()));
     this->setCentralWidget(e);
     e->exec();
     disconnect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
+    disconnect(e,SIGNAL(rejected()),this,SLOT(presentProfileEditor()));
 }
 
 void MainWindow::presentWorkoutGenerationWidget()
 {
     reInitWorkoutGenerationWidget();
     connect(w,SIGNAL(accepted()),this,SLOT(presentWorkoutWidget()));
+    connect(w,SIGNAL(rejected()),this,SLOT(presentExerciseEditor()));
     this->setCentralWidget(w);
     w->exec();
     disconnect(w,SIGNAL(accepted()),this,SLOT(presentWorkoutWidget()));
+    disconnect(w,SIGNAL(rejected()),this,SLOT(presentExerciseEditor()));
 }
 
 void MainWindow::presentWorkoutWidget()
@@ -45,7 +49,7 @@ void MainWindow::presentWorkoutWidget()
     ww->show();
 }
 
-void MainWindow::reInitProfileEditor(std::string profile_path)
+void MainWindow::reInitProfileEditor()
 {
     if (p != nullptr)
         delete p;

@@ -15,10 +15,10 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(std::string profile_path = "", QWidget *parent = nullptr);
     void run();
 private:
-    void reInitProfileEditor(std::string profile_path);
+    void reInitProfileEditor();
     void reInitExerciseEditor();
     void reInitWorkoutGenerationWidget();
     void reInitWorkoutWidget();
@@ -28,8 +28,10 @@ private:
 	FreeFit::GUI::ExerciseEditor* e;
     FreeFit::GUI::WorkoutGenerationWidget* w;
 	FreeFit::GUI::WorkoutWidget* ww;
+
+    std::string profile_path;
 private slots:
-    void presentProfileEditor(std::string profile_path);
+    void presentProfileEditor();
     void presentExerciseEditor();
     void presentWorkoutGenerationWidget();
     void presentWorkoutWidget();
