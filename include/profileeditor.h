@@ -29,10 +29,11 @@ namespace FreeFit
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
 
-                profile_selection = new QComboBox(this);
                 label_path_exercises_xml = new QLabel("Path to Exercises XML:",this);
                 label_profile_name = new QLabel("Name:",this);
+                label_profile_selection = new QLabel("Select Profile:",this);
 
+                profile_selection = new QComboBox(this);
                 path_exercises_xml = new QLineEdit(this);
                 profile_name = new QLineEdit(this);
 
@@ -50,7 +51,8 @@ namespace FreeFit
                 connect(button_box, &QDialogButtonBox::accepted, this, &ProfileEditor::accept);
                 connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
-                ly->addWidget(profile_selection,0,0,1,2);
+                ly->addWidget(label_profile_selection,0,0);
+                ly->addWidget(profile_selection,0,1);
                 ly->addWidget(label_path_exercises_xml,1,0);
                 ly->addWidget(label_profile_name,2,0);
                 ly->addWidget(path_exercises_xml,1,1);
@@ -104,6 +106,7 @@ namespace FreeFit
 
             QLabel* label_path_exercises_xml;
             QLabel* label_profile_name;
+            QLabel* label_profile_selection;
 
             QLineEdit* path_exercises_xml;
             QLineEdit* profile_name;
