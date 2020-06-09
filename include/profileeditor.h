@@ -37,7 +37,7 @@ namespace FreeFit
                 path_exercises_xml = new QLineEdit(this);
                 profile_name = new QLineEdit(this);
 
-                button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+                button_box = new QDialogButtonBox(QDialogButtonBox::Ok);
 
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
