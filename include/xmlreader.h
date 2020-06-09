@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <iostream>
 
 #include "include/xmlnode.h"
 #include "include/exercise.h"

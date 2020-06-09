@@ -20,7 +20,6 @@
 #include <QWebEngineView>
 #include <QKeyEvent>
 
-#include <iostream>
 #include <set>
 #include <functional>
 #include <regex>

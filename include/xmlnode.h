@@ -3,7 +3,6 @@
 #include <string>
 #include <list>
 #include <memory>
-#include <iostream>
 
 namespace FreeFit
 {

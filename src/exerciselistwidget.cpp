@@ -1,7 +1,5 @@
 #include "include/exerciselistwidget.h"
 
-#include <iostream>
-
 FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,FreeFit::Data::Exercise t_e) : QWidget(parent), e_dat(t_e)
 {
     ly = new QGridLayout(this);

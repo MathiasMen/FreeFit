@@ -1,5 +1,4 @@
 #include "include/videocutter.h"
-#include <iostream>
 std::string VideoDownload::ffmpegCutter::cutVideo(std::string out_path, int start_time, int end_time)
 {
     int internal_length = end_time - start_time;
