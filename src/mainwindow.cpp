@@ -14,6 +14,7 @@ void MainWindow::run()
 
 void MainWindow::presentProfileEditor()
 {
+    this->setWindowTitle("Profile");
     reInitProfileEditor();
     connect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
     this->setCentralWidget(p);
@@ -23,6 +24,7 @@ void MainWindow::presentProfileEditor()
 
 void MainWindow::presentExerciseEditor()
 {
+    this->setWindowTitle("Exercises");
     reInitExerciseEditor();
     connect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
     connect(e,SIGNAL(rejected()),this,SLOT(presentProfileEditor()));
@@ -34,6 +36,7 @@ void MainWindow::presentExerciseEditor()
 
 void MainWindow::presentWorkoutGenerationWidget()
 {
+    this->setWindowTitle("WorkoutType");
     reInitWorkoutGenerationWidget();
     connect(w,SIGNAL(accepted()),this,SLOT(presentWorkoutWidget()));
     connect(w,SIGNAL(rejected()),this,SLOT(presentExerciseEditor()));
@@ -45,6 +48,7 @@ void MainWindow::presentWorkoutGenerationWidget()
 
 void MainWindow::presentWorkoutWidget()
 {
+    this->setWindowTitle("Workout");
     reInitWorkoutWidget();
     this->setCentralWidget(ww);
     ww->show();

@@ -286,7 +286,6 @@ namespace FreeFit
             :   p(t_p),demand_handler(),
                 r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
         {                
-            this->setWindowTitle("Exercises");
             ly = new QGridLayout(this);
 
             button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

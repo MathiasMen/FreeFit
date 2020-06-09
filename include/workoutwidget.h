@@ -110,7 +110,6 @@ namespace FreeFit
         public:
             WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : QWidget(t_p),w(t_w) 
             {
-                this->setWindowTitle("Workout");
                 ly = new QGridLayout(this);
 
                 exercise_list = new FreeFit::GUI::ExerciseListWidget(this);
