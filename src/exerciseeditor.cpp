@@ -50,6 +50,8 @@ namespace FreeFit
             l->setText(QString::fromStdString(c));
         }
 
+        void showLineEdit(){this->setCurrentWidget(le);}
+
         void EditableLine::showLabelAndSetText(QString t)
         {
             this->setCurrentWidget(l);

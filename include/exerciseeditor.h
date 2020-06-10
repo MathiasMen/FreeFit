@@ -91,7 +91,7 @@ namespace FreeFit
             void setContent(std::string c);
             void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
         public slots:
-            void showLineEdit(){this->setCurrentWidget(le);}
+            void showLineEdit();
             void showLabelAndSetText(QString t);            
             void styleTextAsOldAndValid();
             bool validateText();
