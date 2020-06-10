@@ -53,6 +53,8 @@ namespace FreeFit
                 connect(button_box, &QDialogButtonBox::accepted, this, &ProfileEditor::accept);
                 connect(skip_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
+                vertical_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+
                 ok_layout = new QHBoxLayout();
                 skip_layout = new QHBoxLayout();
                 horizontal_spacer_ok = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
@@ -70,8 +72,9 @@ namespace FreeFit
                 ly->addWidget(profile_selection,0,1);
                 ly->addWidget(path_exercises_xml,1,1);
                 ly->addWidget(profile_name,2,1);
-                ly->addLayout(skip_layout,3,1);
-                ly->addLayout(ok_layout,4,1);
+                ly->addItem(vertical_spacer,3,0,1,2);
+                ly->addLayout(skip_layout,4,1);
+                ly->addLayout(ok_layout,5,1);
             }
         
             std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
@@ -125,6 +128,8 @@ namespace FreeFit
 
             QLineEdit* path_exercises_xml;
             QLineEdit* profile_name;
+
+            QSpacerItem* vertical_spacer;
 
             QDialogButtonBox* button_box; 
             QPushButton* skip_button;
