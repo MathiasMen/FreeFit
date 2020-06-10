@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <QDialog>
+#include <QHBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -52,14 +53,25 @@ namespace FreeFit
                 connect(button_box, &QDialogButtonBox::accepted, this, &ProfileEditor::accept);
                 connect(skip_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
+                ok_layout = new QHBoxLayout();
+                skip_layout = new QHBoxLayout();
+                horizontal_spacer_ok = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+                horizontal_spacer_skip = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+                
+                ok_layout->addItem(horizontal_spacer_ok);
+                ok_layout->addWidget(button_box);
+
+                skip_layout->addItem(horizontal_spacer_skip);
+                skip_layout->addWidget(skip_button);
+
                 ly->addWidget(label_profile_selection,0,0);
                 ly->addWidget(label_path_exercises_xml,1,0);
                 ly->addWidget(label_profile_name,2,0);
                 ly->addWidget(profile_selection,0,1);
                 ly->addWidget(path_exercises_xml,1,1);
                 ly->addWidget(profile_name,2,1);
-                ly->addWidget(skip_button,3,1);
-                ly->addWidget(button_box,4,1);
+                ly->addLayout(skip_layout,3,1);
+                ly->addLayout(ok_layout,4,1);
             }
         
             std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
@@ -116,6 +128,8 @@ namespace FreeFit
 
             QDialogButtonBox* button_box; 
             QPushButton* skip_button;
+            QHBoxLayout* ok_layout;
+            QHBoxLayout* skip_layout;
             QSpacerItem* horizontal_spacer_ok;
             QSpacerItem* horizontal_spacer_skip;
         };
