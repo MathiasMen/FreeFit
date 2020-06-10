@@ -27,15 +27,17 @@ namespace FreeFit
 
         void WriteableLine::focusOutEvent(QFocusEvent* ev)
         {
+            this->deselect();
             emit textMessageBecauseFocusLost(this->text());
             QLineEdit::focusOutEvent(ev);
         }
 
         EditableLine::EditableLine(QString text,QWidget* parent):QStackedWidget(parent)
         {
-            this->setFocusPolicy(Qt::StrongFocus);
             l = new ClickableLabel(text,this);
             le = new WriteableLine(text,this);
+            this->setFocusPolicy(Qt::StrongFocus);
+            this->setFocusProxy(le);
             this->addWidget(l);
             this->addWidget(le);
             connect(l,&ClickableLabel::labelClicked,this,&EditableLine::showLineEdit);
@@ -52,8 +54,8 @@ namespace FreeFit
 
         void EditableLine::showLineEdit()
         {
-            this->setCurrentWidget(le);
             le->selectAll();
+            this->setCurrentWidget(le);
         }
 
         void EditableLine::showLabelAndSetText(QString t)
