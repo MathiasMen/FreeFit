@@ -17,9 +17,18 @@ void MainWindow::presentProfileEditor()
     this->setWindowTitle("Profile");
     reInitProfileEditor();
     connect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
+    connect(p,SIGNAL(skiptToWorkoutGeneration()),this,SLOT(skipFromProfileToWorkoutType()));
     this->setCentralWidget(p);
     p->exec();
     disconnect(p,SIGNAL(accepted()),this,SLOT(presentExerciseEditor()));
+}
+
+void MainWindow::skipFromProfileToWorkoutType()
+{
+    reInitExerciseEditor();
+    connect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
+    e->accept();
+    disconnect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
 }
 
 void MainWindow::presentExerciseEditor()

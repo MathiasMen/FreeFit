@@ -34,4 +34,5 @@ private slots:
     void presentExerciseEditor();
     void presentWorkoutGenerationWidget();
     void presentWorkoutWidget();
+    void skipFromProfileToWorkoutType();
 };

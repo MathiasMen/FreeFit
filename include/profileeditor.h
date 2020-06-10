@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 #include <QComboBox>
+#include <QPushButton>
 
 #include "include/profile.h"
 #include "include/xmlreader.h"
@@ -38,7 +39,7 @@ namespace FreeFit
                 profile_name = new QLineEdit(this);
 
                 button_box = new QDialogButtonBox(QDialogButtonBox::Ok);
-
+                skip_button = new QPushButton("Skip to Workout Settings");
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
                 for (auto p : v_p)
@@ -49,21 +50,23 @@ namespace FreeFit
                 connect(profile_name, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
                 connect(path_exercises_xml, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
                 connect(button_box, &QDialogButtonBox::accepted, this, &ProfileEditor::accept);
-                connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
+                connect(skip_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
                 ly->addWidget(label_profile_selection,0,0);
-                ly->addWidget(profile_selection,0,1);
                 ly->addWidget(label_path_exercises_xml,1,0);
                 ly->addWidget(label_profile_name,2,0);
+                ly->addWidget(profile_selection,0,1);
                 ly->addWidget(path_exercises_xml,1,1);
                 ly->addWidget(profile_name,2,1);
-                ly->addWidget(button_box,3,0,1,2);
+                ly->addWidget(skip_button,3,1);
+                ly->addWidget(button_box,4,1);
             }
         
             std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
 
             std::string getName(){return profile_name->text().toStdString();}
-
+        signals:
+            void skiptToWorkoutGeneration();
         public slots:
 
             void accept() override
@@ -112,6 +115,9 @@ namespace FreeFit
             QLineEdit* profile_name;
 
             QDialogButtonBox* button_box; 
+            QPushButton* skip_button;
+            QSpacerItem* horizontal_spacer_ok;
+            QSpacerItem* horizontal_spacer_skip;
         };
 
         class ProfileEditorValidator
