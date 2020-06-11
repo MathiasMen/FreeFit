@@ -493,74 +493,74 @@ namespace FreeFit
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditorValidator::getFirstExerciseDemand()
         {
-            return ee->generateDownloadExerciseDemand(*(ee->exercise_items.begin()));
+            return ee->generateDownloadExerciseDemand(*(ee->new_exercise_items.begin()));
         }
 
-        void ExerciseEditorValidator::setFirstExerciseNameText(std::string s)
+        void ExerciseEditorValidator::setFirstNewExerciseNameText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->name->le->setText(QString::fromStdString(s));
             e->name->le->textMessageBecauseFocusLost(e->name->le->text());
         }
 
-        void ExerciseEditorValidator::setFirstExerciseURLText(std::string s)
+        void ExerciseEditorValidator::setFirstNewExerciseURLText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->url->le->setText(QString::fromStdString(s));
             e->url->le->textMessageBecauseFocusLost(e->url->le->text());
         }
 
-        void ExerciseEditorValidator::setFirstExerciseStartTimeText(std::string s)
+        void ExerciseEditorValidator::setFirstNewExerciseStartTimeText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->start_time->le->setText(QString::fromStdString(s));
             e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
         }
 
-        void ExerciseEditorValidator::setFirstExerciseStopTimeText(std::string s)
+        void ExerciseEditorValidator::setFirstNewExerciseStopTimeText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->stop_time->le->setText(QString::fromStdString(s));
             e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
         }
 
-        void ExerciseEditorValidator::setFirstExerciseMuscleArea(int id)
+        void ExerciseEditorValidator::setFirstNewExerciseMuscleArea(int id)
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->hashtag_labels[id]->clicked();
         }
 
-        void ExerciseEditorValidator::setLastExerciseNameText(std::string s)
+        void ExerciseEditorValidator::setLastNewExerciseNameText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->name->le->setText(QString::fromStdString(s));
             e->name->le->textMessageBecauseFocusLost(e->name->le->text());
         }
 
-        void ExerciseEditorValidator::setLastExerciseURLText(std::string s)
+        void ExerciseEditorValidator::setLastNewExerciseURLText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->url->le->setText(QString::fromStdString(s));
             e->url->le->textMessageBecauseFocusLost(e->url->le->text());
         }
 
-        void ExerciseEditorValidator::setLastExerciseStartTimeText(std::string s)
+        void ExerciseEditorValidator::setLastNewExerciseStartTimeText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->start_time->le->setText(QString::fromStdString(s));
             e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
         }
 
-        void ExerciseEditorValidator::setLastExerciseStopTimeText(std::string s)
+        void ExerciseEditorValidator::setLastNewExerciseStopTimeText(std::string s)
         {
-            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->stop_time->le->setText(QString::fromStdString(s));
             e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
         }
 
-        void ExerciseEditorValidator::setLastExerciseMuscleArea(int id)
+        void ExerciseEditorValidator::setLastNewExerciseMuscleArea(int id)
         {
-            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->hashtag_labels[id]->clicked();
         }
 

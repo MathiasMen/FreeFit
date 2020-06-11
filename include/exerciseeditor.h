@@ -261,16 +261,16 @@ namespace FreeFit
             int getNumberOfExercisesToDownload(){return ee->new_exercise_items.size();}
             std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand();
 
-            void setFirstExerciseNameText(std::string s);
-            void setFirstExerciseURLText(std::string s);
-            void setFirstExerciseStartTimeText(std::string s);
-            void setFirstExerciseStopTimeText(std::string s);
-            void setFirstExerciseMuscleArea(int id);
-            void setLastExerciseNameText(std::string s);
-            void setLastExerciseURLText(std::string s);
-            void setLastExerciseStartTimeText(std::string s);
-            void setLastExerciseStopTimeText(std::string s);
-            void setLastExerciseMuscleArea(int id);
+            void setFirstNewExerciseNameText(std::string s);
+            void setFirstNewExerciseURLText(std::string s);
+            void setFirstNewExerciseStartTimeText(std::string s);
+            void setFirstNewExerciseStopTimeText(std::string s);
+            void setFirstNewExerciseMuscleArea(int id);
+            void setLastNewExerciseNameText(std::string s);
+            void setLastNewExerciseURLText(std::string s);
+            void setLastNewExerciseStartTimeText(std::string s);
+            void setLastNewExerciseStopTimeText(std::string s);
+            void setLastNewExerciseMuscleArea(int id);
             bool isFirstExerciseNameValid();
             bool isFirstExerciseURLValid();
             bool isFirstExerciseStartTimeValid();

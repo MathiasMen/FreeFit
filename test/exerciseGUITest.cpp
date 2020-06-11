@@ -73,9 +73,10 @@ TEST_F(ExerciseEditor,DeleteButton)
 
 TEST_F(ExerciseEditor,ExerciseDemand)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExerciseDemand.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
     std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = v.getFirstExerciseDemand();
     ASSERT_EQ(d->name,"...");
     ASSERT_EQ(d->video_url,"...");
@@ -86,19 +87,20 @@ TEST_F(ExerciseEditor,ExerciseDemand)
 TEST_F(ExerciseEditor,NonStandardInput)
 {
     std::string ex_name = "Pushup";
-    std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
+    std::string ex_url = "SOME_URL";
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/NonStandardInput.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setFirstExerciseNameText(ex_name);
-    v.setFirstExerciseURLText(ex_url);
-    v.setFirstExerciseStartTimeText(ex_start);
-    v.setFirstExerciseStopTimeText(ex_end);
-    v.setFirstExerciseMuscleArea(0);
-    v.setFirstExerciseMuscleArea(2);
+    v.pushAddButton();
+    v.setFirstNewExerciseNameText(ex_name);
+    v.setFirstNewExerciseURLText(ex_url);
+    v.setFirstNewExerciseStartTimeText(ex_start);
+    v.setFirstNewExerciseStopTimeText(ex_end);
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
 
     std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = v.getFirstExerciseDemand();
 
@@ -109,6 +111,8 @@ TEST_F(ExerciseEditor,NonStandardInput)
     ASSERT_EQ(d->video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
+
+    e->reject();
 }
 
 TEST_F(ExerciseEditor,ValidateFunctionTrue)
@@ -121,10 +125,10 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionTrue.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setFirstExerciseNameText(ex_name);
-    v.setFirstExerciseURLText(ex_url);
-    v.setFirstExerciseStartTimeText(ex_start);
-    v.setFirstExerciseStopTimeText(ex_end);
+    v.setFirstNewExerciseNameText(ex_name);
+    v.setFirstNewExerciseURLText(ex_url);
+    v.setFirstNewExerciseStartTimeText(ex_start);
+    v.setFirstNewExerciseStopTimeText(ex_end);
 
     ASSERT_TRUE(v.isFirstExerciseNameValid());
     ASSERT_TRUE(v.isFirstExerciseURLValid());
@@ -138,16 +142,16 @@ TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
-    v.setFirstExerciseNameText("Pushup!");
+    v.setFirstNewExerciseNameText("Pushup!");
     ASSERT_FALSE(v.isFirstExerciseNameValid());
 
-    v.setFirstExerciseNameText("Pushupß");
+    v.setFirstNewExerciseNameText("Pushupß");
     ASSERT_FALSE(v.isFirstExerciseNameValid());
     
     std::string dump;
     for (unsigned int i = 1; i <= 257;i++)
         dump += "a";
-    v.setFirstExerciseNameText(dump);
+    v.setFirstNewExerciseNameText(dump);
     ASSERT_FALSE(v.isFirstExerciseNameValid());
 }
 
@@ -157,13 +161,13 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
-    v.setFirstExerciseURLText("https://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
+    v.setFirstNewExerciseURLText("https://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
     ASSERT_FALSE(v.isFirstExerciseURLValid());
 
-    v.setFirstExerciseURLText("http://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
+    v.setFirstNewExerciseURLText("http://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
     ASSERT_FALSE(v.isFirstExerciseURLValid());
 
-    v.setFirstExerciseURLText("https://www.youtube.com/embed/nyiNSFp2uf0");
+    v.setFirstNewExerciseURLText("https://www.youtube.com/embed/nyiNSFp2uf0");
     ASSERT_FALSE(v.isFirstExerciseURLValid());
 }
 
@@ -173,13 +177,13 @@ TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
-    v.setFirstExerciseStartTimeText("abc");
+    v.setFirstNewExerciseStartTimeText("abc");
     ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
 
-    v.setFirstExerciseStartTimeText("12!");
+    v.setFirstNewExerciseStartTimeText("12!");
     ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
 
-    v.setFirstExerciseStartTimeText("1234");
+    v.setFirstNewExerciseStartTimeText("1234");
     ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
 }
 
@@ -189,13 +193,13 @@ TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
 
-    v.setFirstExerciseStopTimeText("abc");
+    v.setFirstNewExerciseStopTimeText("abc");
     ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
 
-    v.setFirstExerciseStopTimeText("12!");
+    v.setFirstNewExerciseStopTimeText("12!");
     ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
 
-    v.setFirstExerciseStopTimeText("1234");
+    v.setFirstNewExerciseStopTimeText("1234");
     ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
 }
 
@@ -209,12 +213,12 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckDemandContent.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setFirstExerciseNameText(ex_name);
-    v.setFirstExerciseURLText(ex_url);
-    v.setFirstExerciseStartTimeText(ex_start);
-    v.setFirstExerciseStopTimeText(ex_end);
-    v.setFirstExerciseMuscleArea(0);
-    v.setFirstExerciseMuscleArea(2);
+    v.setFirstNewExerciseNameText(ex_name);
+    v.setFirstNewExerciseURLText(ex_url);
+    v.setFirstNewExerciseStartTimeText(ex_start);
+    v.setFirstNewExerciseStopTimeText(ex_end);
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
 
     v.connectToDownloadSignalsOfItems();
     v.pushDownloadAllButton();
@@ -240,12 +244,12 @@ TEST_F(ExerciseEditor,DownloadClickedCheckFileExists)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckFileExists.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setFirstExerciseNameText(ex_name);
-    v.setFirstExerciseURLText(ex_url);
-    v.setFirstExerciseStartTimeText(ex_start);
-    v.setFirstExerciseStopTimeText(ex_end);
-    v.setFirstExerciseMuscleArea(0);
-    v.setFirstExerciseMuscleArea(2);
+    v.setFirstNewExerciseNameText(ex_name);
+    v.setFirstNewExerciseURLText(ex_url);
+    v.setFirstNewExerciseStartTimeText(ex_start);
+    v.setFirstNewExerciseStopTimeText(ex_end);
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
 
     v.connectToDownloadSignalsOfItems();
     v.pushDownloadAllButton();
@@ -317,12 +321,12 @@ TEST_F(ExerciseEditor, XMLOutput)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
 
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setFirstExerciseNameText(ex_name);
-    v.setFirstExerciseURLText(ex_url);
-    v.setFirstExerciseStartTimeText(ex_start);
-    v.setFirstExerciseStopTimeText(ex_end);
-    v.setFirstExerciseMuscleArea(0);
-    v.setFirstExerciseMuscleArea(2);
+    v.setFirstNewExerciseNameText(ex_name);
+    v.setFirstNewExerciseURLText(ex_url);
+    v.setFirstNewExerciseStartTimeText(ex_start);
+    v.setFirstNewExerciseStopTimeText(ex_end);
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
 
     v.connectToDownloadSignalsOfItems();
     v.pushDownloadAllButton();
@@ -415,12 +419,12 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
 
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
-    v.setLastExerciseNameText("SomethingElse");
-    v.setLastExerciseURLText("https://www.youtube.com/watch?v=O-3uPB3fgys");
-    v.setLastExerciseStartTimeText("49");
-    v.setLastExerciseStopTimeText("54");
-    v.setLastExerciseMuscleArea(0);
-    v.setLastExerciseMuscleArea(2);
+    v.setLastNewExerciseNameText("SomethingElse");
+    v.setLastNewExerciseURLText("https://www.youtube.com/watch?v=O-3uPB3fgys");
+    v.setLastNewExerciseStartTimeText("49");
+    v.setLastNewExerciseStopTimeText("54");
+    v.setLastNewExerciseMuscleArea(0);
+    v.setLastNewExerciseMuscleArea(2);
 
     v.pushDownloadAllButton();
 
