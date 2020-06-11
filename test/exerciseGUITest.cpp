@@ -41,30 +41,34 @@ class ExerciseEditor : public ::testing::Test
 
 TEST_F(ExerciseEditor,LaunchEditor)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/LaunchEditor.xml");
-    FreeFit::GUI::ExerciseEditor* d = new FreeFit::GUI::ExerciseEditor(p);
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    ASSERT_EQ(v.getNumberOfExercises(),1);
 }
 
 TEST_F(ExerciseEditor,AddButton)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddButton.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
-    int n_exercises = v.getNumberOfExercises();    
-    ASSERT_EQ(n_exercises,2);
+    v.pushAddButton();
+    ASSERT_EQ(v.getNumberOfExercisesToDownload(),2);
+    ASSERT_EQ(v.getNumberOfExercises(),1);
 }
 
 TEST_F(ExerciseEditor,DeleteButton)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DeleteButton.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
     v.pushAddButton();
-    v.pushFirstDeleteButton();
-    int n_exercises = v.getNumberOfExercises();    
-    ASSERT_EQ(n_exercises,2);
+    v.pushFirstDeleteButtonOldExercises();
+    v.pushFirstDeleteButtonNewExercises();
+    ASSERT_EQ(v.getNumberOfExercisesToDownload(),1);
+    ASSERT_EQ(v.getNumberOfExercises(),0);
 }
 
 TEST_F(ExerciseEditor,ExerciseDemand)
@@ -213,7 +217,7 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     v.setFirstExerciseMuscleArea(2);
 
     v.connectToDownloadSignalsOfItems();
-    v.pushFirstDownloadButton();
+    v.pushDownloadAllButton();
 
     FreeFit::GUI::DownloadExerciseDemand d = v.getLastDemand();
 
@@ -244,7 +248,7 @@ TEST_F(ExerciseEditor,DownloadClickedCheckFileExists)
     v.setFirstExerciseMuscleArea(2);
 
     v.connectToDownloadSignalsOfItems();
-    v.pushFirstDownloadButton();
+    v.pushDownloadAllButton();
 
     std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_2_3.mp4");
     ASSERT_TRUE(f.is_open());
@@ -321,7 +325,7 @@ TEST_F(ExerciseEditor, XMLOutput)
     v.setFirstExerciseMuscleArea(2);
 
     v.connectToDownloadSignalsOfItems();
-    v.pushFirstDownloadButton();
+    v.pushDownloadAllButton();
 
     e->accept();
 
@@ -417,10 +421,9 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     v.setLastExerciseStopTimeText("54");
     v.setLastExerciseMuscleArea(0);
     v.setLastExerciseMuscleArea(2);
-    
-    v.pushFirstDownloadButton();
-    v.pushLastDownloadButton();
-    
+
+    v.pushDownloadAllButton();
+
     e->accept();
 
     std::string expected_exercises_xml = 

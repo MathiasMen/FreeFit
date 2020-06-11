@@ -479,6 +479,7 @@ namespace FreeFit
         void ExerciseEditor::deleteExercise(ExerciseItem* e)
         {
             exercise_items.remove(e);
+            new_exercise_items.remove(e);
             new_exercise_area_ly->removeWidget(e);
             disconnect(e,nullptr,nullptr,nullptr);
             delete e;
@@ -593,9 +594,20 @@ namespace FreeFit
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
         }
 
-        void ExerciseEditorValidator::pushFirstDeleteButton()
+        void ExerciseEditorValidator::pushDownloadAllButton()
+        {
+            ee->download_exercises_button->click();
+        }
+
+        void ExerciseEditorValidator::pushFirstDeleteButtonOldExercises()
         {
             ExerciseItem* e = *(ee->exercise_items.begin());
+            e->delete_item->click();
+        }
+
+        void ExerciseEditorValidator::pushFirstDeleteButtonNewExercises()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->delete_item->click();
         }
 

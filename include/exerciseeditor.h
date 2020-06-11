@@ -258,6 +258,7 @@ namespace FreeFit
             ExerciseEditorValidator(ExerciseEditor* t_ee):ee(t_ee){};
             void pushAddButton(){ee->add_button->click();}
             int getNumberOfExercises(){return ee->exercise_items.size();}
+            int getNumberOfExercisesToDownload(){return ee->new_exercise_items.size();}
             std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand();
 
             void setFirstExerciseNameText(std::string s);
@@ -275,9 +276,9 @@ namespace FreeFit
             bool isFirstExerciseStartTimeValid();
             bool isFirstExerciseStopTimeValid();
             void connectToDownloadSignalsOfItems();
-            void pushFirstDownloadButton();
-            void pushLastDownloadButton();
-            void pushFirstDeleteButton();
+            void pushDownloadAllButton();
+            void pushFirstDeleteButtonOldExercises();
+            void pushFirstDeleteButtonNewExercises();
             GUI::DownloadExerciseDemand getLastDemand(){return *last_demand;}
         private:
             ExerciseEditor* ee;
