@@ -220,6 +220,7 @@ namespace FreeFit
             QWidget* new_exercise_area;        
             QVBoxLayout* new_exercise_area_ly;                
             QScrollArea* new_exercise_scroll_area;
+            QPushButton* download_exercises_button;
             QLabel* old_exercise_label;
             QWidget* old_exercise_area;
             QVBoxLayout* old_exercise_area_ly;

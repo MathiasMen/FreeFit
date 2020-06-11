@@ -318,6 +318,8 @@ namespace FreeFit
             new_exercise_scroll_area->setAlignment(Qt::AlignTop);
             new_exercise_scroll_area->setWidgetResizable(true);
 
+            download_exercises_button = new QPushButton("Add to Exercises",this);
+
             old_exercise_label = new QLabel("Existing Exercises",this);
 
             old_exercise_area = new QWidget(this);
@@ -343,14 +345,12 @@ namespace FreeFit
             ly->addWidget(download_all_button,0,2);
             ly->addWidget(new_exercise_label,1,1,1,2);
             ly->addWidget(new_exercise_scroll_area,2,1,1,2);
-            ly->addWidget(old_exercise_label,3,1,1,2);
-            ly->addWidget(old_exercise_scroll_area,4,1,1,2);
-            ly->addWidget(button_box,5,1,1,2);
-            ly->addWidget(browser,0,0,6,1);
+            ly->addWidget(download_exercises_button,3,1,1,2);
+            ly->addWidget(old_exercise_label,4,1,1,2);
+            ly->addWidget(old_exercise_scroll_area,5,1,1,2);
+            ly->addWidget(button_box,6,1,1,2);
+            ly->addWidget(browser,0,0,7,1);
 
-            new_exercise_scroll_area->setMaximumSize();
-            old_exercise_scroll_area->setMaximumHeight();
-            
             this->setLayout(ly);
         }
 
@@ -381,7 +381,7 @@ namespace FreeFit
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
         {
-            new_exercise_area_ly->insertWidget(0,e);
+            old_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             exercise_items.push_back(e);
@@ -391,7 +391,9 @@ namespace FreeFit
         void ExerciseEditor::addExercise()
         {
             ExerciseItem* e = new ExerciseItem(this);
-            registerExerciseItem(e);
+            new_exercise_area_ly->insertWidget(0,e);
+            connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
+            connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
