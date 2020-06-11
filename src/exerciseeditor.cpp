@@ -306,15 +306,29 @@ namespace FreeFit
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
             connect(download_all_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
-            exercise_area = new QWidget(this);
-            exercise_area_ly = new QVBoxLayout(exercise_area);
-            exercise_area_ly->addStretch();
-            exercise_area->setLayout(exercise_area_ly);
+            new_exercise_label = new QLabel("New Exercises",this);
 
-            scroll_area = new QScrollArea(this);
-            scroll_area->setWidget(exercise_area);
-            scroll_area->setAlignment(Qt::AlignTop);
-            scroll_area->setWidgetResizable(true);
+            new_exercise_area = new QWidget(this);
+            new_exercise_area_ly = new QVBoxLayout(new_exercise_area);
+            new_exercise_area_ly->addStretch();
+            new_exercise_area->setLayout(new_exercise_area_ly);
+
+            new_exercise_scroll_area = new QScrollArea(this);
+            new_exercise_scroll_area->setWidget(new_exercise_area);
+            new_exercise_scroll_area->setAlignment(Qt::AlignTop);
+            new_exercise_scroll_area->setWidgetResizable(true);
+
+            old_exercise_label = new QLabel("Existing Exercises",this);
+
+            old_exercise_area = new QWidget(this);
+            old_exercise_area_ly = new QVBoxLayout(old_exercise_area);
+            old_exercise_area_ly->addStretch();
+            old_exercise_area->setLayout(old_exercise_area_ly);
+
+            old_exercise_scroll_area = new QScrollArea(this);
+            old_exercise_scroll_area->setWidget(old_exercise_area);
+            old_exercise_scroll_area->setAlignment(Qt::AlignTop);
+            old_exercise_scroll_area->setWidgetResizable(true);
 
             r.read();
             for (auto e_data : r.getExerciseList())
@@ -325,11 +339,18 @@ namespace FreeFit
 
             browser = new ExerciseEditorBrowser(this);
 
-            ly->addWidget(browser,0,0,5,10);
-            ly->addWidget(add_button,0,10,1,1);
-            ly->addWidget(download_all_button,0,13,1,1);
-            ly->addWidget(scroll_area,1,10,4,4);
-            ly->addWidget(button_box,5,7);
+            ly->addWidget(add_button,0,1);
+            ly->addWidget(download_all_button,0,2);
+            ly->addWidget(new_exercise_label,1,1,1,2);
+            ly->addWidget(new_exercise_scroll_area,2,1,1,2);
+            ly->addWidget(old_exercise_label,3,1,1,2);
+            ly->addWidget(old_exercise_scroll_area,4,1,1,2);
+            ly->addWidget(button_box,5,1,1,2);
+            ly->addWidget(browser,0,0,6,1);
+
+            new_exercise_scroll_area->setMaximumSize();
+            old_exercise_scroll_area->setMaximumHeight();
+            
             this->setLayout(ly);
         }
 
@@ -360,7 +381,7 @@ namespace FreeFit
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
         {
-            exercise_area_ly->insertWidget(0,e);
+            new_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             exercise_items.push_back(e);
@@ -434,7 +455,7 @@ namespace FreeFit
         void ExerciseEditor::deleteExercise(ExerciseItem* e)
         {
             exercise_items.remove(e);
-            exercise_area_ly->removeWidget(e);
+            new_exercise_area_ly->removeWidget(e);
             disconnect(e,nullptr,nullptr,nullptr);
             delete e;
             repaintExerciseBackgrounds();

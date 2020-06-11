@@ -216,9 +216,14 @@ namespace FreeFit
             QDialogButtonBox* button_box;
             QPushButton* add_button;
             QPushButton* download_all_button;
-            QWidget* exercise_area;        
-            QVBoxLayout* exercise_area_ly;                
-            QScrollArea* scroll_area;
+            QLabel* new_exercise_label;
+            QWidget* new_exercise_area;        
+            QVBoxLayout* new_exercise_area_ly;                
+            QScrollArea* new_exercise_scroll_area;
+            QLabel* old_exercise_label;
+            QWidget* old_exercise_area;
+            QVBoxLayout* old_exercise_area_ly;
+            QScrollArea* old_exercise_scroll_area;
             ExerciseEditorBrowser* browser;
             QGridLayout* ly;
             std::list<ExerciseItem*> exercise_items;
