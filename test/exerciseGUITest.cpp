@@ -77,11 +77,13 @@ TEST_F(ExerciseEditor,ExerciseDemand)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
+    e->open();
     std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = v.getFirstExerciseDemand();
     ASSERT_EQ(d->name,"...");
     ASSERT_EQ(d->video_url,"...");
     ASSERT_EQ(d->video_start_time,"...");
     ASSERT_EQ(d->video_end_time,"...");
+    e->accept();
 }
 
 TEST_F(ExerciseEditor,NonStandardInput)
@@ -102,6 +104,7 @@ TEST_F(ExerciseEditor,NonStandardInput)
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
 
+    e->open();
     std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = v.getFirstExerciseDemand();
 
     auto it = d->muscle_areas.begin();
@@ -111,8 +114,7 @@ TEST_F(ExerciseEditor,NonStandardInput)
     ASSERT_EQ(d->video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
-
-    e->reject();
+    e->accept();
 }
 
 TEST_F(ExerciseEditor,ValidateFunctionTrue)
