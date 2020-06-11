@@ -163,10 +163,10 @@ namespace FreeFit
             connect(start_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
             connect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
 
+            item_downloaded_icon = new QLabel("",this);
+            item_downloaded_text = new QLabel("",this);
             delete_item = new QPushButton("Delete",this);
-            download_item = new QPushButton("Download",this);
             connect(delete_item,&QPushButton::clicked,this,&ExerciseItem::deleteClicked);
-            connect(download_item,&QPushButton::clicked,this,&ExerciseItem::downloadClicked);
 
             int row_counter = -1;
             int col_counter = -1;
@@ -183,8 +183,8 @@ namespace FreeFit
             ly->addWidget(stop_time,++row_counter,col_counter);
 
             ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
-
-            ly->addWidget(download_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
+            ly->addWidget(item_downloaded_text,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
+            ly->addWidget(item_downloaded_icon,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
 
             ly->addWidget(hashtag_widget,++row_counter,0,col_counter,2,Qt::AlignLeft);
         }
@@ -221,6 +221,8 @@ namespace FreeFit
             url->deactivateTextAndHighlightAsValid();
             start_time->deactivateTextAndHighlightAsValid();
             stop_time->deactivateTextAndHighlightAsValid();
+            item_downloaded_text->setText("Downloaded!");
+            //item_downloaded_icon->setPixmap(this->style()->standardIcon(QStyle::SP_DialogApplyButton).pixmap(delete_item->size().height()));
         }
 
         void ExerciseItem::highlightAsFaulty()
@@ -417,7 +419,6 @@ namespace FreeFit
             e->setVideoEndTime(e_dat.getVideoEndTime());
 
             registerExerciseItem(e);
-            e->highlightAsOldAndValid();
         }
 
         void ExerciseEditor::repaintExerciseBackgrounds()
@@ -590,18 +591,6 @@ namespace FreeFit
         {
             for (auto e : ee->exercise_items)
                 connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
-        }
-
-        void ExerciseEditorValidator::pushFirstDownloadButton()
-        {
-            ExerciseItem* e = *(ee->exercise_items.begin());
-            e->download_item->click();
-        }
-
-        void ExerciseEditorValidator::pushLastDownloadButton()
-        {
-            ExerciseItem* e = *(ee->exercise_items.rbegin());
-            e->download_item->click();
         }
 
         void ExerciseEditorValidator::pushFirstDeleteButton()

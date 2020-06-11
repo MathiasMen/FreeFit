@@ -173,8 +173,9 @@ namespace FreeFit
             EditableLine* start_time;
             EditableLine* stop_time;
 
+            QLabel* item_downloaded_icon;
+            QLabel* item_downloaded_text;
             QPushButton* delete_item;
-            QPushButton* download_item;
 
             MuscleGroups muscle_definitions;
             std::vector<ToggleableLabel*> hashtag_labels;
