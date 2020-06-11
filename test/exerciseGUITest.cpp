@@ -24,6 +24,48 @@ int main(int argc, char** argv)
     return RUN_ALL_TESTS();
 }
 
+TEST(DownloadExerciseDemand, Init)
+{
+    std::string name = "Name", video_url = "TestURL", video_start_time = "2", video_end_time = "5";
+
+    FreeFit::GUI::DownloadExerciseDemand d;
+    d.name = name;
+    d.video_url = video_url;
+    d.video_start_time = video_start_time;
+    d.video_end_time = video_end_time;
+    d.muscle_areas.push_back("Shoulders");
+    d.muscle_areas.push_back("Chest");
+
+    ASSERT_EQ(d.muscle_areas.size(),2);
+}
+
+TEST(DownloadExerciseDemandHandler, Init)
+{
+    FreeFit::Data::DownloadExerciseDemandHandler h;
+
+    FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
+
+    ASSERT_NE(v.getYoutubeDownloader(),nullptr);
+}
+
+TEST(DownloadExerciseDemandHandler, ExecuteDemand)
+{
+    FreeFit::Data::DownloadExerciseDemandHandler h;
+    FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
+    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = std::make_shared<FreeFit::GUI::DownloadExerciseDemand>();
+    d->name = "Pushup";
+    d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
+    d->video_start_time = "35";
+    d->video_end_time = "40";
+    d->muscle_areas.push_back("Shoulder");
+    d->muscle_areas.push_back("Chest");
+    FreeFit::Data::Exercise e = h.executeDemand(d);
+    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40_resized.mp4";
+    std::ifstream f(out_path);
+    ASSERT_EQ(e.getVideoPath(),out_path);
+    ASSERT_TRUE(f.is_open());
+}
+
 class ExerciseEditor : public ::testing::Test
 {
     protected:
@@ -259,48 +301,6 @@ TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     ASSERT_EQ(v.getNumberOfExercises(),2);
-}
-
-TEST(DownloadExerciseDemand, Init)
-{
-    std::string name = "Name", video_url = "TestURL", video_start_time = "2", video_end_time = "5";
-
-    FreeFit::GUI::DownloadExerciseDemand d;
-    d.name = name;
-    d.video_url = video_url;
-    d.video_start_time = video_start_time;
-    d.video_end_time = video_end_time;
-    d.muscle_areas.push_back("Shoulders");
-    d.muscle_areas.push_back("Chest");
-
-    ASSERT_EQ(d.muscle_areas.size(),2);
-}
-
-TEST(DownloadExerciseDemandHandler, Init)
-{
-    FreeFit::Data::DownloadExerciseDemandHandler h;
-
-    FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
-
-    ASSERT_NE(v.getYoutubeDownloader(),nullptr);
-}
-
-TEST(DownloadExerciseDemandHandler, ExecuteDemand)
-{
-    FreeFit::Data::DownloadExerciseDemandHandler h;
-    FreeFit::Data::NewExerciseDemandHandlerValidator v(&h);
-    std::shared_ptr<FreeFit::GUI::DownloadExerciseDemand> d = std::make_shared<FreeFit::GUI::DownloadExerciseDemand>();
-    d->name = "Pushup";
-    d->video_url = "https://www.youtube.com/watch?v=IODxDxX7oi4&t=35s";
-    d->video_start_time = "35";
-    d->video_end_time = "40";
-    d->muscle_areas.push_back("Shoulder");
-    d->muscle_areas.push_back("Chest");
-    FreeFit::Data::Exercise e = h.executeDemand(d);
-    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40_resized.mp4";
-    std::ifstream f(out_path);
-    ASSERT_EQ(e.getVideoPath(),out_path);
-    ASSERT_TRUE(f.is_open());
 }
 
 TEST_F(ExerciseEditor, XMLOutput)
