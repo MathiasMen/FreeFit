@@ -453,6 +453,7 @@ namespace FreeFit
                 FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
                 e->setVideoPath(e_dat.getVideoPath());
                 e->setThumbnailPath(e_dat.getThumbnailPath());
+                emit exerciseDownloaded(e);
                 return true;
             }
             else
@@ -494,6 +495,11 @@ namespace FreeFit
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditorValidator::getFirstExerciseDemand()
         {
             return ee->generateDownloadExerciseDemand(*(ee->new_exercise_items.begin()));
+        }
+
+        void ExerciseEditorValidator::setOutPath(std::string s)
+        {
+            ee->w = FreeFit::Data::ExerciseWriter(s);
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseNameText(std::string s)
@@ -590,8 +596,7 @@ namespace FreeFit
 
         void ExerciseEditorValidator::connectToDownloadSignalsOfItems()
         {
-            for (auto e : ee->exercise_items)
-                connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditorValidator::saveDemandFromDownloadClicked);
+            connect(ee,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(saveDemandFromDownloadClicked(ExerciseItem*)));
         }
 
         void ExerciseEditorValidator::pushDownloadAllButton()

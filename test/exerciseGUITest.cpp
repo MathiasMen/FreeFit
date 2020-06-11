@@ -217,16 +217,18 @@ TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
     ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
 }
 
-TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
+TEST_F(ExerciseEditor,DownloadClicked)
 {
     std::string ex_name = "Pushup";
     std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckDemandContent.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/DownloadClicked.xml");
+    v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
     v.setFirstNewExerciseStartTimeText(ex_start);
@@ -246,27 +248,6 @@ TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
     ASSERT_EQ(d.video_end_time,ex_end);
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
-}
-
-TEST_F(ExerciseEditor,DownloadClickedCheckFileExists)
-{
-    std::string ex_name = "Pushup";
-    std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
-    std::string ex_start = "2";
-    std::string ex_end = "3";
-    
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/DownloadClickedCheckFileExists.xml");
-    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-    FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setFirstNewExerciseNameText(ex_name);
-    v.setFirstNewExerciseURLText(ex_url);
-    v.setFirstNewExerciseStartTimeText(ex_start);
-    v.setFirstNewExerciseStopTimeText(ex_end);
-    v.setFirstNewExerciseMuscleArea(0);
-    v.setFirstNewExerciseMuscleArea(2);
-
-    v.connectToDownloadSignalsOfItems();
-    v.pushDownloadAllButton();
 
     std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_2_3.mp4");
     ASSERT_TRUE(f.is_open());
@@ -342,7 +323,6 @@ TEST_F(ExerciseEditor, XMLOutput)
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
 
-    v.connectToDownloadSignalsOfItems();
     v.pushDownloadAllButton();
 
     e->accept();

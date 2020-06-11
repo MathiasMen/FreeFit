@@ -237,6 +237,8 @@ namespace FreeFit
             FreeFit::Data::ExerciseXMLReader r;
             FreeFit::Data::ExerciseWriter w;
             FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
+        signals:
+            void exerciseDownloaded(ExerciseItem* e);
         public slots:
             void accept() override;
         private slots:
@@ -261,6 +263,7 @@ namespace FreeFit
             int getNumberOfExercisesToDownload(){return ee->new_exercise_items.size();}
             std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand();
 
+            void setOutPath(std::string s);
             void setFirstNewExerciseNameText(std::string s);
             void setFirstNewExerciseURLText(std::string s);
             void setFirstNewExerciseStartTimeText(std::string s);
