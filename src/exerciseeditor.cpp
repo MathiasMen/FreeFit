@@ -564,27 +564,27 @@ namespace FreeFit
             e->hashtag_labels[id]->clicked();
         }
 
-        bool ExerciseEditorValidator::isFirstExerciseNameValid()
+        bool ExerciseEditorValidator::isFirstNewExerciseNameValid()
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             return e->name->validateText();
         }
 
-        bool ExerciseEditorValidator::isFirstExerciseURLValid()
+        bool ExerciseEditorValidator::isFirstNewExerciseURLValid()
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             return e->url->validateText();
         }
 
-        bool ExerciseEditorValidator::isFirstExerciseStartTimeValid()
+        bool ExerciseEditorValidator::isFirstNewExerciseStartTimeValid()
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             return e->start_time->validateText();
         }
 
-        bool ExerciseEditorValidator::isFirstExerciseStopTimeValid()
+        bool ExerciseEditorValidator::isFirstNewExerciseStopTimeValid()
         {
-            ExerciseItem* e = *(ee->exercise_items.begin());
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
             return e->stop_time->validateText();
         }
 

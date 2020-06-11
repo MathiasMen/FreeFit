@@ -44,7 +44,10 @@ TEST_F(ExerciseEditor,LaunchEditor)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    e->open();
+    v.pushAddButton();
     ASSERT_EQ(v.getNumberOfExercises(),1);
+    e->accept();
 }
 
 TEST_F(ExerciseEditor,AddButton)
@@ -52,10 +55,12 @@ TEST_F(ExerciseEditor,AddButton)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    e->open();
     v.pushAddButton();
     v.pushAddButton();
     ASSERT_EQ(v.getNumberOfExercisesToDownload(),2);
     ASSERT_EQ(v.getNumberOfExercises(),1);
+    e->accept();
 }
 
 TEST_F(ExerciseEditor,DeleteButton)
@@ -124,85 +129,92 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
     std::string ex_start = "2";
     std::string ex_end = "3";
     
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionTrue.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    e->open();
+    v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
     v.setFirstNewExerciseStartTimeText(ex_start);
     v.setFirstNewExerciseStopTimeText(ex_end);
 
-    ASSERT_TRUE(v.isFirstExerciseNameValid());
-    ASSERT_TRUE(v.isFirstExerciseURLValid());
-    ASSERT_TRUE(v.isFirstExerciseStartTimeValid());
-    ASSERT_TRUE(v.isFirstExerciseStopTimeValid());
+    ASSERT_TRUE(v.isFirstNewExerciseNameValid());
+    ASSERT_TRUE(v.isFirstNewExerciseURLValid());
+    ASSERT_TRUE(v.isFirstNewExerciseStartTimeValid());
+    ASSERT_TRUE(v.isFirstNewExerciseStopTimeValid());
+    e->accept();
 }
 
 TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionNameWrong.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
 
     v.setFirstNewExerciseNameText("Pushup!");
-    ASSERT_FALSE(v.isFirstExerciseNameValid());
+    ASSERT_FALSE(v.isFirstNewExerciseNameValid());
 
     v.setFirstNewExerciseNameText("Pushupß");
-    ASSERT_FALSE(v.isFirstExerciseNameValid());
+    ASSERT_FALSE(v.isFirstNewExerciseNameValid());
     
     std::string dump;
     for (unsigned int i = 1; i <= 257;i++)
         dump += "a";
     v.setFirstNewExerciseNameText(dump);
-    ASSERT_FALSE(v.isFirstExerciseNameValid());
+    ASSERT_FALSE(v.isFirstNewExerciseNameValid());
 }
 
 TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionURLWrong.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
 
     v.setFirstNewExerciseURLText("https://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
-    ASSERT_FALSE(v.isFirstExerciseURLValid());
+    ASSERT_FALSE(v.isFirstNewExerciseURLValid());
 
     v.setFirstNewExerciseURLText("http://www.NOTyoutube.com/watch?v=BxIUwbb1Nzg");
-    ASSERT_FALSE(v.isFirstExerciseURLValid());
+    ASSERT_FALSE(v.isFirstNewExerciseURLValid());
 
     v.setFirstNewExerciseURLText("https://www.youtube.com/embed/nyiNSFp2uf0");
-    ASSERT_FALSE(v.isFirstExerciseURLValid());
+    ASSERT_FALSE(v.isFirstNewExerciseURLValid());
 }
 
 TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStartTimeWrong.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
 
     v.setFirstNewExerciseStartTimeText("abc");
-    ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
+    ASSERT_FALSE(v.isFirstNewExerciseStartTimeValid());
 
     v.setFirstNewExerciseStartTimeText("12!");
-    ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
+    ASSERT_FALSE(v.isFirstNewExerciseStartTimeValid());
 
     v.setFirstNewExerciseStartTimeText("1234");
-    ASSERT_FALSE(v.isFirstExerciseStartTimeValid());
+    ASSERT_FALSE(v.isFirstNewExerciseStartTimeValid());
 }
 
 TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStopTimeWrong.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
 
     v.setFirstNewExerciseStopTimeText("abc");
-    ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
+    ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
 
     v.setFirstNewExerciseStopTimeText("12!");
-    ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
+    ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
 
     v.setFirstNewExerciseStopTimeText("1234");
-    ASSERT_FALSE(v.isFirstExerciseStopTimeValid());
+    ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
 }
 
 TEST_F(ExerciseEditor,DownloadClickedCheckDemandContent)
