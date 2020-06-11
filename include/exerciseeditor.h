@@ -227,7 +227,9 @@ namespace FreeFit
             QScrollArea* old_exercise_scroll_area;
             ExerciseEditorBrowser* browser;
             QGridLayout* ly;
+
             std::list<ExerciseItem*> exercise_items;
+            std::list<ExerciseItem*> new_exercise_items;
 
             FreeFit::Data::Profile p;
             FreeFit::Data::ExerciseXMLReader r;
@@ -242,7 +244,7 @@ namespace FreeFit
             void addExistingExercise(FreeFit::Data::Exercise e_dat);
             void repaintExerciseBackgrounds();
             std::shared_ptr<DownloadExerciseDemand> generateDownloadExerciseDemand(ExerciseItem* e);
-            void downloadExercise(ExerciseItem* e);
+            bool downloadExercise(ExerciseItem* e);
             void downloadAllExercises();            
             void deleteExercise(ExerciseItem* e);
         };

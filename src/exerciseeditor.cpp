@@ -302,9 +302,7 @@ namespace FreeFit
             connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
             add_button = new QPushButton("Add Exercise",this);
-            download_all_button = new QPushButton("Download All",this);
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
-            connect(download_all_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
             new_exercise_label = new QLabel("New Exercises",this);
 
@@ -319,6 +317,7 @@ namespace FreeFit
             new_exercise_scroll_area->setWidgetResizable(true);
 
             download_exercises_button = new QPushButton("Add to Exercises",this);
+            connect(download_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
             old_exercise_label = new QLabel("Existing Exercises",this);
 
@@ -391,6 +390,7 @@ namespace FreeFit
         void ExerciseEditor::addExercise()
         {
             ExerciseItem* e = new ExerciseItem(this);
+            new_exercise_items.push_back(e);
             new_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
@@ -436,22 +436,34 @@ namespace FreeFit
             return d;
         }
 
-        void ExerciseEditor::downloadExercise(ExerciseItem* e)
+        bool ExerciseEditor::downloadExercise(ExerciseItem* e)
         {
             if(e->inputIsValid())
             {
                 FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
                 e->setVideoPath(e_dat.getVideoPath());
                 e->setThumbnailPath(e_dat.getThumbnailPath());
+                return true;
             }
             else
+            {
                 e->highlightAsFaulty();
+                return false;
+            }
         }
 
         void ExerciseEditor::downloadAllExercises()
         {
-            for(auto e : exercise_items)
-                downloadExercise(e);
+            std::list<ExerciseItem*> to_delete;
+            for(auto e : new_exercise_items)
+                if(downloadExercise(e))
+                    to_delete.push_back(e);
+            
+            for(auto e : to_delete)
+            {
+                registerExerciseItem(e);
+                new_exercise_items.remove(e);
+            }                
         }
 
         void ExerciseEditor::deleteExercise(ExerciseItem* e)
