@@ -94,6 +94,7 @@ namespace FreeFit
             void showLineEdit();
             void showLabelAndSetText(QString t);            
             void styleTextAsOldAndValid();
+            void deactivateTextAndHighlightAsValid();
             bool validateText();
         signals:
             void textChanged();

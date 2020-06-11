@@ -70,6 +70,15 @@ namespace FreeFit
             le->setStyleSheet("background-color:DarkSeaGreen;");
         }
 
+        void EditableLine::deactivateTextAndHighlightAsValid()
+        {            
+            disconnect(l,&ClickableLabel::labelClicked,this,&EditableLine::showLineEdit);
+            disconnect(le,&WriteableLine::textMessageBecauseFocusLost,this,&EditableLine::showLabelAndSetText);
+            disconnect(le,&QLineEdit::textChanged,this,&EditableLine::validateText);
+            disconnect(le,&QLineEdit::textEdited,this,&EditableLine::textChanged);
+            this->setCurrentWidget(l);
+        }
+
         bool EditableLine::validateText()
         {
             if(!validate_function(le->text().toStdString()))
@@ -209,9 +218,9 @@ namespace FreeFit
         {
             this->setStyleSheet("background-color:grey;");
             name->styleTextAsOldAndValid();
-            url->styleTextAsOldAndValid();
-            start_time->styleTextAsOldAndValid();
-            stop_time->styleTextAsOldAndValid();
+            url->deactivateTextAndHighlightAsValid();
+            start_time->deactivateTextAndHighlightAsValid();
+            stop_time->deactivateTextAndHighlightAsValid();
         }
 
         void ExerciseItem::highlightAsFaulty()
@@ -341,7 +350,6 @@ namespace FreeFit
             browser = new ExerciseEditorBrowser(this);
 
             ly->addWidget(add_button,0,1);
-            ly->addWidget(download_all_button,0,2);
             ly->addWidget(new_exercise_label,1,1,1,2);
             ly->addWidget(new_exercise_scroll_area,2,1,1,2);
             ly->addWidget(download_exercises_button,3,1,1,2);
@@ -380,6 +388,7 @@ namespace FreeFit
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
         {
+            e->highlightAsOldAndValid();
             old_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
