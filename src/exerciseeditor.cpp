@@ -461,8 +461,8 @@ namespace FreeFit
             std::shared_ptr<DownloadExerciseDemand> d = std::make_shared<DownloadExerciseDemand>();
             d->name = e->getName();
             d->video_url = e->getURL();
-            d->video_start_time = timeFormatStringToSecondsInt(e->getVideoStartTime());
-            d->video_end_time = timeFormatStringToSecondsInt(e->getVideoEndTime());
+            d->video_start_time = std::to_string(timeFormatStringToSecondsInt(e->getVideoStartTime()));
+            d->video_end_time = std::to_string(timeFormatStringToSecondsInt(e->getVideoEndTime()));
             d->muscle_areas = e->getMuscleAreas();
             return d;
         }
