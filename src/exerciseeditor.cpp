@@ -385,12 +385,28 @@ namespace FreeFit
             e_dat.setVideoURL(e->getURL());
             e_dat.setVideoPath(e->getVideoPath());
             e_dat.setThumbnailPath(e->getThumbnailPath());
-            e_dat.setVideoStartTime(e->getVideoStartTime());
-            e_dat.setVideoEndTime(e->getVideoEndTime());
+            e_dat.setVideoStartTime(std::to_string(timeFormatStringToSecondsInt(e->getVideoStartTime())));
+            e_dat.setVideoEndTime(std::to_string(timeFormatStringToSecondsInt(e->getVideoEndTime())));
             for (auto m : e->getMuscleAreas())
                 e_dat.addTrainedMuscle(FreeFit::Data::stringToMuscleGroup(m));
 
             return e_dat;
+        }
+
+        int ExerciseEditor::timeFormatStringToSecondsInt(std::string s)
+        {
+            std::string mins = s.substr(0,1);
+            std::string secs = s.substr(3,4);
+            return std::stoi(mins)*60 + std::stoi(secs);
+        }
+
+        std::string ExerciseEditor::secondsIntToTimeFormatString(int i)
+        {
+            int mins = (int)floor(i/60);
+            int secs = i - mins*60;
+            std::string s_m = (mins > 9 ? std::to_string(mins) : std::string("0" + std::to_string(mins)));
+            std::string s_s = (secs > 9 ? std::to_string(secs) : std::string("0" + std::to_string(secs)));
+            return s_m + ":" + s_s;
         }
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
@@ -420,8 +436,8 @@ namespace FreeFit
             e->setThumbnailPath(e_dat.getThumbnailPath());
             e->setURL(e_dat.getVideoURL());
             e->setMuscleAreas(e_dat.getTrainedMuscles());
-            e->setVideoStartTime(e_dat.getVideoStartTime());
-            e->setVideoEndTime(e_dat.getVideoEndTime());
+            e->setVideoStartTime(secondsIntToTimeFormatString(std::stoi(e_dat.getVideoStartTime())));
+            e->setVideoEndTime(secondsIntToTimeFormatString(std::stoi(e_dat.getVideoEndTime())));
 
             registerExerciseItem(e);
         }
@@ -445,8 +461,8 @@ namespace FreeFit
             std::shared_ptr<DownloadExerciseDemand> d = std::make_shared<DownloadExerciseDemand>();
             d->name = e->getName();
             d->video_url = e->getURL();
-            d->video_start_time = e->getVideoStartTime();
-            d->video_end_time = e->getVideoEndTime();
+            d->video_start_time = timeFormatStringToSecondsInt(e->getVideoStartTime());
+            d->video_end_time = timeFormatStringToSecondsInt(e->getVideoEndTime());
             d->muscle_areas = e->getMuscleAreas();
             return d;
         }

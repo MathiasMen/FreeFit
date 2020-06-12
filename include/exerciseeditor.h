@@ -24,6 +24,7 @@
 #include <functional>
 #include <regex>
 #include <memory>
+#include <math.h>
 
 #include "include/downloadexercisedemand.h"
 #include "include/downloadexercisedemandhandler.h"
@@ -243,6 +244,8 @@ namespace FreeFit
             void accept() override;
         private slots:
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
+            int timeFormatStringToSecondsInt(std::string);
+            std::string secondsIntToTimeFormatString(int);
             void registerExerciseItem(ExerciseItem* e);
             void addExercise();
             void addExistingExercise(FreeFit::Data::Exercise e_dat);

@@ -263,8 +263,8 @@ TEST_F(ExerciseEditor,DownloadClicked)
 {
     std::string ex_name = "Pushup";
     std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
-    std::string ex_start = "2";
-    std::string ex_end = "3";
+    std::string ex_start = "00:02";
+    std::string ex_end = "00:03";
     
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
@@ -278,6 +278,7 @@ TEST_F(ExerciseEditor,DownloadClicked)
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
 
+    e->open();
     v.connectToDownloadSignalsOfItems();
     v.pushDownloadAllButton();
 
@@ -291,8 +292,9 @@ TEST_F(ExerciseEditor,DownloadClicked)
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
 
-    std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_2_3.mp4");
+    std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_00:02_00:03.mp4");
     ASSERT_TRUE(f.is_open());
+    e->accept();
 }
 
 TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
