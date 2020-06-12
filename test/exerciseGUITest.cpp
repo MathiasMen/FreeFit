@@ -290,8 +290,8 @@ TEST_F(ExerciseEditor,DownloadClicked)
     auto it = d.muscle_areas.begin();
     ASSERT_EQ(d.name,ex_name);
     ASSERT_EQ(d.video_url,ex_url);
-    ASSERT_EQ(d.video_start_time,ex_start);
-    ASSERT_EQ(d.video_end_time,ex_end);
+    ASSERT_EQ(d.video_start_time,"2");
+    ASSERT_EQ(d.video_end_time,"3");
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
 
@@ -305,15 +305,18 @@ TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/ReadXMLAndPopulateExerciseList.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ReadXMLAndPopulateExerciseListOut.xml");
+    e->open();
     ASSERT_EQ(v.getNumberOfExercises(),2);
+    e->accept();
 }
 
 TEST_F(ExerciseEditor, XMLOutput)
 {
     std::string ex_name = "Situp";
     std::string ex_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
-    std::string ex_start = "50";
-    std::string ex_end = "53";
+    std::string ex_start = "00:50";
+    std::string ex_end = "00:53";
     
     std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/XMLOutput.xml";
     const int result = std::remove(out_path.c_str());
@@ -321,6 +324,8 @@ TEST_F(ExerciseEditor, XMLOutput)
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
 
     FreeFit::GUI::ExerciseEditorValidator v(e);
+    out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/XMLOutputOut.xml";
+    v.setOutPath(out_path);
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
     v.setFirstNewExerciseStartTimeText(ex_start);
@@ -420,8 +425,8 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     v.pushAddButton();
     v.setLastNewExerciseNameText("SomethingElse");
     v.setLastNewExerciseURLText("https://www.youtube.com/watch?v=O-3uPB3fgys");
-    v.setLastNewExerciseStartTimeText("49");
-    v.setLastNewExerciseStopTimeText("54");
+    v.setLastNewExerciseStartTimeText("00:49");
+    v.setLastNewExerciseStopTimeText("00:54");
     v.setLastNewExerciseMuscleArea(0);
     v.setLastNewExerciseMuscleArea(2);
 
