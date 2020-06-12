@@ -119,13 +119,18 @@ namespace FreeFit
             
             name_label->setToolTip("No special characters allowed.");
             url_label->setToolTip("Youtube-links only.");
-            start_time_label->setToolTip("Enter seconds between 0 and 999.");
-            stop_time_label->setToolTip("Enter seconds between 0 and 999.");
+            start_time_label->setToolTip("Enter start of video in format MM:SS.");
+            stop_time_label->setToolTip("Enter end of video in format MM:SS.");
 
             name        = new EditableLine("...",this);
             url         = new EditableLine("...",this);
-            start_time  = new EditableLine("...",this);
-            stop_time   = new EditableLine("...",this);
+            start_time  = new EditableLine("MM:SS",this);
+            stop_time   = new EditableLine("MM:SS",this);
+
+            name->setToolTip("No special characters allowed.");
+            url->setToolTip("Youtube-links only.");
+            start_time->setToolTip("Enter start of video in format MM:SS.");
+            stop_time->setToolTip("Enter end of video in format MM:SS.");
 
             const int edit_line_width = 180;
             const int edit_label_and_line_height = 18;
@@ -148,7 +153,7 @@ namespace FreeFit
             auto func_url_regex = [url_regex](std::string s)->bool{return std::regex_match(s,url_regex);};
             url->setValidationFunction(func_url_regex);
 
-            std::regex int_range_regex("[0-9]{0,3}");
+            std::regex int_range_regex("[0-9]{2}:[0-9]{2}");
             auto func_int_regex = [int_range_regex](std::string s)->bool{return std::regex_match(s,int_range_regex);};
             start_time->setValidationFunction(func_int_regex);
             stop_time->setValidationFunction(func_int_regex);
