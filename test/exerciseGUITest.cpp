@@ -302,7 +302,7 @@ TEST_F(ExerciseEditor,DownloadClicked)
 
 TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/ReadXMLAndPopulateExerciseList.xml");
+    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ReadXMLAndPopulateExerciseList.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ReadXMLAndPopulateExerciseListOut.xml");
