@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 class ExerciseView : public ::testing::Test
 {
     protected:
-        std::string video_path = "/Users/mathias/Documents/programming_workspace/FreeFit/test/Pushup.mp4";
+        std::string video_path = "/Users/mathias/Documents/programming_workspace/FreeFit/test/input/Pushup.mp4";
 };
 
 TEST_F(ExerciseView,Launch)
