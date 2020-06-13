@@ -23,7 +23,7 @@ class WorkoutTestObject : public ::testing::Test
         FreeFit::Data::AllExercisesWorkout* w;
     virtual void SetUp()
     {
-        r = new FreeFit::Data::ExerciseXMLReader("/Users/mathias/Documents/programming_workspace/FreeFit/test/WorkoutGenerationTest.xml");
+        r = new FreeFit::Data::ExerciseXMLReader("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/WorkoutGenerationTest.xml");
         w = new FreeFit::Data::AllExercisesWorkout(r->getExerciseList());
     }
 };
