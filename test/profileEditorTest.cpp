@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 class ProfileEditor : public ::testing::Test
 {
     protected:
-        std::string profile_path = "/Users/mathias/Documents/programming_workspace/FreeFit/test/ProfileEditorReadInTest.xml";
+        std::string profile_path = "/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ProfileEditorReadInTest.xml";
 };
 
 TEST_F(ProfileEditor,ReadXML)
