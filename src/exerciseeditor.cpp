@@ -471,10 +471,18 @@ namespace FreeFit
         {
             if(e->inputIsValid())
             {
-                FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
-                e->setVideoPath(e_dat.getVideoPath());
-                e->setThumbnailPath(e_dat.getThumbnailPath());
-                emit exerciseDownloaded(e);
+                auto f = [this,e]
+                {
+                    FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
+                    e->setVideoPath(e_dat.getVideoPath());
+                    e->setThumbnailPath(e_dat.getThumbnailPath());
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+                    this->setStyleSheet("background-color:Green;");
+                    emit exerciseDownloaded(e);
+                };
+                this->setStyleSheet("background-color:Red;");
+                std::thread t = std::thread(f);
+                t.detach();
                 return true;
             }
             else

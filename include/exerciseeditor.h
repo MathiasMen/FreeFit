@@ -25,6 +25,9 @@
 #include <regex>
 #include <memory>
 #include <math.h>
+#include <future>
+#include <thread>
+#include <utility>
 
 #include "include/downloadexercisedemand.h"
 #include "include/downloadexercisedemandhandler.h"
