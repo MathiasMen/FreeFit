@@ -19,6 +19,7 @@
 #include <QSize>
 #include <QWebEngineView>
 #include <QKeyEvent>
+#include <QMovie>
 
 #include <set>
 #include <functional>
@@ -156,6 +157,8 @@ namespace FreeFit
             void highlightAsFaulty();
             void setDefaultBackgroundColor(std::string c){default_color = c;}
             void setDefaultBackground();
+            void showWaitingSymbol();
+            void hideWaitingSymbol();            
         private slots:
             void resetStylesheetOnce();
             void itemChanged();
@@ -171,6 +174,8 @@ namespace FreeFit
             QLabel* url_label;
             QLabel* start_time_label;
             QLabel* stop_time_label;
+            QMovie *processMovie;
+            QLabel *processLabel;
 
             EditableLine* name;
             EditableLine* url;

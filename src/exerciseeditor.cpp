@@ -116,7 +116,12 @@ namespace FreeFit
             url_label = new QLabel("Youtube-URL:",this);
             start_time_label = new QLabel("Start Time:",this);
             stop_time_label = new QLabel("Stop Time:",this);
-            
+
+            processMovie = new QMovie("/Users/mathias/Documents/programming_workspace/FreeFit/tools/loading.gif");
+            processLabel = new QLabel(this);
+            processLabel->setMovie(processMovie);
+            processLabel->hide();
+
             name_label->setToolTip("No special characters allowed.");
             url_label->setToolTip("Youtube-links only.");
             start_time_label->setToolTip("Enter start of video in format MM:SS.");
@@ -188,6 +193,7 @@ namespace FreeFit
             ly->addWidget(stop_time,++row_counter,col_counter);
 
             ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
+            ly->addWidget(processLabel,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(item_downloaded_text,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(item_downloaded_icon,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
 
@@ -242,6 +248,18 @@ namespace FreeFit
         void ExerciseItem::setDefaultBackground()
         {
             this->setStyleSheet("background-color:" + QString::fromStdString(default_color) + ";");
+        }
+
+        void ExerciseItem::showWaitingSymbol()
+        {
+            processMovie->start();
+            processLabel->show();
+        }
+
+        void ExerciseItem::hideWaitingSymbol()
+        {
+            processMovie->stop();
+            processLabel->hide();
         }
 
         void ExerciseItem::resetStylesheetOnce()
@@ -476,11 +494,10 @@ namespace FreeFit
                     FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
                     e->setVideoPath(e_dat.getVideoPath());
                     e->setThumbnailPath(e_dat.getThumbnailPath());
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-                    this->setStyleSheet("background-color:Green;");
                     emit exerciseDownloaded(e);
+                    e->hideWaitingSymbol();
                 };
-                this->setStyleSheet("background-color:Red;");
+                e->showWaitingSymbol();
                 std::thread t = std::thread(f);
                 t.detach();
                 return true;
@@ -491,7 +508,7 @@ namespace FreeFit
                 return false;
             }
         }
-
+        
         void ExerciseEditor::downloadAllExercises()
         {
             std::list<ExerciseItem*> to_delete;
