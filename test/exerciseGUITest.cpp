@@ -83,13 +83,24 @@ class ExerciseEditor : public ::testing::Test
 
 TEST_F(ExerciseEditor,LaunchEditor)
 {
+    std::string ex_name = "Situp";
+    std::string ex_url = "https://www.youtube.com/watch?v=1fbU_MkV7NE";
+    std::string ex_start = "00:02";
+    std::string ex_end = "00:05";
+
     p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    e->open();
+    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/LaunchEditor_out.xml");
+
     v.pushAddButton();
-    ASSERT_EQ(v.getNumberOfExercises(),1);
-    e->accept();
+    v.setFirstNewExerciseNameText(ex_name);
+    v.setFirstNewExerciseURLText(ex_url);
+    v.setFirstNewExerciseStartTimeText(ex_start);
+    v.setFirstNewExerciseStopTimeText(ex_end);
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
+    e->exec();
 }
 
 TEST_F(ExerciseEditor,AddButton)

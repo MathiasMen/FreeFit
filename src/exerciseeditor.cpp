@@ -496,6 +496,8 @@ namespace FreeFit
                     e->setThumbnailPath(e_dat.getThumbnailPath());
                     emit exerciseDownloaded(e);
                     e->hideWaitingSymbol();
+                    registerExerciseItem(e);
+                    new_exercise_items.remove(e);
                 };
                 e->showWaitingSymbol();
                 std::thread t = std::thread(f);
@@ -511,16 +513,8 @@ namespace FreeFit
         
         void ExerciseEditor::downloadAllExercises()
         {
-            std::list<ExerciseItem*> to_delete;
             for(auto e : new_exercise_items)
-                if(downloadExercise(e))
-                    to_delete.push_back(e);
-            
-            for(auto e : to_delete)
-            {
-                registerExerciseItem(e);
-                new_exercise_items.remove(e);
-            }                
+                downloadExercise(e);
         }
 
         void ExerciseEditor::deleteExercise(ExerciseItem* e)
