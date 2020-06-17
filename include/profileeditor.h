@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <QApplication>
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -39,8 +40,30 @@ namespace FreeFit
                 path_exercises_xml = new QLineEdit(this);
                 profile_name = new QLineEdit(this);
 
-                button_box = new QDialogButtonBox(QDialogButtonBox::Ok);
-                skip_button = new QPushButton("Skip to Workout Settings");
+                next_page_button = new QPushButton(this);
+                next_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
+                next_page_button->setStyleSheet("text-align:right;");
+                next_page_button->setLayout(new QGridLayout);
+
+                QLabel* l_ok = new QLabel("Exercises",next_page_button);
+                l_ok->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+                l_ok->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+                next_page_button->layout()->addWidget(l_ok);
+                next_page_button->setIconSize(l_ok->size());
+                connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
+
+                skip_exercises_button = new QPushButton(this);
+                skip_exercises_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
+                skip_exercises_button->setStyleSheet("text-align:right;");
+                skip_exercises_button->setLayout(new QGridLayout);
+
+                QLabel* l_skip = new QLabel("Skip Exercises",skip_exercises_button);
+                l_skip->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+                l_skip->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+                skip_exercises_button->layout()->addWidget(l_skip);
+                skip_exercises_button->setIconSize(l_skip->size());
+                connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
+
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
                 for (auto p : v_p)
@@ -50,8 +73,6 @@ namespace FreeFit
                 selectedProfileChanged(0);
                 connect(profile_name, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
                 connect(path_exercises_xml, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
-                connect(button_box, &QDialogButtonBox::accepted, this, &ProfileEditor::accept);
-                connect(skip_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
                 vertical_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
@@ -61,10 +82,10 @@ namespace FreeFit
                 horizontal_spacer_skip = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
                 
                 ok_layout->addItem(horizontal_spacer_ok);
-                ok_layout->addWidget(button_box);
+                ok_layout->addWidget(next_page_button);
 
                 skip_layout->addItem(horizontal_spacer_skip);
-                skip_layout->addWidget(skip_button);
+                skip_layout->addWidget(skip_exercises_button);
 
                 ly->addWidget(label_profile_selection,0,0);
                 ly->addWidget(label_path_exercises_xml,1,0);
@@ -131,8 +152,8 @@ namespace FreeFit
 
             QSpacerItem* vertical_spacer;
 
-            QDialogButtonBox* button_box; 
-            QPushButton* skip_button;
+            QPushButton* next_page_button;
+            QPushButton* skip_exercises_button;
             QHBoxLayout* ok_layout;
             QHBoxLayout* skip_layout;
             QSpacerItem* horizontal_spacer_ok;
