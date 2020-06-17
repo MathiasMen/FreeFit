@@ -15,11 +15,11 @@
 #include <QPainter>
 #include <QStyle>
 #include <QListWidget>
-#include <QDialogButtonBox>
 #include <QSize>
 #include <QWebEngineView>
 #include <QKeyEvent>
 #include <QMovie>
+#include <QSpacerItem>
 
 #include <set>
 #include <functional>
@@ -224,7 +224,6 @@ namespace FreeFit
             void deleteProfile(){delete browser->getWebEngineView()->page();};
             std::list<FreeFit::Data::Exercise> getExerciseData();
         private:
-            QDialogButtonBox* button_box;
             QPushButton* add_button;
             QPushButton* download_all_button;
             QLabel* new_exercise_label;
@@ -237,6 +236,8 @@ namespace FreeFit
             QVBoxLayout* old_exercise_area_ly;
             QScrollArea* old_exercise_scroll_area;
             ExerciseEditorBrowser* browser;
+            QPushButton* next_page_button;
+            QPushButton* previous_page_button;
             QGridLayout* ly;
 
             std::list<ExerciseItem*> exercise_items;

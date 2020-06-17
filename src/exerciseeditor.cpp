@@ -330,11 +330,6 @@ namespace FreeFit
         {                
             ly = new QGridLayout(this);
 
-            button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-            
-            connect(button_box, &QDialogButtonBox::accepted, this, &QDialog::accept);
-            connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
-
             add_button = new QPushButton("Add Exercise",this);
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
 
@@ -374,14 +369,44 @@ namespace FreeFit
 
             browser = new ExerciseEditorBrowser(this);
 
+            next_page_button = new QPushButton(this);
+            next_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
+            next_page_button->setStyleSheet("text-align:right;");
+            next_page_button->setLayout(new QGridLayout);
+
+            QLabel* l_ok = new QLabel("Workout Type",next_page_button);
+            l_ok->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+            l_ok->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            next_page_button->layout()->addWidget(l_ok);
+            next_page_button->setIconSize(l_ok->size());
+            connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
+
+            previous_page_button = new QPushButton(this);
+            previous_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
+            previous_page_button->setStyleSheet("text-align:left;");
+            previous_page_button->setLayout(new QGridLayout);
+
+            QLabel* l_rej = new QLabel("Profile",previous_page_button);
+            l_rej->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            l_rej->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+            previous_page_button->layout()->addWidget(l_rej);
+            previous_page_button->setIconSize(l_rej->size());
+            connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
+
+            QGridLayout* controls_layout = new QGridLayout;
+            QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+            controls_layout->addWidget(previous_page_button,0,0);
+            controls_layout->addItem(horizontal_spacer,0,1);
+            controls_layout->addWidget(next_page_button,0,2);
+
             ly->addWidget(add_button,0,1);
             ly->addWidget(new_exercise_label,1,1,1,2);
             ly->addWidget(new_exercise_scroll_area,2,1,1,2);
             ly->addWidget(download_exercises_button,3,1,1,2);
             ly->addWidget(old_exercise_label,4,1,1,2);
             ly->addWidget(old_exercise_scroll_area,5,1,1,2);
-            ly->addWidget(button_box,6,1,1,2);
-            ly->addWidget(browser,0,0,7,1);
+            ly->addWidget(browser,0,0,6,1);
+            ly->addLayout(controls_layout,6,0,1,3);
 
             this->setLayout(ly);
         }
