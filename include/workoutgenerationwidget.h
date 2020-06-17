@@ -2,12 +2,15 @@
 
 #include <memory>
 
+#include <QApplication>
 #include <QDialog>
 #include <QGridLayout>
 #include <QRadioButton>
 #include <QLineEdit>
 #include <QIntValidator>
-#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QLabel>
+#include <QStyle>
 
 #include "include/exercise.h"
 #include "include/workout.h"
@@ -56,10 +59,37 @@ namespace FreeFit
                 ly->addWidget(all_exercises_workout,1,0);
                 workout_options.push_back(all_exercises_workout);
 
-                button_box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-                connect(button_box, &QDialogButtonBox::accepted, this, &WorkoutGenerationWidget::accept);
-                connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
-                ly->addWidget(button_box,2,0);
+                next_page_button = new QPushButton(this);
+                next_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
+                next_page_button->setStyleSheet("text-align:right;");
+                next_page_button->setLayout(new QGridLayout);
+
+                QLabel* l_ok = new QLabel("Workout",next_page_button);
+                l_ok->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+                l_ok->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+                next_page_button->layout()->addWidget(l_ok);
+                next_page_button->setIconSize(l_ok->size());
+                connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
+
+                previous_page_button = new QPushButton(this);
+                previous_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
+                previous_page_button->setStyleSheet("text-align:left;");
+                previous_page_button->setLayout(new QGridLayout);
+
+                QLabel* l_rej = new QLabel("Exercises",previous_page_button);
+                l_rej->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+                l_rej->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+                previous_page_button->layout()->addWidget(l_rej);
+                previous_page_button->setIconSize(l_rej->size());
+                connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
+
+                QGridLayout* controls_layout = new QGridLayout;
+                QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+                controls_layout->addWidget(previous_page_button,0,0);
+                controls_layout->addItem(horizontal_spacer,0,1);
+                controls_layout->addWidget(next_page_button,0,2);
+
+                ly->addLayout(controls_layout,2,0);
                 this->setLayout(ly);
             }
 
@@ -90,7 +120,8 @@ namespace FreeFit
             QIntValidator* int_validator;
             QLineEdit* number_of_lines;
             std::list<WorkoutOption*> workout_options;
-            QDialogButtonBox* button_box;
+            QPushButton* next_page_button;
+            QPushButton* previous_page_button;
         };
     }
 }
