@@ -129,8 +129,8 @@ namespace FreeFit
 
             name        = new EditableLine("...",this);
             url         = new EditableLine("...",this);
-            start_time  = new EditableLine("MM:SS",this);
-            stop_time   = new EditableLine("MM:SS",this);
+            start_time  = new EditableLine("00:00",this);
+            stop_time   = new EditableLine("00:00",this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
