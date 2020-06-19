@@ -144,6 +144,7 @@ target_link_libraries(WorkoutWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt
 
 qt5_wrap_cpp(   WorkoutGenerationWidgetTestMocSources
                 ${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h
+                ${CMAKE_SOURCE_DIR}/include/controls.h
                 )
 
 add_executable( WorkoutGenerationWidgetTest
