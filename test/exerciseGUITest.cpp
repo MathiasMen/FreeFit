@@ -89,7 +89,8 @@ TEST_F(ExerciseEditor,LaunchEditor)
     e->open();
     v.pushAddButton();
     ASSERT_EQ(v.getNumberOfExercises(),1);
-    e->accept();}
+    e->accept();
+}
 
 TEST_F(ExerciseEditor,AddButton)
 {
