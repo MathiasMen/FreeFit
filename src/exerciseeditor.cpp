@@ -369,28 +369,10 @@ namespace FreeFit
 
             browser = new ExerciseEditorBrowser(this);
 
-            next_page_button = new QPushButton(this);
-            next_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
-            next_page_button->setStyleSheet("text-align:right;");
-            next_page_button->setLayout(new QGridLayout);
-
-            QLabel* l_ok = new QLabel("Workout Type",next_page_button);
-            l_ok->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-            l_ok->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-            next_page_button->layout()->addWidget(l_ok);
-            next_page_button->setIconSize(l_ok->size());
+            next_page_button = new ControlButton("Workout Type", ControlButton::ForwardButton,this);
             connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
-            previous_page_button = new QPushButton(this);
-            previous_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
-            previous_page_button->setStyleSheet("text-align:left;");
-            previous_page_button->setLayout(new QGridLayout);
-
-            QLabel* l_rej = new QLabel("Profile",previous_page_button);
-            l_rej->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            l_rej->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-            previous_page_button->layout()->addWidget(l_rej);
-            previous_page_button->setIconSize(l_rej->size());
+            previous_page_button = new ControlButton("Profile", ControlButton::BackwardButton,this);
             connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
 
             QGridLayout* controls_layout = new QGridLayout;

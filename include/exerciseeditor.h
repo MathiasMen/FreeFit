@@ -36,6 +36,7 @@
 #include "include/exercise.h"
 #include "include/datadefinitions.h"
 #include "include/xmlreader.h"
+#include "include/controls.h"
 
 namespace FreeFit
 {
@@ -236,8 +237,8 @@ namespace FreeFit
             QVBoxLayout* old_exercise_area_ly;
             QScrollArea* old_exercise_scroll_area;
             ExerciseEditorBrowser* browser;
-            QPushButton* next_page_button;
-            QPushButton* previous_page_button;
+            ControlButton* next_page_button;
+            ControlButton* previous_page_button;
             QGridLayout* ly;
 
             std::list<ExerciseItem*> exercise_items;
