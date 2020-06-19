@@ -35,6 +35,7 @@ set(qt_sources
 
 set(qt_headers
     ${CMAKE_SOURCE_DIR}/include/mainwindow.h
+    ${CMAKE_SOURCE_DIR}/include/controls.h
     ${CMAKE_SOURCE_DIR}/include/exerciseeditor.h
     ${CMAKE_SOURCE_DIR}/include/profileeditor.h
     ${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
@@ -66,7 +67,9 @@ target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
 target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets Qt5::MultimediaWidgets) 
 
-qt5_wrap_cpp(profileEditorMocSources ${CMAKE_SOURCE_DIR}/include/profileeditor.h)
+qt5_wrap_cpp(   profileEditorMocSources
+                ${CMAKE_SOURCE_DIR}/include/profileeditor.h
+                ${CMAKE_SOURCE_DIR}/include/controls.h)
 
 add_executable( ProfileEditorTest
                 profileEditorTest.cpp

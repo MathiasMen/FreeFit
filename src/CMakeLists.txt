@@ -19,6 +19,7 @@ set(project_sources
 
 set(project_headers
 	${CMAKE_SOURCE_DIR}/include/mainwindow.h
+	${CMAKE_SOURCE_DIR}/include/controls.h
 	${CMAKE_SOURCE_DIR}/include/datadefinitions.h
 	${CMAKE_SOURCE_DIR}/include/downloadexercisedemand.h
 	${CMAKE_SOURCE_DIR}/include/downloadexercisedemandhandler.h
@@ -45,6 +46,7 @@ qt5_wrap_cpp(moc_sources
 	${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
 	${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
 	${CMAKE_SOURCE_DIR}/include/mainwindow.h
+	${CMAKE_SOURCE_DIR}/include/controls.h
 	${CMAKE_SOURCE_DIR}/include/profileeditor.h
 	${CMAKE_SOURCE_DIR}/include/workoutwidget.h	
 	${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h		

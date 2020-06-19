@@ -15,6 +15,7 @@
 #include "include/profile.h"
 #include "include/xmlreader.h"
 #include "include/xmlwriter.h"
+#include "include/controls.h"
 
 namespace FreeFit
 {
@@ -40,28 +41,10 @@ namespace FreeFit
                 path_exercises_xml = new QLineEdit(this);
                 profile_name = new QLineEdit(this);
 
-                next_page_button = new QPushButton(this);
-                next_page_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
-                next_page_button->setStyleSheet("text-align:right;");
-                next_page_button->setLayout(new QGridLayout);
-
-                QLabel* l_ok = new QLabel("Exercises",next_page_button);
-                l_ok->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-                l_ok->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-                next_page_button->layout()->addWidget(l_ok);
-                next_page_button->setIconSize(l_ok->size());
+                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,this);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
-                skip_exercises_button = new QPushButton(this);
-                skip_exercises_button->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
-                skip_exercises_button->setStyleSheet("text-align:right;");
-                skip_exercises_button->setLayout(new QGridLayout);
-
-                QLabel* l_skip = new QLabel("Skip Exercises",skip_exercises_button);
-                l_skip->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-                l_skip->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-                skip_exercises_button->layout()->addWidget(l_skip);
-                skip_exercises_button->setIconSize(l_skip->size());
+                skip_exercises_button = new ControlButton("Skip Exercises",ControlButton::ForwardButton,this);
                 connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
                 for (auto p : r.getProfileList())
@@ -152,8 +135,8 @@ namespace FreeFit
 
             QSpacerItem* vertical_spacer;
 
-            QPushButton* next_page_button;
-            QPushButton* skip_exercises_button;
+            ControlButton* next_page_button;
+            ControlButton* skip_exercises_button;
             QHBoxLayout* ok_layout;
             QHBoxLayout* skip_layout;
             QSpacerItem* horizontal_spacer_ok;
