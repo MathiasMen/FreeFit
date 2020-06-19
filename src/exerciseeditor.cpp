@@ -441,7 +441,6 @@ namespace FreeFit
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             exercise_items.push_back(e);
-            repaintExerciseBackgrounds();
         }
 
         void ExerciseEditor::addExercise()
@@ -465,20 +464,6 @@ namespace FreeFit
             e->setVideoEndTime(secondsIntToTimeFormatString(std::stoi(e_dat.getVideoEndTime())));
 
             registerExerciseItem(e);
-        }
-
-        void ExerciseEditor::repaintExerciseBackgrounds()
-        {
-            unsigned int e_counter = 0;
-            for (auto e : exercise_items)
-            {
-                if(e_counter % 2 == 0)
-                    e->setDefaultBackgroundColor("darkgray");
-                else
-                    e->setDefaultBackgroundColor("dimgray");
-                e->setDefaultBackground();
-                ++e_counter;
-            }
         }
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditor::generateDownloadExerciseDemand(ExerciseItem* e)
@@ -531,7 +516,6 @@ namespace FreeFit
             new_exercise_area_ly->removeWidget(e);
             disconnect(e,nullptr,nullptr,nullptr);
             delete e;
-            repaintExerciseBackgrounds();
         }
 
         std::list<FreeFit::Data::Exercise> ExerciseEditor::getExerciseData()
