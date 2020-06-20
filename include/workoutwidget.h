@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include <QWidget>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -182,9 +180,7 @@ namespace FreeFit
             }
 
             void recreateClicked()
-            {
-                std::cout << "Recreate!" << std::endl;
-            }
+            {}
 
             void playClicked()
             {
@@ -202,7 +198,6 @@ namespace FreeFit
 
             void playNotificationSound()
             {
-                std::cout << "Triggered" << std::endl;
                 QSound::play("/Users/mathias/Documents/programming_workspace/FreeFit/tools/notification.wav");
             }
         private:
