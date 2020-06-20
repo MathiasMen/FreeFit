@@ -259,6 +259,7 @@ namespace FreeFit
             void registerExerciseItem(ExerciseItem* e);
             void addExercise();
             void addExistingExercise(FreeFit::Data::Exercise e_dat);
+            void moveExerciseToExisting(ExerciseItem* e);
             std::shared_ptr<DownloadExerciseDemand> generateDownloadExerciseDemand(ExerciseItem* e);
             bool downloadExercise(ExerciseItem* e);
             void downloadAllExercises();            

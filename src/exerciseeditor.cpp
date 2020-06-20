@@ -450,6 +450,7 @@ namespace FreeFit
             new_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
+            connect(this,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(moveExerciseToExisting(ExerciseItem*)));
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
@@ -477,6 +478,13 @@ namespace FreeFit
             return d;
         }
 
+        void ExerciseEditor::moveExerciseToExisting(ExerciseItem* e)
+        {
+            e->hideWaitingSymbol();
+            registerExerciseItem(e);
+            new_exercise_items.remove(e);
+        }
+
         bool ExerciseEditor::downloadExercise(ExerciseItem* e)
         {
             if(e->inputIsValid())
@@ -487,9 +495,6 @@ namespace FreeFit
                     e->setVideoPath(e_dat.getVideoPath());
                     e->setThumbnailPath(e_dat.getThumbnailPath());
                     emit exerciseDownloaded(e);
-                    e->hideWaitingSymbol();
-                    registerExerciseItem(e);
-                    new_exercise_items.remove(e);
                 };
                 e->showWaitingSymbol();
                 std::thread t = std::thread(f);
