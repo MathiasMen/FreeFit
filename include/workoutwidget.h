@@ -66,7 +66,7 @@ namespace FreeFit
             
             void setTimeText(int milliseconds)
             {   
-                time_label->setText(QString::number(milliseconds/1000.0,'f',1));
+                time_label->setText(QString::number(milliseconds/1000.0,'f',0));
             }
 
             QHBoxLayout* ly;
