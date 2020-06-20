@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QMessageBox>
+#include <QSound>
 
 #include "include/workout.h"
 #include "include/exerciselistwidget.h"
@@ -25,6 +26,7 @@ namespace FreeFit
             {
                 ly = new QHBoxLayout(this);
                 exercise_duration_timer = new QTimer(this);
+                notification_timer = new QTimer(this);
                 update_interval_timer = new QTimer(this);
                 update_interval_timer->setInterval(20);
                 time_label = new QLabel(this);
@@ -37,9 +39,13 @@ namespace FreeFit
             {
                 exercise_duration_timer->setInterval(seconds*1000);
                 exercise_duration_timer->setSingleShot(true);
+                notification_timer->setInterval((seconds-3)*1000);
+                notification_timer->setSingleShot(true);
                 connect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
                 connect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
+                connect(notification_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::notificationTimerEnded);
                 exercise_duration_timer->start();
+                notification_timer->start();
                 update_interval_timer->start();
             }
 
@@ -47,11 +53,14 @@ namespace FreeFit
             {
                 disconnect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
                 disconnect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
+                disconnect(notification_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::notificationTimerEnded);
                 exercise_duration_timer->stop();
+                notification_timer->stop();
                 update_interval_timer->stop();
             }
         signals:
             void exerciseTimeEnded();
+            void notificationTimerEnded();
         private slots:
             void timerEnded()
             {
@@ -74,6 +83,7 @@ namespace FreeFit
             QHBoxLayout* ly;
             QLabel* time_label;
             QTimer* exercise_duration_timer;
+            QTimer* notification_timer;
             QTimer* update_interval_timer;
 
             bool is_only_paused = false;
@@ -139,6 +149,7 @@ namespace FreeFit
 
                 exercise_view->setMinimumWidth(640);
                 connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::nextExercise);
+                connect(timer,&WorkoutWidgetTimer::notificationTimerEnded,this,&WorkoutWidget::playNotificationSound);
 
                 ly->addLayout(left_ly);
                 ly->addLayout(right_ly);
@@ -187,6 +198,12 @@ namespace FreeFit
             {
                 if (s == QMediaPlayer::StoppedState)
                     exercise_view->start();
+            }
+
+            void playNotificationSound()
+            {
+                std::cout << "Triggered" << std::endl;
+                QSound::play("/Users/mathias/Documents/programming_workspace/FreeFit/tools/notification.wav");
             }
         private:
             QHBoxLayout* ly;
