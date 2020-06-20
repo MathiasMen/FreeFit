@@ -28,6 +28,7 @@ namespace FreeFit
                 update_interval_timer = new QTimer(this);
                 update_interval_timer->setInterval(20);
                 time_label = new QLabel(this);
+                time_label->setStyleSheet("font-size:36px");
                 ly->addWidget(time_label,Qt::AlignHCenter);
                 setDefaultLabelText();
             }
