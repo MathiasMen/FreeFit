@@ -28,6 +28,7 @@ namespace FreeFit
                 update_interval_timer = new QTimer(this);
                 update_interval_timer->setInterval(20);
                 time_label = new QLabel(this);
+                ly->addWidget(time_label,Qt::AlignHCenter);
                 setDefaultLabelText();
             }
 
@@ -110,12 +111,20 @@ namespace FreeFit
         public:
             WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : QWidget(t_p),w(t_w) 
             {
-                ly = new QGridLayout(this);
+                ly = new QHBoxLayout(this);
+
+                QGridLayout* left_ly = new QGridLayout;
+                QGridLayout* right_ly = new QGridLayout;
 
                 exercise_list = new FreeFit::GUI::ExerciseListWidget(this);
-                exercise_view = new FreeFit::GUI::Exerciseviewer(this);
                 control = new WorkoutWidgetControl(this);
+                left_ly->addWidget(exercise_list,0,0);
+                left_ly->addWidget(control,1,0);
+                
+                exercise_view = new FreeFit::GUI::Exerciseviewer(this);
                 timer = new WorkoutWidgetTimer(this);
+                right_ly->addWidget(exercise_view,0,0,1,3);
+                right_ly->addWidget(timer,1,1,Qt::AlignHCenter);
 
                 exercise_list->generateWidgets(w);
                 exercise_list->setMinimumWidth(320);
@@ -127,13 +136,11 @@ namespace FreeFit
                 connect(control,&WorkoutWidgetControl::recreateClicked,this,&WorkoutWidget::recreateClicked);
                 connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
 
-                timer->setMinimumWidth(640);
+                exercise_view->setMinimumWidth(640);
                 connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::nextExercise);
 
-                ly->addWidget(exercise_list,0,0,8,1);
-                ly->addWidget(control,8,0,2,1);
-                ly->addWidget(exercise_view,0,1,8,1);
-                ly->addWidget(timer,8,1,2,1,Qt::AlignCenter);
+                ly->addLayout(left_ly);
+                ly->addLayout(right_ly);
 
                 this->setLayout(ly);
             }
@@ -181,7 +188,7 @@ namespace FreeFit
                     exercise_view->start();
             }
         private:
-            QGridLayout* ly;
+            QHBoxLayout* ly;
             FreeFit::GUI::ExerciseListWidget* exercise_list;
             FreeFit::GUI::Exerciseviewer* exercise_view;
             FreeFit::GUI::WorkoutWidgetControl* control;
