@@ -8,6 +8,8 @@
 #include <QMessageBox>
 #include <QSound>
 #include <QPaintEvent>
+#include <QPainter>
+#include <QRect>
 
 #include "include/workout.h"
 #include "include/exerciselistwidget.h"
@@ -92,16 +94,29 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            WorkoutClock(QWidget* parent = nullptr) : QWidget(parent)
+            WorkoutClock(int milliseconds, QWidget* parent = nullptr) : QWidget(parent)
             {
-
+                angle_factor = 16;
+                startTime = milliseconds/1000;
+                rectangle = QRect(50,50,100,100);
+                startAngle = 0 * angle_factor;
+                spanAngle = 270 * angle_factor;
             }
-
+            
         protected:
             void paintEvent(QPaintEvent* ev) override
             {
-
+                QPainter painter(this);
+                painter.setPen(QPen(QBrush(Qt::green),5));
+                painter.drawArc(rectangle,startAngle,spanAngle);
             }
+        private:
+            QRect rectangle;
+            int angle_factor;
+            int startTime;
+            int startAngle;
+            int spanAngle;
+
         };
 
         class WorkoutWidgetControl : public QWidget
