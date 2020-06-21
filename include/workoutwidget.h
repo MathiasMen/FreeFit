@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QSound>
+#include <QPaintEvent>
 
 #include "include/workout.h"
 #include "include/exerciselistwidget.h"
@@ -85,6 +86,22 @@ namespace FreeFit
             QTimer* update_interval_timer;
 
             bool is_only_paused = false;
+        };
+
+        class WorkoutClock : public QWidget
+        {
+        Q_OBJECT
+        public:
+            WorkoutClock(QWidget* parent = nullptr) : QWidget(parent)
+            {
+
+            }
+
+        protected:
+            void paintEvent(QPaintEvent* ev) override
+            {
+
+            }
         };
 
         class WorkoutWidgetControl : public QWidget

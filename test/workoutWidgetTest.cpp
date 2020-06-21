@@ -36,3 +36,12 @@ TEST_F(WorkoutWidget,Launch)
     FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w,nullptr);
     ww->show();
 }
+
+
+TEST_F(WorkoutWidget,Clock)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutClock* wc = new FreeFit::GUI::WorkoutClock(nullptr);
+    wc->show();
+    a.exec();
+}
