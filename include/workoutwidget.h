@@ -25,27 +25,27 @@ namespace FreeFit
         {
             Q_OBJECT
         public:
-            WorkoutWidgetTimer(QWidget* parent) : QWidget(parent)
+            WorkoutWidgetTimer(QWidget* parent) : QWidget(parent),
+                line_width(5), angle_factor(16), start_angle(90*angle_factor), current_time(-1)
             {
-                ly = new QHBoxLayout(this);
                 exercise_duration_timer = new QTimer(this);
                 notification_timer = new QTimer(this);
                 update_interval_timer = new QTimer(this);
                 update_interval_timer->setInterval(20);
-                time_label = new QLabel(this);
-                time_label->setStyleSheet("font-size:36px");
-                ly->addWidget(time_label,Qt::AlignHCenter);
-                setDefaultLabelText();
+                this->setMinimumSize(100,100);
+                this->setMaximumSize(100,100);
             }
 
             void startTimer(unsigned int seconds)
             {
+                current_time = seconds;
                 exercise_duration_timer->setInterval(seconds*1000);
                 exercise_duration_timer->setSingleShot(true);
                 notification_timer->setInterval((seconds-3)*1000);
                 notification_timer->setSingleShot(true);
                 connect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
-                connect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
+                connect(update_interval_timer, &QTimer::timeout, this, QOverload<>::of(&WorkoutWidgetTimer::update));  
+                connect(update_interval_timer, &QTimer::timeout, this, &WorkoutWidgetTimer::updateCurrentTime);                
                 connect(notification_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::notificationTimerEnded);
                 exercise_duration_timer->start();
                 notification_timer->start();
@@ -54,67 +54,14 @@ namespace FreeFit
 
             void stop()
             {
+                current_time = -1;
                 disconnect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
-                disconnect(update_interval_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::updateLabel);
+                disconnect(update_interval_timer, &QTimer::timeout, this, QOverload<>::of(&WorkoutWidgetTimer::update));  
+                disconnect(update_interval_timer, &QTimer::timeout, this, &WorkoutWidgetTimer::updateCurrentTime);                
                 disconnect(notification_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::notificationTimerEnded);
                 exercise_duration_timer->stop();
                 notification_timer->stop();
                 update_interval_timer->stop();
-            }
-        signals:
-            void exerciseTimeEnded();
-            void notificationTimerEnded();
-        private slots:
-            void timerEnded()
-            {
-                stop();
-                emit exerciseTimeEnded();
-            }
-
-            void updateLabel()
-            {
-                setTimeText(exercise_duration_timer->remainingTime());
-            }
-        private:
-            void setDefaultLabelText(){time_label->setText("-/-");}
-            
-            void setTimeText(int milliseconds)
-            {   
-                time_label->setText(QString::number(milliseconds/1000.0,'f',0));
-            }
-
-            QHBoxLayout* ly;
-            QLabel* time_label;
-            QTimer* exercise_duration_timer;
-            QTimer* notification_timer;
-            QTimer* update_interval_timer;
-
-            bool is_only_paused = false;
-        };
-
-        class WorkoutClock : public QWidget
-        {
-        Q_OBJECT
-        public:
-            WorkoutClock(int t_start_time, QWidget* parent = nullptr) : QWidget(parent),
-                angle_factor(16), line_width(5), start_time(t_start_time), start_angle(90*angle_factor), current_time(start_time)
-            {
-                exercise_duration_timer = new QTimer(this);
-                update_interval_timer = new QTimer(this);
-                update_interval_timer->setInterval(20);
-
-                this->setMinimumSize(100,100);
-                this->setMaximumSize(100,100);
-            }
-
-            void startTimer()
-            {
-                exercise_duration_timer->setInterval(start_time*1000);
-                exercise_duration_timer->setSingleShot(true);
-                connect(update_interval_timer, &QTimer::timeout, this, QOverload<>::of(&WorkoutClock::update));  
-                connect(update_interval_timer, &QTimer::timeout, this, &WorkoutClock::updateCurrentTime);                
-                exercise_duration_timer->start();
-                update_interval_timer->start();
             }
 
         protected:
@@ -126,25 +73,42 @@ namespace FreeFit
                 f.setPixelSize(36);
                 painter.setFont(f);
                 QRect bounds = this->rect();
-                span_angle = (current_time*360)/60*angle_factor;
-                painter.drawArc(bounds.x()+line_width,bounds.y()+line_width,bounds.width()-2*line_width,bounds.height()-2*line_width,start_angle,span_angle);
-                painter.drawText(bounds,Qt::AlignCenter,QString::number(current_time));
+                if (current_time != -1 && update_interval_timer->isActive())
+                {
+                    span_angle = (current_time*360)/60*angle_factor;
+                    painter.drawArc(bounds.x()+line_width,bounds.y()+line_width,bounds.width()-2*line_width,bounds.height()-2*line_width,start_angle,span_angle);
+                    painter.drawText(bounds,Qt::AlignCenter,QString::number(current_time));
+                }
+                else
+                    painter.drawText(bounds,Qt::AlignCenter,QString("-/-"));
             }
+        signals:
+            void exerciseTimeEnded();
+            void notificationTimerEnded();
         private slots:
+            void timerEnded()
+            {
+                stop();
+                emit exerciseTimeEnded();
+            }
+
             void updateCurrentTime()
             {
                 current_time = exercise_duration_timer->remainingTime()/1000;
             }
+
         private:
             QTimer* exercise_duration_timer;
+            QTimer* notification_timer;
             QTimer* update_interval_timer;
 
             const int angle_factor;
             const int line_width;
-            const int start_time;
             const int start_angle;
             int current_time;
             int span_angle;
+
+            bool is_only_paused = false;
         };
 
         class WorkoutWidgetControl : public QWidget
