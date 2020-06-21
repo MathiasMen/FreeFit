@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <QWidget>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -94,28 +96,33 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            WorkoutClock(int milliseconds, QWidget* parent = nullptr) : QWidget(parent)
+            WorkoutClock(int t_start_time, QWidget* parent = nullptr) : QWidget(parent),
+                angle_factor(16), line_width(5), start_time(t_start_time), start_angle(90*angle_factor), current_time(start_time)
             {
-                angle_factor = 16;
-                startTime = milliseconds/1000;
-                rectangle = QRect(50,50,100,100);
-                startAngle = 0 * angle_factor;
-                spanAngle = 270 * angle_factor;
+                this->setMinimumSize(100,100);
+                this->setMaximumSize(100,100);
             }
-            
+
         protected:
             void paintEvent(QPaintEvent* ev) override
             {
                 QPainter painter(this);
-                painter.setPen(QPen(QBrush(Qt::green),5));
-                painter.drawArc(rectangle,startAngle,spanAngle);
+                painter.setPen(QPen(QBrush(Qt::green),line_width));
+                QFont f = painter.font();
+                f.setPixelSize(36);
+                painter.setFont(f);
+                QRect bounds = this->rect();
+                span_angle = (current_time*360)/60*angle_factor;
+                painter.drawArc(bounds.x()+line_width,bounds.y()+line_width,bounds.width()-2*line_width,bounds.height()-2*line_width,start_angle,span_angle);
+                painter.drawText(bounds,Qt::AlignCenter,QString::number(current_time));
             }
         private:
-            QRect rectangle;
-            int angle_factor;
-            int startTime;
-            int startAngle;
-            int spanAngle;
+            const int angle_factor;
+            const int line_width;
+            const int start_time;
+            const int start_angle;
+            int current_time;
+            int span_angle;
 
         };
 
