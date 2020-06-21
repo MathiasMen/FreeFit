@@ -99,8 +99,22 @@ namespace FreeFit
             WorkoutClock(int t_start_time, QWidget* parent = nullptr) : QWidget(parent),
                 angle_factor(16), line_width(5), start_time(t_start_time), start_angle(90*angle_factor), current_time(start_time)
             {
+                exercise_duration_timer = new QTimer(this);
+                update_interval_timer = new QTimer(this);
+                update_interval_timer->setInterval(20);
+
                 this->setMinimumSize(100,100);
                 this->setMaximumSize(100,100);
+            }
+
+            void startTimer()
+            {
+                exercise_duration_timer->setInterval(start_time*1000);
+                exercise_duration_timer->setSingleShot(true);
+                connect(update_interval_timer, &QTimer::timeout, this, QOverload<>::of(&WorkoutClock::update));  
+                connect(update_interval_timer, &QTimer::timeout, this, &WorkoutClock::updateCurrentTime);                
+                exercise_duration_timer->start();
+                update_interval_timer->start();
             }
 
         protected:
@@ -116,14 +130,21 @@ namespace FreeFit
                 painter.drawArc(bounds.x()+line_width,bounds.y()+line_width,bounds.width()-2*line_width,bounds.height()-2*line_width,start_angle,span_angle);
                 painter.drawText(bounds,Qt::AlignCenter,QString::number(current_time));
             }
+        private slots:
+            void updateCurrentTime()
+            {
+                current_time = exercise_duration_timer->remainingTime()/1000;
+            }
         private:
+            QTimer* exercise_duration_timer;
+            QTimer* update_interval_timer;
+
             const int angle_factor;
             const int line_width;
             const int start_time;
             const int start_angle;
             int current_time;
             int span_angle;
-
         };
 
         class WorkoutWidgetControl : public QWidget
