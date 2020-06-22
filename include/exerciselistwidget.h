@@ -26,7 +26,8 @@ namespace FreeFit
             void setRoundInformation(unsigned int, unsigned int);
             int getNameLength();
             void setNameLength(int);
-            int getExerciseLength(){return std::stoi(e_dat.getLength());}
+            void setExerciseLength(int l){e_dat.setLength(l);}
+            int getExerciseLength(){return e_dat.getLength();}
             std::string getVideoPath(){return e_dat.getVideoPath();}
         private:
             FreeFit::Data::Exercise e_dat;

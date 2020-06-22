@@ -25,8 +25,8 @@ namespace FreeFit
         
         void AllExercisesWorkout::generateExerciseTimes()
         {
-            for(auto e : exercises_per_round)
-                seconds_per_exercise.push_back(30);
+            for(auto& e : exercises_per_round)
+                e.setLength(40);
         }
 
         std::list<MuscleGroup> AllExercisesWorkout::getMainlyTrainedMuscles()

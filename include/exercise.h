@@ -34,7 +34,8 @@ namespace FreeFit
                 void addTrainedMuscle(MuscleGroup m){trained_areas.insert(m);};
                 std::set<MuscleGroup> getTrainedMuscles(){return trained_areas;}
 
-                std::string getLength(){return std::to_string(30);}
+                void setLength(int l){length = l;}
+                int getLength(){return length;}
             private:
                 std::string name;
                 std::string video_url;
@@ -43,6 +44,7 @@ namespace FreeFit
                 std::string video_start_time;
                 std::string video_end_time;
                 std::set<MuscleGroup> trained_areas;
+                int length = 30;
         };
     }
 }

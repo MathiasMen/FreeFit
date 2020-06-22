@@ -26,7 +26,6 @@ namespace FreeFit
                 std::list<Exercise> possible_exercises;
                 std::list<MuscleGroup> trained_areas;
                 std::list<Exercise> exercises_per_round;
-                std::list<int> seconds_per_exercise;
                 unsigned int rounds;
                 WorkoutBase();                
         };
