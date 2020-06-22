@@ -25,8 +25,8 @@ namespace FreeFit
         {
             Q_OBJECT
         public:
-            WorkoutWidgetTimer(QWidget* parent) : QWidget(parent),
-                line_width(5), angle_factor(16), start_angle(90*angle_factor), current_time(-1)
+            WorkoutWidgetTimer(int start_time, QWidget* parent) : QWidget(parent),
+                line_width(5), angle_factor(16), start_angle(90*angle_factor), current_time(start_time)
             {
                 exercise_duration_timer = new QTimer(this);
                 notification_timer = new QTimer(this);
@@ -73,14 +73,9 @@ namespace FreeFit
                 f.setPixelSize(36);
                 painter.setFont(f);
                 QRect bounds = this->rect();
-                if (current_time != -1 && update_interval_timer->isActive())
-                {
-                    span_angle = (current_time*360)/60*angle_factor;
-                    painter.drawArc(bounds.x()+line_width,bounds.y()+line_width,bounds.width()-2*line_width,bounds.height()-2*line_width,start_angle,span_angle);
-                    painter.drawText(bounds,Qt::AlignCenter,QString::number(current_time));
-                }
-                else
-                    painter.drawText(bounds,Qt::AlignCenter,QString("-/-"));
+                span_angle = (current_time*360)/60*angle_factor;
+                painter.drawArc(bounds.x()+line_width,bounds.y()+line_width,bounds.width()-2*line_width,bounds.height()-2*line_width,start_angle,span_angle);
+                painter.drawText(bounds,Qt::AlignCenter,QString::number(current_time));
             }
         signals:
             void exerciseTimeEnded();
@@ -155,7 +150,7 @@ namespace FreeFit
                 left_ly->addWidget(control,1,0);
                 
                 exercise_view = new FreeFit::GUI::Exerciseviewer(this);
-                timer = new WorkoutWidgetTimer(this);
+                timer = new WorkoutWidgetTimer(30,this);
                 right_ly->addWidget(exercise_view,0,0,1,3);
                 right_ly->addWidget(timer,1,1,Qt::AlignHCenter);
 
