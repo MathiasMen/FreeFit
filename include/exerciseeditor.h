@@ -252,6 +252,7 @@ namespace FreeFit
             void exerciseDownloaded(ExerciseItem* e);
         public slots:
             void accept() override;
+            void reject() override;
         private slots:
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
@@ -264,6 +265,7 @@ namespace FreeFit
             bool downloadExercise(ExerciseItem* e);
             void downloadAllExercises();            
             void deleteExercise(ExerciseItem* e);
+            void writeXML();
         };
 
         class ExerciseEditorValidator : public QWidget

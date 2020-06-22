@@ -395,12 +395,23 @@ namespace FreeFit
 
         void ExerciseEditor::accept()
         {   
+            writeXML();
+            QDialog::accept();
+        }
+
+        void ExerciseEditor::reject()
+        {
+            writeXML();
+            QDialog::reject();
+        }
+
+        void ExerciseEditor::writeXML()
+        {
             std::list<FreeFit::Data::Exercise> lst;
             for (auto e : exercise_items)
                 lst.push_back(exerciseItemToData(e));
             w.createNodeTree(lst);
             w.write();
-            QDialog::accept();
         }
 
         FreeFit::Data::Exercise ExerciseEditor::exerciseItemToData(ExerciseItem* e)
