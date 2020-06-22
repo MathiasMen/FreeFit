@@ -11,10 +11,22 @@ namespace FreeFit
 
         }
         
-        void AllExercisesWorkout::generate()
+        void WorkoutBase::generate()
+        {
+            generateExercises();
+            generateExerciseTimes();
+        }
+
+        void AllExercisesWorkout::generateExercises()
         {
             for(Exercise e : possible_exercises)
                 exercises_per_round.push_back(e);            
+        }
+        
+        void AllExercisesWorkout::generateExerciseTimes()
+        {
+            for(auto e : exercises_per_round)
+                seconds_per_exercise.push_back(30);
         }
 
         std::list<MuscleGroup> AllExercisesWorkout::getMainlyTrainedMuscles()

@@ -14,8 +14,10 @@ namespace FreeFit
             public:
                 WorkoutBase(std::list<Exercise> t_possible_exercises,unsigned int);
                 
-                virtual void generate() = 0;
+                void generate();
                 virtual std::list<MuscleGroup> getMainlyTrainedMuscles() = 0;
+                virtual void generateExercises() = 0;
+                virtual void generateExerciseTimes() = 0;
                 unsigned int getRounds(){return rounds;}
                 std::list<Exercise> getExercisesPerRound(){return exercises_per_round;}
                 void setPossibleExercises(std::list<Exercise> t_possible_exercises){possible_exercises = t_possible_exercises;}
@@ -24,6 +26,7 @@ namespace FreeFit
                 std::list<Exercise> possible_exercises;
                 std::list<MuscleGroup> trained_areas;
                 std::list<Exercise> exercises_per_round;
+                std::list<int> seconds_per_exercise;
                 unsigned int rounds;
                 WorkoutBase();                
         };
@@ -33,8 +36,9 @@ namespace FreeFit
             public:
                 AllExercisesWorkout(std::list<Exercise> t_possible_exercises);
 
-                void generate() override;
                 std::list<MuscleGroup> getMainlyTrainedMuscles() override;
+                void generateExercises() override;
+                void generateExerciseTimes() override;
             private:
                 AllExercisesWorkout();
         };
