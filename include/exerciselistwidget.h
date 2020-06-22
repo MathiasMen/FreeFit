@@ -9,6 +9,7 @@
 #include <QGridLayout>
 #include <QImage>
 #include <QLabel>
+#include <QDateTime>
 
 #include "include/exercise.h"
 #include "include/workout.h"

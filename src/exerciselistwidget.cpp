@@ -4,7 +4,7 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
 {
     ly = new QGridLayout(this);
     lbl_name = new QLabel(QString::fromStdString(e_dat.getName()),this);
-    lbl_duration = new QLabel(QString::number(e_dat.getLength()),this);
+    lbl_duration = new QLabel(QDateTime::fromTime_t(e_dat.getLength()).toUTC().toString("mm:ss"),this);
     lbl_n_rounds = new QLabel("-/-",this);
     std::string areas = "";
     for (auto a : e_dat.getTrainedMuscles())
