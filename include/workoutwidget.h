@@ -150,7 +150,7 @@ namespace FreeFit
                 left_ly->addWidget(control,1,0);
                 
                 exercise_view = new FreeFit::GUI::Exerciseviewer(this);
-                timer = new WorkoutWidgetTimer(30,this);
+                timer = new WorkoutWidgetTimer(w->getExercisesPerRound().begin()->getLength(),this);
                 right_ly->addWidget(exercise_view,0,0,1,3);
                 right_ly->addWidget(timer,1,1,Qt::AlignHCenter);
 
