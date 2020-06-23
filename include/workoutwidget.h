@@ -197,6 +197,7 @@ namespace FreeFit
 
             void setWorkout(FreeFit::Data::WorkoutBase* t_w){w = t_w;}
 
+            void setPauseTime(int t_p){pause_time = t_p;}
         private slots:
             void handleExerciseEnded()
             {
@@ -205,7 +206,7 @@ namespace FreeFit
                 connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
                 disconnect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handleExerciseEnded);
                 connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handlePauseEnded);
-                timer->startTimer(10);
+                timer->startTimer(pause_time);
             }
 
             void handlePauseEnded()
@@ -283,6 +284,7 @@ namespace FreeFit
             FreeFit::Data::WorkoutBase* w;
 
             int memory_exercise_time = 0;
+            int pause_time = 10;
         };
     }
 }
