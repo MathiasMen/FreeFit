@@ -36,6 +36,8 @@ namespace FreeFit
                 this->setMaximumSize(100,100);
             }
 
+            int getRemainingTime(){return int(exercise_duration_timer->remainingTime()/1000);}
+
             void startTimer(unsigned int seconds)
             {
                 current_time = seconds;
@@ -52,16 +54,26 @@ namespace FreeFit
                 update_interval_timer->start();
             }
 
-            void stop()
+            void disconnectTimers()
             {
-                current_time = -1;
                 disconnect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
                 disconnect(update_interval_timer, &QTimer::timeout, this, QOverload<>::of(&WorkoutWidgetTimer::update));  
                 disconnect(update_interval_timer, &QTimer::timeout, this, &WorkoutWidgetTimer::updateCurrentTime);                
                 disconnect(notification_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::notificationTimerEnded);
+            }
+
+            void stopTimers()
+            {
                 exercise_duration_timer->stop();
                 notification_timer->stop();
                 update_interval_timer->stop();
+            }
+
+            void stop()
+            {
+                current_time = 0;
+                disconnectTimers();
+                stopTimers();
             }
 
         protected:
@@ -203,10 +215,23 @@ namespace FreeFit
 
             void playClicked()
             {
+                int t = (memory_exercise_time != 0 ? memory_exercise_time : exercise_list->getLengthOfCurrentExercise());
                 exercise_view->start();
-                timer->startTimer(exercise_list->getLengthOfCurrentExercise());
+                timer->startTimer(t);
                 disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
+                connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::pauseClicked);
                 connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
+                memory_exercise_time = 0;
+            }
+
+            void pauseClicked()
+            {
+                memory_exercise_time = timer->getRemainingTime();
+                disconnect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
+                disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::pauseClicked);
+                exercise_view->pause();
+                timer->stop();
+                connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
             }
 
             void triggerReplay(QMediaPlayer::State s)
@@ -227,6 +252,8 @@ namespace FreeFit
             FreeFit::GUI::WorkoutWidgetTimer* timer;
 
             FreeFit::Data::WorkoutBase* w;
+
+            int memory_exercise_time;
         };
     }
 }
