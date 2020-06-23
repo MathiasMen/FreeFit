@@ -135,6 +135,15 @@ namespace FreeFit
                 ly->addWidget(recreate_button);
                 ly->addWidget(play_button);
             }
+            void showPlayIcon()
+            {
+                play_button->setText("play");
+            }
+
+            void showPauseIcon()
+            {
+                play_button->setText("pause");
+            }
         signals:
             void recreateClicked();
             void playClicked();
@@ -222,6 +231,7 @@ namespace FreeFit
                 connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::pauseClicked);
                 connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
                 memory_exercise_time = 0;
+                control->showPauseIcon();
             }
 
             void pauseClicked()
@@ -232,6 +242,7 @@ namespace FreeFit
                 exercise_view->pause();
                 timer->stop();
                 connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
+                control->showPlayIcon();
             }
 
             void triggerReplay(QMediaPlayer::State s)
@@ -253,7 +264,7 @@ namespace FreeFit
 
             FreeFit::Data::WorkoutBase* w;
 
-            int memory_exercise_time;
+            int memory_exercise_time = 0;
         };
     }
 }
