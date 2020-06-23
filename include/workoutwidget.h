@@ -155,7 +155,7 @@ namespace FreeFit
                 right_ly->addWidget(timer,1,1,Qt::AlignHCenter);
 
                 exercise_list->generateWidgets(w);
-                exercise_list->setMinimumWidth(320);
+                exercise_list->setMinimumWidth(480);
 
                 exercise_view->set_media(QString::fromStdString(w->getExercisesPerRound().begin()->getVideoPath()));
                 exercise_view->setMinimumSize(640,360);

@@ -10,6 +10,8 @@
 #include <QImage>
 #include <QLabel>
 #include <QDateTime>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include "include/exercise.h"
 #include "include/workout.h"
@@ -62,7 +64,7 @@ namespace FreeFit
             void resetHighlightings();
 
             QVBoxLayout* ly;
-            QVBoxLayout* sub_ly;
+            QGridLayout* sub_ly;
             QWidget* sub_widget;
             QScrollArea* scroll_area;
             std::list<ExerciseListWidgetItem*> exercise_widgets;

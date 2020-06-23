@@ -56,18 +56,28 @@ FreeFit::GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent)
 void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBase* w)
 {
     sub_widget = new QWidget(this);
-    sub_ly = new QVBoxLayout(sub_widget);
+    sub_ly = new QGridLayout(sub_widget);
     unsigned int rounds_total = w->getRounds();
 
+    unsigned int row_counter = 0;
+    unsigned int n_exercises = w->getExercisesPerRound().size();
     for (unsigned int r = 1; r <= rounds_total; r++)
+    {
         for (auto e : w->getExercisesPerRound())
         {
             FreeFit::GUI::ExerciseListWidgetItem* i = new FreeFit::GUI::ExerciseListWidgetItem(sub_widget,e);
             i->setRoundInformation(r,rounds_total);
-            sub_ly->addWidget(i);
+            sub_ly->addWidget(i,row_counter,1);
             exercise_widgets.push_back(i);
+            row_counter += 1;
         }
-
+        QLabel* round_label = new QLabel("Round " + QString::number(r));
+        QGraphicsScene* scene = new QGraphicsScene(sub_widget);
+        scene->addWidget(round_label);
+        QGraphicsView* view = new QGraphicsView(scene,this);
+        view->rotate(-90);
+        sub_ly->addWidget(view,(r-1)*n_exercises,0,n_exercises,1);
+    }
     int max_width = 0;
     for (auto widget : exercise_widgets)
         if (max_width < widget->getNameLength())
