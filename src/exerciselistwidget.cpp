@@ -5,7 +5,6 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     ly = new QGridLayout(this);
     lbl_name = new QLabel(QString::fromStdString(e_dat.getName()),this);
     lbl_duration = new QLabel(QDateTime::fromTime_t(e_dat.getLength()).toUTC().toString("mm:ss"),this);
-    lbl_n_rounds = new QLabel("-/-",this);
     std::string areas = "";
     for (auto a : e_dat.getTrainedMuscles())
         areas.append("#" + FreeFit::Data::muscleGroupToString(a) + " ");
@@ -23,15 +22,9 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     ly->addWidget(lbl_image,0,0,2,1);
     ly->addWidget(lbl_name,0,1);
     ly->addWidget(lbl_duration,0,2);
-    ly->addWidget(lbl_n_rounds,0,3);
     ly->addWidget(lbl_trained_areas,1,1,1,3);
     this->setLayout(ly);
 } 
-
-void FreeFit::GUI::ExerciseListWidgetItem::setRoundInformation(unsigned int r, unsigned int r_total)
-{
-    lbl_n_rounds->setText(QString("%1 / %2").arg(r).arg(r_total));
-}
 
 int FreeFit::GUI::ExerciseListWidgetItem::getNameLength()
 {
@@ -66,7 +59,6 @@ void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBas
         for (auto e : w->getExercisesPerRound())
         {
             FreeFit::GUI::ExerciseListWidgetItem* i = new FreeFit::GUI::ExerciseListWidgetItem(sub_widget,e);
-            i->setRoundInformation(r,rounds_total);
             sub_ly->addWidget(i,row_counter,1);
             exercise_widgets.push_back(i);
             row_counter += 1;

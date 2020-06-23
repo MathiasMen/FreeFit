@@ -26,7 +26,6 @@ namespace FreeFit
             Q_OBJECT
         public:
             ExerciseListWidgetItem(QWidget*,FreeFit::Data::Exercise);
-            void setRoundInformation(unsigned int, unsigned int);
             int getNameLength();
             void setNameLength(int);
             void setExerciseLength(int l){e_dat.setLength(l);}
@@ -39,7 +38,6 @@ namespace FreeFit
 
             QLabel* lbl_name;
             QLabel* lbl_duration;
-            QLabel* lbl_n_rounds;
             QLabel* lbl_trained_areas;
             QLabel* lbl_image;
             QImage  img_thumbnail;
