@@ -35,4 +35,5 @@ TEST_F(WorkoutWidget,Launch)
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w,nullptr);
     ww->show();
+    a.exec();
 }

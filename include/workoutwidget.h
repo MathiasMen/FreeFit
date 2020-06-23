@@ -186,7 +186,7 @@ namespace FreeFit
                 connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
 
                 exercise_view->setMinimumWidth(640);
-                connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::nextExercise);
+                connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handleExerciseEnded);
                 connect(timer,&WorkoutWidgetTimer::notificationTimerEnded,this,&WorkoutWidget::playNotificationSound);
 
                 ly->addLayout(left_ly);
@@ -194,9 +194,27 @@ namespace FreeFit
 
                 this->setLayout(ly);
             }
+
             void setWorkout(FreeFit::Data::WorkoutBase* t_w){w = t_w;}
 
         private slots:
+            void handleExerciseEnded()
+            {
+                disconnect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
+                exercise_view->stop();
+                connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
+                disconnect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handleExerciseEnded);
+                connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handlePauseEnded);
+                timer->startTimer(10);
+            }
+
+            void handlePauseEnded()
+            {
+                disconnect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handlePauseEnded);
+                connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handleExerciseEnded);
+                nextExercise();
+            }
+
             void nextExercise()
             {
                 if (exercise_list->advanceCurrentExercise())
