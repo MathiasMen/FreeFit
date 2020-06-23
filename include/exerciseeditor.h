@@ -20,6 +20,7 @@
 #include <QKeyEvent>
 #include <QMovie>
 #include <QSpacerItem>
+#include <QMessageBox>
 
 #include <set>
 #include <functional>

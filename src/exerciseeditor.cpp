@@ -1,5 +1,5 @@
 #include "include/exerciseeditor.h"
-
+#include <iostream>
 namespace FreeFit
 {
     namespace GUI
@@ -401,6 +401,15 @@ namespace FreeFit
 
         void ExerciseEditor::reject()
         {
+            if (!new_exercise_items.empty())
+            {
+                QMessageBox reject_box;
+                reject_box.setText("Some exercises have not been downloaded yet. Properties of these will be lost. Continue?");
+                reject_box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                int res = reject_box.exec();
+                if (res == QMessageBox::No)
+                    return;
+            }
             writeXML();
             QDialog::reject();
         }
