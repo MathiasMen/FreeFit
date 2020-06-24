@@ -3,6 +3,17 @@
 MainWindow::MainWindow(std::string t_profile_path, QWidget *parent) :
     QMainWindow(parent), p(nullptr),e(nullptr),w(nullptr),ww(nullptr), profile_path(t_profile_path)
 {
+    tool_bar = addToolBar("Refreshing");
+    reload_css = tool_bar->addAction("Reload CSS");
+    connect(reload_css,&QAction::triggered,this,&MainWindow::reloadCSSTriggered);
+}
+
+void MainWindow::reloadCSSTriggered()
+{
+    QFile File("/Users/mathias/Documents/programming_workspace/FreeFit/tools/style.css");
+    File.open(QFile::ReadOnly);
+    QString StyleSheet = QLatin1String(File.readAll());
+    this->setStyleSheet(StyleSheet);
 }
 
 void MainWindow::run()
