@@ -1,5 +1,8 @@
+/*
 QDialog{ background: whitesmoke; }
 
 QWidget{ background: whitesmoke; }
 
-FreeFit--GUI--ToggleableLabel{color: red; }
+FreeFit--GUI--ToggleableLabel{color: red; } */
+
+FreeFit--GUI--ProfileEditor QLabel#ProfileEditorLabel{color:red;}

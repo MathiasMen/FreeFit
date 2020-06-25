@@ -36,6 +36,9 @@ namespace FreeFit
                 label_path_exercises_xml = new QLabel("Path to Exercises XML:",this);
                 label_profile_name = new QLabel("Name:",this);
                 label_profile_selection = new QLabel("Select Profile:",this);
+                label_path_exercises_xml->setObjectName("ProfileEditorLabel");
+                label_profile_name->setObjectName("ProfileEditorLabel");
+                label_profile_selection->setObjectName("ProfileEditorLabel");
 
                 profile_selection = new QComboBox(this);
                 path_exercises_xml = new QLineEdit(this);
