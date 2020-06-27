@@ -157,6 +157,18 @@ target_include_directories(WorkoutGenerationWidgetTest PUBLIC ${test_include_dir
 target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)
 target_link_libraries(WorkoutGenerationWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
+qt5_wrap_cpp(   MaterialWidgets
+                ${CMAKE_SOURCE_DIR}/include/materialbutton.h
+                )
+
+add_executable( MaterialWidgetTest
+                materialWidgetTest.cpp
+                ${MaterialWidgets}
+                )
+target_include_directories(MaterialWidgetTest PUBLIC ${test_include_dirs})
+target_link_directories(MaterialWidgetTest PUBLIC /usr/local/lib)
+target_link_libraries(MaterialWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
