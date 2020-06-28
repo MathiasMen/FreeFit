@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include "include/materialbutton.h"
+#include "include/materialtextfield.h"
 
 int my_argc;
 char** my_argv;
@@ -23,9 +23,9 @@ TEST(MaterialWidget,Launch)
     QWidget* w = new QWidget;
     QVBoxLayout* ly = new QVBoxLayout(w);
     w->setStyleSheet("background-color:white");
-    FreeFit::GUI::MaterialButton* b1 = new FreeFit::GUI::MaterialButton("Text1",w);
-    FreeFit::GUI::MaterialButton* b2 = new FreeFit::GUI::MaterialButton("Text2",w);
-    FreeFit::GUI::MaterialButton* b3 = new FreeFit::GUI::MaterialButton("Text3",w);
+    FreeFit::GUI::MaterialTextField* b1 = new FreeFit::GUI::MaterialTextField("Text1",w);
+    FreeFit::GUI::MaterialTextField* b2 = new FreeFit::GUI::MaterialTextField("Text2",w);
+    FreeFit::GUI::MaterialTextField* b3 = new FreeFit::GUI::MaterialTextField("Text3",w);
     ly->addWidget(b1);
     ly->addWidget(b2);
     ly->addWidget(b3);

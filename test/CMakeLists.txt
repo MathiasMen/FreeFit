@@ -158,7 +158,7 @@ target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)
 target_link_libraries(WorkoutGenerationWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
 qt5_wrap_cpp(   MaterialWidgets
-                ${CMAKE_SOURCE_DIR}/include/materialbutton.h
+                ${CMAKE_SOURCE_DIR}/include/materialtextfield.h
                 )
 
 add_executable( MaterialWidgetTest

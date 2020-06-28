@@ -15,11 +15,11 @@ namespace FreeFit
 {
     namespace GUI
     {
-        class MaterialButton : public QLineEdit
+        class MaterialTextField : public QLineEdit
         {
         Q_OBJECT
         public:
-            MaterialButton(QString t, QWidget* parent = nullptr) : QLineEdit(t,parent)
+            MaterialTextField(QString t, QWidget* parent = nullptr) : QLineEdit(t,parent)
             {
                 t_end = new QTimer;
                 t_up = new QTimer;
@@ -48,7 +48,7 @@ namespace FreeFit
                 
                 t_end->start(5000);
                 t_up->start(100);
-                connect(t_up,&QTimer::timeout,this,&MaterialButton::updateAnimationData);
+                connect(t_up,&QTimer::timeout,this,&MaterialTextField::updateAnimationData);
                 connect(t_up,SIGNAL(timeout()),this,SLOT(repaint()));
                 QLineEdit::focusInEvent(e);
             }
