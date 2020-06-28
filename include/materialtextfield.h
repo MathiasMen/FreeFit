@@ -45,7 +45,6 @@ namespace FreeFit
 
             void focusInEvent(QFocusEvent* e) override
             {
-                
                 t_end->start(1000);
                 t_up->start(100);
                 connect(t_up,&QTimer::timeout,this,&MaterialTextField::updateAnimationData);
