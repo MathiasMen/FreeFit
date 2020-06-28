@@ -46,10 +46,11 @@ namespace FreeFit
             void focusInEvent(QFocusEvent* e) override
             {
                 
-                t_end->start(5000);
+                t_end->start(1000);
                 t_up->start(100);
                 connect(t_up,&QTimer::timeout,this,&MaterialTextField::updateAnimationData);
                 connect(t_up,SIGNAL(timeout()),this,SLOT(repaint()));
+                connect(t_end,SIGNAL(timeout()),this,SLOT(endAnimation()));
                 QLineEdit::focusInEvent(e);
             }
         private:
@@ -60,6 +61,15 @@ namespace FreeFit
             void updateAnimationData()
             {
                 start += 5;
+            }
+
+            void endAnimation()
+            {
+                t_end->stop();
+                t_up->stop();
+                disconnect(t_up,&QTimer::timeout,this,&MaterialTextField::updateAnimationData);
+                disconnect(t_up,SIGNAL(timeout()),this,SLOT(repaint()));
+                disconnect(t_end,SIGNAL(timeout()),this,SLOT(endAnimation()));
             }
         };
     }
