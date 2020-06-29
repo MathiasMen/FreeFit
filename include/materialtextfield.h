@@ -40,8 +40,11 @@ namespace FreeFit
                 QPen pen = painter.pen();
                 pen.setColor(Qt::gray);
                 pen.setWidth(2);
-                
+                QFont font = painter.font();
+                font.setPixelSize(10);
+
                 painter.setPen(pen);
+                painter.setFont(font);
                 if (!animationStarted)
                     painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
                 else
@@ -54,10 +57,10 @@ namespace FreeFit
                         t = text();
                         setText("");
                     }
-                    if (this->rect().height()-2*animationCounter - 10 > 0)
+                    if (this->rect().height()-2*animationCounter - painter.font().pixelSize() > 0)
                         painter.drawText(0,this->rect().height()-2*animationCounter,t);
                     else
-                        painter.drawText(0,10,t);
+                        painter.drawText(0,painter.font().pixelSize(),t);
                 }
             }
 
