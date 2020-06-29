@@ -19,12 +19,11 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialTextField(QString t, QWidget* parent = nullptr) : QLineEdit(t,parent)
+            MaterialTextField(QString t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t,parent),animationStarted(false),start(0),animationCounter(0)
             {
-                t_end = new QTimer;
-                t_up = new QTimer;
-                t_end->setSingleShot(true);
-                this->setStyleSheet("background-color:white; color:black; border: 2px; padding-top: 10px;");
+                this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-top: 10px;");
+                this->setAttribute(Qt::WA_MacShowFocusRect, 0);
+                this->setFrame(false);
             }
 
         protected:
@@ -38,37 +37,44 @@ namespace FreeFit
                 QLineEdit::paintEvent(ev);
                 
                 QPainter painter(this);
-                painter.setPen(Qt::black);
-                painter.drawLine(start,0,this->rect().width(),this->rect().height());
-                painter.drawText(this->rect(),0,"Hallo");
+                QPen pen = painter.pen();
+                pen.setColor(Qt::gray);
+                pen.setWidth(2);
+                painter.setPen(pen);
+                if (!animationStarted)
+                    painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
+                else
+                {
+                    painter.setPen(Qt::red);
+                    painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2+5*animationCounter,this->rect().height());
+                    painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2-5*animationCounter,this->rect().height());
+                }
             }
 
             void focusInEvent(QFocusEvent* e) override
             {
-                t_end->start(1000);
-                t_up->start(100);
-                connect(t_up,&QTimer::timeout,this,&MaterialTextField::updateAnimationData);
-                connect(t_up,SIGNAL(timeout()),this,SLOT(repaint()));
-                connect(t_end,SIGNAL(timeout()),this,SLOT(endAnimation()));
+                t_update->start(20);
+                animationStarted = true;
+                connect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
+                connect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
                 QLineEdit::focusInEvent(e);
             }
         private:
-            int start = 0;
-            QTimer* t_end;
-            QTimer* t_up;
+            bool animationStarted;
+            int start;
+            int animationCounter;
+            QTimer* t_update;
         private slots:
             void updateAnimationData()
             {
                 start += 5;
+                animationCounter += 1;
             }
 
             void endAnimation()
             {
-                t_end->stop();
-                t_up->stop();
-                disconnect(t_up,&QTimer::timeout,this,&MaterialTextField::updateAnimationData);
-                disconnect(t_up,SIGNAL(timeout()),this,SLOT(repaint()));
-                disconnect(t_end,SIGNAL(timeout()),this,SLOT(endAnimation()));
+                t_update->stop();
+                disconnect(t_update,SIGNAL(timeout()),this,SLOT(endAnimation()));
             }
         };
     }

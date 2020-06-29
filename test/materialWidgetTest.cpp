@@ -23,12 +23,12 @@ TEST(MaterialWidget,Launch)
     QWidget* w = new QWidget;
     QVBoxLayout* ly = new QVBoxLayout(w);
     w->setStyleSheet("background-color:white");
-    FreeFit::GUI::MaterialTextField* b1 = new FreeFit::GUI::MaterialTextField("Text1",w);
-    FreeFit::GUI::MaterialTextField* b2 = new FreeFit::GUI::MaterialTextField("Text2",w);
-    FreeFit::GUI::MaterialTextField* b3 = new FreeFit::GUI::MaterialTextField("Text3",w);
-    ly->addWidget(b1);
-    ly->addWidget(b2);
-    ly->addWidget(b3);
+    FreeFit::GUI::MaterialTextField b1("Text1",w);
+    FreeFit::GUI::MaterialTextField b2("Text2",w);
+    FreeFit::GUI::MaterialTextField b3("Text3",w);
+    ly->addWidget(&b1);
+    ly->addWidget(&b2);
+    ly->addWidget(&b3);
     w->show();
     a.exec();
 }
