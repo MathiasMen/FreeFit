@@ -21,7 +21,7 @@ namespace FreeFit
         public:
             MaterialTextField(QString t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t,parent),animationStarted(false),start(0),animationCounter(0)
             {
-                this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-top: 10px;");
+                this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-top: 20px;");
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
             }
@@ -40,6 +40,7 @@ namespace FreeFit
                 QPen pen = painter.pen();
                 pen.setColor(Qt::gray);
                 pen.setWidth(2);
+                
                 painter.setPen(pen);
                 if (!animationStarted)
                     painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
@@ -53,8 +54,10 @@ namespace FreeFit
                         t = text();
                         setText("");
                     }
-                    painter.drawText(0,this->rect().height()-animationCounter,t);
-                    std::cout << t.toStdString() << std::endl;
+                    if (this->rect().height()-2*animationCounter - 10 > 0)
+                        painter.drawText(0,this->rect().height()-2*animationCounter,t);
+                    else
+                        painter.drawText(0,10,t);
                 }
             }
 
