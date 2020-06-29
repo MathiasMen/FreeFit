@@ -48,6 +48,13 @@ namespace FreeFit
                     painter.setPen(Qt::red);
                     painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2+5*animationCounter,this->rect().height());
                     painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2-5*animationCounter,this->rect().height());
+                    if (t == "")
+                    {
+                        t = text();
+                        setText("");
+                    }
+                    painter.drawText(0,this->rect().height()-animationCounter,t);
+                    std::cout << t.toStdString() << std::endl;
                 }
             }
 
@@ -64,18 +71,21 @@ namespace FreeFit
             int start;
             int animationCounter;
             QTimer* t_update;
+            QString t;
         private slots:
             void updateAnimationData()
             {
                 start += 5;
                 animationCounter += 1;
-                if (animationCounter > 20)
+                if (animationCounter > 50)
                 {
                     t_update->stop();
                     animationStarted = false;
                     animationCounter = 0;
                     disconnect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
                     disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
+                    setText(t);
+                    t = "";
                 }
             }
         };
