@@ -69,12 +69,14 @@ namespace FreeFit
             {
                 start += 5;
                 animationCounter += 1;
-            }
-
-            void endAnimation()
-            {
-                t_update->stop();
-                disconnect(t_update,SIGNAL(timeout()),this,SLOT(endAnimation()));
+                if (animationCounter > 20)
+                {
+                    t_update->stop();
+                    animationStarted = false;
+                    animationCounter = 0;
+                    disconnect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
+                    disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
+                }
             }
         };
     }
