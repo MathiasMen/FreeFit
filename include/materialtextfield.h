@@ -19,7 +19,7 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialTextField(QString t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t,parent),focused(false),lineAnimationCounter(0),textAnimationCounter(0),lineAnimationFinished(false),textAnimationFinished(false)
+            MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),focused(false),lineAnimationCounter(0),textAnimationCounter(0),lineAnimationFinished(false),textAnimationFinished(false)
             {
                 this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-top: 20px;");
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -55,7 +55,7 @@ namespace FreeFit
                         painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
                     else
                     {
-                        if (this->rect().width()/2+5*lineAnimationCounter < this->rect().width()/2)
+                        if (this->rect().width()/2+5*lineAnimationCounter <= this->rect().width())
                         {
                             painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2+5*lineAnimationCounter,this->rect().height());
                             painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2-5*lineAnimationCounter,this->rect().height());
@@ -73,8 +73,10 @@ namespace FreeFit
                     }
                     else
                     {
-                        if (this->rect().height() - 2*textAnimationCounter < painter.font().pixelSize())
+                        if (this->rect().height() - 2*textAnimationCounter >= painter.font().pixelSize())
+                        {
                             painter.drawText(0,this->rect().height()-2*textAnimationCounter,t);
+                        }
                         else
                         {
                             textAnimationFinished = true;
@@ -87,8 +89,8 @@ namespace FreeFit
             void focusInEvent(QFocusEvent* e) override
             {
                 focused = true;
-                t = text();
-                setText("");
+                if (text() == t)
+                    setText("");
                 connect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
                 connect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
                 t_update->start(20);
@@ -100,6 +102,13 @@ namespace FreeFit
                 focused = false;
                 if (text() == "")
                     setText(t);
+                t_update->stop();
+                disconnect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
+                disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
+                lineAnimationCounter = 0;
+                lineAnimationFinished = false;
+                textAnimationCounter = 0;
+                textAnimationFinished = false;
                 QLineEdit::focusOutEvent(e);
             }
         private:
@@ -113,32 +122,11 @@ namespace FreeFit
         private slots:
             void updateAnimationData()
             {
-                if (lineAnimationFinished)
-                {
-                    lineAnimationCounter = 0;
-                    lineAnimationFinished = false;
-                }
-                else
-                {
+                if (!lineAnimationFinished)
                     lineAnimationCounter += 1;
-                }
 
-                if (textAnimationFinished)
-                {
-                    textAnimationCounter = 0;
-                    textAnimationFinished = false;
-                }
-                else
-                {
+                if (!textAnimationFinished)
                     textAnimationCounter += 1;
-                }
-
-                if (lineAnimationFinished && textAnimationFinished)
-                {
-                    t_update->stop();
-                    disconnect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
-                    disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
-                }
             }
         };
     }
