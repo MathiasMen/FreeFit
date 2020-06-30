@@ -19,7 +19,7 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialTextField(QString t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t,parent),animationStarted(false),start(0),animationCounter(0)
+            MaterialTextField(QString t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t,parent),focused(false),lineAnimationCounter(0),textAnimationCounter(0),lineAnimationFinished(false),textAnimationFinished(false)
             {
                 this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-top: 20px;");
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -45,53 +45,99 @@ namespace FreeFit
 
                 painter.setPen(pen);
                 painter.setFont(font);
-                if (!animationStarted)
+                if (!focused)
                     painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
                 else
                 {
                     painter.setPen(Qt::red);
-                    painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2+5*animationCounter,this->rect().height());
-                    painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2-5*animationCounter,this->rect().height());
-                    if (t == "")
-                    {
-                        t = text();
-                        setText("");
-                    }
-                    if (this->rect().height()-2*animationCounter - painter.font().pixelSize() > 0)
-                        painter.drawText(0,this->rect().height()-2*animationCounter,t);
+                    
+                    if (lineAnimationFinished)
+                        painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
                     else
+                    {
+                        if (this->rect().width()/2+5*lineAnimationCounter < this->rect().width()/2)
+                        {
+                            painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2+5*lineAnimationCounter,this->rect().height());
+                            painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2-5*lineAnimationCounter,this->rect().height());
+                        }
+                        else
+                        {
+                            lineAnimationFinished = true;
+                            painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
+                        }
+                    }
+
+                    if (textAnimationFinished)
+                    {
                         painter.drawText(0,painter.font().pixelSize(),t);
+                    }
+                    else
+                    {
+                        if (this->rect().height() - 2*textAnimationCounter < painter.font().pixelSize())
+                            painter.drawText(0,this->rect().height()-2*textAnimationCounter,t);
+                        else
+                        {
+                            textAnimationFinished = true;
+                            painter.drawText(0,painter.font().pixelSize(),t);
+                        }
+                    }
                 }
             }
 
             void focusInEvent(QFocusEvent* e) override
             {
-                t_update->start(20);
-                animationStarted = true;
+                focused = true;
+                t = text();
+                setText("");
                 connect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
                 connect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
+                t_update->start(20);
                 QLineEdit::focusInEvent(e);
             }
+
+            void focusOutEvent(QFocusEvent* e) override
+            {
+                focused = false;
+                if (text() == "")
+                    setText(t);
+                QLineEdit::focusOutEvent(e);
+            }
         private:
-            bool animationStarted;
-            int start;
-            int animationCounter;
+            bool focused;
+            bool lineAnimationFinished;
+            bool textAnimationFinished;
+            int lineAnimationCounter;
+            int textAnimationCounter;
             QTimer* t_update;
             QString t;
         private slots:
             void updateAnimationData()
             {
-                start += 5;
-                animationCounter += 1;
-                if (animationCounter > 50)
+                if (lineAnimationFinished)
+                {
+                    lineAnimationCounter = 0;
+                    lineAnimationFinished = false;
+                }
+                else
+                {
+                    lineAnimationCounter += 1;
+                }
+
+                if (textAnimationFinished)
+                {
+                    textAnimationCounter = 0;
+                    textAnimationFinished = false;
+                }
+                else
+                {
+                    textAnimationCounter += 1;
+                }
+
+                if (lineAnimationFinished && textAnimationFinished)
                 {
                     t_update->stop();
-                    animationStarted = false;
-                    animationCounter = 0;
                     disconnect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
                     disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
-                    setText(t);
-                    t = "";
                 }
             }
         };
