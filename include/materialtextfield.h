@@ -46,7 +46,11 @@ namespace FreeFit
                 painter.setPen(pen);
                 painter.setFont(font);
                 if (!focused)
+                {
                     painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
+                    if (text() != "" && text() != t)
+                        painter.drawText(0,painter.font().pixelSize(),t);
+                }
                 else
                 {
                     painter.setPen(Qt::red);
