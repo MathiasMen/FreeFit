@@ -52,18 +52,18 @@ namespace FreeFit
                     painter.setPen(Qt::red);
                     
                     if (lineAnimationFinished)
-                        painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
+                        painter.drawLine(0,this->rect().height()-1,this->rect().width(),this->rect().height()-1);
                     else
                     {
                         if (this->rect().width()/2+5*lineAnimationCounter <= this->rect().width())
                         {
-                            painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2+5*lineAnimationCounter,this->rect().height());
-                            painter.drawLine(this->rect().width()/2,this->rect().height(),this->rect().width()/2-5*lineAnimationCounter,this->rect().height());
+                            painter.drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2+5*lineAnimationCounter,this->rect().height()-1);
+                            painter.drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2-5*lineAnimationCounter,this->rect().height()-1);
                         }
                         else
                         {
                             lineAnimationFinished = true;
-                            painter.drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
+                            painter.drawLine(0,this->rect().height()-1,this->rect().width(),this->rect().height()-1);
                         }
                     }
 
