@@ -10,6 +10,7 @@
 #include <QTimer>
 
 #include <iostream>
+#include <functional>
 
 namespace FreeFit
 {
@@ -77,14 +78,19 @@ namespace FreeFit
                     }
                     else
                     {
-                        if (this->rect().height() - 2*textAnimationCounter >= painter.font().pixelSize())
-                        {
-                            painter.drawText(0,this->rect().height()-2*textAnimationCounter,t);
-                        }
+                        if (text() != "" && text() != t)
+                        painter.drawText(0,painter.font().pixelSize(),t);
                         else
                         {
-                            textAnimationFinished = true;
-                            painter.drawText(0,painter.font().pixelSize(),t);
+                            if (this->rect().height() - 2*textAnimationCounter >= painter.font().pixelSize())
+                            {
+                                painter.drawText(0,this->rect().height()-2*textAnimationCounter,t);
+                            }
+                            else
+                            {
+                                textAnimationFinished = true;
+                                painter.drawText(0,painter.font().pixelSize(),t);
+                            }
                         }
                     }
                 }
@@ -123,6 +129,7 @@ namespace FreeFit
             int textAnimationCounter;
             QTimer* t_update;
             QString t;
+            std::function<void(QPainter* painter,MaterialTextField* textfield)> paintEventFunction;
         private slots:
             void updateAnimationData()
             {
