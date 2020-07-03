@@ -28,10 +28,10 @@ namespace FreeFit
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
 
-                connect(this,&MaterialTextField::focusGainedTextEntered,[](){std::cout << "Focus gained with text." << std::endl;});
-                connect(this,&MaterialTextField::focusGainedNoTextEntered,[](){std::cout << "Focus gained no text." << std::endl;});
-                connect(this,&MaterialTextField::focusLostTextEntered,[](){std::cout << "Focus lost with text." << std::endl;});
-                connect(this,&MaterialTextField::focusLostNoTextEntered,[](){std::cout << "Focus lost no text." << std::endl;});
+                connect(this,&MaterialTextField::focusGainedTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
             }
 
         protected:
@@ -145,6 +145,26 @@ namespace FreeFit
                 QLineEdit::focusOutEvent(e);
             }
         private:
+            void focusGainedTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            {
+                std::cout << "Focus gained with text. " << this->text().toStdString() << std::endl;
+            }
+
+            void focusGainedNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            {
+                std::cout << "Focus gained no text." << this->text().toStdString() << std::endl;
+            }
+
+            void focusLostTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            {
+                std::cout << "Focus lost with text." << this->text().toStdString() << std::endl;
+            }
+
+            void focusLostNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            {
+                std::cout << "Focus lost no text." << this->text().toStdString() << std::endl;
+            }
+
             bool focused;
             bool lineAnimationFinished;
             bool textAnimationFinished;
@@ -153,7 +173,7 @@ namespace FreeFit
             QTimer* t_update;
             QString t;
 
-            std::function<void(QPainter* painter,MaterialTextField* textfield)> currentPaintFunction;
+            std::function<void(QPainter*,FreeFit::GUI::MaterialTextField*)> currentPaintFunction;
         signals:
             void focusGainedTextEntered();
             void focusGainedNoTextEntered();
