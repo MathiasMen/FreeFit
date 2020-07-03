@@ -30,14 +30,12 @@ namespace FreeFit
 
                 noFocusAndNoTextEnteredState = new QState();
                 noFocusAndTextEnteredState = new QState();
-                focusAndAnimationRunningState = new QState();
-                focusAndAnimationFinishedState = new QState();
+                focusAndNoTextEntered = new QState();
                 focusAndTextEntered = new QState();
 
                 state_machine.addState(noFocusAndNoTextEnteredState);
                 state_machine.addState(noFocusAndTextEnteredState);
-                state_machine.addState(focusAndAnimationRunningState);
-                state_machine.addState(focusAndAnimationFinishedState);
+                state_machine.addState(focusAndNoTextEntered);
                 state_machine.addState(focusAndTextEntered);
 
                 state_machine.setInitialState(noFocusAndNoTextEnteredState);
@@ -166,8 +164,7 @@ namespace FreeFit
             QStateMachine state_machine;
             QState* noFocusAndNoTextEnteredState;
             QState* noFocusAndTextEnteredState;
-            QState* focusAndAnimationRunningState;
-            QState* focusAndAnimationFinishedState;
+            QState* focusAndNoTextEntered;
             QState* focusAndTextEntered;
 
             std::function<void(QPainter* painter,MaterialTextField* textfield)> currentPaintFunction;
