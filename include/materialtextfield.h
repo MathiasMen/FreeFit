@@ -125,6 +125,12 @@ namespace FreeFit
                 connect(t_update,SIGNAL(timeout()),this,SLOT(updateAnimationData()));
                 connect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
                 t_update->start(20);
+
+                if (text() != "")
+                    emit focusGainedTextEntered();
+                else
+                    emit focusGainedNoTextEntered();
+
                 QLineEdit::focusInEvent(e);
             }
 
@@ -140,6 +146,12 @@ namespace FreeFit
                 lineAnimationFinished = false;
                 textAnimationCounter = 0;
                 textAnimationFinished = false;
+
+                if (text() != "")
+                    emit focusLostTextEntered();
+                else
+                    emit focusLostNoTextEntered();
+
                 QLineEdit::focusOutEvent(e);
             }
         private:
@@ -159,6 +171,11 @@ namespace FreeFit
             QState* focusAndTextEntered;
 
             std::function<void(QPainter* painter,MaterialTextField* textfield)> currentPaintFunction;
+        signals:
+            void focusGainedTextEntered();
+            void focusGainedNoTextEntered();
+            void focusLostTextEntered();
+            void focusLostNoTextEntered();
         private slots:
             void updateAnimationData()
             {
