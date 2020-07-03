@@ -8,6 +8,8 @@
 #include <QStyle>
 #include <QStyleOption>
 #include <QTimer>
+#include <QStateMachine>
+#include <QState>
 
 #include <iostream>
 #include <functional>
@@ -20,11 +22,26 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),focused(false),lineAnimationCounter(0),textAnimationCounter(0),lineAnimationFinished(false),textAnimationFinished(false)
+            MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),focused(false),lineAnimationCounter(0),textAnimationCounter(0),lineAnimationFinished(false),textAnimationFinished(false),state_machine(this)
             {
                 this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
+
+                noFocusAndNoTextEnteredState = new QState();
+                noFocusAndTextEnteredState = new QState();
+                focusAndAnimationRunningState = new QState();
+                focusAndAnimationFinishedState = new QState();
+                focusAndTextEntered = new QState();
+
+                state_machine.addState(noFocusAndNoTextEnteredState);
+                state_machine.addState(noFocusAndTextEnteredState);
+                state_machine.addState(focusAndAnimationRunningState);
+                state_machine.addState(focusAndAnimationFinishedState);
+                state_machine.addState(focusAndTextEntered);
+
+                state_machine.setInitialState(noFocusAndNoTextEnteredState);
+                state_machine.start();
             }
 
         protected:
@@ -133,6 +150,14 @@ namespace FreeFit
             int textAnimationCounter;
             QTimer* t_update;
             QString t;
+
+            QStateMachine state_machine;
+            QState* noFocusAndNoTextEnteredState;
+            QState* noFocusAndTextEnteredState;
+            QState* focusAndAnimationRunningState;
+            QState* focusAndAnimationFinishedState;
+            QState* focusAndTextEntered;
+
             std::function<void(QPainter* painter,MaterialTextField* textfield)> currentPaintFunction;
         private slots:
             void updateAnimationData()
