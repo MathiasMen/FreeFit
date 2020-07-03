@@ -38,6 +38,10 @@ namespace FreeFit
                 QLineEdit::paintEvent(ev);
                 
                 QPainter painter(this);
+
+                if (currentPaintFunction)
+                    currentPaintFunction(&painter,this);
+
                 QPen pen = painter.pen();
                 pen.setColor(Qt::gray);
                 pen.setWidth(2);
@@ -129,7 +133,7 @@ namespace FreeFit
             int textAnimationCounter;
             QTimer* t_update;
             QString t;
-            std::function<void(QPainter* painter,MaterialTextField* textfield)> paintEventFunction;
+            std::function<void(QPainter* painter,MaterialTextField* textfield)> currentPaintFunction;
         private slots:
             void updateAnimationData()
             {
