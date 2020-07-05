@@ -56,7 +56,10 @@ namespace FreeFit
                 if (text() != "" && text() != t)
                     emit focusGainedTextEntered();
                 else
+                {
+                    setText("");
                     emit focusGainedNoTextEntered();
+                }
 
                 QLineEdit::focusInEvent(e);
             }
@@ -136,12 +139,11 @@ namespace FreeFit
             {
                 setFocusedPainterSettings(painter);
                 drawAnimatedBaseLine(painter,textfield);
-                drawAnimatedTextLabel(painter,textfield);
+                drawStaticTextLabel(painter,textfield);
             }
 
             void focusGainedNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
-                setText("");
                 setFocusedPainterSettings(painter);
                 drawAnimatedBaseLine(painter,textfield);
                 drawAnimatedTextLabel(painter,textfield);
