@@ -49,10 +49,11 @@ namespace FreeFit
             void focusInEvent(QFocusEvent* e) override
             {
                 connect(t_update,SIGNAL(timeout()),this,SLOT(incrementLineAnimationCounter()));
+                connect(t_update,SIGNAL(timeout()),this,SLOT(incrementTextAnimationCounter()));
                 connect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
                 t_update->start(20);
 
-                if (text() != "")
+                if (text() != "" && text() != t)
                     emit focusGainedTextEntered();
                 else
                     emit focusGainedNoTextEntered();
@@ -64,11 +65,12 @@ namespace FreeFit
             {
                 t_update->stop();
                 disconnect(t_update,SIGNAL(timeout()),this,SLOT(incrementLineAnimationCounter()));
+                disconnect(t_update,SIGNAL(timeout()),this,SLOT(incrementTextAnimationCounter()));
                 disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
                 lineAnimationCounter = 0;
                 textAnimationCounter = 0;
 
-                if (text() != "")
+                if (text() != "" && text() != t)
                     emit focusLostTextEntered();
                 else
                     emit focusLostNoTextEntered();
@@ -76,6 +78,7 @@ namespace FreeFit
                 QLineEdit::focusOutEvent(e);
             }
         private:
+
             void setDefaultPainterSettings(QPainter* painter)
             {
                 QPen pen = painter->pen();
@@ -116,16 +119,32 @@ namespace FreeFit
                 }
             }
 
+            void drawStaticTextLabel(QPainter* painter, MaterialTextField* textfield)
+            {
+                painter->drawText(0,painter->font().pixelSize(),t);
+            }
+
+            void drawAnimatedTextLabel(QPainter* painter, MaterialTextField* textfield)
+            {
+                if (textfield->rect().height() - 2*textAnimationCounter >= painter->font().pixelSize())
+                    painter->drawText(0,textfield->rect().height()-2*textAnimationCounter,textfield->t);
+                else
+                    drawStaticTextLabel(painter,textfield);
+            }
+
             void focusGainedTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
                 setFocusedPainterSettings(painter);
                 drawAnimatedBaseLine(painter,textfield);
+                drawAnimatedTextLabel(painter,textfield);
             }
 
             void focusGainedNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
+                setText("");
                 setFocusedPainterSettings(painter);
                 drawAnimatedBaseLine(painter,textfield);
+                drawAnimatedTextLabel(painter,textfield);
             }
 
             void focusLostTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
