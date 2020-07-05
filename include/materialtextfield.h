@@ -76,7 +76,10 @@ namespace FreeFit
                 if (text() != "" && text() != t)
                     emit focusLostTextEntered();
                 else
+                {
+                    setText(t);
                     emit focusLostNoTextEntered();
+                }
 
                 QLineEdit::focusOutEvent(e);
             }
