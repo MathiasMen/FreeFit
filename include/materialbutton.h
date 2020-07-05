@@ -37,7 +37,8 @@ namespace FreeFit
 
                 void mousePressEvent(QMouseEvent* ev) override
                 {
-                    rippleCounter = 0;
+                    rippleOpacityCounter = 0;
+                    rippleRadiusCounter = 0;
                     rippleIntensityIncreasing = true;
                     click_pos = ev->localPos();
                     connect(t_update,SIGNAL(timeout()),this,SLOT(updateRippleData()));
@@ -49,20 +50,24 @@ namespace FreeFit
             private slots:
                 void updateRippleData()
                 {
-                    const int rippleEnd = 10;
-                    if (rippleCounter < rippleEnd && rippleIntensityIncreasing)
-                        rippleCounter += 1;
-                    else if (rippleCounter <= rippleEnd && !rippleIntensityIncreasing)
-                        rippleCounter -= 1;
-                    else if (rippleCounter == rippleEnd)
+                    if (rippleIntensityIncreasing)
+                        rippleOpacityCounter += 1;
+                    else
+                        rippleOpacityCounter -= 1;
+
+                    rippleRadiusCounter += 1;
+
+                    if (rippleOpacityCounter == 0 && !rippleIntensityIncreasing)
+                        emit rippleFinished();
+
+                    if (rippleOpacityCounter == rippleSteps)
                         rippleIntensityIncreasing = false;
-                    else if (rippleCounter == 0 && !rippleIntensityIncreasing)
-                        emit rippleFinished();    
                 }
 
                 void handleRippleFinished()
                 {
-                    rippleCounter = 0;
+                    rippleOpacityCounter = 0;
+                    rippleRadiusCounter = 0;
                     rippleIntensityIncreasing = true;
                     click_pos = QPointF();
                     disconnect(t_update,SIGNAL(timeout()),this,SLOT(updateRippleData()));
@@ -75,20 +80,17 @@ namespace FreeFit
                     QPen pen = painter->pen();
                     pen.setColor(Qt::white);
                     painter->setPen(pen);
-/*                    
-                    QRadialGradient radialGrad(QPointF(click_pos.x()/2, click_pos.y()/2), 100);
-                    radialGrad.setColorAt(0,Qt::black);
-                    radialGrad.setColorAt(1,Qt::white);
-                    painter->setBrush(QBrush(radialGrad));
-*/
                     painter->setBrush(QBrush(Qt::red));
-                    painter->setOpacity(rippleCounter*0.1);
-                    painter->drawEllipse(click_pos,50,50);
+
+                    painter->setOpacity(0.5*rippleOpacityCounter/rippleSteps);
+                    painter->drawEllipse(click_pos,100*rippleRadiusCounter/rippleSteps,100*rippleRadiusCounter/rippleSteps);
                 }
 
                 QTimer* t_update;
                 bool rippleIntensityIncreasing;
-                int rippleCounter;
+                const int rippleSteps = 10;
+                int rippleOpacityCounter;
+                int rippleRadiusCounter;
                 QPointF click_pos;
                 std::function<void(QPainter*)> currentPaintFunction;
             signals:
