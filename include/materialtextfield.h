@@ -28,10 +28,10 @@ namespace FreeFit
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
 
-                connect(this,&MaterialTextField::focusGainedTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
-                connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
-                connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
-                connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusGainedTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedTextEnteredPaint,this,std::placeholders::_1);});
+                connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1);});
+                connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1);});
+                connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1);});
             }
 
         protected:
@@ -42,7 +42,7 @@ namespace FreeFit
                 QPainter painter(this);
 
                 if (currentPaintFunction)
-                    currentPaintFunction(&painter,this);
+                    currentPaintFunction(&painter);
 
             }
 
@@ -112,62 +112,62 @@ namespace FreeFit
                 painter->setPen(pen);
             }
 
-            void drawStaticBaseLine(QPainter* painter, MaterialTextField* textfield)
+            void drawStaticBaseLine(QPainter* painter)
             {
-                painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
+                painter->drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
             }
 
-            void drawAnimatedBaseLine(QPainter* painter, MaterialTextField* textfield)
+            void drawAnimatedBaseLine(QPainter* painter)
             {
-                if (textfield->rect().width()/2+5*lineAnimationCounter <= textfield->rect().width())
+                if (this->rect().width()/2+5*lineAnimationCounter <= this->rect().width())
                 {
-                    painter->drawLine(textfield->rect().width()/2,textfield->rect().height()-1,textfield->rect().width()/2+5*lineAnimationCounter,textfield->rect().height()-1);
-                    painter->drawLine(textfield->rect().width()/2,textfield->rect().height()-1,textfield->rect().width()/2-5*lineAnimationCounter,textfield->rect().height()-1);
+                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2+5*lineAnimationCounter,this->rect().height()-1);
+                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2-5*lineAnimationCounter,this->rect().height()-1);
                 }
                 else
                 {
-                    painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
+                    painter->drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
                 }
             }
 
-            void drawStaticTextLabel(QPainter* painter, MaterialTextField* textfield)
+            void drawStaticTextLabel(QPainter* painter)
             {
                 painter->drawText(0,painter->font().pixelSize(),t);
             }
 
-            void drawAnimatedTextLabel(QPainter* painter, MaterialTextField* textfield)
+            void drawAnimatedTextLabel(QPainter* painter)
             {
-                if (textfield->rect().height() - 2*textAnimationCounter >= painter->font().pixelSize())
-                    painter->drawText(0,textfield->rect().height()-2*textAnimationCounter,textfield->t);
+                if (this->rect().height() - 2*textAnimationCounter >= painter->font().pixelSize())
+                    painter->drawText(0,this->rect().height()-2*textAnimationCounter,this->t);
                 else
-                    drawStaticTextLabel(painter,textfield);
+                    drawStaticTextLabel(painter);
             }
 
-            void focusGainedTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            void focusGainedTextEnteredPaint(QPainter* painter)
             {
                 setFocusedPainterSettings(painter);
-                drawAnimatedBaseLine(painter,textfield);
-                drawStaticTextLabel(painter,textfield);
+                drawAnimatedBaseLine(painter);
+                drawStaticTextLabel(painter);
             }
 
-            void focusGainedNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            void focusGainedNoTextEnteredPaint(QPainter* painter)
             {
                 setFocusedPainterSettings(painter);
-                drawAnimatedBaseLine(painter,textfield);
-                drawAnimatedTextLabel(painter,textfield);
+                drawAnimatedBaseLine(painter);
+                drawAnimatedTextLabel(painter);
             }
 
-            void focusLostTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            void focusLostTextEnteredPaint(QPainter* painter)
             {
                 setNotFocusedPainterSettings(painter);
-                drawStaticBaseLine(painter,textfield);
-                drawStaticTextLabel(painter,textfield);
+                drawStaticBaseLine(painter);
+                drawStaticTextLabel(painter);
             }
 
-            void focusLostNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
+            void focusLostNoTextEnteredPaint(QPainter* painter)
             {
                 setNotFocusedPainterSettings(painter);
-                drawStaticBaseLine(painter,textfield);
+                drawStaticBaseLine(painter);
             }
 
             int lineAnimationCounter;
@@ -175,7 +175,7 @@ namespace FreeFit
             QTimer* t_update;
             QString t;
 
-            std::function<void(QPainter*,FreeFit::GUI::MaterialTextField*)> currentPaintFunction;
+            std::function<void(QPainter*)> currentPaintFunction;
         signals:
             void focusGainedTextEntered();
             void focusGainedNoTextEntered();
