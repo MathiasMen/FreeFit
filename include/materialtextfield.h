@@ -24,7 +24,7 @@ namespace FreeFit
         public:
             MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),lineAnimationCounter(0),textAnimationCounter(0)
             {
-                this->setStyleSheet("background-color:white; color:black; border: 2px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
+                this->setStyleSheet("background-color:white; color:black; border: 0px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
 
@@ -112,6 +112,11 @@ namespace FreeFit
                 painter->setPen(pen);
             }
 
+            void drawStaticBaseLine(QPainter* painter, MaterialTextField* textfield)
+            {
+                painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
+            }
+
             void drawAnimatedBaseLine(QPainter* painter, MaterialTextField* textfield)
             {
                 if (textfield->rect().width()/2+5*lineAnimationCounter <= textfield->rect().width())
@@ -121,7 +126,7 @@ namespace FreeFit
                 }
                 else
                 {
-                    painter->drawLine(0,textfield->rect().height()-1,textfield->rect().width(),textfield->rect().height()-1);
+                    painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
                 }
             }
 
@@ -155,14 +160,14 @@ namespace FreeFit
             void focusLostTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
                 setNotFocusedPainterSettings(painter);
-                painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
-                painter->drawText(0,painter->font().pixelSize(),t);
+                drawStaticBaseLine(painter,textfield);
+                drawStaticTextLabel(painter,textfield);
             }
 
             void focusLostNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
                 setNotFocusedPainterSettings(painter);
-                painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
+                drawStaticBaseLine(painter,textfield);
             }
 
             int lineAnimationCounter;
