@@ -159,6 +159,7 @@ target_link_libraries(WorkoutGenerationWidgetTest gtest Qt5::Core Qt5::Gui Qt5::
 
 qt5_wrap_cpp(   MaterialWidgets
                 ${CMAKE_SOURCE_DIR}/include/materialtextfield.h
+                ${CMAKE_SOURCE_DIR}/include/materialbutton.h
                 )
 
 add_executable( MaterialWidgetTest
@@ -168,6 +169,14 @@ add_executable( MaterialWidgetTest
 target_include_directories(MaterialWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialWidgetTest PUBLIC /usr/local/lib)
 target_link_libraries(MaterialWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+
+add_executable( MaterialButtonTest
+                materialButtonTest.cpp
+                ${MaterialWidgets}
+                )
+target_include_directories(MaterialButtonTest PUBLIC ${test_include_dirs})
+target_link_directories(MaterialButtonTest PUBLIC /usr/local/lib)
+target_link_libraries(MaterialButtonTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)

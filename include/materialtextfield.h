@@ -11,7 +11,6 @@
 #include <QStateMachine>
 #include <QState>
 
-#include <iostream>
 #include <functional>
 
 namespace FreeFit
