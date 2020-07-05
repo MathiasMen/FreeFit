@@ -28,10 +28,10 @@ namespace FreeFit
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
 
-                connect(this,&MaterialTextField::focusGainedTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2); std::cout << "1" << std::endl;});
-                connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2); std::cout << "2" << std::endl;});
-                connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2); std::cout << "3" << std::endl;});
-                connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2); std::cout << "4" << std::endl;});
+                connect(this,&MaterialTextField::focusGainedTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
+                connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1,std::placeholders::_2);});
             }
 
         protected:
@@ -105,7 +105,6 @@ namespace FreeFit
 
             void drawAnimatedBaseLine(QPainter* painter, MaterialTextField* textfield)
             {
-                painter->drawLine(textfield->rect().width()/2,textfield->rect().height()/2,textfield->rect().width()/2+5*lineAnimationCounter,textfield->rect().height()/2);
                 if (textfield->rect().width()/2+5*lineAnimationCounter <= textfield->rect().width())
                 {
                     painter->drawLine(textfield->rect().width()/2,textfield->rect().height()-1,textfield->rect().width()/2+5*lineAnimationCounter,textfield->rect().height()-1);
