@@ -37,61 +37,13 @@ namespace FreeFit
         protected:
             void paintEvent(QPaintEvent* ev) override
             {
-                QStyleOption opt;
-                opt.init(this);
+                QLineEdit::paintEvent(ev);
+
                 QPainter painter(this);
-                style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
-                
-                QLineEdit::paintEvent(ev);       
 
                 if (currentPaintFunction)
                     currentPaintFunction(&painter,this);
 
-/*
-                if (!focused)
-                {
-                }
-                else
-                {                    
-                    if (lineAnimationFinished)
-                        painter.drawLine(0,this->rect().height()-1,this->rect().width(),this->rect().height()-1);
-                    else
-                    {
-                        if (this->rect().width()/2+5*lineAnimationCounter <= this->rect().width())
-                        {
-                            painter.drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2+5*lineAnimationCounter,this->rect().height()-1);
-                            painter.drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2-5*lineAnimationCounter,this->rect().height()-1);
-                        }
-                        else
-                        {
-                            lineAnimationFinished = true;
-                            painter.drawLine(0,this->rect().height()-1,this->rect().width(),this->rect().height()-1);
-                        }
-                    }
-
-                    if (textAnimationFinished)
-                    {
-                        painter.drawText(0,painter.font().pixelSize(),t);
-                    }
-                    else
-                    {
-                        if (text() != "" && text() != t)
-                        painter.drawText(0,painter.font().pixelSize(),t);
-                        else
-                        {
-                            if (this->rect().height() - 2*textAnimationCounter >= painter.font().pixelSize())
-                            {
-                                painter.drawText(0,this->rect().height()-2*textAnimationCounter,t);
-                            }
-                            else
-                            {
-                                textAnimationFinished = true;
-                                painter.drawText(0,painter.font().pixelSize(),t);
-                            }
-                        }
-                    }
-                }
-            */
             }
 
             void focusInEvent(QFocusEvent* e) override
@@ -167,26 +119,26 @@ namespace FreeFit
 
             void focusGainedTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
-                //setFocusedPainterSettings(painter);
+                setFocusedPainterSettings(painter);
                 drawAnimatedBaseLine(painter,textfield);
             }
 
             void focusGainedNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
-                //setFocusedPainterSettings(painter);
+                setFocusedPainterSettings(painter);
                 drawAnimatedBaseLine(painter,textfield);
             }
 
             void focusLostTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
-                //setNotFocusedPainterSettings(painter);
+                setNotFocusedPainterSettings(painter);
                 painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
                 painter->drawText(0,painter->font().pixelSize(),t);
             }
 
             void focusLostNoTextEnteredPaint(QPainter* painter, MaterialTextField* textfield)
             {
-                //setNotFocusedPainterSettings(painter);
+                setNotFocusedPainterSettings(painter);
                 painter->drawLine(0,textfield->rect().height(),textfield->rect().width(),textfield->rect().height());
             }
 
