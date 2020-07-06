@@ -1,8 +1,13 @@
+
+QDialog{ background: whitesmoke; color:black;}
+
+QWidget{ background: whitesmoke; color:black;}
+
+QMainWindow{background: whitesmoke; color:black;}
+
 /*
-QDialog{ background: whitesmoke; }
-
-QWidget{ background: whitesmoke; }
-
 FreeFit--GUI--ToggleableLabel{color: red; } */
 
 FreeFit--GUI--ProfileEditor QLabel#ProfileEditorLabel{color:red;}
+
+FreeFit--GUI--ExerciseEditor FreeFit--GUI--ToggleableLabel{background-color: blue; color:red;}
