@@ -272,7 +272,7 @@ namespace FreeFit
 
             void playNotificationSound()
             {
-                QSound::play("/Users/mathias/Documents/programming_workspace/FreeFit/tools/notification.wav");
+                QSound::play("${CMAKE_SOURCE_DIR}/tools/notification.wav");
             }
         private:
             QHBoxLayout* ly;

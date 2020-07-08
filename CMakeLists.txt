@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 configure_file(${CMAKE_SOURCE_DIR}/include/youtubedownloader.in.h ${CMAKE_SOURCE_DIR}/include/youtubedownloader.h)
 configure_file(${CMAKE_SOURCE_DIR}/test/dataIOTest.in.cpp ${CMAKE_SOURCE_DIR}/test/dataIOTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/include/workoutwidget.in.h ${CMAKE_SOURCE_DIR}/include/workoutwidget.h)
 
 set(cpp_sources ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
     ${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp
