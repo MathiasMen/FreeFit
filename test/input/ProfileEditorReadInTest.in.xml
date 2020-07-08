@@ -10,7 +10,7 @@
       23.05.1989
     </DATELASTWORKOUT>
     <PATHEXDB>
-      /Users/mathias/Documents/programming_workspace/FreeFit/test/input/ReadXMLAndPopulateExerciseList.xml
+      ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml
     </PATHEXDB>
     <PERFFACTOR>
       10,000000
@@ -27,7 +27,7 @@
       24.03.1994
     </DATELASTWORKOUT>
     <PATHEXDB>
-      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/
+      ${CMAKE_SOURCE_DIR}/build/test/
     </PATHEXDB>
     <PERFFACTOR>
       11,000000

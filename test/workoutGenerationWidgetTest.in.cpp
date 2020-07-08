@@ -30,7 +30,7 @@ class WorkoutGenerationWidgetTest : public ::testing::Test
         e1.setName("Pushup");
         e1.setVideoURL("testURL1");
         e1.setVideoPath("testPath1");
-        e1.setThumbnailPath("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/Pushup.jpg");
+        e1.setThumbnailPath("${CMAKE_SOURCE_DIR}/test/input/Pushup.jpg");
         e1.setVideoStartTime("0");
         e1.setVideoEndTime("1");
         e1.addTrainedMuscle(FreeFit::Data::MuscleGroup::Shoulder);
@@ -39,7 +39,7 @@ class WorkoutGenerationWidgetTest : public ::testing::Test
         e2.setName("Plank");
         e2.setVideoURL("testURL2");
         e2.setVideoPath("testPath2");
-        e2.setThumbnailPath("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/Pushup.jpg");
+        e2.setThumbnailPath("${CMAKE_SOURCE_DIR}/test/input/Pushup.jpg");
         e2.setVideoStartTime("2");
         e2.setVideoEndTime("3");
         e2.addTrainedMuscle(FreeFit::Data::MuscleGroup::Chest);

@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 class ProfileEditor : public ::testing::Test
 {
     protected:
-        std::string profile_path = "/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ProfileEditorReadInTest.xml";
+        std::string profile_path = "${CMAKE_SOURCE_DIR}/test/input/ProfileEditorReadInTest.xml";
 };
 
 TEST_F(ProfileEditor,ReadXML)
@@ -33,7 +33,7 @@ TEST_F(ProfileEditor,ReadXML)
 
 TEST_F(ProfileEditor,WriteXML)
 {
-    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ProfileEditorWriteXML.xml";
+    std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/ProfileEditorWriteXML.xml";
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
@@ -54,7 +54,7 @@ TEST_F(ProfileEditor,WriteXML)
     "      23.05.1989\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/test/input/ReadXMLAndPopulateExerciseList.xml\n"
+    "      ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      10,000000\n"
@@ -71,7 +71,7 @@ TEST_F(ProfileEditor,WriteXML)
     "      24.03.1994\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      11,000000\n"

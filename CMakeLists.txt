@@ -16,6 +16,18 @@ configure_file(${CMAKE_SOURCE_DIR}/src/exerciseeditor.in.cpp ${CMAKE_SOURCE_DIR}
 configure_file(${CMAKE_SOURCE_DIR}/src/main.in.cpp ${CMAKE_SOURCE_DIR}/src/main.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/src/mainwindow.in.cpp ${CMAKE_SOURCE_DIR}/src/mainwindow.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/test/exerciseGUITest.in.cpp ${CMAKE_SOURCE_DIR}/test/exerciseGUITest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/exerciseViewerTest.in.cpp ${CMAKE_SOURCE_DIR}/test/exerciseViewerTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/profileEditorTest.in.cpp ${CMAKE_SOURCE_DIR}/test/profileEditorTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/workoutGenerationTest.in.cpp ${CMAKE_SOURCE_DIR}/test/workoutGenerationTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/workoutGenerationWidgetTest.in.cpp ${CMAKE_SOURCE_DIR}/test/workoutGenerationWidgetTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/workoutWidgetExerciseListTest.in.cpp ${CMAKE_SOURCE_DIR}/test/workoutWidgetExerciseListTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/workoutWidgetTest.in.cpp ${CMAKE_SOURCE_DIR}/test/workoutWidgetTest.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/input/ExerciseDemand.in.xml ${CMAKE_SOURCE_DIR}/test/input/ExerciseDemand.xml)
+configure_file(${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.in.xml ${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml)
+configure_file(${CMAKE_SOURCE_DIR}/test/input/ProfileEditorReadInTest.in.xml ${CMAKE_SOURCE_DIR}/test/input/ProfileEditorReadInTest.xml)
+configure_file(${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.in.xml ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml)
+configure_file(${CMAKE_SOURCE_DIR}/test/input/WorkoutGenerationTest.in.xml ${CMAKE_SOURCE_DIR}/test/input/WorkoutGenerationTest.xml)
+configure_file(${CMAKE_SOURCE_DIR}/test/input/WorkoutWidgetTest.in.xml ${CMAKE_SOURCE_DIR}/test/input/WorkoutWidgetTest.xml)
 
 set(cpp_sources ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
     ${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp

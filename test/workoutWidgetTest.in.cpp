@@ -24,7 +24,7 @@ class WorkoutWidget : public ::testing::Test
         FreeFit::Data::AllExercisesWorkout* w;
     virtual void SetUp()
     {
-        r = new FreeFit::Data::ExerciseXMLReader("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/WorkoutWidgetTest.xml");
+        r = new FreeFit::Data::ExerciseXMLReader("${CMAKE_SOURCE_DIR}/test/input/WorkoutWidgetTest.xml");
         w = new FreeFit::Data::AllExercisesWorkout(r->getExerciseList());
         w->generate();
     }
