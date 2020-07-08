@@ -117,7 +117,7 @@ namespace FreeFit
             start_time_label = new QLabel("Start Time:",this);
             stop_time_label = new QLabel("Stop Time:",this);
 
-            processMovie = new QMovie("/Users/mathias/Documents/programming_workspace/FreeFit/tools/loading.gif");
+            processMovie = new QMovie("${CMAKE_SOURCE_DIR}/tools/loading.gif");
             processLabel = new QLabel(this);
             processLabel->setMovie(processMovie);
             processLabel->hide();
