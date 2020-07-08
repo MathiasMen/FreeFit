@@ -60,7 +60,7 @@ TEST(DownloadExerciseDemandHandler, ExecuteDemand)
     d->muscle_areas.push_back("Shoulder");
     d->muscle_areas.push_back("Chest");
     FreeFit::Data::Exercise e = h.executeDemand(d);
-    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_35_40_resized.mp4";
+    std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/Pushup_35_40_resized.mp4";
     std::ifstream f(out_path);
     ASSERT_EQ(e.getVideoPath(),out_path);
     ASSERT_TRUE(f.is_open());
@@ -75,7 +75,7 @@ class ExerciseEditor : public ::testing::Test
     {
         p.setName("John Doe");
         p.setDateLastWorkout("31.12.2000");
-        p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/exercises.xml");
+        p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/build/test/exercises.xml");
         p.setPerformanceFactor(1.0);
         p.setPicturePath("none");
     }
@@ -83,7 +83,7 @@ class ExerciseEditor : public ::testing::Test
 
 TEST_F(ExerciseEditor,LaunchEditor)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     e->open();
@@ -94,7 +94,7 @@ TEST_F(ExerciseEditor,LaunchEditor)
 
 TEST_F(ExerciseEditor,AddButton)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     e->open();
@@ -107,7 +107,7 @@ TEST_F(ExerciseEditor,AddButton)
 
 TEST_F(ExerciseEditor,DeleteButton)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
     v.pushAddButton();
@@ -125,10 +125,10 @@ TEST_F(ExerciseEditor,ExerciseDemand)
     std::string ex_start = "00:02";
     std::string ex_end = "00:03";
     
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ExerciseDemand.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ExerciseDemand_out.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ExerciseDemand_out.xml");
     v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
@@ -157,10 +157,10 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
     std::string ex_start = "00:02";
     std::string ex_end = "00:03";
     
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionTrue.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionTrue.xml");
     e->open();
     
     v.pushAddButton();
@@ -178,10 +178,10 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
 
 TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionNameWrong.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionNameWrong.xml");
     e->open();
 
     v.pushAddButton();
@@ -202,10 +202,10 @@ TEST_F(ExerciseEditor,ValidateFunctionNameWrong)
 
 TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionURLWrong.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionURLWrong.xml");
     e->open();
 
     v.pushAddButton();
@@ -223,10 +223,10 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
 
 TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStartTimeWrong.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionStartTimeWrong.xml");
     e->open();
 
     v.pushAddButton();
@@ -244,10 +244,10 @@ TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
 
 TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ValidateFunctionStopTimeWrong.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionStopTimeWrong.xml");
     e->open();
     v.pushAddButton();
 
@@ -269,10 +269,10 @@ TEST_F(ExerciseEditor,DownloadClicked)
     std::string ex_start = "00:02";
     std::string ex_end = "00:03";
     
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/LaunchEditor.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/DownloadClicked.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/test/input/DownloadClicked.xml");
     v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
@@ -295,17 +295,17 @@ TEST_F(ExerciseEditor,DownloadClicked)
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
 
-    std::ifstream f("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Pushup_00:02_00:03.mp4");
+    std::ifstream f("${CMAKE_SOURCE_DIR}/build/test/Pushup_00:02_00:03.mp4");
     ASSERT_TRUE(f.is_open());
     e->accept();
 }
 
 TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
 {
-    p.setPathToExerciseDB("/Users/mathias/Documents/programming_workspace/FreeFit/test/input/ReadXMLAndPopulateExerciseList.xml");
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/ReadXMLAndPopulateExerciseListOut.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ReadXMLAndPopulateExerciseListOut.xml");
     e->open();
     ASSERT_EQ(v.getNumberOfExercises(),2);
     e->accept();
@@ -318,13 +318,13 @@ TEST_F(ExerciseEditor, XMLOutput)
     std::string ex_start = "00:50";
     std::string ex_end = "00:53";
     
-    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/XMLOutput.xml";
+    std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/XMLOutput.xml";
     const int result = std::remove(out_path.c_str());
     p.setPathToExerciseDB(out_path);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
 
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/XMLOutputOut.xml";
+    out_path = "${CMAKE_SOURCE_DIR}/build/test/XMLOutputOut.xml";
     v.setOutPath(out_path);
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
@@ -347,10 +347,10 @@ TEST_F(ExerciseEditor, XMLOutput)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.jpg\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53.jpg\n"
     "    </THUMBNAILPATH>\n"
     "    <VIDEOSTARTTIME>\n"
     "      50\n"
@@ -369,8 +369,8 @@ TEST_F(ExerciseEditor, XMLOutput)
     "  </EXERCISE>\n"
     "</EXERCISES>\n";
 
-    std::ifstream f1("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4");
-    std::ifstream f2("/Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.mp4");
+    std::ifstream f1("${CMAKE_SOURCE_DIR}/build/test/Situp_50_53_resized.mp4");
+    std::ifstream f2("${CMAKE_SOURCE_DIR}/build/test/Situp_50_53.mp4");
     std::ifstream f3(out_path);
     std::stringstream ss;
     ss << f3.rdbuf();
@@ -382,7 +382,7 @@ TEST_F(ExerciseEditor, XMLOutput)
 
 TEST_F(ExerciseEditor, AddExerciseToExistingXML)
 {
-    std::string out_path = "/Users/mathias/Documents/programming_workspace/FreeFit/build/test/AddExerciseToExistingXML.xml";
+    std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/AddExerciseToExistingXML.xml";
     std::ofstream out_file(out_path,std::ios::trunc);
     std::string out_content = 
     "<EXERCISES>\n"
@@ -394,10 +394,10 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.jpg\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53.jpg\n"
     "    </THUMBNAILPATH>\n"
     "    <VIDEOSTARTTIME>\n"
     "      50\n"
@@ -444,10 +444,10 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53_resized.mp4\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/Situp_50_53.jpg\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53.jpg\n"
     "    </THUMBNAILPATH>\n"
     "    <VIDEOSTARTTIME>\n"
     "      50\n"
@@ -472,10 +472,10 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/SomethingElse_49_54_resized.mp4\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/SomethingElse_49_54_resized.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
-    "      /Users/mathias/Documents/programming_workspace/FreeFit/build/test/SomethingElse_49_54.jpg\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/SomethingElse_49_54.jpg\n"
     "    </THUMBNAILPATH>\n"
     "    <VIDEOSTARTTIME>\n"
     "      49\n"

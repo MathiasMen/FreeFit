@@ -15,6 +15,7 @@ configure_file(${CMAKE_SOURCE_DIR}/src/downloadexercisedemandhandler.in.cpp ${CM
 configure_file(${CMAKE_SOURCE_DIR}/src/exerciseeditor.in.cpp ${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/src/main.in.cpp ${CMAKE_SOURCE_DIR}/src/main.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/src/mainwindow.in.cpp ${CMAKE_SOURCE_DIR}/src/mainwindow.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/test/exerciseGUITest.in.cpp ${CMAKE_SOURCE_DIR}/test/exerciseGUITest.cpp)
 
 set(cpp_sources ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
     ${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp
