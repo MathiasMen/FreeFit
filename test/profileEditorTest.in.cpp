@@ -29,6 +29,8 @@ TEST_F(ProfileEditor,ReadXML)
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
     ASSERT_EQ(v->getProfile(0).getName(),"Mathias");
     ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
+    d->show();
+    a.exec();
 }
 
 TEST_F(ProfileEditor,WriteXML)

@@ -23,7 +23,12 @@ namespace FreeFit
 
             ControlButton(QString button_text, ButtonType t, QWidget* parent = nullptr) : QPushButton(button_text,parent), button_type(t)
             {
-                this->setStyleSheet("background-color:white; color:red; text-align:left;");
+                std::string css_string = "background-color:white; color:red; padding:4px; ";
+                if (button_type == ButtonType::ForwardButton)
+                    css_string += "text-align:left;";
+                else
+                    css_string += "text-align:right;";
+                this->setStyleSheet(QString::fromStdString(css_string));
                 this->setMinimumSize(button_width,button_height);
                 this->setMaximumSize(button_width,button_height);
                 update();
