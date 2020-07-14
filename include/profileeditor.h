@@ -36,17 +36,10 @@ namespace FreeFit
                 path_exercises_xml = new MaterialTextField("Path to Exercises XML",this);
                 profile_name = new MaterialTextField("Name",this);
 
-                const int button_width = 140;
-                const int button_height = 30;
-
                 next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,this);
-                next_page_button->setMinimumSize(button_width,button_height);
-                next_page_button->setMaximumSize(button_width,button_height);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
                 skip_exercises_button = new ControlButton("Skip Exercises",ControlButton::ForwardButton,this);
-                skip_exercises_button->setMinimumSize(button_width,button_height);
-                skip_exercises_button->setMaximumSize(button_width,button_height);
                 connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
                 for (auto p : r.getProfileList())
