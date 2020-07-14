@@ -6,7 +6,6 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QGridLayout>
-#include <QLabel>
 #include <QDialogButtonBox>
 #include <QComboBox>
 #include <QPushButton>
@@ -32,9 +31,6 @@ namespace FreeFit
             {
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
-
-                label_profile_selection = new QLabel("Select Profile:",this);
-                label_profile_selection->setObjectName("ProfileEditorLabel");
 
                 profile_selection = new QComboBox(this);
                 path_exercises_xml = new MaterialTextField("Path to Exercises XML",this);
@@ -69,11 +65,10 @@ namespace FreeFit
                 skip_layout->addItem(horizontal_spacer_skip);
                 skip_layout->addWidget(skip_exercises_button);
 
-                ly->addWidget(label_profile_selection,0,0);
                 ly->addWidget(profile_selection,0,1);
                 ly->addWidget(path_exercises_xml,1,1);
                 ly->addWidget(profile_name,2,1);
-                ly->addItem(vertical_spacer,3,0,1,2);
+                ly->addItem(vertical_spacer,3,0,1,1);
                 ly->addLayout(skip_layout,4,1);
                 ly->addLayout(ok_layout,5,1);
             }
@@ -122,8 +117,6 @@ namespace FreeFit
             QGridLayout* ly;
 
             QComboBox* profile_selection;
-
-            QLabel* label_profile_selection;
 
             MaterialTextField* path_exercises_xml;
             MaterialTextField* profile_name;
