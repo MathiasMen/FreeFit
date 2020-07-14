@@ -7,6 +7,9 @@
 #include <QLabel>
 #include <QApplication>
 #include <QStyle>
+#include <QPainter>
+
+#include <iostream>
 
 namespace FreeFit
 {
@@ -18,30 +21,35 @@ namespace FreeFit
         public:
             enum ButtonType { ForwardButton, BackwardButton};
 
-            ControlButton(QString button_text, ButtonType t, QWidget* parent = nullptr) : QPushButton(parent)
+            ControlButton(QString button_text, ButtonType t, QWidget* parent = nullptr) : QPushButton(button_text,parent), button_type(t)
             {
-                this->setLayout(new QGridLayout);
-                l = new QLabel(button_text,this);
-
-                if (t == ButtonType::ForwardButton)
+                this->setStyleSheet("background-color:white; color:red; text-align:left;");
+                update();
+            }
+        protected:
+            void paintEvent(QPaintEvent* ev) override
+            {
+                QPushButton::paintEvent(ev);
+                QPainter painter(this);
+                QPen pen = painter.pen();
+                pen.setColor(Qt::red);
+                painter.setPen(pen);
+                const int pad = 4;
+                if (button_type == ButtonType::ForwardButton)
                 {
-                    this->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowForward));
-                    this->setStyleSheet("text-align:right;");
-                    l->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+                    painter.drawLine(this->rect().width()-10-pad,this->rect().height()/2    , this->rect().width()-pad,this->rect().height()/2);
+                    painter.drawLine(this->rect().width()-5 -pad,this->rect().height()/2 - 5, this->rect().width()-pad,this->rect().height()/2);
+                    painter.drawLine(this->rect().width()-5 -pad,this->rect().height()/2 + 5, this->rect().width()-pad,this->rect().height()/2);                    
                 }
                 else
                 {
-                    this->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
-                    this->setStyleSheet("text-align:left;");
-                    l->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+                    painter.drawLine(pad,this->rect().height()/2, 10 + pad ,this->rect().height()/2    );
+                    painter.drawLine(pad,this->rect().height()/2, 5  + pad ,this->rect().height()/2 - 5);
+                    painter.drawLine(pad,this->rect().height()/2, 5  + pad ,this->rect().height()/2 + 5);
                 }
-
-                l->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-                this->layout()->addWidget(l);
-                this->setIconSize(l->size());
             }
         private:
-            QLabel* l;
+            ButtonType button_type;
         };
     }
 }

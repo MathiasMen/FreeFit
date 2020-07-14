@@ -39,12 +39,12 @@ namespace FreeFit
                 const int button_width = 140;
                 const int button_height = 30;
 
-                next_page_button = new MaterialButton("Exercises",this);
+                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,this);
                 next_page_button->setMinimumSize(button_width,button_height);
                 next_page_button->setMaximumSize(button_width,button_height);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
-                skip_exercises_button = new MaterialButton("Skip Exercises",this);
+                skip_exercises_button = new ControlButton("Skip Exercises",ControlButton::ForwardButton,this);
                 skip_exercises_button->setMinimumSize(button_width,button_height);
                 skip_exercises_button->setMaximumSize(button_width,button_height);
                 connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
@@ -130,8 +130,8 @@ namespace FreeFit
 
             QSpacerItem* vertical_spacer;
 
-            MaterialButton* next_page_button;
-            MaterialButton* skip_exercises_button;
+            ControlButton* next_page_button;
+            ControlButton* skip_exercises_button;
             QHBoxLayout* ok_layout;
             QHBoxLayout* skip_layout;
             QSpacerItem* horizontal_spacer_ok;
