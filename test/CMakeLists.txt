@@ -69,7 +69,8 @@ target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5:
 
 qt5_wrap_cpp(   profileEditorMocSources
                 ${CMAKE_SOURCE_DIR}/include/profileeditor.h
-                ${CMAKE_SOURCE_DIR}/include/controls.h)
+                ${CMAKE_SOURCE_DIR}/include/controls.h
+                ${CMAKE_SOURCE_DIR}/include/materialtextfield.h)
 
 add_executable( ProfileEditorTest
                 profileEditorTest.cpp

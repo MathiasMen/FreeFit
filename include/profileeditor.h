@@ -7,7 +7,6 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
-#include <QLineEdit>
 #include <QDialogButtonBox>
 #include <QComboBox>
 #include <QPushButton>
@@ -16,6 +15,7 @@
 #include "include/xmlreader.h"
 #include "include/xmlwriter.h"
 #include "include/controls.h"
+#include "include/materialtextfield.h"
 
 namespace FreeFit
 {
@@ -33,16 +33,12 @@ namespace FreeFit
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
 
-                label_path_exercises_xml = new QLabel("Path to Exercises XML:",this);
-                label_profile_name = new QLabel("Name:",this);
                 label_profile_selection = new QLabel("Select Profile:",this);
-                label_path_exercises_xml->setObjectName("ProfileEditorLabel");
-                label_profile_name->setObjectName("ProfileEditorLabel");
                 label_profile_selection->setObjectName("ProfileEditorLabel");
 
                 profile_selection = new QComboBox(this);
-                path_exercises_xml = new QLineEdit(this);
-                profile_name = new QLineEdit(this);
+                path_exercises_xml = new MaterialTextField("Path to Exercises XML",this);
+                profile_name = new MaterialTextField("Name",this);
 
                 next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,this);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
@@ -74,8 +70,6 @@ namespace FreeFit
                 skip_layout->addWidget(skip_exercises_button);
 
                 ly->addWidget(label_profile_selection,0,0);
-                ly->addWidget(label_path_exercises_xml,1,0);
-                ly->addWidget(label_profile_name,2,0);
                 ly->addWidget(profile_selection,0,1);
                 ly->addWidget(path_exercises_xml,1,1);
                 ly->addWidget(profile_name,2,1);
@@ -129,12 +123,10 @@ namespace FreeFit
 
             QComboBox* profile_selection;
 
-            QLabel* label_path_exercises_xml;
-            QLabel* label_profile_name;
             QLabel* label_profile_selection;
 
-            QLineEdit* path_exercises_xml;
-            QLineEdit* profile_name;
+            MaterialTextField* path_exercises_xml;
+            MaterialTextField* profile_name;
 
             QSpacerItem* vertical_spacer;
 
