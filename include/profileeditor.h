@@ -60,17 +60,17 @@ namespace FreeFit
                 horizontal_spacer_skip = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
                 
                 ok_layout->addItem(horizontal_spacer_ok);
-                ok_layout->addWidget(next_page_button);
+                ok_layout->addWidget(next_page_button,0,Qt::AlignLeft);
 
                 skip_layout->addItem(horizontal_spacer_skip);
-                skip_layout->addWidget(skip_exercises_button);
+                skip_layout->addWidget(skip_exercises_button,0,Qt::AlignLeft);
 
-                ly->addWidget(profile_selection,0,1);
-                ly->addWidget(path_exercises_xml,1,1);
-                ly->addWidget(profile_name,2,1);
-                ly->addItem(vertical_spacer,3,0,1,1);
-                ly->addLayout(skip_layout,4,1);
-                ly->addLayout(ok_layout,5,1);
+                ly->addWidget(profile_selection,0,0);
+                ly->addWidget(path_exercises_xml,1,0);
+                ly->addWidget(profile_name,2,0);
+                ly->addItem(vertical_spacer,3,0);
+                ly->addLayout(skip_layout,4,0);
+                ly->addLayout(ok_layout,5,0);
             }
         
             std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
