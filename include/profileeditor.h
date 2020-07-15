@@ -15,6 +15,7 @@
 #include "include/controls.h"
 #include "include/materialtextfield.h"
 #include "include/materialbutton.h"
+#include "include/materialdialog.h"
 
 namespace FreeFit
 {
@@ -22,12 +23,12 @@ namespace FreeFit
     {
         class ProfileEditorValidator;
 
-        class ProfileEditor : public QDialog
+        class ProfileEditor : public MaterialDialog
         {
         Q_OBJECT
         friend ProfileEditorValidator;
         public:
-            ProfileEditor(std::string p_path) : QDialog(),r(p_path),w(p_path)
+            ProfileEditor(std::string p_path) : MaterialDialog(),r(p_path),w(p_path)
             {
                 ly = new QGridLayout(this);
                 this->setLayout(ly);

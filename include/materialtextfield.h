@@ -23,7 +23,7 @@ namespace FreeFit
         public:
             MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),lineAnimationCounter(0),textAnimationCounter(0)
             {
-                this->setStyleSheet("background-color:white; color:black; border: 0px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
+                this->setStyleSheet("background-color:gainsboro; color:black; border: 0px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
 
