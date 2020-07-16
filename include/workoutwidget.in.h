@@ -16,6 +16,7 @@
 #include "include/workout.h"
 #include "include/exerciselistwidget.h"
 #include "include/exerciseviewer.h"
+#include "include/materialdialog.h"
 
 namespace FreeFit
 {
@@ -154,11 +155,11 @@ namespace FreeFit
             QPushButton* play_button;
         };
 
-        class WorkoutWidget : public QWidget
+        class WorkoutWidget : public MaterialDialog
         {
             Q_OBJECT
         public:
-            WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : QWidget(t_p),w(t_w) 
+            WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : MaterialDialog(t_p),w(t_w) 
             {
                 ly = new QHBoxLayout(this);
 
