@@ -67,13 +67,16 @@ namespace FreeFit
                 previous_page_button = new ControlButton("Exercises", ControlButton::BackwardButton,ControlButton::Primary,this);
                 connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
 
+                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+                ly->addItem(vertical_spacer,2,0);
+
                 QGridLayout* controls_layout = new QGridLayout;
                 QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
                 controls_layout->addWidget(previous_page_button,0,0);
                 controls_layout->addItem(horizontal_spacer,0,1);
                 controls_layout->addWidget(next_page_button,0,2);
-
-                ly->addLayout(controls_layout,2,0);
+        
+                ly->addLayout(controls_layout,3,0);
                 this->setLayout(ly);
             }
 
