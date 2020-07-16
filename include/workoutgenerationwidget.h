@@ -15,6 +15,7 @@
 #include "include/exercise.h"
 #include "include/workout.h"
 #include "include/controls.h"
+#include "include/materialdialog.h"
 
 namespace FreeFit
 {
@@ -41,11 +42,11 @@ namespace FreeFit
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
         };
 
-        class WorkoutGenerationWidget : public QDialog
+        class WorkoutGenerationWidget : public MaterialDialog
         {
         Q_OBJECT
         public:
-            WorkoutGenerationWidget(QWidget* parent = nullptr) : QDialog(parent)
+            WorkoutGenerationWidget(QWidget* parent = nullptr) : MaterialDialog(parent)
             {
                 ly = new QGridLayout(this);
 
