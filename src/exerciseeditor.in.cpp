@@ -325,7 +325,7 @@ namespace FreeFit
         }
 
         ExerciseEditor::ExerciseEditor(FreeFit::Data::Profile t_p)
-            :   p(t_p),demand_handler(),
+            :   MaterialDialog(),p(t_p),demand_handler(),
                 r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
         {                
             ly = new QGridLayout(this);

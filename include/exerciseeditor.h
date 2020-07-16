@@ -38,6 +38,7 @@
 #include "include/datadefinitions.h"
 #include "include/xmlreader.h"
 #include "include/controls.h"
+#include "include/materialdialog.h"
 
 namespace FreeFit
 {
@@ -217,7 +218,7 @@ namespace FreeFit
             const QString start_url = "https://www.youtube.com";
         };
 
-        class ExerciseEditor : public QDialog
+        class ExerciseEditor : public MaterialDialog
         {
             Q_OBJECT
         friend ExerciseEditorValidator;
