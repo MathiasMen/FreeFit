@@ -81,7 +81,7 @@ namespace FreeFit
             void paintEvent(QPaintEvent* ev) override
             {
                 QPainter painter(this);
-                painter.setPen(QPen(QBrush(Qt::green),line_width));
+                painter.setPen(QPen(QBrush(Qt::red),line_width));
                 QFont f = painter.font();
                 f.setPixelSize(36);
                 painter.setFont(f);
