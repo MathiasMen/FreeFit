@@ -62,6 +62,7 @@ add_executable( ExerciseGUITest
                 ${CMAKE_SOURCE_DIR}/src/workout.cpp
                 ${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
                 ${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
+                ${CMAKE_SOURCE_DIR}/src/controls.cpp
                 ${qt_sources} ${qt_headers} ${moc_sources})
 target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
@@ -77,6 +78,7 @@ qt5_wrap_cpp(   profileEditorMocSources
 add_executable( ProfileEditorTest
                 profileEditorTest.cpp
                 ${profileEditorMocSources}
+                ${CMAKE_SOURCE_DIR}/src/controls.cpp
                 ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
                 ${CMAKE_SOURCE_DIR}/src/parser.cpp
                 ${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
@@ -155,6 +157,7 @@ add_executable( WorkoutGenerationWidgetTest
                 ${WorkoutGenerationWidgetTestMocSources}
                 ${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
                 ${CMAKE_SOURCE_DIR}/src/workout.cpp
+                ${CMAKE_SOURCE_DIR}/src/controls.cpp
                 )
 target_include_directories(WorkoutGenerationWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)

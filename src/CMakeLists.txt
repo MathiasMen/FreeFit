@@ -1,6 +1,7 @@
 set(project_sources 
 	${CMAKE_SOURCE_DIR}/src/main.cpp
 	${CMAKE_SOURCE_DIR}/src/mainwindow.cpp
+	${CMAKE_SOURCE_DIR}/src/controls.cpp
 	${CMAKE_SOURCE_DIR}/src/downloadexercisedemandhandler.cpp
 	${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp
 	${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
