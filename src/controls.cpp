@@ -10,7 +10,10 @@ namespace FreeFit
             QPushButton::paintEvent(ev);
             QPainter painter(this);
             QPen pen = painter.pen();
-            pen.setColor(Qt::red);
+            if (button_importance == ButtonImportance::Primary)
+                pen.setColor(Qt::white);
+            else
+                pen.setColor(Qt::red);
             painter.setPen(pen);
             const int pad = 4;
             if (button_type == ButtonType::ForwardButton)
