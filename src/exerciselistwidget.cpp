@@ -109,7 +109,7 @@ std::string FreeFit::GUI::ExerciseListWidget::getVideoPathOfCurrentExercise()
 
 void FreeFit::GUI::ExerciseListWidget::highlightExercise(FreeFit::GUI::ExerciseListWidgetItem* e)
 {
-    e->setStyleSheet("background-color:red;");
+    e->setStyleSheet("font-weight:bold;");
 }
 
 void FreeFit::GUI::ExerciseListWidget::resetHighlightings()
