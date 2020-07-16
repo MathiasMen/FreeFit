@@ -369,10 +369,10 @@ namespace FreeFit
 
             browser = new ExerciseEditorBrowser(this);
 
-            next_page_button = new ControlButton("Workout Type", ControlButton::ForwardButton,this);
+            next_page_button = new ControlButton("Workout Type", ControlButton::ForwardButton,ControlButton::Primary,this);
             connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
-            previous_page_button = new ControlButton("Profile", ControlButton::BackwardButton,this);
+            previous_page_button = new ControlButton("Profile", ControlButton::BackwardButton,ControlButton::Primary,this);
             connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
 
             QGridLayout* controls_layout = new QGridLayout;

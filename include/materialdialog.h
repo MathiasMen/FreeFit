@@ -12,7 +12,7 @@ namespace FreeFit
         public:
             MaterialDialog(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags()) : QDialog(parent,f)
             {
-                setStyleSheet("background-color:white; color:black;");
+                setStyleSheet("background-color:white; color:red;");
             }
         };
     }

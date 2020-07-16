@@ -20,10 +20,16 @@ namespace FreeFit
         Q_OBJECT
         public:
             enum ButtonType { ForwardButton, BackwardButton};
+            
+            enum ButtonImportance {Primary, Secondary};
 
-            ControlButton(QString button_text, ButtonType t, QWidget* parent = nullptr) : QPushButton(button_text,parent), button_type(t)
+            ControlButton(QString button_text, ButtonType t, ButtonImportance i = ButtonImportance::Primary, QWidget* parent = nullptr) : QPushButton(button_text,parent), button_type(t), button_importance(i)
             {
-                std::string css_string = "background-color:white; color:red; padding:4px; ";
+                std::string css_string = "border-radius:6px; padding:4px; ";
+                if (button_importance == ButtonImportance::Primary)
+                    css_string += "background-color:red; color:white; ";
+                else
+                    css_string += "background-color:white; color:red; border-color:red;";
                 if (button_type == ButtonType::ForwardButton)
                     css_string += "text-align:left;";
                 else
@@ -57,6 +63,8 @@ namespace FreeFit
             }
         private:
             ButtonType button_type;
+            ButtonImportance button_importance;
+
             const int button_width = 140;
             const int button_height = 30;
         };

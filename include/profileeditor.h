@@ -37,10 +37,10 @@ namespace FreeFit
                 path_exercises_xml = new MaterialTextField("Path to Exercises XML",this);
                 profile_name = new MaterialTextField("Name",this);
 
-                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,this);
+                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
-                skip_exercises_button = new ControlButton("Skip Exercises",ControlButton::ForwardButton,this);
+                skip_exercises_button = new ControlButton("Skip Exercises",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 
                 for (auto p : r.getProfileList())
