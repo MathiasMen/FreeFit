@@ -4,7 +4,6 @@
 #include <QString>
 #include <QLabel>
 #include <QDialog>
-#include <QPushButton>
 #include <QLineEdit>
 #include <QGridLayout>
 #include <QVBoxLayout>
@@ -38,6 +37,7 @@
 #include "include/datadefinitions.h"
 #include "include/xmlreader.h"
 #include "include/controls.h"
+#include "include/materialbutton.h"
 #include "include/materialdialog.h"
 
 namespace FreeFit
@@ -187,7 +187,7 @@ namespace FreeFit
 
             QLabel* item_downloaded_icon;
             QLabel* item_downloaded_text;
-            QPushButton* delete_item;
+            MaterialButton* delete_item;
 
             MuscleGroups muscle_definitions;
             std::vector<ToggleableLabel*> hashtag_labels;
@@ -227,8 +227,8 @@ namespace FreeFit
             void deleteProfile(){delete browser->getWebEngineView()->page();};
             std::list<FreeFit::Data::Exercise> getExerciseData();
         private:
-            QPushButton* add_button;
-            QPushButton* download_all_button;
+            MaterialButton* add_button;
+            MaterialButton* download_all_button;
             QLabel* new_exercise_label;
             QWidget* new_exercise_area;        
             QVBoxLayout* new_exercise_area_ly;                

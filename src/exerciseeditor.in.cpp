@@ -175,7 +175,7 @@ namespace FreeFit
 
             item_downloaded_icon = new QLabel("",this);
             item_downloaded_text = new QLabel("",this);
-            delete_item = new QPushButton("Delete",this);
+            delete_item = new MaterialButton("Delete",this);
             connect(delete_item,&QPushButton::clicked,this,&ExerciseItem::deleteClicked);
 
             int row_counter = -1;
@@ -330,7 +330,7 @@ namespace FreeFit
         {                
             ly = new QGridLayout(this);
 
-            add_button = new QPushButton("Add Exercise",this);
+            add_button = new MaterialButton("Add Exercise",this);
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
 
             new_exercise_label = new QLabel("New Exercises",this);
@@ -345,7 +345,7 @@ namespace FreeFit
             new_exercise_scroll_area->setAlignment(Qt::AlignTop);
             new_exercise_scroll_area->setWidgetResizable(true);
 
-            download_exercises_button = new QPushButton("Add to Exercises",this);
+            download_exercises_button = new MaterialButton("Add to Exercises",this);
             connect(download_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
             old_exercise_label = new QLabel("Existing Exercises",this);
