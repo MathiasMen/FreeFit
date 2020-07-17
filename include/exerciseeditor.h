@@ -38,6 +38,7 @@
 #include "include/xmlreader.h"
 #include "include/controls.h"
 #include "include/materialbutton.h"
+#include "include/materialtextfield.h"
 #include "include/materialdialog.h"
 
 namespace FreeFit
@@ -213,7 +214,7 @@ namespace FreeFit
 
             QVBoxLayout* ly;
             QWebEngineView* browser;
-            QLineEdit* address;
+            MaterialTextField* address;
 
             const QString start_url = "https://www.youtube.com";
         };

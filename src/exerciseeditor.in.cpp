@@ -295,7 +295,7 @@ namespace FreeFit
             ly = new QVBoxLayout(this);
 
             browser = new QWebEngineView(this);
-            address = new QLineEdit(start_url,this);
+            address = new MaterialTextField("Youtube-URL",this);
 
             connect(address,&QLineEdit::returnPressed,this,&ExerciseEditorBrowser::addressEnterPressed);
             connect(browser,&QWebEngineView::loadStarted,this,&ExerciseEditorBrowser::browserStartedLoading);
