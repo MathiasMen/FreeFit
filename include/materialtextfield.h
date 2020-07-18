@@ -46,6 +46,22 @@ namespace FreeFit
                 css_string.replace(QRegExp("background-color:indianred;"),"background-color:gainsboro;");
                 updateStyleSheet();
             }
+
+            void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
+
+            bool validateText()
+            {
+                if(!validate_function(text().toStdString()))
+                {
+                    highlightAsInvalid();
+                    return false;
+                }
+                else
+                {
+                    highlightAsValid();
+                    return true;
+                }
+            }
         protected:
             void paintEvent(QPaintEvent* ev) override
             {
@@ -193,6 +209,7 @@ namespace FreeFit
             QString css_string;
 
             std::function<void(QPainter*)> currentPaintFunction;
+            std::function<bool(std::string)> validate_function;
         signals:
             void focusGainedTextEntered();
             void focusGainedNoTextEntered();

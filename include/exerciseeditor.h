@@ -136,11 +136,11 @@ namespace FreeFit
         public:
             ExerciseItem(QWidget* parent);
 
-            std::string getName(){return name->getContent();};
-            void setName(std::string n){name->setContent(n);};
+            std::string getName(){return name->text().toStdString();};
+            void setName(std::string n){name->setText(QString::fromStdString(n));};
 
-            std::string getURL(){return url->getContent();};
-            void setURL(std::string u){url->setContent(u);};
+            std::string getURL(){return url->text().toStdString();};
+            void setURL(std::string u){url->setText(QString::fromStdString(u));};
 
             std::string getVideoPath(){return video_path;};
             void setVideoPath(std::string p){video_path = p;};
@@ -148,11 +148,11 @@ namespace FreeFit
             std::string getThumbnailPath(){return thumbnail_path;}
             void setThumbnailPath(std::string t){thumbnail_path = t;}
 
-            std::string getVideoStartTime(){return start_time->getContent();};
-            void setVideoStartTime(std::string t){start_time->setContent(t);}
+            std::string getVideoStartTime(){return start_time->text().toStdString();};
+            void setVideoStartTime(std::string t){start_time->setText(QString::fromStdString(t));};
 
-            std::string getVideoEndTime(){return stop_time->getContent();};
-            void setVideoEndTime(std::string t){stop_time->setContent(t);}
+            std::string getVideoEndTime(){return stop_time->text().toStdString();};
+            void setVideoEndTime(std::string t){stop_time->setText(QString::fromStdString(t));};
 
             std::list<std::string> getMuscleAreas();
             void setMuscleAreas(std::set<FreeFit::Data::MuscleGroup> muscles);
@@ -181,10 +181,10 @@ namespace FreeFit
             QMovie *processMovie;
             QLabel *processLabel;
 
-            EditableLine* name;
-            EditableLine* url;
-            EditableLine* start_time;
-            EditableLine* stop_time;
+            MaterialTextField* name;
+            MaterialTextField* url;
+            MaterialTextField* start_time;
+            MaterialTextField* stop_time;
 
             QLabel* item_downloaded_icon;
             QLabel* item_downloaded_text;

@@ -127,10 +127,10 @@ namespace FreeFit
             start_time_label->setToolTip("Enter start of video in format MM:SS.");
             stop_time_label->setToolTip("Enter end of video in format MM:SS.");
 */
-            name        = new EditableLine("...",this);
-            url         = new EditableLine("...",this);
-            start_time  = new EditableLine("00:00",this);
-            stop_time   = new EditableLine("00:00",this);
+            name        = new MaterialTextField("Name",this);
+            url         = new MaterialTextField("URL",this);
+            start_time  = new MaterialTextField("Start [00:00]",this);
+            stop_time   = new MaterialTextField("Stop [00:00]",this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
@@ -169,10 +169,10 @@ namespace FreeFit
             start_time->validateText();
             stop_time->validateText();
             
-            connect(name,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
-            connect(url,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
-            connect(start_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
-            connect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+            connect(name,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            connect(url,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            connect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            connect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
 
             item_downloaded_icon = new QLabel("",this);
             item_downloaded_text = new QLabel("",this);
@@ -229,10 +229,12 @@ namespace FreeFit
         void ExerciseItem::highlightAsOldAndValid()
         {
             this->setStyleSheet("background-color:grey;");
+/*
             name->styleTextAsOldAndValid();
             url->deactivateTextAndHighlightAsValid();
             start_time->deactivateTextAndHighlightAsValid();
             stop_time->deactivateTextAndHighlightAsValid();
+*/
             item_downloaded_text->setText("Downloaded!");
             //item_downloaded_icon->setPixmap(this->style()->standardIcon(QStyle::SP_DialogApplyButton).pixmap(delete_item->size().height()));
         }
@@ -240,10 +242,10 @@ namespace FreeFit
         void ExerciseItem::highlightAsFaulty()
         {
             this->setStyleSheet("background-color:red;");
-            connect(name,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            connect(url,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            connect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            connect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            connect(name,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            connect(url,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            connect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            connect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
         }
 
         void ExerciseItem::setDefaultBackground()
@@ -266,19 +268,19 @@ namespace FreeFit
         void ExerciseItem::resetStylesheetOnce()
         {
             setDefaultBackground();
-            disconnect(name,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            disconnect(url,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            disconnect(start_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            disconnect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            disconnect(name,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            disconnect(url,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            disconnect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
+            disconnect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
         }
 
         void ExerciseItem::itemChanged()
         {
             unchanged = false;
-            disconnect(name,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
-            disconnect(url,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
-            disconnect(start_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
-            disconnect(stop_time,&EditableLine::textChanged,this,&ExerciseItem::itemChanged);
+            disconnect(name,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            disconnect(url,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            disconnect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            disconnect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
         }
 
         void ExerciseItem::paintEvent(QPaintEvent* e)
@@ -562,29 +564,29 @@ namespace FreeFit
         void ExerciseEditorValidator::setFirstNewExerciseNameText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->name->le->setText(QString::fromStdString(s));
-            e->name->le->textMessageBecauseFocusLost(e->name->le->text());
+            e->name->setText(QString::fromStdString(s));
+//            e->name->textMessageBecauseFocusLost(e->name->text());
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseURLText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->url->le->setText(QString::fromStdString(s));
-            e->url->le->textMessageBecauseFocusLost(e->url->le->text());
+            e->url->setText(QString::fromStdString(s));
+//            e->url->textMessageBecauseFocusLost(e->url->text());
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseStartTimeText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->start_time->le->setText(QString::fromStdString(s));
-            e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
+            e->start_time->setText(QString::fromStdString(s));
+//            e->start_time->textMessageBecauseFocusLost(e->start_time->text());
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseStopTimeText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->stop_time->le->setText(QString::fromStdString(s));
-            e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
+            e->stop_time->setText(QString::fromStdString(s));
+//            e->stop_time->textMessageBecauseFocusLost(e->stop_time->text());
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseMuscleArea(int id)
@@ -596,29 +598,29 @@ namespace FreeFit
         void ExerciseEditorValidator::setLastNewExerciseNameText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->name->le->setText(QString::fromStdString(s));
-            e->name->le->textMessageBecauseFocusLost(e->name->le->text());
+            e->name->setText(QString::fromStdString(s));
+//            e->name->textMessageBecauseFocusLost(e->name->text());
         }
 
         void ExerciseEditorValidator::setLastNewExerciseURLText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->url->le->setText(QString::fromStdString(s));
-            e->url->le->textMessageBecauseFocusLost(e->url->le->text());
+            e->url->setText(QString::fromStdString(s));
+//            e->url->textMessageBecauseFocusLost(e->url->text());
         }
 
         void ExerciseEditorValidator::setLastNewExerciseStartTimeText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->start_time->le->setText(QString::fromStdString(s));
-            e->start_time->le->textMessageBecauseFocusLost(e->start_time->le->text());
+            e->start_time->setText(QString::fromStdString(s));
+//            e->start_time->textMessageBecauseFocusLost(e->start_time->text());
         }
 
         void ExerciseEditorValidator::setLastNewExerciseStopTimeText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->stop_time->le->setText(QString::fromStdString(s));
-            e->stop_time->le->textMessageBecauseFocusLost(e->stop_time->le->text());
+            e->stop_time->setText(QString::fromStdString(s));
+//            e->stop_time->textMessageBecauseFocusLost(e->stop_time->text());
         }
 
         void ExerciseEditorValidator::setLastNewExerciseMuscleArea(int id)
@@ -677,6 +679,5 @@ namespace FreeFit
         {
             last_demand = std::shared_ptr<GUI::DownloadExerciseDemand>(ee->generateDownloadExerciseDemand(e));
         }
-
     }
 }
