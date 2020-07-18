@@ -78,12 +78,12 @@ namespace FreeFit
             void labelClicked();
         };
 
-        class WriteableLine : public QLineEdit
+        class WriteableLine : public MaterialTextField
         {
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            WriteableLine(QString text, QWidget* parent):QLineEdit(parent){this->setText(text);}
+            WriteableLine(QString text, QWidget* parent):MaterialTextField(text,parent){};
         protected:
             void focusOutEvent(QFocusEvent* ev);
         signals:

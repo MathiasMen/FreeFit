@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QStateMachine>
 #include <QState>
+#include <QRegExp>
 
 #include <functional>
 
@@ -23,7 +24,8 @@ namespace FreeFit
         public:
             MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),lineAnimationCounter(0),textAnimationCounter(0)
             {
-                this->setStyleSheet("background-color:gainsboro; color:black; border: 0px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
+                css_string = QString("background-color:gainsboro; color:black; border: 0px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
+                updateStyleSheet();
                 this->setAttribute(Qt::WA_MacShowFocusRect, 0);
                 this->setFrame(false);
 
@@ -33,6 +35,17 @@ namespace FreeFit
                 connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1);});
             }
 
+            void highlightAsInvalid()
+            {
+                css_string.replace(QRegExp("background-color:gainsboro;"),"background-color:indianred;");
+                updateStyleSheet();
+            }
+
+            void highlightAsValid()
+            {
+                css_string.replace(QRegExp("background-color:indianred;"),"background-color:gainsboro;");
+                updateStyleSheet();
+            }
         protected:
             void paintEvent(QPaintEvent* ev) override
             {
@@ -83,6 +96,10 @@ namespace FreeFit
                 QLineEdit::focusOutEvent(e);
             }
         private:
+            void updateStyleSheet()
+            {
+                this->setStyleSheet(css_string);
+            }
 
             void setDefaultPainterSettings(QPainter* painter)
             {
@@ -99,7 +116,7 @@ namespace FreeFit
             {
                 setDefaultPainterSettings(painter);
                 QPen pen = painter->pen();
-                pen.setColor(Qt::red);
+                pen.setColor(Qt::black);
                 painter->setPen(pen);
             }
 
@@ -173,6 +190,7 @@ namespace FreeFit
             int textAnimationCounter;
             QTimer* t_update;
             QString t;
+            QString css_string;
 
             std::function<void(QPainter*)> currentPaintFunction;
         signals:

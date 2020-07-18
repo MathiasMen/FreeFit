@@ -83,14 +83,14 @@ namespace FreeFit
         {
             if(!validate_function(le->text().toStdString()))
             {
-                l->setStyleSheet("background-color:red;");
-                le->setStyleSheet("background-color:red;");
+                //l->setStyleSheet("background-color:indianred;");
+                le->highlightAsInvalid();
                 return false;
             }
             else
             {
-                l->setStyleSheet("background-color:green;");
-                le->setStyleSheet("background-color:green;");
+                //l->setStyleSheet("background-color:green;");
+                le->highlightAsValid();
                 return true;
             }
         }
@@ -111,22 +111,22 @@ namespace FreeFit
                 hashtag_layout->addWidget(t,0,Qt::AlignLeft);
                 hashtag_labels.push_back(t);
             }
-
+/*
             name_label = new QLabel("Name:",this);
             url_label = new QLabel("Youtube-URL:",this);
             start_time_label = new QLabel("Start Time:",this);
             stop_time_label = new QLabel("Stop Time:",this);
-
+*/
             processMovie = new QMovie("${CMAKE_SOURCE_DIR}/tools/loading.gif");
             processLabel = new QLabel(this);
             processLabel->setMovie(processMovie);
             processLabel->hide();
-
+/*
             name_label->setToolTip("No special characters allowed.");
             url_label->setToolTip("Youtube-links only.");
             start_time_label->setToolTip("Enter start of video in format MM:SS.");
             stop_time_label->setToolTip("Enter end of video in format MM:SS.");
-
+*/
             name        = new EditableLine("...",this);
             url         = new EditableLine("...",this);
             start_time  = new EditableLine("00:00",this);
@@ -140,6 +140,7 @@ namespace FreeFit
             const int edit_line_width = 180;
             const int edit_label_and_line_height = 18;
 
+/*
             name_label->setFixedHeight(edit_label_and_line_height);
             url_label->setFixedHeight(edit_label_and_line_height);
             start_time_label->setFixedHeight(edit_label_and_line_height);
@@ -149,7 +150,7 @@ namespace FreeFit
             url->setFixedSize(edit_line_width,edit_label_and_line_height);
             start_time->setFixedSize(edit_line_width,edit_label_and_line_height);
             stop_time->setFixedSize(edit_line_width,edit_label_and_line_height);
-
+*/
             std::regex name_regex("[a-zA-Z0-9\\s]{1,256}");
             auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
             name->setValidationFunction(func_name_regex);
@@ -180,12 +181,12 @@ namespace FreeFit
 
             int row_counter = -1;
             int col_counter = -1;
-
+/*
             ly->addWidget(name_label,++row_counter,++col_counter);
             ly->addWidget(url_label,++row_counter,col_counter);
             ly->addWidget(start_time_label,++row_counter,col_counter);
             ly->addWidget(stop_time_label,++row_counter,col_counter);
-
+*/
             row_counter = -1;
             ly->addWidget(name,++row_counter,++col_counter);
             ly->addWidget(url,++row_counter,col_counter);
