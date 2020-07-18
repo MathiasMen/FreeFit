@@ -63,56 +63,6 @@ namespace FreeFit
         private:
             bool toggled = false;
         };
-
-        class ClickableLabel : public QLabel
-        {
-            Q_OBJECT
-        friend ExerciseEditorValidator;
-        public:
-            ClickableLabel(QString text,QWidget* parent):QLabel(text,parent){}
-
-        protected:
-            void mousePressEvent(QMouseEvent* ev) override;
-
-        signals:
-            void labelClicked();
-        };
-
-        class WriteableLine : public MaterialTextField
-        {
-            Q_OBJECT
-        friend ExerciseEditorValidator;
-        public:
-            WriteableLine(QString text, QWidget* parent):MaterialTextField(text,parent){};
-        protected:
-            void focusOutEvent(QFocusEvent* ev);
-        signals:
-            void textMessageBecauseFocusLost(QString t);
-        };
-
-        class EditableLine : public QStackedWidget
-        {
-            Q_OBJECT
-        friend ExerciseEditorValidator;
-        public:
-            EditableLine(QString text,QWidget* parent);
-            std::string getContent(){return le->text().toStdString();}
-            void setContent(std::string c);
-            void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
-        public slots:
-            void showLineEdit();
-            void showLabelAndSetText(QString t);            
-            void styleTextAsOldAndValid();
-            void deactivateTextAndHighlightAsValid();
-            bool validateText();
-        signals:
-            void textChanged();
-        private:
-            ClickableLabel* l;
-            WriteableLine* le;
-
-            std::function<bool(std::string)> validate_function;
-        };
         
         struct MuscleGroups
         {
