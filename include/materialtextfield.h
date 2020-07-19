@@ -151,10 +151,10 @@ namespace FreeFit
 
             void drawAnimatedBaseLine(QPainter* painter)
             {
-                if (this->rect().width()/2+5*lineAnimationCounter <= this->rect().width())
+                if (this->rect().width()/2+(this->rect().width()/25)*lineAnimationCounter <= this->rect().width())
                 {
-                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2+5*lineAnimationCounter,this->rect().height()-1);
-                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2-5*lineAnimationCounter,this->rect().height()-1);
+                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2+(this->rect().width()/25)*lineAnimationCounter,this->rect().height()-1);
+                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2-(this->rect().width()/25)*lineAnimationCounter,this->rect().height()-1);
                 }
                 else
                 {
