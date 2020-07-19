@@ -53,8 +53,8 @@ namespace FreeFit
 */
             name        = new MaterialTextField("Name",this);
             url         = new MaterialTextField("URL",this);
-            start_time  = new MaterialTextField("Start [00:00]",this);
-            stop_time   = new MaterialTextField("Stop [00:00]",this);
+            start_time  = new MaterialTextField("Start [mm:ss]",this);
+            stop_time   = new MaterialTextField("Stop [mm:ss]",this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
