@@ -36,6 +36,7 @@ namespace FreeFit
                 content->setLayout(content_ly);
                 setWidget(content);
                 setWidgetResizable(true);
+                setFrameShape(QFrame::NoFrame);
             }
 
             void addItem(QString profile_name)
