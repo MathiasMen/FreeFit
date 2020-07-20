@@ -16,6 +16,7 @@
 #include "include/workout.h"
 #include "include/controls.h"
 #include "include/materialdialog.h"
+#include "include/materialtextfield.h"
 
 namespace FreeFit
 {
@@ -38,8 +39,17 @@ namespace FreeFit
             void generateWorkout(){workout_data->generate();}
 
             std::shared_ptr<FreeFit::Data::WorkoutBase> getWorkout(){return workout_data;}
+
+            QWidget* getOptionsWidget()
+            {
+                if (possible_options_widget != nullptr)
+                    return possible_options_widget;
+                else
+                    return nullptr;
+            }
         private:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
+            QWidget* possible_options_widget = nullptr;
         };
 
         class WorkoutGenerationWidget : public MaterialDialog
@@ -50,10 +60,10 @@ namespace FreeFit
             {
                 ly = new QGridLayout(this);
 
-                number_of_lines = new QLineEdit("Enter number of rounds",this);
+                number_of_rounds = new MaterialTextField("Number of rounds",this);
                 int_validator = new QIntValidator(1,50,this);
-                number_of_lines->setValidator(int_validator);
-                ly->addWidget(number_of_lines,0,0);
+                number_of_rounds->setValidator(int_validator);
+                ly->addWidget(number_of_rounds,0,0);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
                 all_exercises_workout = new WorkoutOption("All Exercises",w1,this);
@@ -75,7 +85,8 @@ namespace FreeFit
                 controls_layout->addWidget(previous_page_button,0,0);
                 controls_layout->addItem(horizontal_spacer,0,1);
                 controls_layout->addWidget(next_page_button,0,2);
-        
+                if (all_exercises_workout->getOptionsWidget() != nullptr)
+                    controls_layout->addWidget(all_exercises_workout->getOptionsWidget(),1,2);
                 ly->addLayout(controls_layout,3,0);
                 this->setLayout(ly);
             }
@@ -105,7 +116,7 @@ namespace FreeFit
             QGridLayout* ly;
             WorkoutOption* all_exercises_workout;
             QIntValidator* int_validator;
-            QLineEdit* number_of_lines;
+            MaterialTextField* number_of_rounds;
             std::list<WorkoutOption*> workout_options;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
