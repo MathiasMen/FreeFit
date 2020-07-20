@@ -50,9 +50,9 @@ namespace FreeFit
             void updateStyle()
             {
                 if (selected)
-                    css_string.replace("background-color:red; color:black","background-color:black; color:red;")
+                    css_string.replace("background-color:red; color:black","background-color:black; color:red;");
                 else
-                    css_string.replace("background-color:black; color:red","background-color:red; color:black;")
+                    css_string.replace("background-color:black; color:red","background-color:red; color:black;");
                 setStyleSheet(css_string);
             }            
             

@@ -50,6 +50,7 @@ qt5_wrap_cpp(moc_sources
 	${CMAKE_SOURCE_DIR}/include/materialtextfield.h
 	${CMAKE_SOURCE_DIR}/include/materialbutton.h
 	${CMAKE_SOURCE_DIR}/include/materialdialog.h
+	${CMAKE_SOURCE_DIR}/include/materialclip.h
 	${CMAKE_SOURCE_DIR}/include/controls.h
 	${CMAKE_SOURCE_DIR}/include/profileeditor.h
 	${CMAKE_SOURCE_DIR}/include/workoutwidget.h	
