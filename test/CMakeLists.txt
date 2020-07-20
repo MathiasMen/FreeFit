@@ -135,6 +135,7 @@ qt5_wrap_cpp(   WorkoutWidgetTestMocSources
                 ${CMAKE_SOURCE_DIR}/include/workoutwidget.h
                 ${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
                 ${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
+                ${CMAKE_SOURCE_DIR}/include/materialbutton.h
                 )
 
 add_executable( WorkoutWidgetTest

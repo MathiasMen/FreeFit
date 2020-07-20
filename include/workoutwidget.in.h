@@ -17,6 +17,7 @@
 #include "include/exerciselistwidget.h"
 #include "include/exerciseviewer.h"
 #include "include/materialdialog.h"
+#include "include/materialbutton.h"
 
 namespace FreeFit
 {
@@ -127,8 +128,8 @@ namespace FreeFit
             {
                 ly = new QHBoxLayout(this);
 
-                recreate_button = new QPushButton("recreate",this);
-                play_button = new QPushButton("play",this);
+                recreate_button = new MaterialButton("recreate",this);
+                play_button = new MaterialButton("play",this);
 
                 connect(recreate_button,&QPushButton::clicked,this,&WorkoutWidgetControl::recreateClicked);
                 connect(play_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playClicked);
@@ -151,8 +152,8 @@ namespace FreeFit
         private:
             QHBoxLayout* ly;
 
-            QPushButton* recreate_button;
-            QPushButton* play_button;
+            MaterialButton* recreate_button;
+            MaterialButton* play_button;
         };
 
         class WorkoutWidget : public MaterialDialog
