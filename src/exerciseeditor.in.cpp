@@ -150,19 +150,6 @@ namespace FreeFit
             return (name->validateText() && url->validateText() && start_time->validateText() && stop_time->validateText());
         }
 
-        void ExerciseItem::highlightAsOldAndValid()
-        {
-            this->setStyleSheet("background-color:grey;");
-/*
-            name->styleTextAsOldAndValid();
-            url->deactivateTextAndHighlightAsValid();
-            start_time->deactivateTextAndHighlightAsValid();
-            stop_time->deactivateTextAndHighlightAsValid();
-*/
-            item_downloaded_text->setText("Downloaded!");
-            //item_downloaded_icon->setPixmap(this->style()->standardIcon(QStyle::SP_DialogApplyButton).pixmap(delete_item->size().height()));
-        }
-
         void ExerciseItem::highlightAsFaulty()
         {
             this->setStyleSheet("background-color:red;");
@@ -383,7 +370,7 @@ namespace FreeFit
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
         {
-            e->highlightAsOldAndValid();
+            e->inputIsValid();
             old_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);

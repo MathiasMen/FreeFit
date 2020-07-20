@@ -13,6 +13,7 @@
 #include <QRegExp>
 
 #include <functional>
+#include <iostream>
 
 namespace FreeFit
 {
@@ -33,6 +34,7 @@ namespace FreeFit
                 connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1);});
                 connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1);});
                 connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1);});
+                connect(this,&QLineEdit::textEdited,this,&MaterialTextField::validateText);
             }
 
             void highlightAsInvalid()

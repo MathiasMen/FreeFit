@@ -107,7 +107,6 @@ namespace FreeFit
             std::list<std::string> getMuscleAreas();
             void setMuscleAreas(std::set<FreeFit::Data::MuscleGroup> muscles);
             bool inputIsValid();
-            void highlightAsOldAndValid();
             void highlightAsFaulty();
             void setDefaultBackgroundColor(std::string c){default_color = c;}
             void setDefaultBackground();
@@ -124,10 +123,6 @@ namespace FreeFit
             std::string default_color;
             QGridLayout* ly;
 
-            QLabel* name_label;
-            QLabel* url_label;
-            QLabel* start_time_label;
-            QLabel* stop_time_label;
             QMovie *processMovie;
             QLabel *processLabel;
 
