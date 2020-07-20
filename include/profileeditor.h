@@ -60,6 +60,12 @@ namespace FreeFit
                 return i;
             }
 
+            void selectProfile(int i)
+            {
+                select(profiles[i]);
+            }
+        signals:
+            void currentIndexChanged(int);
         private slots:
             void deselectOthers(MaterialClip* c)
             {
@@ -71,7 +77,8 @@ namespace FreeFit
             void select(MaterialClip* c)
             {
                 current_profile = c;
-                c->select();       
+                c->select();
+                emit currentIndexChanged(currentIndex());
             }
 
         private:
@@ -106,10 +113,10 @@ namespace FreeFit
                 for (auto p : v_p)
                     profile_selection->addItem(QString::fromStdString(p.getName()));
 
-                //connect(profile_selection, SIGNAL(currentIndexChanged(int)), this, SLOT(selectedProfileChanged(int)));
-                //selectedProfileChanged(0);
-                connect(profile_name, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
-                connect(path_exercises_xml, SIGNAL(textChanged(const QString&)),this,SLOT(informationChanged()));
+                connect(profile_selection, SIGNAL(currentIndexChanged(int)), this, SLOT(selectedProfileChanged(int)));
+                profile_selection->selectProfile(0);
+                connect(profile_name, SIGNAL(textEdited(const QString&)),this,SLOT(informationChanged()));
+                connect(path_exercises_xml, SIGNAL(textEdited(const QString&)),this,SLOT(informationChanged()));
 
                 vertical_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
@@ -148,8 +155,8 @@ namespace FreeFit
 
             void selectedProfileChanged(int index)
             {
-                path_exercises_xml->setText(QString::fromStdString(v_p[index].getPathToExerciseDB()));
                 profile_name->setText(QString::fromStdString(v_p[index].getName()));
+                path_exercises_xml->setText(QString::fromStdString(v_p[index].getPathToExerciseDB()));
             }
 
             void informationChanged()
