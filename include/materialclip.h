@@ -14,6 +14,8 @@ namespace FreeFit
         public:
             MaterialClip(QString t = "", QWidget* parent = nullptr) : QLabel(parent)
             {
+                setFixedSize(50,50);
+                setAlignment(Qt::AlignCenter);
                 setInitials(t);
                 setToolTip(t);
                 updateStyle();
@@ -57,7 +59,7 @@ namespace FreeFit
             }            
             
             bool selected = false;
-            QString css_string = "background-color:red; color:black;";
+            QString css_string = "background-color:red; color:black; border-radius:25px; text-align:center;";
         };
     }
 }
