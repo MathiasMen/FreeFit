@@ -58,7 +58,6 @@ namespace FreeFit
             
             bool selected = false;
             QString css_string = "background-color:red; color:black;";
-
         };
     }
 }

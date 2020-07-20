@@ -33,7 +33,9 @@ namespace FreeFit
             {
                 content = new QWidget(this);
                 content_ly = new QHBoxLayout(content);
+                content->setLayout(content_ly);
                 setWidget(content);
+                setWidgetResizable(true);
             }
 
             void addItem(QString profile_name)
