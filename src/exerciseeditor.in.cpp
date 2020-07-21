@@ -6,11 +6,19 @@ namespace FreeFit
     {
         void ToggleableLabel::mousePressEvent(QMouseEvent* ev)
         {
-            this->clicked();
+            emit clicked();
             QLabel::mousePressEvent(ev);
         }
 
-        void ToggleableLabel::clicked()
+        void ToggleableLabel::setSelectable(bool s)
+        {
+            if (s)
+                connect(this,&ToggleableLabel::clicked,this,&ToggleableLabel::clicked_impl);
+            else
+                disconnect(this,&ToggleableLabel::clicked,this,&ToggleableLabel::clicked_impl);
+        }
+
+        void ToggleableLabel::clicked_impl()
         {
             toggled = !toggled;
             if(toggled)
