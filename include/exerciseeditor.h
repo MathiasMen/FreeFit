@@ -64,6 +64,7 @@ namespace FreeFit
             void clicked_impl();
         private:
             bool toggled = false;
+            QString css_string;
         };
         
         struct MuscleGroups

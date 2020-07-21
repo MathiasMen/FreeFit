@@ -6,8 +6,9 @@ namespace FreeFit
     {
         ToggleableLabel::ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent)
         {
+            css_string = QString("background-color:white; color:red; border:2px solid red; border-radius:5px;");
             setSelectable(true);
-            setStyleSheet("background-color:red; color:white;");
+            setStyleSheet(css_string);
         }
 
         void ToggleableLabel::mousePressEvent(QMouseEvent* ev)
@@ -28,9 +29,10 @@ namespace FreeFit
         {
             toggled = !toggled;
             if(toggled)
-                this->setStyleSheet("border-color:blue;color:blue;" );
+                css_string.replace("background-color:white; color:red;","background-color:red; color:white;");
             else
-                this->setStyleSheet("");
+                css_string.replace("background-color:red; color:white;","background-color:white; color:red;");
+            setStyleSheet(css_string);
         }
 
         ExerciseItem::ExerciseItem(QWidget* parent):QWidget(parent),muscle_definitions(),default_color("black")
