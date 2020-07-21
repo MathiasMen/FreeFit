@@ -52,7 +52,7 @@ namespace FreeFit
             Q_OBJECT
         friend ExerciseEditorValidator;
         public:
-            ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent){setSelectable(true);}
+            ToggleableLabel(QString text, QWidget* parent);
             void setSelectable(bool s);
             bool isToggled(){return toggled;}
             void click(){clicked_impl();};

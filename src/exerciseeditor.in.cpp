@@ -4,6 +4,12 @@ namespace FreeFit
 {
     namespace GUI
     {
+        ToggleableLabel::ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent)
+        {
+            setSelectable(true);
+            setStyleSheet("background-color:red; color:white;");
+        }
+
         void ToggleableLabel::mousePressEvent(QMouseEvent* ev)
         {
             emit clicked();
