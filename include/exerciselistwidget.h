@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QScrollArea>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QGridLayout>
 #include <QImage>
 #include <QLabel>
@@ -16,6 +17,7 @@
 #include "include/exercise.h"
 #include "include/workout.h"
 #include "include/datadefinitions.h"
+#include "include/exerciseeditor.h"
 
 namespace FreeFit
 {
@@ -38,7 +40,7 @@ namespace FreeFit
 
             QLabel* lbl_name;
             QLabel* lbl_duration;
-            QLabel* lbl_trained_areas;
+            QWidget* trained_areas;
             QLabel* lbl_image;
             QImage  img_thumbnail;
         };

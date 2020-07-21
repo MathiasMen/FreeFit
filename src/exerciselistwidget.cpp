@@ -5,10 +5,14 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     ly = new QGridLayout(this);
     lbl_name = new QLabel(QString::fromStdString(e_dat.getName()),this);
     lbl_duration = new QLabel(QDateTime::fromTime_t(e_dat.getLength()).toUTC().toString("mm:ss"),this);
-    std::string areas = "";
+    trained_areas = new QWidget(this);
+    QHBoxLayout* trained_areas_ly = new QHBoxLayout(trained_areas);
     for (auto a : e_dat.getTrainedMuscles())
-        areas.append("#" + FreeFit::Data::muscleGroupToString(a) + " ");
-    lbl_trained_areas = new QLabel(QString::fromStdString(areas),this);
+    {
+        ToggleableLabel* l = new ToggleableLabel("#" + QString::fromStdString(FreeFit::Data::muscleGroupToString(a)),trained_areas);
+        l->setSelectable(false);
+        trained_areas_ly->addWidget(l);
+    }
 
     lbl_image = new QLabel("",this);
     if(e_dat.getThumbnailPath() != "")
@@ -22,7 +26,7 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     ly->addWidget(lbl_image,0,0,2,1);
     ly->addWidget(lbl_name,0,1);
     ly->addWidget(lbl_duration,0,2);
-    ly->addWidget(lbl_trained_areas,1,1,1,3);
+    ly->addWidget(trained_areas,1,1,1,3);
     this->setLayout(ly);
 } 
 
