@@ -26,7 +26,7 @@ class materialSliderTest : public ::testing::Test
 TEST_F(materialSliderTest,Init)
 {
     QApplication a(my_argc,my_argv);
-    FreeFit::GUI::MaterialSlider* s = new FreeFit::GUI::MaterialSlider;
+    FreeFit::GUI::MaterialSlider* s = new FreeFit::GUI::MaterialSlider(nullptr);
     s->show();
     a.exec();
 }
