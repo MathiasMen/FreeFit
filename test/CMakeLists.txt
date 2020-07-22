@@ -191,6 +191,14 @@ target_include_directories(MaterialButtonTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialButtonTest PUBLIC /usr/local/lib)
 target_link_libraries(MaterialButtonTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
+add_executable( MaterialSliderTest
+                materialSliderTest.cpp
+                ${MaterialWidgets}
+                )
+target_include_directories(MaterialSliderTest PUBLIC ${test_include_dirs})
+target_link_directories(MaterialSliderTest PUBLIC /usr/local/lib)
+target_link_libraries(MaterialSliderTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
