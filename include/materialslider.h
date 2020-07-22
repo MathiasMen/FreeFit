@@ -59,22 +59,22 @@ namespace FreeFit
         public:
             MaterialSlider(QWidget* parent = nullptr):QWidget(parent)
             {
-                ly = new QGridLayout(this);
-                setFixedSize(200,50);
+                setFixedSize(200,40);
                 setStyleSheet("background-color:red;");
                 
                 left_handle = new MaterialSliderHandle("",this);
                 right_handle = new MaterialSliderHandle("",this);
                 
-                left_handle->setMinX(distance_line_to_border);
-                left_handle->setMaxX(this->rect().width()-distance_line_to_border);
-                right_handle->setMinX(distance_line_to_border);
-                right_handle->setMaxX(this->rect().width()-distance_line_to_border);
+                left_handle->setMinX(distance_line_to_border - 5);
+                left_handle->setMaxX(this->rect().width()-distance_line_to_border - 5);
+                right_handle->setMinX(distance_line_to_border - 5);
+                right_handle->setMaxX(this->rect().width()-distance_line_to_border - 5);
 
                 left_handle->setStyleSheet("background-color:black;");
                 right_handle->setStyleSheet("background-color:black;");
-                ly->addWidget(left_handle,0,0);
-                ly->addWidget(right_handle,0,0);
+
+                left_handle->move(left_handle->mapToParent(QPoint(distance_line_to_border - 5, this->rect().height()/2 - 10)));
+                right_handle->move(right_handle->mapToParent(QPoint(this->rect().width() - distance_line_to_border - 5, this->rect().height()/2 - 10)));
             }
         protected:
             void paintEvent(QPaintEvent* e) override
@@ -90,7 +90,6 @@ namespace FreeFit
             const int distance_line_to_border = 20;
             MaterialSliderHandle* left_handle;
             MaterialSliderHandle* right_handle;
-            QGridLayout* ly;
         };
     }
 }
