@@ -15,6 +15,7 @@ namespace FreeFit
     {
         class MaterialSliderHandle : public QLabel
         {
+        Q_OBJECT
         public:
             MaterialSliderHandle(QString text, QWidget* parent = nullptr):QLabel(text,parent)
             {
@@ -24,6 +25,8 @@ namespace FreeFit
 
             void setMinX(int x){minVal = x;}
             void setMaxX(int x){maxVal = x;}
+        signals:
+            void moved(int);
         protected:
             void mousePressEvent(QMouseEvent* e)
             {
@@ -38,7 +41,10 @@ namespace FreeFit
                     QPoint old_pos = this->pos();
                     QPoint new_pos = mapToParent(e->pos() - offset);
                     if (new_pos.x() < maxVal && new_pos.x() > minVal)
+                    {
                         this->move(new_pos.x(),old_pos.y());
+                        emit moved(new_pos.x());
+                    }
                 }
             }
 
@@ -56,6 +62,7 @@ namespace FreeFit
 
         class MaterialSlider : public QWidget
         {
+        Q_OBJECT
         public:
             MaterialSlider(QWidget* parent = nullptr):QWidget(parent)
             {
@@ -64,17 +71,36 @@ namespace FreeFit
                 
                 left_handle = new MaterialSliderHandle("",this);
                 right_handle = new MaterialSliderHandle("",this);
+
+                const int half_handle_width = 10/2;
+                const int half_handle_height = 20/2;
                 
-                left_handle->setMinX(distance_line_to_border - 5);
-                left_handle->setMaxX(this->rect().width()-distance_line_to_border - 5);
-                right_handle->setMinX(distance_line_to_border - 5);
-                right_handle->setMaxX(this->rect().width()-distance_line_to_border - 5);
+                minPosValue = distance_line_to_border - half_handle_width;
+                maxPosValue = this->rect().width() - distance_line_to_border - half_handle_width;
+
+                left_handle->setMinX(minPosValue);
+                left_handle->setMaxX(maxPosValue);
+                right_handle->setMinX(minPosValue);
+                right_handle->setMaxX(maxPosValue);
+
+                connect(left_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::leftHandleMoved);
+                connect(right_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::rightHandleMoved);
 
                 left_handle->setStyleSheet("background-color:black;");
                 right_handle->setStyleSheet("background-color:black;");
+                
+                left_handle->move(left_handle->mapToParent(QPoint(minPosValue, this->rect().height()/2 - half_handle_height)));
+                right_handle->move(right_handle->mapToParent(QPoint(maxPosValue, this->rect().height()/2 - half_handle_height)));
+            }
+        public slots:
+            void leftHandleMoved(int new_x)
+            {
+                right_handle->setMinX(new_x);
+            }
 
-                left_handle->move(left_handle->mapToParent(QPoint(distance_line_to_border - 5, this->rect().height()/2 - 10)));
-                right_handle->move(right_handle->mapToParent(QPoint(this->rect().width() - distance_line_to_border - 5, this->rect().height()/2 - 10)));
+            void rightHandleMoved(int new_x)
+            {
+                left_handle->setMaxX(new_x);
             }
         protected:
             void paintEvent(QPaintEvent* e) override
@@ -88,6 +114,10 @@ namespace FreeFit
             }
         private:
             const int distance_line_to_border = 20;
+            int minPosValue;
+            int maxPosValue;
+            int minMappedValue;
+            int maxMappedValue;
             MaterialSliderHandle* left_handle;
             MaterialSliderHandle* right_handle;
         };

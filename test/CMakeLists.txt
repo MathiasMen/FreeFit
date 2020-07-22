@@ -191,9 +191,12 @@ target_include_directories(MaterialButtonTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialButtonTest PUBLIC /usr/local/lib)
 target_link_libraries(MaterialButtonTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
 
+qt5_wrap_cpp(   MaterialSliderWidget
+                ${CMAKE_SOURCE_DIR}/include/materialslider.h)
+
 add_executable( MaterialSliderTest
                 materialSliderTest.cpp
-                ${MaterialWidgets}
+                ${MaterialSliderWidget}
                 )
 target_include_directories(MaterialSliderTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialSliderTest PUBLIC /usr/local/lib)
