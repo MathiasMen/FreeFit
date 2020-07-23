@@ -92,6 +92,9 @@ namespace FreeFit
                 left_handle->move(left_handle->mapToParent(QPoint(minPosValue, this->rect().height()/2 - half_handle_height)));
                 right_handle->move(right_handle->mapToParent(QPoint(maxPosValue, this->rect().height()/2 - half_handle_height)));
             }
+
+            void setMinValue(int v){min_mapped_value = v;}
+            void setMaxValue(int v){max_mapped_value = v;}
         public slots:
             void leftHandleMoved(int new_x)
             {
@@ -116,8 +119,8 @@ namespace FreeFit
             const int distance_line_to_border = 20;
             int minPosValue;
             int maxPosValue;
-            int minMappedValue;
-            int maxMappedValue;
+            int min_mapped_value;
+            int max_mapped_value;
             MaterialSliderHandle* left_handle;
             MaterialSliderHandle* right_handle;
         };
