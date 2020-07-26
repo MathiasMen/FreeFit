@@ -67,7 +67,7 @@ namespace FreeFit
             MaterialSlider(QWidget* parent = nullptr):QWidget(parent)
             {
                 setFixedSize(200,40);
-                setStyleSheet("background-color:red;");
+                setStyleSheet("background-color:white;");
                 
                 left_handle = new MaterialSliderHandle("",this);
                 right_handle = new MaterialSliderHandle("",this);
@@ -86,8 +86,8 @@ namespace FreeFit
                 connect(left_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::leftHandleMoved);
                 connect(right_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::rightHandleMoved);
 
-                left_handle->setStyleSheet("background-color:black;");
-                right_handle->setStyleSheet("background-color:black;");
+                left_handle->setStyleSheet("background-color:red;");
+                right_handle->setStyleSheet("background-color:red;");
                 
                 left_handle->move(left_handle->mapToParent(QPoint(minPosValue, this->rect().height()/2 - half_handle_height)));
                 right_handle->move(right_handle->mapToParent(QPoint(maxPosValue, this->rect().height()/2 - half_handle_height)));
