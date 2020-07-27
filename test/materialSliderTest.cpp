@@ -27,6 +27,8 @@ TEST_F(materialSliderTest,Init)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::MaterialSlider* s = new FreeFit::GUI::MaterialSlider(nullptr);
+    s->setMinValue(0);
+    s->setMaxValue(1);
     s->show();
     a.exec();
 }

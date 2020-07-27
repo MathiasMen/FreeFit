@@ -74,11 +74,14 @@ namespace FreeFit
 
                 minPosValue = distance_line_to_border - handle_width/2;
                 maxPosValue = this->rect().width() - distance_line_to_border - handle_width/2;
+                min_mapped_value = 0.0;
+                max_mapped_value = 1.0;
 
                 left_handle->setMinX(minPosValue);
                 left_handle->setMaxX(maxPosValue);
                 right_handle->setMinX(minPosValue);
                 right_handle->setMaxX(maxPosValue);
+                updateMappedValues();
 
                 connect(left_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::leftHandleMoved);
                 connect(right_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::rightHandleMoved);
@@ -96,11 +99,15 @@ namespace FreeFit
             void leftHandleMoved(int new_x)
             {
                 right_handle->setMinX(new_x);
+                minPosValue = new_x;
+                updateMappedValues();
             }
 
             void rightHandleMoved(int new_x)
             {
                 left_handle->setMaxX(new_x);
+                maxPosValue = new_x;
+                updateMappedValues();
             }
         protected:
             void paintEvent(QPaintEvent* e) override
@@ -111,19 +118,42 @@ namespace FreeFit
                 QPainter painter(this);
                 painter.setPen(pen);
                 QPoint start = {distance_line_to_border,this->rect().height()/2};
+                int line_length = lineEndPosX() - lineStartPosX();
                 painter.drawLine(start.x(),start.y(),start.x()+line_length,start.y());
             }
         private:
+            void updateMappedValues()
+            {
+                int line_length = lineEndPosX() - lineStartPosX();
+                int x_lower = minPosValue - lineStartPosX();
+                int x_upper = maxPosValue - lineStartPosX();
+                double dx = (max_mapped_value - min_mapped_value)/line_length;
+                lower_mapped_value = x_lower*dx;
+                upper_mapped_value = x_upper*dx;
+            }
+
+            int lineStartPosX()
+            {
+                return distance_line_to_border - handle_width/2;
+            }
+
+            int lineEndPosX()
+            {
+                return (width - distance_line_to_border - handle_width/2);
+            }
+
             const int width = 200;
             const int height = 40;
             const int handle_width = 10;
             const int handle_height = 20;
             const int distance_line_to_border = 20;
-            const int line_length = width - 2*distance_line_to_border;
             int minPosValue;
             int maxPosValue;
-            int min_mapped_value;
-            int max_mapped_value;
+
+            double min_mapped_value;
+            double max_mapped_value;
+            double lower_mapped_value;
+            double upper_mapped_value;
             MaterialSliderHandle* left_handle;
             MaterialSliderHandle* right_handle;
         };
