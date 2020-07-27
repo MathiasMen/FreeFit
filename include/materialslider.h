@@ -95,6 +95,8 @@ namespace FreeFit
 
             void setMinValue(int v){min_mapped_value = v;}
             void setMaxValue(int v){max_mapped_value = v;}
+        signals:
+            void valuesChanged(int,int);
         public slots:
             void leftHandleMoved(int new_x)
             {
@@ -130,6 +132,7 @@ namespace FreeFit
                 double dx = (max_mapped_value - min_mapped_value)/line_length;
                 lower_mapped_value = x_lower*dx;
                 upper_mapped_value = x_upper*dx;
+                emit valuesChanged(lower_mapped_value,upper_mapped_value);
             }
 
             int lineStartPosX()
