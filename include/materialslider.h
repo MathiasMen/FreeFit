@@ -17,10 +17,10 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialSliderHandle(QString text, QWidget* parent = nullptr):QLabel(text,parent)
+            MaterialSliderHandle(int width, int height, QWidget* parent = nullptr):QLabel(parent)
             {
-                setFixedSize(10,20);
-                setStyleSheet("background-color:black;");
+                setFixedSize(width,height);
+                setStyleSheet("background-color:black; border: 0px; margin: 0px; padding: 0px;");
             }
 
             void setMinX(int x){minVal = x;}
@@ -40,7 +40,7 @@ namespace FreeFit
                 {
                     QPoint old_pos = this->pos();
                     QPoint new_pos = mapToParent(e->pos() - offset);
-                    if (new_pos.x() < maxVal && new_pos.x() > minVal)
+                    if (new_pos.x() <= maxVal && new_pos.x() >= minVal)
                     {
                         this->move(new_pos.x(),old_pos.y());
                         emit moved(new_pos.x());
@@ -66,17 +66,14 @@ namespace FreeFit
         public:
             MaterialSlider(QWidget* parent = nullptr):QWidget(parent)
             {
-                setFixedSize(200,40);
+                setFixedSize(width,height);
                 setStyleSheet("background-color:white;");
                 
-                left_handle = new MaterialSliderHandle("",this);
-                right_handle = new MaterialSliderHandle("",this);
+                left_handle = new MaterialSliderHandle(handle_width,handle_height,this);
+                right_handle = new MaterialSliderHandle(handle_width,handle_height,this);
 
-                const int half_handle_width = 10/2;
-                const int half_handle_height = 20/2;
-                
-                minPosValue = distance_line_to_border - half_handle_width;
-                maxPosValue = this->rect().width() - distance_line_to_border - half_handle_width;
+                minPosValue = distance_line_to_border - handle_width/2;
+                maxPosValue = this->rect().width() - distance_line_to_border - handle_width/2;
 
                 left_handle->setMinX(minPosValue);
                 left_handle->setMaxX(maxPosValue);
@@ -89,8 +86,8 @@ namespace FreeFit
                 left_handle->setStyleSheet("background-color:red;");
                 right_handle->setStyleSheet("background-color:red;");
                 
-                left_handle->move(left_handle->mapToParent(QPoint(minPosValue, this->rect().height()/2 - half_handle_height)));
-                right_handle->move(right_handle->mapToParent(QPoint(maxPosValue, this->rect().height()/2 - half_handle_height)));
+                left_handle->move(left_handle->mapToParent(QPoint(minPosValue, this->rect().height()/2 - handle_height/2)));
+                right_handle->move(right_handle->mapToParent(QPoint(maxPosValue, this->rect().height()/2 - handle_height/2)));
             }
 
             void setMinValue(int v){min_mapped_value = v;}
@@ -113,10 +110,16 @@ namespace FreeFit
                 pen.setColor(QColor(Qt::black));
                 QPainter painter(this);
                 painter.setPen(pen);
-                painter.drawLine(distance_line_to_border,this->rect().height()/2,this->rect().width()-distance_line_to_border,this->rect().height()/2);
+                QPoint start = {distance_line_to_border,this->rect().height()/2};
+                painter.drawLine(start.x(),start.y(),start.x()+line_length,start.y());
             }
         private:
+            const int width = 200;
+            const int height = 40;
+            const int handle_width = 10;
+            const int handle_height = 20;
             const int distance_line_to_border = 20;
+            const int line_length = width - 2*distance_line_to_border;
             int minPosValue;
             int maxPosValue;
             int min_mapped_value;
