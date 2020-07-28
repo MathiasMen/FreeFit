@@ -18,6 +18,20 @@ std::string VideoDownload::YoutubeDownloader::executeCommand(const char* cmd)
     return result;
 }
 
+int VideoDownload::YoutubeDownloader::parseTimeStringToSeconds(std::string s)
+{
+    if (s.find(":") == std::string::npos)
+        return std::stoi(s);
+    else
+    {
+        std::size_t colon_pos = s.find(":");
+        int minutes = std::stoi(s.substr(0,colon_pos));
+        int seconds = std::stoi(s.substr(colon_pos+1,colon_pos+2));
+        return minutes*60 + seconds;
+    }
+    
+}
+
 VideoDownload::YoutubeDL::YoutubeDL()
 {
     this->opt = new YoutubeDLOptions();
@@ -41,5 +55,5 @@ int VideoDownload::YoutubeDL::getVideoLength(std::string yt_url)
                         " --get-duration \"" +
                         yt_url +
                         "\""); 
-    return std::stoi(executeCommand(dl_cmnd.c_str()));
+    return parseTimeStringToSeconds(executeCommand(dl_cmnd.c_str()));
 }

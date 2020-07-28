@@ -1,7 +1,6 @@
 #pragma once 
 
 #include <string>
-#include <iostream>
 #include "include/youtubeoptions.h"
 
 namespace VideoDownload
@@ -16,6 +15,7 @@ public:
     void setVideoFormat(VideoType t){opt->setVideoFormat(t);}
 protected:
     std::string executeCommand(const char* cmd);
+    int parseTimeStringToSeconds(std::string s);
 
     const std::string path_to_executable;
     YoutubeOptions* opt;

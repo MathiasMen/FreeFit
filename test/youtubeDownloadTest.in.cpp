@@ -20,10 +20,16 @@ TEST(YoutubeDownload, Options)
     ASSERT_EQ(opt.getOptionString()," --help --version --someOtherArgument");
 }
 
-TEST(YoutubeDownload, Info)
+TEST(YoutubeDownload, InfoOne)
 {
     VideoDownload::YoutubeDownloader* d = new VideoDownload::YoutubeDL();
     ASSERT_EQ(d->getVideoLength("https://www.youtube.com/watch?v=-kwe1EOiWMY"),18);
+}
+
+TEST(YoutubeDownload, InfoTwo)
+{
+    VideoDownload::YoutubeDownloader* d = new VideoDownload::YoutubeDL();
+    ASSERT_EQ(d->getVideoLength("https://www.youtube.com/watch?v=0qER2oJUa6E"),2085);
 }
 
 TEST(YoutubeDownload, Download)
