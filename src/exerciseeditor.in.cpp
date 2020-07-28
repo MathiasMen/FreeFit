@@ -114,6 +114,8 @@ namespace FreeFit
             connect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             connect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
 
+            connect(url,&QLineEdit::textChanged,this,&ExerciseItem::urlChanged);
+
             item_downloaded_icon = new QLabel("",this);
             item_downloaded_text = new QLabel("",this);
             delete_item = new MaterialButton("Delete",this);
@@ -210,6 +212,12 @@ namespace FreeFit
             disconnect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
         }
 
+        void ExerciseItem::urlChanged()
+        {
+            if(url->validateText())
+                emit urlChange(url->text().toStdString());
+        }
+
         void ExerciseItem::paintEvent(QPaintEvent* e)
         {
             QStyleOption opt;
@@ -255,7 +263,7 @@ namespace FreeFit
         }
 
         ExerciseEditor::ExerciseEditor(FreeFit::Data::Profile t_p)
-            :   MaterialDialog(),p(t_p),demand_handler(),
+            :   MaterialDialog(),p(t_p),demand_handler(),info_demand_handler(),
                 r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
         {                
             ly = new QGridLayout(this);
@@ -401,6 +409,8 @@ namespace FreeFit
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             connect(this,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(moveExerciseToExisting(ExerciseItem*)));
+            connect(e,SIGNAL(urlChange(std::string)),this,SLOT(exerciseUrlChanged(std::string)));
+            connect(this,SIGNAL(setExerciseTimeSignal(std::string)),e,SLOT(setVideoEndTime(std::string)));
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
@@ -415,6 +425,14 @@ namespace FreeFit
             e->setVideoEndTime(secondsIntToTimeFormatString(std::stoi(e_dat.getVideoEndTime())));
 
             registerExerciseItem(e);
+        }
+
+        void ExerciseEditor::exerciseUrlChanged(std::string url)
+        {
+            std::shared_ptr<InfoExerciseDemand> d = std::make_shared<InfoExerciseDemand>();
+            d->video_url = url;
+            int video_length = info_demand_handler.executeDemand(d);
+            emit setExerciseTimeSignal(std::to_string(video_length));
         }
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditor::generateDownloadExerciseDemand(ExerciseItem* e)

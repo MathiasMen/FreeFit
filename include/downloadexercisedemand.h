@@ -19,6 +19,6 @@ namespace FreeFit
         struct InfoExerciseDemand
         {
             std::string video_url;
-        }
+        };
     }
 }

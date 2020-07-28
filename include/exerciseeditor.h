@@ -101,12 +101,6 @@ namespace FreeFit
             std::string getThumbnailPath(){return thumbnail_path;}
             void setThumbnailPath(std::string t){thumbnail_path = t;}
 
-            std::string getVideoStartTime(){return start_time->text().toStdString();};
-            void setVideoStartTime(std::string t){start_time->setText(QString::fromStdString(t));};
-
-            std::string getVideoEndTime(){return stop_time->text().toStdString();};
-            void setVideoEndTime(std::string t){stop_time->setText(QString::fromStdString(t));};
-
             std::list<std::string> getMuscleAreas();
             void setMuscleAreas(std::set<FreeFit::Data::MuscleGroup> muscles);
             bool inputIsValid();
@@ -114,10 +108,19 @@ namespace FreeFit
             void setDefaultBackgroundColor(std::string c){default_color = c;}
             void setDefaultBackground();
             void showWaitingSymbol();
-            void hideWaitingSymbol();            
+            void hideWaitingSymbol();
+        public slots:
+            std::string getVideoStartTime(){return start_time->text().toStdString();};
+            void setVideoStartTime(std::string t){start_time->setText(QString::fromStdString(t));};
+
+            std::string getVideoEndTime(){return stop_time->text().toStdString();};
+            void setVideoEndTime(std::string t){stop_time->setText(QString::fromStdString(t));};
+        signals:
+            void urlChange(std::string);
         private slots:
             void resetStylesheetOnce();
             void itemChanged();
+            void urlChanged();
         private:
             void deleteClicked(){emit deleteItemTriggered(this);}
             void downloadClicked(){emit downloadItemTriggered(this);}
@@ -199,11 +202,14 @@ namespace FreeFit
             FreeFit::Data::ExerciseXMLReader r;
             FreeFit::Data::ExerciseWriter w;
             FreeFit::Data::DownloadExerciseDemandHandler demand_handler;
+            FreeFit::Data::InfoExerciseDemandHandler info_demand_handler;
         signals:
             void exerciseDownloaded(ExerciseItem* e);
+            void setExerciseTimeSignal(std::string);
         public slots:
             void accept() override;
             void reject() override;
+            void exerciseUrlChanged(std::string);
         private slots:
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
