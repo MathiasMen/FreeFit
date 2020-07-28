@@ -17,6 +17,15 @@ namespace FreeFit
     namespace Data
     {
         class NewExerciseDemandHandlerValidator;
+        
+        class InfoExerciseDemandHandler
+        {
+        public:
+            InfoExerciseDemandHandler();
+            int executeDemand(std::shared_ptr<GUI::InfoExerciseDemand> d);
+        private:
+            std::shared_ptr<VideoDownload::YoutubeDL> yt;
+        };
 
         class DownloadExerciseDemandHandler
         {

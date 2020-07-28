@@ -4,6 +4,17 @@ namespace FreeFit
 {
     namespace Data
     {
+        InfoExerciseDemandHandler::InfoExerciseDemandHandler()
+        {
+            yt = std::make_shared<VideoDownload::YoutubeDL>();
+            yt->setVideoFormat(VideoDownload::VideoType::MP4);
+        }
+
+        int InfoExerciseDemandHandler::executeDemand(std::shared_ptr<GUI::InfoExerciseDemand> d)
+        {
+            return yt->getVideoLength(d->video_url);
+        }
+
         DownloadExerciseDemandHandler::DownloadExerciseDemandHandler()
         {
             yt = std::make_shared<VideoDownload::YoutubeDL>();
