@@ -15,5 +15,10 @@ namespace FreeFit
             std::string video_end_time;
             std::list<std::string> muscle_areas;
         };
+
+        struct InfoExerciseDemand
+        {
+            std::string video_url;
+        }
     }
 }
