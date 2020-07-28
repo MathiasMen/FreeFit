@@ -410,7 +410,8 @@ namespace FreeFit
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             connect(this,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(moveExerciseToExisting(ExerciseItem*)));
             connect(e,SIGNAL(urlChange(std::string)),this,SLOT(exerciseUrlChanged(std::string)));
-            connect(this,SIGNAL(setExerciseTimeSignal(std::string)),e,SLOT(setVideoEndTime(std::string)));
+            connect(this,SIGNAL(setExerciseStartTimeSignal(std::string)),e,SLOT(setVideoStartTime(std::string)));
+            connect(this,SIGNAL(setExerciseEndTimeSignal(std::string)),e,SLOT(setVideoEndTime(std::string)));
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
@@ -432,7 +433,8 @@ namespace FreeFit
             std::shared_ptr<InfoExerciseDemand> d = std::make_shared<InfoExerciseDemand>();
             d->video_url = url;
             int video_length = info_demand_handler.executeDemand(d);
-            emit setExerciseTimeSignal(std::to_string(video_length));
+            emit setExerciseEndTimeSignal(secondsIntToTimeFormatString(video_length));
+            emit setExerciseStartTimeSignal(secondsIntToTimeFormatString(0));
         }
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditor::generateDownloadExerciseDemand(ExerciseItem* e)

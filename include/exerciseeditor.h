@@ -90,10 +90,10 @@ namespace FreeFit
             ExerciseItem(QWidget* parent);
 
             std::string getName(){return name->text().toStdString();};
-            void setName(std::string n){name->setText(QString::fromStdString(n));};
+            void setName(std::string n){name->setText(QString::fromStdString(n)); name->validateText();};
 
             std::string getURL(){return url->text().toStdString();};
-            void setURL(std::string u){url->setText(QString::fromStdString(u));};
+            void setURL(std::string u){url->setText(QString::fromStdString(u)); url->validateText();};
 
             std::string getVideoPath(){return video_path;};
             void setVideoPath(std::string p){video_path = p;};
@@ -111,10 +111,10 @@ namespace FreeFit
             void hideWaitingSymbol();
         public slots:
             std::string getVideoStartTime(){return start_time->text().toStdString();};
-            void setVideoStartTime(std::string t){start_time->setText(QString::fromStdString(t));};
+            void setVideoStartTime(std::string t){start_time->setText(QString::fromStdString(t)); start_time->validateText();};
 
             std::string getVideoEndTime(){return stop_time->text().toStdString();};
-            void setVideoEndTime(std::string t){stop_time->setText(QString::fromStdString(t));};
+            void setVideoEndTime(std::string t){stop_time->setText(QString::fromStdString(t)); stop_time->validateText();};
         signals:
             void urlChange(std::string);
         private slots:
@@ -205,7 +205,8 @@ namespace FreeFit
             FreeFit::Data::InfoExerciseDemandHandler info_demand_handler;
         signals:
             void exerciseDownloaded(ExerciseItem* e);
-            void setExerciseTimeSignal(std::string);
+            void setExerciseStartTimeSignal(std::string);
+            void setExerciseEndTimeSignal(std::string);
         public slots:
             void accept() override;
             void reject() override;
