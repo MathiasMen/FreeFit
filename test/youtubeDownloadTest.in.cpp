@@ -20,6 +20,12 @@ TEST(YoutubeDownload, Options)
     ASSERT_EQ(opt.getOptionString()," --help --version --someOtherArgument");
 }
 
+TEST(YoutubeDownload, Info)
+{
+    VideoDownload::YoutubeDownloader* d = new VideoDownload::YoutubeDL();
+    ASSERT_EQ(d->getVideoLength("https://www.youtube.com/watch?v=-kwe1EOiWMY"),18);
+}
+
 TEST(YoutubeDownload, Download)
 {
     std::string out_path = {"${CMAKE_BINARY_DIR}/test/Pushup.mp4"};
