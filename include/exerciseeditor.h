@@ -40,6 +40,7 @@
 #include "include/materialbutton.h"
 #include "include/materialtextfield.h"
 #include "include/materialdialog.h"
+#include "include/materialslider.h"
 
 namespace FreeFit
 {
@@ -136,6 +137,7 @@ namespace FreeFit
             MaterialTextField* url;
             MaterialTextField* start_time;
             MaterialTextField* stop_time;
+            MaterialSlider* start_stop;
 
             QLabel* item_downloaded_icon;
             QLabel* item_downloaded_text;

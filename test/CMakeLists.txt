@@ -46,6 +46,7 @@ set(qt_headers
     ${CMAKE_SOURCE_DIR}/include/materialbutton.h
     ${CMAKE_SOURCE_DIR}/include/materialdialog.h
     ${CMAKE_SOURCE_DIR}/include/materialclip.h
+    ${CMAKE_SOURCE_DIR}/include/materialslider.h
     ${CMAKE_SOURCE_DIR}/include/controls.h
     )
 

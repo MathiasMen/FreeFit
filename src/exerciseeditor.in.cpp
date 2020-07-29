@@ -71,6 +71,7 @@ namespace FreeFit
             url         = new MaterialTextField("URL",this);
             start_time  = new MaterialTextField("Start [mm:ss]",this);
             stop_time   = new MaterialTextField("Stop [mm:ss]",this);
+            start_stop  = new MaterialSlider(this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
@@ -134,6 +135,7 @@ namespace FreeFit
             ly->addWidget(url,++row_counter,col_counter);
             ly->addWidget(start_time,++row_counter,col_counter);
             ly->addWidget(stop_time,++row_counter,col_counter);
+            ly->addWidget(start_stop,++row_counter,col_counter,Qt::AlignCenter);
 
             ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(processLabel,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
