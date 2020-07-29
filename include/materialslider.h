@@ -64,7 +64,7 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialSlider(QWidget* parent = nullptr):QWidget(parent)
+            MaterialSlider(QWidget* parent = nullptr,int w = 200,int h = 40,int h_w = 10,int h_h = 20):QWidget(parent), width(w), height(h), handle_width(h_w), handle_height(h_h)
             {
                 setFixedSize(width,height);
                 setStyleSheet("background-color:white;");
@@ -145,10 +145,10 @@ namespace FreeFit
                 return (width - distance_line_to_border - handle_width/2);
             }
 
-            const int width = 200;
-            const int height = 40;
-            const int handle_width = 10;
-            const int handle_height = 20;
+            const int width;
+            const int height;
+            const int handle_width;
+            const int handle_height;
             const int distance_line_to_border = 20;
             int minPosValue;
             int maxPosValue;
