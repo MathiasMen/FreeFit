@@ -71,7 +71,9 @@ namespace FreeFit
             url         = new MaterialTextField("URL",this);
             start_time  = new MaterialTextField("Start [mm:ss]",this);
             stop_time   = new MaterialTextField("Stop [mm:ss]",this);
-            start_stop  = new MaterialSlider(this);
+            start_stop  = new MaterialSlider(this,10,20);
+            start_time_lbl = new QLabel("00:00",this);
+            end_time_lbl = new QLabel("00:00",this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
@@ -135,8 +137,13 @@ namespace FreeFit
             ly->addWidget(url,++row_counter,col_counter);
             ly->addWidget(start_time,++row_counter,col_counter);
             ly->addWidget(stop_time,++row_counter,col_counter);
-            ly->addWidget(start_stop,++row_counter,col_counter,Qt::AlignCenter);
 
+            QHBoxLayout* slider_ly = new QHBoxLayout;
+            slider_ly->addWidget(start_time_lbl,Qt::AlignRight);
+            slider_ly->addWidget(start_stop,Qt::AlignHCenter);
+            slider_ly->addWidget(end_time_lbl,Qt::AlignLeft);
+
+            ly->addLayout(slider_ly,++row_counter,col_counter);
             ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(processLabel,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(item_downloaded_text,0,++col_counter,row_counter+1,1,Qt::AlignCenter);

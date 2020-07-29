@@ -66,7 +66,7 @@ namespace FreeFit
         public:
             MaterialSlider(QWidget* parent = nullptr,int h_w = 10,int h_h = 20):QWidget(parent), handle_width(h_w), handle_height(h_h)
             {
-                setMinimumSize(200,20);
+                setMinimumSize(200,30);
                 setStyleSheet("background-color:white;");
                 
                 left_handle = new MaterialSliderHandle(handle_width,handle_height,this);
@@ -148,7 +148,7 @@ namespace FreeFit
 
             int handle_width;
             int handle_height;
-            const int distance_line_to_border = 20;
+            const int distance_line_to_border = 5;
             int minPosValue;
             int maxPosValue;
 

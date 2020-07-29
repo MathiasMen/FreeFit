@@ -139,6 +139,9 @@ namespace FreeFit
             MaterialTextField* stop_time;
             MaterialSlider* start_stop;
 
+            QLabel* start_time_lbl;
+            QLabel* end_time_lbl;
+
             QLabel* item_downloaded_icon;
             QLabel* item_downloaded_text;
             MaterialButton* delete_item;
