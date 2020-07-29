@@ -116,7 +116,8 @@ namespace FreeFit
             connect(url,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             connect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             connect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
-
+            
+            connect(start_stop,&MaterialSlider::valuesChanged,this,&ExerciseItem::sliderChanged);
             connect(url,&QLineEdit::textChanged,this,&ExerciseItem::urlChanged);
 
             item_downloaded_icon = new QLabel("",this);
@@ -225,6 +226,27 @@ namespace FreeFit
         {
             if(url->validateText())
                 emit urlChange(url->text().toStdString());
+        }
+
+        void ExerciseItem::sliderChanged(int start, int stop)
+        {
+            start_time_lbl->setText(QString::fromStdString(timeIntToString(start)));
+            end_time_lbl->setText(QString::fromStdString(timeIntToString(stop)));
+        }
+
+        void ExerciseItem::setSliderRange(int start, int stop)
+        {
+            start_stop->setMinValue(start);
+            start_stop->setMaxValue(stop);
+        }
+
+        std::string ExerciseItem::timeIntToString(int t)
+        {
+            int minutes = t/60;
+            int seconds = t%60;
+            std::string s_m = std::to_string(minutes);
+            std::string s_s = (seconds < 10 ? "0" : "") + std::to_string(seconds);
+            return s_m + ":" + s_s;
         }
 
         void ExerciseItem::paintEvent(QPaintEvent* e)
@@ -421,6 +443,7 @@ namespace FreeFit
             connect(e,SIGNAL(urlChange(std::string)),this,SLOT(exerciseUrlChanged(std::string)));
             connect(this,SIGNAL(setExerciseStartTimeSignal(std::string)),e,SLOT(setVideoStartTime(std::string)));
             connect(this,SIGNAL(setExerciseEndTimeSignal(std::string)),e,SLOT(setVideoEndTime(std::string)));
+            connect(this,SIGNAL(setExerciseSliderRange(int,int)),e,SLOT(setSliderRange(int,int)));
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
@@ -444,6 +467,7 @@ namespace FreeFit
             int video_length = info_demand_handler.executeDemand(d);
             emit setExerciseEndTimeSignal(secondsIntToTimeFormatString(video_length));
             emit setExerciseStartTimeSignal(secondsIntToTimeFormatString(0));
+            emit setExerciseSliderRange(0,video_length);
         }
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditor::generateDownloadExerciseDemand(ExerciseItem* e)

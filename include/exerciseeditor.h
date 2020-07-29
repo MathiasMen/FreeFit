@@ -122,11 +122,13 @@ namespace FreeFit
             void resetStylesheetOnce();
             void itemChanged();
             void urlChanged();
+            void sliderChanged(int,int);
+            void setSliderRange(int,int);
         private:
             void deleteClicked(){emit deleteItemTriggered(this);}
             void downloadClicked(){emit downloadItemTriggered(this);}
             void paintEvent(QPaintEvent* e);
-            
+            std::string timeIntToString(int);
             std::string default_color;
             QGridLayout* ly;
 
@@ -212,6 +214,7 @@ namespace FreeFit
             void exerciseDownloaded(ExerciseItem* e);
             void setExerciseStartTimeSignal(std::string);
             void setExerciseEndTimeSignal(std::string);
+            void setExerciseSliderRange(int,int);
         public slots:
             void accept() override;
             void reject() override;
