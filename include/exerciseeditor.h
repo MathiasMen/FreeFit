@@ -112,10 +112,20 @@ namespace FreeFit
             void hideWaitingSymbol();
         public slots:
             std::string getVideoStartTime(){return start_time->text().toStdString();};
-            void setVideoStartTime(std::string t){start_time->setText(QString::fromStdString(t)); start_time->validateText();};
+            void setVideoStartTime(std::string t)
+            {
+                start_time->setText(QString::fromStdString(t));
+                start_time->validateText();
+                start_time_lbl->setText(QString::fromStdString(t));
+            }
 
             std::string getVideoEndTime(){return stop_time->text().toStdString();};
-            void setVideoEndTime(std::string t){stop_time->setText(QString::fromStdString(t)); stop_time->validateText();};
+            void setVideoEndTime(std::string t)
+            {
+                stop_time->setText(QString::fromStdString(t));
+                stop_time->validateText();
+                stop_time_lbl->setText(QString::fromStdString(t));
+            };
         signals:
             void urlChange(std::string);
         private slots:
@@ -142,7 +152,7 @@ namespace FreeFit
             MaterialSlider* start_stop;
 
             QLabel* start_time_lbl;
-            QLabel* end_time_lbl;
+            QLabel* stop_time_lbl;
 
             QLabel* item_downloaded_icon;
             QLabel* item_downloaded_text;

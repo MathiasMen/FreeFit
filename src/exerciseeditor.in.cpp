@@ -73,7 +73,7 @@ namespace FreeFit
             stop_time   = new MaterialTextField("Stop [mm:ss]",this);
             start_stop  = new MaterialSlider(this,10,20);
             start_time_lbl = new QLabel("00:00",this);
-            end_time_lbl = new QLabel("00:00",this);
+            stop_time_lbl = new QLabel("00:00",this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
@@ -142,7 +142,7 @@ namespace FreeFit
             QHBoxLayout* slider_ly = new QHBoxLayout;
             slider_ly->addWidget(start_time_lbl,Qt::AlignRight);
             slider_ly->addWidget(start_stop,Qt::AlignHCenter);
-            slider_ly->addWidget(end_time_lbl,Qt::AlignLeft);
+            slider_ly->addWidget(stop_time_lbl,Qt::AlignLeft);
 
             ly->addLayout(slider_ly,++row_counter,col_counter);
             ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
@@ -231,7 +231,7 @@ namespace FreeFit
         void ExerciseItem::sliderChanged(int start, int stop)
         {
             start_time_lbl->setText(QString::fromStdString(timeIntToString(start)));
-            end_time_lbl->setText(QString::fromStdString(timeIntToString(stop)));
+            stop_time_lbl->setText(QString::fromStdString(timeIntToString(stop)));
         }
 
         void ExerciseItem::setSliderRange(int start, int stop)
