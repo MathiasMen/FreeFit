@@ -65,6 +65,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/materialslider.cpp
 	${CMAKE_SOURCE_DIR}/src/materialtextfield.cpp
 	${CMAKE_SOURCE_DIR}/src/parser.cpp
+	${CMAKE_SOURCE_DIR}/src/profileeditor.cpp
 	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
 	${CMAKE_SOURCE_DIR}/src/workout.cpp
 	${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
@@ -86,12 +87,12 @@ set(project_headers
 	${CMAKE_SOURCE_DIR}/include/exerciseeditor.h
 	${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
 	${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
-    ${CMAKE_SOURCE_DIR}/include/parser.h
     ${CMAKE_SOURCE_DIR}/include/materialbutton.h
     ${CMAKE_SOURCE_DIR}/include/materialclip.h
     ${CMAKE_SOURCE_DIR}/include/materialdialog.h
     ${CMAKE_SOURCE_DIR}/include/materialslider.h
     ${CMAKE_SOURCE_DIR}/include/materialtextfield.h
+    ${CMAKE_SOURCE_DIR}/include/parser.h
 	${CMAKE_SOURCE_DIR}/include/profile.h	
 	${CMAKE_SOURCE_DIR}/include/profileeditor.h	
 	${CMAKE_SOURCE_DIR}/include/videocutter.h
