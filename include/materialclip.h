@@ -12,52 +12,17 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialClip(QString t = "", QWidget* parent = nullptr) : QLabel(parent)
-            {
-                setFixedSize(50,50);
-                setAlignment(Qt::AlignCenter);
-                setInitials(t);
-                setToolTip(t);
-                updateStyle();
-            }
-
-            void select()
-            {
-                selected = true;
-                updateStyle();
-            }
-
-            void deselect()
-            {
-                selected = false;
-                updateStyle();
-            }
-
-            void setInitials(QString s)
-            {
-                setText(s.at(0));
-            }
+            MaterialClip(QString t = "", QWidget* parent = nullptr);
+            void select();
+            void deselect();
+            void setInitials(QString s);
         protected:
-            void mousePressEvent(QMouseEvent* ev) override
-            {
-                selected = !selected;
-                updateStyle();
-                emit clicked(this);
-            }
-
+            void mousePressEvent(QMouseEvent* ev) override;
         signals:
             void clicked(MaterialClip*);
-        
         private:
-            void updateStyle()
-            {
-                if (selected)
-                    css_string.replace("background-color:red; color:black","background-color:black; color:red;");
-                else
-                    css_string.replace("background-color:black; color:red","background-color:red; color:black;");
-                setStyleSheet(css_string);
-            }            
-            
+            void updateStyle();
+
             bool selected = false;
             QString css_string = "background-color:red; color:black; border-radius:25px; text-align:center;";
         };
