@@ -5,6 +5,7 @@ project(FreeFit CXX)
 set(CMAKE_PREFIX_PATH /Users/mathias/Qt/5.12.6/clang_64)
 find_package(Qt5 COMPONENTS REQUIRED Core Gui Widgets WebEngineWidgets MultimediaWidgets)
 
+set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
@@ -51,14 +52,57 @@ ADD_CUSTOM_TARGET(CLEAN
     COMMAND rm ${CMAKE_SOURCE_DIR}/test/input/WorkoutGenerationTest.xml
     COMMAND rm ${CMAKE_SOURCE_DIR}/test/input/WorkoutWidgetTest.xml
 )
+    
+set(project_sources 
+	${CMAKE_SOURCE_DIR}/src/main.cpp
+	${CMAKE_SOURCE_DIR}/src/mainwindow.cpp
+	${CMAKE_SOURCE_DIR}/src/controls.cpp
+	${CMAKE_SOURCE_DIR}/src/downloadexercisedemandhandler.cpp
+	${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp
+	${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
+	${CMAKE_SOURCE_DIR}/src/exerciseviewer.cpp
+	${CMAKE_SOURCE_DIR}/src/parser.cpp
+	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
+	${CMAKE_SOURCE_DIR}/src/workout.cpp
+	${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
+	${CMAKE_SOURCE_DIR}/src/workoutgenerationwidget.cpp
+	${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
+	${CMAKE_SOURCE_DIR}/src/xmlreader.cpp
+	${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp
+	${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp
+	${CMAKE_SOURCE_DIR}/src/youtubeoptions.cpp
+	)
 
-set(cpp_sources ${CMAKE_SOURCE_DIR}/src/videocutter.cpp
-    ${CMAKE_SOURCE_DIR}/src/youtubedownloader.cpp
-    ${CMAKE_SOURCE_DIR}/src/youtubeoptions.cpp
-    ${CMAKE_SOURCE_DIR}/src/xmlnode.cpp
-    ${CMAKE_SOURCE_DIR}/src/xmlwriter.cpp)
+set(project_headers
+	${CMAKE_SOURCE_DIR}/include/mainwindow.h
+	${CMAKE_SOURCE_DIR}/include/controls.h
+	${CMAKE_SOURCE_DIR}/include/datadefinitions.h
+	${CMAKE_SOURCE_DIR}/include/downloadexercisedemand.h
+	${CMAKE_SOURCE_DIR}/include/downloadexercisedemandhandler.h
+	${CMAKE_SOURCE_DIR}/include/exercise.h	
+	${CMAKE_SOURCE_DIR}/include/exerciseeditor.h
+	${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
+	${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
+    ${CMAKE_SOURCE_DIR}/include/parser.h
+    ${CMAKE_SOURCE_DIR}/include/materialbutton.h
+    ${CMAKE_SOURCE_DIR}/include/materialclip.h
+    ${CMAKE_SOURCE_DIR}/include/materialdialog.h
+    ${CMAKE_SOURCE_DIR}/include/materialslider.h
+    ${CMAKE_SOURCE_DIR}/include/materialtextfield.h
+	${CMAKE_SOURCE_DIR}/include/profile.h	
+	${CMAKE_SOURCE_DIR}/include/profileeditor.h	
+	${CMAKE_SOURCE_DIR}/include/videocutter.h
+	${CMAKE_SOURCE_DIR}/include/workout.h
+	${CMAKE_SOURCE_DIR}/include/workoutwidget.h
+	${CMAKE_SOURCE_DIR}/include/workoutgenerationwidget.h
+	${CMAKE_SOURCE_DIR}/include/xmlnode.h
+	${CMAKE_SOURCE_DIR}/include/xmlreader.h
+	${CMAKE_SOURCE_DIR}/include/xmlwriter.h
+	${CMAKE_SOURCE_DIR}/include/youtubedownloader.h
+	${CMAKE_SOURCE_DIR}/include/youtubeoptions.h
+	)
 
 enable_testing()
 
 add_subdirectory(src)
-add_subdirectory(test)
+#add_subdirectory(test)
