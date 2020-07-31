@@ -23,186 +23,28 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            MaterialTextField(QString t_t, QWidget* parent = nullptr) : t_update(new QTimer),QLineEdit(t_t,parent),t(t_t),lineAnimationCounter(0),textAnimationCounter(0)
-            {
-                css_string = QString("background-color:gainsboro; color:black; border: 0px; padding: 0px; padding-bottom: 2px; padding-top: 20px;");
-                updateStyleSheet();
-                this->setAttribute(Qt::WA_MacShowFocusRect, 0);
-                this->setFrame(false);
-
-                connect(this,&MaterialTextField::focusGainedTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedTextEnteredPaint,this,std::placeholders::_1);});
-                connect(this,&MaterialTextField::focusGainedNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusGainedNoTextEnteredPaint,this,std::placeholders::_1);});
-                connect(this,&MaterialTextField::focusLostTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostTextEnteredPaint,this,std::placeholders::_1);});
-                connect(this,&MaterialTextField::focusLostNoTextEntered,[=](){currentPaintFunction = std::bind(&MaterialTextField::focusLostNoTextEnteredPaint,this,std::placeholders::_1);});
-                connect(this,&QLineEdit::textEdited,this,&MaterialTextField::validateText);
-            }
-
-            void highlightAsInvalid()
-            {
-                css_string.replace(QRegExp("background-color:gainsboro;"),"background-color:indianred;");
-                updateStyleSheet();
-            }
-
-            void highlightAsValid()
-            {
-                css_string.replace(QRegExp("background-color:indianred;"),"background-color:gainsboro;");
-                updateStyleSheet();
-            }
-
+            MaterialTextField(QString t_t, QWidget* parent = nullptr);
+            void highlightAsInvalid();
+            void highlightAsValid();
             void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
-
-            bool validateText()
-            {
-                if(!validate_function(text().toStdString()))
-                {
-                    highlightAsInvalid();
-                    return false;
-                }
-                else
-                {
-                    highlightAsValid();
-                    return true;
-                }
-            }
+            bool validateText();
         protected:
-            void paintEvent(QPaintEvent* ev) override
-            {
-                QLineEdit::paintEvent(ev);
-
-                QPainter painter(this);
-
-                if (currentPaintFunction)
-                    currentPaintFunction(&painter);
-
-            }
-
-            void focusInEvent(QFocusEvent* e) override
-            {
-                connect(t_update,SIGNAL(timeout()),this,SLOT(incrementLineAnimationCounter()));
-                connect(t_update,SIGNAL(timeout()),this,SLOT(incrementTextAnimationCounter()));
-                connect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
-                t_update->start(20);
-
-                if (text() != "" && text() != t)
-                    emit focusGainedTextEntered();
-                else
-                {
-                    setText("");
-                    emit focusGainedNoTextEntered();
-                }
-
-                QLineEdit::focusInEvent(e);
-            }
-
-            void focusOutEvent(QFocusEvent* e) override
-            {
-                t_update->stop();
-                disconnect(t_update,SIGNAL(timeout()),this,SLOT(incrementLineAnimationCounter()));
-                disconnect(t_update,SIGNAL(timeout()),this,SLOT(incrementTextAnimationCounter()));
-                disconnect(t_update,SIGNAL(timeout()),this,SLOT(repaint()));
-                lineAnimationCounter = 0;
-                textAnimationCounter = 0;
-
-                if (text() != "" && text() != t)
-                    emit focusLostTextEntered();
-                else
-                {
-                    setText(t);
-                    emit focusLostNoTextEntered();
-                }
-
-                QLineEdit::focusOutEvent(e);
-            }
+            void paintEvent(QPaintEvent* ev) override;
+            void focusInEvent(QFocusEvent* e) override;
+            void focusOutEvent(QFocusEvent* e) override;
         private:
-            void updateStyleSheet()
-            {
-                this->setStyleSheet(css_string);
-            }
-
-            void setDefaultPainterSettings(QPainter* painter)
-            {
-                QPen pen = painter->pen();
-                pen.setWidth(2);
-                QFont font = painter->font();
-                font.setPixelSize(10);
-
-                painter->setPen(pen);
-                painter->setFont(font);
-            }
-            
-            void setFocusedPainterSettings(QPainter* painter)
-            {
-                setDefaultPainterSettings(painter);
-                QPen pen = painter->pen();
-                pen.setColor(Qt::black);
-                painter->setPen(pen);
-            }
-
-            void setNotFocusedPainterSettings(QPainter* painter)
-            {
-                setDefaultPainterSettings(painter);
-                QPen pen = painter->pen();
-                pen.setColor(Qt::gray);
-                painter->setPen(pen);
-            }
-
-            void drawStaticBaseLine(QPainter* painter)
-            {
-                painter->drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
-            }
-
-            void drawAnimatedBaseLine(QPainter* painter)
-            {
-                if (this->rect().width()/2+(this->rect().width()/25)*lineAnimationCounter <= this->rect().width())
-                {
-                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2+(this->rect().width()/25)*lineAnimationCounter,this->rect().height()-1);
-                    painter->drawLine(this->rect().width()/2,this->rect().height()-1,this->rect().width()/2-(this->rect().width()/25)*lineAnimationCounter,this->rect().height()-1);
-                }
-                else
-                {
-                    painter->drawLine(0,this->rect().height(),this->rect().width(),this->rect().height());
-                }
-            }
-
-            void drawStaticTextLabel(QPainter* painter)
-            {
-                painter->drawText(0,painter->font().pixelSize(),t);
-            }
-
-            void drawAnimatedTextLabel(QPainter* painter)
-            {
-                if (this->rect().height() - 2*textAnimationCounter >= painter->font().pixelSize())
-                    painter->drawText(0,this->rect().height()-2*textAnimationCounter,this->t);
-                else
-                    drawStaticTextLabel(painter);
-            }
-
-            void focusGainedTextEnteredPaint(QPainter* painter)
-            {
-                setFocusedPainterSettings(painter);
-                drawAnimatedBaseLine(painter);
-                drawStaticTextLabel(painter);
-            }
-
-            void focusGainedNoTextEnteredPaint(QPainter* painter)
-            {
-                setFocusedPainterSettings(painter);
-                drawAnimatedBaseLine(painter);
-                drawAnimatedTextLabel(painter);
-            }
-
-            void focusLostTextEnteredPaint(QPainter* painter)
-            {
-                setNotFocusedPainterSettings(painter);
-                drawStaticBaseLine(painter);
-                drawStaticTextLabel(painter);
-            }
-
-            void focusLostNoTextEnteredPaint(QPainter* painter)
-            {
-                setNotFocusedPainterSettings(painter);
-                drawStaticBaseLine(painter);
-            }
+            void updateStyleSheet(){this->setStyleSheet(css_string);}
+            void setDefaultPainterSettings(QPainter* painter);
+            void setFocusedPainterSettings(QPainter* painter);
+            void setNotFocusedPainterSettings(QPainter* painter);
+            void drawStaticBaseLine(QPainter* painter);
+            void drawAnimatedBaseLine(QPainter* painter);
+            void drawStaticTextLabel(QPainter* painter);
+            void drawAnimatedTextLabel(QPainter* painter);
+            void focusGainedTextEnteredPaint(QPainter* painter);
+            void focusGainedNoTextEnteredPaint(QPainter* painter);
+            void focusLostTextEnteredPaint(QPainter* painter);
+            void focusLostNoTextEnteredPaint(QPainter* painter);
 
             int lineAnimationCounter;
             int textAnimationCounter;
@@ -218,15 +60,8 @@ namespace FreeFit
             void focusLostTextEntered();
             void focusLostNoTextEntered();
         private slots:
-            void incrementLineAnimationCounter()
-            {
-                lineAnimationCounter += 1;
-            }
-
-            void incrementTextAnimationCounter()
-            {
-                textAnimationCounter += 1;
-            }
+            void incrementLineAnimationCounter();
+            void incrementTextAnimationCounter();
         };
     }
 }

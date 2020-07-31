@@ -63,6 +63,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/materialbutton.cpp
 	${CMAKE_SOURCE_DIR}/src/materialclip.cpp
 	${CMAKE_SOURCE_DIR}/src/materialslider.cpp
+	${CMAKE_SOURCE_DIR}/src/materialtextfield.cpp
 	${CMAKE_SOURCE_DIR}/src/parser.cpp
 	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
 	${CMAKE_SOURCE_DIR}/src/workout.cpp
