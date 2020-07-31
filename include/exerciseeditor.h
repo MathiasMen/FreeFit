@@ -112,20 +112,10 @@ namespace FreeFit
             void hideWaitingSymbol();
         public slots:
             std::string getVideoStartTime(){return start_time->text().toStdString();};
-            void setVideoStartTime(std::string t)
-            {
-                start_time->setText(QString::fromStdString(t));
-                start_time->validateText();
-                start_time_lbl->setText(QString::fromStdString(t));
-            }
+            void setVideoStartTime(std::string t);
 
             std::string getVideoEndTime(){return stop_time->text().toStdString();};
-            void setVideoEndTime(std::string t)
-            {
-                stop_time->setText(QString::fromStdString(t));
-                stop_time->validateText();
-                stop_time_lbl->setText(QString::fromStdString(t));
-            };
+            void setVideoEndTime(std::string t);
         signals:
             void urlChange(std::string);
         private slots:

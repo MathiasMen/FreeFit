@@ -204,6 +204,20 @@ namespace FreeFit
             processLabel->hide();
         }
 
+        void ExerciseItem::setVideoStartTime(std::string t)
+        {
+            start_time->setText(QString::fromStdString(t));
+            start_time->validateText();
+            start_time_lbl->setText(QString::fromStdString(t));
+        }
+
+        void ExerciseItem::setVideoEndTime(std::string t)
+        {
+            stop_time->setText(QString::fromStdString(t));
+            stop_time->validateText();
+            stop_time_lbl->setText(QString::fromStdString(t));
+        }
+
         void ExerciseItem::resetStylesheetOnce()
         {
             setDefaultBackground();
