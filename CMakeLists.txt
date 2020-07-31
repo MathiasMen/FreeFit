@@ -54,7 +54,6 @@ ADD_CUSTOM_TARGET(CLEAN
 )
     
 set(project_sources 
-	${CMAKE_SOURCE_DIR}/src/main.cpp
 	${CMAKE_SOURCE_DIR}/src/mainwindow.cpp
 	${CMAKE_SOURCE_DIR}/src/controls.cpp
 	${CMAKE_SOURCE_DIR}/src/downloadexercisedemandhandler.cpp
@@ -105,4 +104,4 @@ set(project_headers
 enable_testing()
 
 add_subdirectory(src)
-#add_subdirectory(test)
+add_subdirectory(test)
