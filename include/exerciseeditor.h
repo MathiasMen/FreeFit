@@ -247,18 +247,12 @@ namespace FreeFit
             void setOutPath(std::string s);
             void setFirstNewExerciseNameText(std::string s);
             void setFirstNewExerciseURLText(std::string s);
-            void setFirstNewExerciseStartTimeText(std::string s);
-            void setFirstNewExerciseStopTimeText(std::string s);
             void setFirstNewExerciseMuscleArea(int id);
             void setLastNewExerciseNameText(std::string s);
             void setLastNewExerciseURLText(std::string s);
-            void setLastNewExerciseStartTimeText(std::string s);
-            void setLastNewExerciseStopTimeText(std::string s);
             void setLastNewExerciseMuscleArea(int id);
             bool isFirstNewExerciseNameValid();
             bool isFirstNewExerciseURLValid();
-            bool isFirstNewExerciseStartTimeValid();
-            bool isFirstNewExerciseStopTimeValid();
             void connectToDownloadSignalsOfItems();
             void pushDownloadAllButton();
             void pushFirstDeleteButtonOldExercises();

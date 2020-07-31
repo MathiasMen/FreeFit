@@ -122,8 +122,6 @@ TEST_F(ExerciseEditor,ExerciseDemand)
 {
     std::string ex_name = "Pushup";
     std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
-    std::string ex_start = "00:02";
-    std::string ex_end = "00:03";
     
     p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/ExerciseDemand.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
@@ -132,8 +130,6 @@ TEST_F(ExerciseEditor,ExerciseDemand)
     v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
-    v.setFirstNewExerciseStartTimeText(ex_start);
-    v.setFirstNewExerciseStopTimeText(ex_end);
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
 
@@ -143,8 +139,6 @@ TEST_F(ExerciseEditor,ExerciseDemand)
     auto it = d->muscle_areas.begin();
     ASSERT_EQ(d->name,ex_name);
     ASSERT_EQ(d->video_url,ex_url);
-    ASSERT_EQ(d->video_start_time,"2");
-    ASSERT_EQ(d->video_end_time,"3");
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
     e->accept();
@@ -154,8 +148,6 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
 {
     std::string ex_name = "Pushup";
     std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
-    std::string ex_start = "00:02";
-    std::string ex_end = "00:03";
     
     p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
@@ -166,13 +158,9 @@ TEST_F(ExerciseEditor,ValidateFunctionTrue)
     v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
-    v.setFirstNewExerciseStartTimeText(ex_start);
-    v.setFirstNewExerciseStopTimeText(ex_end);
 
     ASSERT_TRUE(v.isFirstNewExerciseNameValid());
     ASSERT_TRUE(v.isFirstNewExerciseURLValid());
-    ASSERT_TRUE(v.isFirstNewExerciseStartTimeValid());
-    ASSERT_TRUE(v.isFirstNewExerciseStopTimeValid());
     e->accept();
 }
 
@@ -221,53 +209,10 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
     e->accept();
 }
 
-TEST_F(ExerciseEditor,ValidateFunctionStartTimeWrong)
-{
-    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
-    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-    FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionStartTimeWrong.xml");
-    e->open();
-
-    v.pushAddButton();
-
-    v.setFirstNewExerciseStartTimeText("abc");
-    ASSERT_FALSE(v.isFirstNewExerciseStartTimeValid());
-
-    v.setFirstNewExerciseStartTimeText("12!");
-    ASSERT_FALSE(v.isFirstNewExerciseStartTimeValid());
-
-    v.setFirstNewExerciseStartTimeText("1234");
-    ASSERT_FALSE(v.isFirstNewExerciseStartTimeValid());
-    e->accept();
-}
-
-TEST_F(ExerciseEditor,ValidateFunctionStopTimeWrong)
-{
-    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
-    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-    FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ValidateFunctionStopTimeWrong.xml");
-    e->open();
-    v.pushAddButton();
-
-    v.setFirstNewExerciseStopTimeText("abc");
-    ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
-
-    v.setFirstNewExerciseStopTimeText("12!");
-    ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
-
-    v.setFirstNewExerciseStopTimeText("1234");
-    ASSERT_FALSE(v.isFirstNewExerciseStopTimeValid());
-    e->accept();
-}
-
 TEST_F(ExerciseEditor,DownloadClicked)
 {
     std::string ex_name = "Pushup";
     std::string ex_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
-    std::string ex_start = "00:02";
-    std::string ex_end = "00:03";
     
     p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
@@ -276,8 +221,6 @@ TEST_F(ExerciseEditor,DownloadClicked)
     v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
-    v.setFirstNewExerciseStartTimeText(ex_start);
-    v.setFirstNewExerciseStopTimeText(ex_end);
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
 
@@ -290,8 +233,6 @@ TEST_F(ExerciseEditor,DownloadClicked)
     auto it = d.muscle_areas.begin();
     ASSERT_EQ(d.name,ex_name);
     ASSERT_EQ(d.video_url,ex_url);
-    ASSERT_EQ(d.video_start_time,"2");
-    ASSERT_EQ(d.video_end_time,"3");
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
 
@@ -315,8 +256,6 @@ TEST_F(ExerciseEditor, XMLOutput)
 {
     std::string ex_name = "Situp";
     std::string ex_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
-    std::string ex_start = "00:50";
-    std::string ex_end = "00:53";
     
     std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/XMLOutput.xml";
     const int result = std::remove(out_path.c_str());
@@ -328,8 +267,6 @@ TEST_F(ExerciseEditor, XMLOutput)
     v.setOutPath(out_path);
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
-    v.setFirstNewExerciseStartTimeText(ex_start);
-    v.setFirstNewExerciseStopTimeText(ex_end);
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
 
@@ -425,8 +362,6 @@ TEST_F(ExerciseEditor, AddExerciseToExistingXML)
     v.pushAddButton();
     v.setLastNewExerciseNameText("SomethingElse");
     v.setLastNewExerciseURLText("https://www.youtube.com/watch?v=O-3uPB3fgys");
-    v.setLastNewExerciseStartTimeText("00:49");
-    v.setLastNewExerciseStopTimeText("00:54");
     v.setLastNewExerciseMuscleArea(0);
     v.setLastNewExerciseMuscleArea(2);
 

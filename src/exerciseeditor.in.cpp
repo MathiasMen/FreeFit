@@ -569,20 +569,6 @@ namespace FreeFit
 //            e->url->textMessageBecauseFocusLost(e->url->text());
         }
 
-        void ExerciseEditorValidator::setFirstNewExerciseStartTimeText(std::string s)
-        {
-            ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->start_time->setText(QString::fromStdString(s));
-//            e->start_time->textMessageBecauseFocusLost(e->start_time->text());
-        }
-
-        void ExerciseEditorValidator::setFirstNewExerciseStopTimeText(std::string s)
-        {
-            ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->stop_time->setText(QString::fromStdString(s));
-//            e->stop_time->textMessageBecauseFocusLost(e->stop_time->text());
-        }
-
         void ExerciseEditorValidator::setFirstNewExerciseMuscleArea(int id)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
@@ -603,20 +589,6 @@ namespace FreeFit
 //            e->url->textMessageBecauseFocusLost(e->url->text());
         }
 
-        void ExerciseEditorValidator::setLastNewExerciseStartTimeText(std::string s)
-        {
-            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->start_time->setText(QString::fromStdString(s));
-//            e->start_time->textMessageBecauseFocusLost(e->start_time->text());
-        }
-
-        void ExerciseEditorValidator::setLastNewExerciseStopTimeText(std::string s)
-        {
-            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->stop_time->setText(QString::fromStdString(s));
-//            e->stop_time->textMessageBecauseFocusLost(e->stop_time->text());
-        }
-
         void ExerciseEditorValidator::setLastNewExerciseMuscleArea(int id)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
@@ -633,18 +605,6 @@ namespace FreeFit
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
             return e->url->validateText();
-        }
-
-        bool ExerciseEditorValidator::isFirstNewExerciseStartTimeValid()
-        {
-            ExerciseItem* e = *(ee->new_exercise_items.begin());
-            return e->start_time->validateText();
-        }
-
-        bool ExerciseEditorValidator::isFirstNewExerciseStopTimeValid()
-        {
-            ExerciseItem* e = *(ee->new_exercise_items.begin());
-            return e->stop_time->validateText();
         }
 
         void ExerciseEditorValidator::connectToDownloadSignalsOfItems()
