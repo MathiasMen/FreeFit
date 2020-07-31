@@ -51,22 +51,12 @@ namespace FreeFit
                 hashtag_layout->addWidget(t,0,Qt::AlignLeft);
                 hashtag_labels.push_back(t);
             }
-/*
-            name_label = new QLabel("Name:",this);
-            url_label = new QLabel("Youtube-URL:",this);
-            start_time_label = new QLabel("Start Time:",this);
-            stop_time_label = new QLabel("Stop Time:",this);
-*/
+
             processMovie = new QMovie("${CMAKE_SOURCE_DIR}/tools/loading.gif");
             processLabel = new QLabel(this);
             processLabel->setMovie(processMovie);
             processLabel->hide();
-/*
-            name_label->setToolTip("No special characters allowed.");
-            url_label->setToolTip("Youtube-links only.");
-            start_time_label->setToolTip("Enter start of video in format MM:SS.");
-            stop_time_label->setToolTip("Enter end of video in format MM:SS.");
-*/
+
             name        = new MaterialTextField("Name",this);
             url         = new MaterialTextField("URL",this);
             start_stop  = new MaterialSlider(this,10,20);
@@ -76,20 +66,6 @@ namespace FreeFit
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
 
-            const int edit_line_width = 180;
-            const int edit_label_and_line_height = 18;
-
-/*
-            name_label->setFixedHeight(edit_label_and_line_height);
-            url_label->setFixedHeight(edit_label_and_line_height);
-            start_time_label->setFixedHeight(edit_label_and_line_height);
-            stop_time_label->setFixedHeight(edit_label_and_line_height);
-
-            name->setFixedSize(edit_line_width,edit_label_and_line_height);
-            url->setFixedSize(edit_line_width,edit_label_and_line_height);
-            start_time->setFixedSize(edit_line_width,edit_label_and_line_height);
-            stop_time->setFixedSize(edit_line_width,edit_label_and_line_height);
-*/
             std::regex name_regex("[a-zA-Z0-9\\s]{1,256}");
             auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
             name->setValidationFunction(func_name_regex);
