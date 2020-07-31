@@ -69,16 +69,12 @@ namespace FreeFit
 */
             name        = new MaterialTextField("Name",this);
             url         = new MaterialTextField("URL",this);
-            start_time  = new MaterialTextField("Start [mm:ss]",this);
-            stop_time   = new MaterialTextField("Stop [mm:ss]",this);
             start_stop  = new MaterialSlider(this,10,20);
             start_time_lbl = new QLabel("00:00",this);
             stop_time_lbl = new QLabel("00:00",this);
 
             name->setToolTip("No special characters allowed.");
             url->setToolTip("Youtube-links only.");
-            start_time->setToolTip("Enter start of video in format MM:SS.");
-            stop_time->setToolTip("Enter end of video in format MM:SS.");
 
             const int edit_line_width = 180;
             const int edit_label_and_line_height = 18;
@@ -102,20 +98,11 @@ namespace FreeFit
             auto func_url_regex = [url_regex](std::string s)->bool{return std::regex_match(s,url_regex);};
             url->setValidationFunction(func_url_regex);
 
-            std::regex int_range_regex("[0-9]{2}:[0-9]{2}");
-            auto func_int_regex = [int_range_regex](std::string s)->bool{return std::regex_match(s,int_range_regex);};
-            start_time->setValidationFunction(func_int_regex);
-            stop_time->setValidationFunction(func_int_regex);
-
             name->validateText();
             url->validateText();
-            start_time->validateText();
-            stop_time->validateText();
             
             connect(name,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             connect(url,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
-            connect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
-            connect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             
             connect(start_stop,&MaterialSlider::valuesChanged,this,&ExerciseItem::sliderChanged);
             connect(url,&QLineEdit::textChanged,this,&ExerciseItem::urlChanged);
@@ -136,8 +123,6 @@ namespace FreeFit
             row_counter = -1;
             ly->addWidget(name,++row_counter,++col_counter);
             ly->addWidget(url,++row_counter,col_counter);
-            ly->addWidget(start_time,++row_counter,col_counter);
-            ly->addWidget(stop_time,++row_counter,col_counter);
 
             QHBoxLayout* slider_ly = new QHBoxLayout;
             slider_ly->addWidget(start_time_lbl,Qt::AlignRight);
@@ -145,6 +130,7 @@ namespace FreeFit
             slider_ly->addWidget(stop_time_lbl,Qt::AlignLeft);
 
             ly->addLayout(slider_ly,++row_counter,col_counter);
+
             ly->addWidget(delete_item,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(processLabel,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
             ly->addWidget(item_downloaded_text,0,++col_counter,row_counter+1,1,Qt::AlignCenter);
@@ -175,7 +161,7 @@ namespace FreeFit
 
         bool ExerciseItem::inputIsValid()
         {
-            return (name->validateText() && url->validateText() && start_time->validateText() && stop_time->validateText());
+            return (name->validateText() && url->validateText());
         }
 
         void ExerciseItem::highlightAsFaulty()
@@ -183,8 +169,6 @@ namespace FreeFit
             this->setStyleSheet("background-color:red;");
             connect(name,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
             connect(url,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            connect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            connect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
         }
 
         void ExerciseItem::setDefaultBackground()
@@ -206,15 +190,11 @@ namespace FreeFit
 
         void ExerciseItem::setVideoStartTime(std::string t)
         {
-            start_time->setText(QString::fromStdString(t));
-            start_time->validateText();
             start_time_lbl->setText(QString::fromStdString(t));
         }
 
         void ExerciseItem::setVideoEndTime(std::string t)
         {
-            stop_time->setText(QString::fromStdString(t));
-            stop_time->validateText();
             stop_time_lbl->setText(QString::fromStdString(t));
         }
 
@@ -223,8 +203,6 @@ namespace FreeFit
             setDefaultBackground();
             disconnect(name,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
             disconnect(url,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            disconnect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
-            disconnect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::resetStylesheetOnce);
         }
 
         void ExerciseItem::itemChanged()
@@ -232,8 +210,6 @@ namespace FreeFit
             unchanged = false;
             disconnect(name,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             disconnect(url,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
-            disconnect(start_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
-            disconnect(stop_time,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
         }
 
         void ExerciseItem::urlChanged()

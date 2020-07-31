@@ -137,8 +137,6 @@ namespace FreeFit
 
             MaterialTextField* name;
             MaterialTextField* url;
-            MaterialTextField* start_time;
-            MaterialTextField* stop_time;
             MaterialSlider* start_stop;
 
             QLabel* start_time_lbl;
