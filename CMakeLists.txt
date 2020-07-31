@@ -60,6 +60,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp
 	${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
 	${CMAKE_SOURCE_DIR}/src/exerciseviewer.cpp
+	${CMAKE_SOURCE_DIR}/src/materialbutton.cpp
 	${CMAKE_SOURCE_DIR}/src/parser.cpp
 	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
 	${CMAKE_SOURCE_DIR}/src/workout.cpp
