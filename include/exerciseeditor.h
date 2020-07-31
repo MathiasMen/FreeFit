@@ -111,10 +111,10 @@ namespace FreeFit
             void showWaitingSymbol();
             void hideWaitingSymbol();
         public slots:
-            std::string getVideoStartTime(){return start_time->text().toStdString();};
+            std::string getVideoStartTime(){return start_time_lbl->text().toStdString();};
             void setVideoStartTime(std::string t);
 
-            std::string getVideoEndTime(){return stop_time->text().toStdString();};
+            std::string getVideoEndTime(){return stop_time_lbl->text().toStdString();};
             void setVideoEndTime(std::string t);
         signals:
             void urlChange(std::string);
