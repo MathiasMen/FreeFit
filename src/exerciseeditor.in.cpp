@@ -206,12 +206,12 @@ namespace FreeFit
             start_stop->setMaxValue(stop);
         }
 
-        std::string ExerciseItem::timeIntToString(int t)
+        std::string ExerciseItem::timeIntToString(int i)
         {
-            int minutes = t/60;
-            int seconds = t%60;
-            std::string s_m = std::to_string(minutes);
-            std::string s_s = (seconds < 10 ? "0" : "") + std::to_string(seconds);
+            int mins = (int)floor(i/60);
+            int secs = i - mins*60;
+            std::string s_m = (mins > 9 ? std::to_string(mins) : std::string("0" + std::to_string(mins)));
+            std::string s_s = (secs > 9 ? std::to_string(secs) : std::string("0" + std::to_string(secs)));
             return s_m + ":" + s_s;
         }
 
@@ -374,9 +374,20 @@ namespace FreeFit
         }
 
         int ExerciseEditor::timeFormatStringToSecondsInt(std::string s)
-        {
-            std::string mins = s.substr(0,1);
-            std::string secs = s.substr(3,4);
+        {   
+            size_t colon_pos = s.find(":");
+            std::string mins, secs;
+            if (colon_pos == 1)
+            {
+                mins += "0";
+                mins += s[0];
+            }
+            else if (colon_pos == 2)
+                mins = s.substr(0,1);
+            else
+                mins = "00";
+            secs = s.substr(colon_pos+1,colon_pos+2);
+            std::cout << s << " -> " << mins << ":" << secs << std::endl;
             return std::stoi(mins)*60 + std::stoi(secs);
         }
 
@@ -386,6 +397,7 @@ namespace FreeFit
             int secs = i - mins*60;
             std::string s_m = (mins > 9 ? std::to_string(mins) : std::string("0" + std::to_string(mins)));
             std::string s_s = (secs > 9 ? std::to_string(secs) : std::string("0" + std::to_string(secs)));
+            std::cout << i << " --> " << s_m + ":" + s_s << std::endl;
             return s_m + ":" + s_s;
         }
 
