@@ -14,6 +14,7 @@
 
 #include <functional>
 #include <iostream>
+#include <regex>
 
 namespace FreeFit
 {
@@ -28,6 +29,7 @@ namespace FreeFit
             void highlightAsValid();
             void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
             bool validateText();
+            void setText(const QString&);
         protected:
             void paintEvent(QPaintEvent* ev) override;
             void focusInEvent(QFocusEvent* e) override;

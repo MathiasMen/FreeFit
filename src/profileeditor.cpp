@@ -66,6 +66,14 @@ namespace FreeFit
                 path_exercises_xml = new MaterialTextField("Path to Exercises XML",this);
                 profile_name = new MaterialTextField("Name",this);
 
+                std::regex exercises_path_regex(".*\\.xml");
+                auto func_exercises_regex = [exercises_path_regex](std::string s)->bool{return std::regex_match(s,exercises_path_regex);};
+                path_exercises_xml->setValidationFunction(func_exercises_regex);
+
+                std::regex name_regex("[a-zA-Z\\s]{1,128}");
+                auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
+                profile_name->setValidationFunction(func_name_regex);
+
                 next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 

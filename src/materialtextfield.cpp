@@ -45,6 +45,13 @@ namespace FreeFit
             }
         }
 
+        void MaterialTextField::setText(const QString& t)
+        {
+            QLineEdit::setText(t);
+            emit focusLostTextEntered();
+            update();
+        }
+
         void MaterialTextField::paintEvent(QPaintEvent* ev)
         {
             QLineEdit::paintEvent(ev);
