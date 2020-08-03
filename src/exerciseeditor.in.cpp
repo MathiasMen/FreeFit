@@ -169,9 +169,21 @@ namespace FreeFit
             start_time_lbl->setText(QString::fromStdString(t));
         }
 
+        void ExerciseItem::setVideoStartTime(ExerciseItem* e, std::string t)
+        {
+            if (e == this)
+                start_time_lbl->setText(QString::fromStdString(t));
+        }
+
         void ExerciseItem::setVideoEndTime(std::string t)
         {
             stop_time_lbl->setText(QString::fromStdString(t));
+        }
+
+        void ExerciseItem::setVideoEndTime(ExerciseItem* e, std::string t)
+        {
+            if (e == this)
+                stop_time_lbl->setText(QString::fromStdString(t));
         }
 
         void ExerciseItem::resetStylesheetOnce()
@@ -191,7 +203,7 @@ namespace FreeFit
         void ExerciseItem::urlChanged()
         {
             if(url->validateText())
-                emit urlChange(url->text().toStdString());
+                emit urlChange(this,url->text().toStdString());
         }
 
         void ExerciseItem::sliderChanged(int start, int stop)
@@ -204,6 +216,15 @@ namespace FreeFit
         {
             start_stop->setMinValue(start);
             start_stop->setMaxValue(stop);
+        }
+
+        void ExerciseItem::setSliderRange(ExerciseItem* e, int start, int stop)
+        {
+            if (e == this)
+            {
+                start_stop->setMinValue(start);
+                start_stop->setMaxValue(stop);
+            }
         }
 
         std::string ExerciseItem::timeIntToString(int i)
@@ -387,7 +408,6 @@ namespace FreeFit
             else
                 mins = "00";
             secs = s.substr(colon_pos+1,colon_pos+2);
-            std::cout << s << " -> " << mins << ":" << secs << std::endl;
             return std::stoi(mins)*60 + std::stoi(secs);
         }
 
@@ -397,7 +417,6 @@ namespace FreeFit
             int secs = i - mins*60;
             std::string s_m = (mins > 9 ? std::to_string(mins) : std::string("0" + std::to_string(mins)));
             std::string s_s = (secs > 9 ? std::to_string(secs) : std::string("0" + std::to_string(secs)));
-            std::cout << i << " --> " << s_m + ":" + s_s << std::endl;
             return s_m + ":" + s_s;
         }
 
@@ -418,10 +437,10 @@ namespace FreeFit
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             connect(this,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(moveExerciseToExisting(ExerciseItem*)));
-            connect(e,SIGNAL(urlChange(std::string)),this,SLOT(exerciseUrlChanged(std::string)));
-            connect(this,SIGNAL(setExerciseStartTimeSignal(std::string)),e,SLOT(setVideoStartTime(std::string)));
-            connect(this,SIGNAL(setExerciseEndTimeSignal(std::string)),e,SLOT(setVideoEndTime(std::string)));
-            connect(this,SIGNAL(setExerciseSliderRange(int,int)),e,SLOT(setSliderRange(int,int)));
+            connect(e,SIGNAL(urlChange(ExerciseItem*,std::string)),this,SLOT(exerciseUrlChanged(ExerciseItem*,std::string)));
+            connect(this,SIGNAL(setExerciseStartTimeSignal(ExerciseItem*,std::string)),e,SLOT(setVideoStartTime(ExerciseItem*,std::string)));
+            connect(this,SIGNAL(setExerciseEndTimeSignal(ExerciseItem*,std::string)),e,SLOT(setVideoEndTime(ExerciseItem*,std::string)));
+            connect(this,SIGNAL(setExerciseSliderRange(ExerciseItem*,int,int)),e,SLOT(setSliderRange(ExerciseItem*,int,int)));
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
@@ -438,14 +457,14 @@ namespace FreeFit
             registerExerciseItem(e);
         }
 
-        void ExerciseEditor::exerciseUrlChanged(std::string url)
+        void ExerciseEditor::exerciseUrlChanged(ExerciseItem* e,std::string url)
         {
             std::shared_ptr<InfoExerciseDemand> d = std::make_shared<InfoExerciseDemand>();
             d->video_url = url;
             int video_length = info_demand_handler.executeDemand(d);
-            emit setExerciseEndTimeSignal(secondsIntToTimeFormatString(video_length));
-            emit setExerciseStartTimeSignal(secondsIntToTimeFormatString(0));
-            emit setExerciseSliderRange(0,video_length);
+            emit setExerciseEndTimeSignal(e,secondsIntToTimeFormatString(video_length));
+            emit setExerciseStartTimeSignal(e,secondsIntToTimeFormatString(0));
+            emit setExerciseSliderRange(e,0,video_length);
         }
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditor::generateDownloadExerciseDemand(ExerciseItem* e)

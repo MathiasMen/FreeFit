@@ -113,17 +113,20 @@ namespace FreeFit
         public slots:
             std::string getVideoStartTime(){return start_time_lbl->text().toStdString();};
             void setVideoStartTime(std::string t);
+            void setVideoStartTime(ExerciseItem* e, std::string t);
 
             std::string getVideoEndTime(){return stop_time_lbl->text().toStdString();};
             void setVideoEndTime(std::string t);
+            void setVideoEndTime(ExerciseItem* e, std::string t);
         signals:
-            void urlChange(std::string);
+            void urlChange(ExerciseItem*,std::string);
         private slots:
             void resetStylesheetOnce();
             void itemChanged();
             void urlChanged();
             void sliderChanged(int,int);
             void setSliderRange(int,int);
+            void setSliderRange(ExerciseItem*,int,int);
         private:
             void deleteClicked(){emit deleteItemTriggered(this);}
             void downloadClicked(){emit downloadItemTriggered(this);}
@@ -210,13 +213,13 @@ namespace FreeFit
             FreeFit::Data::InfoExerciseDemandHandler info_demand_handler;
         signals:
             void exerciseDownloaded(ExerciseItem* e);
-            void setExerciseStartTimeSignal(std::string);
-            void setExerciseEndTimeSignal(std::string);
-            void setExerciseSliderRange(int,int);
+            void setExerciseStartTimeSignal(ExerciseItem*,std::string);
+            void setExerciseEndTimeSignal(ExerciseItem*,std::string);
+            void setExerciseSliderRange(ExerciseItem*,int,int);
         public slots:
             void accept() override;
             void reject() override;
-            void exerciseUrlChanged(std::string);
+            void exerciseUrlChanged(ExerciseItem*,std::string);
         private slots:
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
