@@ -31,8 +31,22 @@ TEST_F(ProfileEditor,ReadXML)
     ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
     ASSERT_EQ(v->getProfile(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
     ASSERT_EQ(v->getProfile(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
-    d->open();
     d->resize(1024,640);
+    d->exec();
+}
+
+TEST_F(ProfileEditor,SelectionStyling)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
+    FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
+    d->open();
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
+    v->selectProfile(1);
+    ASSERT_EQ(v->getName(),"Constanze");
+    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
+    ASSERT_TRUE(v->getClipCSSString(0).find("background-color:red;") != std::string::npos);
+    ASSERT_TRUE(v->getClipCSSString(1).find("background-color:black;") != std::string::npos);
     d->reject();
 }
 

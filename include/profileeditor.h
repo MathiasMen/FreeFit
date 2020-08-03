@@ -109,6 +109,7 @@ namespace FreeFit
             }
             std::string getName(){return p->profile_name->text().toStdString();}
             std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
+            std::string getClipCSSString(int i){return p->profile_selection->profiles[i]->styleSheet().toStdString();}
         signals:
             void changeTextSignal(const QString&);
         private:
