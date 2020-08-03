@@ -27,7 +27,7 @@
       24.03.1994
     </DATELASTWORKOUT>
     <PATHEXDB>
-      ${CMAKE_SOURCE_DIR}/build/test/input/ReadXMLAndPopulateExerciseList2.xml
+      ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml
     </PATHEXDB>
     <PERFFACTOR>
       11,000000

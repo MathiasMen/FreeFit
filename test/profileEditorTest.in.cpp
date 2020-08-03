@@ -29,9 +29,11 @@ TEST_F(ProfileEditor,ReadXML)
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
     ASSERT_EQ(v->getProfile(0).getName(),"Mathias");
     ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
-    d->show();
+    ASSERT_EQ(v->getProfile(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
+    ASSERT_EQ(v->getProfile(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
+    d->open();
     d->resize(1024,640);
-    a.exec();
+    d->reject();
 }
 
 TEST_F(ProfileEditor,ChangeSelection)
