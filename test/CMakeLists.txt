@@ -1,6 +1,7 @@
 include(GoogleTest)
 
 set(test_include_dirs /usr/local/include ${CMAKE_SOURCE_DIR})
+set(linked_libs gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets Qt5::MultimediaWidgets)
 
 configure_file(youtubeDownloadTest.in.cpp ${CMAKE_CURRENT_SOURCE_DIR}/youtubeDownloadTest.cpp)
 add_executable( YoutubeDownloadTest
@@ -36,7 +37,7 @@ add_executable( ExerciseGUITest
                 ${moc_sources})                
 target_include_directories(ExerciseGUITest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseGUITest PUBLIC /usr/local/lib)
-target_link_libraries(ExerciseGUITest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineWidgets Qt5::MultimediaWidgets) 
+target_link_libraries(ExerciseGUITest ${linked_libs}) 
 
 add_executable( ProfileEditorTest
                 profileEditorTest.cpp
@@ -45,7 +46,7 @@ add_executable( ProfileEditorTest
                 ${moc_sources})                
 target_include_directories(ProfileEditorTest PUBLIC ${test_include_dirs})
 target_link_directories(ProfileEditorTest PUBLIC /usr/local/lib)
-target_link_libraries(ProfileEditorTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_link_libraries(ProfileEditorTest ${linked_libs}) 
 
 add_executable( WorkoutWidgetExerciseListTest
                 workoutWidgetExerciseListTest.cpp
@@ -54,7 +55,7 @@ add_executable( WorkoutWidgetExerciseListTest
                 ${moc_sources})                
 target_include_directories(WorkoutWidgetExerciseListTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutWidgetExerciseListTest PUBLIC /usr/local/lib)
-target_link_libraries(WorkoutWidgetExerciseListTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_link_libraries(WorkoutWidgetExerciseListTest ${linked_libs}) 
 
 add_executable( WorkoutGenerationTest
                 workoutGenerationTest.cpp
@@ -75,7 +76,7 @@ add_executable( ExerciseViewerTest
                 ${moc_sources})                
 target_include_directories(ExerciseViewerTest PUBLIC ${test_include_dirs})
 target_link_directories(ExerciseViewerTest PUBLIC /usr/local/lib)
-target_link_libraries(ExerciseViewerTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::MultimediaWidgets) 
+target_link_libraries(ExerciseViewerTest ${linked_libs}) 
 
 add_executable( WorkoutWidgetTest
                 workoutWidgetTest.cpp
@@ -84,7 +85,7 @@ add_executable( WorkoutWidgetTest
                 ${moc_sources})                
 target_include_directories(WorkoutWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutWidgetTest PUBLIC /usr/local/lib)
-target_link_libraries(WorkoutWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets Qt5::MultimediaWidgets) 
+target_link_libraries(WorkoutWidgetTest ${linked_libs}) 
 
 add_executable( WorkoutGenerationWidgetTest
                 workoutGenerationWidgetTest.cpp
@@ -93,7 +94,7 @@ add_executable( WorkoutGenerationWidgetTest
                 ${moc_sources})                
 target_include_directories(WorkoutGenerationWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(WorkoutGenerationWidgetTest PUBLIC /usr/local/lib)
-target_link_libraries(WorkoutGenerationWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_link_libraries(WorkoutGenerationWidgetTest ${linked_libs}) 
 
 add_executable( MaterialWidgetTest
                 materialWidgetTest.cpp
@@ -102,7 +103,7 @@ add_executable( MaterialWidgetTest
                 ${moc_sources})                
 target_include_directories(MaterialWidgetTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialWidgetTest PUBLIC /usr/local/lib)
-target_link_libraries(MaterialWidgetTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_link_libraries(MaterialWidgetTest ${linked_libs}) 
 
 add_executable( MaterialButtonTest
                 materialButtonTest.cpp
@@ -111,7 +112,7 @@ add_executable( MaterialButtonTest
                 ${moc_sources})                
 target_include_directories(MaterialButtonTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialButtonTest PUBLIC /usr/local/lib)
-target_link_libraries(MaterialButtonTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_link_libraries(MaterialButtonTest ${linked_libs}) 
 
 add_executable( MaterialSliderTest
                 materialSliderTest.cpp
@@ -120,7 +121,7 @@ add_executable( MaterialSliderTest
                 ${moc_sources})                
 target_include_directories(MaterialSliderTest PUBLIC ${test_include_dirs})
 target_link_directories(MaterialSliderTest PUBLIC /usr/local/lib)
-target_link_libraries(MaterialSliderTest gtest Qt5::Core Qt5::Gui Qt5::Widgets) 
+target_link_libraries(MaterialSliderTest ${linked_libs}) 
 
 add_test(NAME YoutubeDownload COMMAND YoutubeDownloadTest)
 add_test(NAME Datastructures COMMAND DataTest)
