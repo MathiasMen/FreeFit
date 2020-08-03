@@ -20,7 +20,7 @@ namespace FreeFit
                 MaterialClip* m = new MaterialClip(profile_name);
                 content_ly->addWidget(m);
                 profiles.push_back(m);
-                connect(m,SIGNAL(clicked(MaterialClip*)),this,SLOT(deselectOthers(MaterialClip*)));
+                //connect(m,SIGNAL(clicked(MaterialClip*)),this,SLOT(deselectOthers(MaterialClip*)));
                 connect(m,SIGNAL(clicked(MaterialClip*)),this,SLOT(select(MaterialClip*)));
             }
 
@@ -39,6 +39,7 @@ namespace FreeFit
 
             void ProfileSelection::selectProfile(int i)
             {
+                deselectOthers(profiles[i]);
                 select(profiles[i]);
             }
 

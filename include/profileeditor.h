@@ -28,6 +28,7 @@ namespace FreeFit
         class ProfileSelection : public QScrollArea
         {
         Q_OBJECT
+        friend ProfileEditorValidator;
         public:
             ProfileSelection(QWidget* parent);
             void addItem(QString profile_name);
@@ -61,6 +62,7 @@ namespace FreeFit
             void informationChanged();
             FreeFit::Data::Profile getCurrentlySelectedData();
         private:
+            ProfileSelection* getProfileSelection(){return profile_selection;}
             std::vector<FreeFit::Data::Profile> v_p;
             FreeFit::Data::ProfileXMLReader r;
             FreeFit::Data::ProfileWriter w;
@@ -87,8 +89,12 @@ namespace FreeFit
             int getNumberOfLoadedProfiles(){return p->v_p.size();}
             FreeFit::Data::Profile getProfile(int index){return p->v_p[index];}
 
+            void selectProfile(int i){p->getProfileSelection()->selectProfile(i);};
             void setName(std::string n){p->profile_name->setText(QString::fromStdString(n));}
             void setXMLOutPath(std::string f){p->w.setOutPath(f);}
+
+            std::string getName(){return p->profile_name->text().toStdString();}
+            std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
         private:
             ProfileEditor* p;
         };
