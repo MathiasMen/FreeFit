@@ -43,6 +43,8 @@ TEST_F(ProfileEditor,SelectionStyling)
     d->open();
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
     v->selectProfile(1);
+    v->selectProfile(0);
+    v->selectProfile(1);
     ASSERT_EQ(v->getName(),"Constanze");
     ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
     ASSERT_TRUE(v->getClipCSSString(0).find("background-color:red;") != std::string::npos);
