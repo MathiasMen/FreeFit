@@ -36,6 +36,24 @@ TEST_F(ProfileEditor,ReadXML)
     d->reject();
 }
 
+TEST_F(ProfileEditor,EditSelection)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
+    FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
+    d->open();
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
+    v->setName("MathiasTest");
+    v->setXMLOutPath("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
+    ASSERT_EQ(v->getName(),"MathiasTest");
+    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
+    ASSERT_EQ(v->getProfile(0).getName(),"MathiasTest");
+    ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
+    ASSERT_EQ(v->getProfile(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
+    ASSERT_EQ(v->getProfile(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
+    d->reject();
+}
+
 TEST_F(ProfileEditor,ChangeSelection)
 {
     QApplication a(my_argc,my_argv);
