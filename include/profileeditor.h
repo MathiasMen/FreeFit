@@ -104,7 +104,10 @@ namespace FreeFit
                 p->path_exercises_xml->setText(QString::fromStdString(f));
                 emit changeTextSignal(QString::fromStdString(f));
             }
-
+            void changeOutputPath(std::string f)
+            {
+                p->w.setOutPath(f);
+            }
             std::string getName(){return p->profile_name->text().toStdString();}
             std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
         signals:

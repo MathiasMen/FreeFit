@@ -93,7 +93,8 @@ TEST_F(ProfileEditor,WriteXML)
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
-    v->setXMLOutPath(out_path);
+    v->changeOutputPath(out_path);
+    v->setXMLOutPath("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
     v->setName("Mathias2");
     d->accept();
 
@@ -110,7 +111,7 @@ TEST_F(ProfileEditor,WriteXML)
     "      23.05.1989\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml\n"
+    "      ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      10,000000\n"
@@ -127,7 +128,7 @@ TEST_F(ProfileEditor,WriteXML)
     "      24.03.1994\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      ${CMAKE_SOURCE_DIR}/build/test/\n"
+    "      ${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      11,000000\n"
