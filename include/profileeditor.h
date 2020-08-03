@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <vector>
+#include <iostream>
 
 #include <QApplication>
 #include <QDialog>
@@ -81,8 +82,9 @@ namespace FreeFit
             QSpacerItem* horizontal_spacer_control;
         };
 
-        class ProfileEditorValidator
+        class ProfileEditorValidator : public QObject
         {
+        Q_OBJECT
         public:
             ProfileEditorValidator(ProfileEditor* t_p) : p(t_p){}
 
@@ -90,11 +92,21 @@ namespace FreeFit
             FreeFit::Data::Profile getProfile(int index){return p->v_p[index];}
 
             void selectProfile(int i){p->getProfileSelection()->selectProfile(i);};
-            void setName(std::string n){p->profile_name->setText(QString::fromStdString(n));}
-            void setXMLOutPath(std::string f){p->w.setOutPath(f);}
+            void setName(std::string n)
+            {
+                connect(this,SIGNAL(changeTextSignal(const QString&)),p->profile_name,SIGNAL(textEdited(const QString&)));
+                p->profile_name->setText(QString::fromStdString(n));
+                emit changeTextSignal(QString::fromStdString(n));
+            }
+            void setXMLOutPath(std::string f)
+            {
+                p->w.setOutPath(f);
+            }
 
             std::string getName(){return p->profile_name->text().toStdString();}
             std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
+        signals:
+            void changeTextSignal(const QString&);
         private:
             ProfileEditor* p;
         };
