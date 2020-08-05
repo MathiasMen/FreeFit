@@ -1,5 +1,5 @@
 #include "include/exerciseeditor.h"
-#include <iostream>
+
 namespace FreeFit
 {
     namespace GUI
@@ -90,12 +90,7 @@ namespace FreeFit
 
             int row_counter = -1;
             int col_counter = -1;
-/*
-            ly->addWidget(name_label,++row_counter,++col_counter);
-            ly->addWidget(url_label,++row_counter,col_counter);
-            ly->addWidget(start_time_label,++row_counter,col_counter);
-            ly->addWidget(stop_time_label,++row_counter,col_counter);
-*/
+
             row_counter = -1;
             ly->addWidget(name,++row_counter,++col_counter);
             ly->addWidget(url,++row_counter,col_counter);
