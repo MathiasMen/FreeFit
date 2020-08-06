@@ -7,8 +7,6 @@
 #include <QPainter>
 #include <QPen>
 
-#include <iostream>
-
 namespace FreeFit
 {
     namespace GUI

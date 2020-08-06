@@ -9,8 +9,6 @@
 #include <QStyle>
 #include <QPainter>
 
-#include <iostream>
-
 namespace FreeFit
 {
     namespace GUI

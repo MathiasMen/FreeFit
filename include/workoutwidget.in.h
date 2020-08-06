@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include <QWidget>
 #include <QGridLayout>
 #include <QHBoxLayout>

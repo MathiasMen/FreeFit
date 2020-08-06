@@ -13,7 +13,6 @@
 #include <QRegExp>
 
 #include <functional>
-#include <iostream>
 #include <regex>
 
 namespace FreeFit

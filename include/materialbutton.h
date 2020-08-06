@@ -8,7 +8,6 @@
 #include <QTimer>
 #include <QRadialGradient>
 
-#include <iostream>
 #include <functional>
 
 namespace FreeFit
