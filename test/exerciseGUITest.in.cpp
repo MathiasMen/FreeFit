@@ -254,6 +254,16 @@ TEST_F(ExerciseEditor,NewExercisesEditTags)
     ASSERT_TRUE(v.isFirstNewExerciseMuscleAreaSelected(2));
     ASSERT_TRUE(v.isLastNewExerciseMuscleAreaSelected(1));
     ASSERT_TRUE(v.isLastNewExerciseMuscleAreaSelected(3));
+
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
+    v.setLastNewExerciseMuscleArea(1);
+    v.setLastNewExerciseMuscleArea(3);
+
+    ASSERT_FALSE(v.isFirstNewExerciseMuscleAreaSelected(0));
+    ASSERT_FALSE(v.isFirstNewExerciseMuscleAreaSelected(2));
+    ASSERT_FALSE(v.isLastNewExerciseMuscleAreaSelected(1));
+    ASSERT_FALSE(v.isLastNewExerciseMuscleAreaSelected(3));
     e->accept();
 }
 
