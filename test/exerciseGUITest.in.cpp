@@ -236,6 +236,27 @@ TEST_F(ExerciseEditor,NewExercisesEditText)
     e->accept();
 }
 
+TEST_F(ExerciseEditor,NewExercisesEditTags)
+{
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    e->open();
+    v.pushAddButton();
+    v.pushAddButton();
+
+    v.setFirstNewExerciseMuscleArea(0);
+    v.setFirstNewExerciseMuscleArea(2);
+    v.setLastNewExerciseMuscleArea(1);
+    v.setLastNewExerciseMuscleArea(3);
+
+    ASSERT_TRUE(v.isFirstNewExerciseMuscleAreaSelected(0));
+    ASSERT_TRUE(v.isFirstNewExerciseMuscleAreaSelected(2));
+    ASSERT_TRUE(v.isLastNewExerciseMuscleAreaSelected(1));
+    ASSERT_TRUE(v.isLastNewExerciseMuscleAreaSelected(3));
+    e->accept();
+}
+
 TEST_F(ExerciseEditor,DownloadClicked)
 {
     std::string ex_name = "Pushup";

@@ -597,6 +597,18 @@ namespace FreeFit
             return e->url->text().toStdString();
         }
 
+        bool ExerciseEditorValidator::isFirstNewExerciseMuscleAreaSelected(int id)
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
+            return e->hashtag_labels[id]->isToggled();
+        }
+
+        bool ExerciseEditorValidator::isLastNewExerciseMuscleAreaSelected(int id)
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
+            return e->hashtag_labels[id]->isToggled();
+        }
+
         bool ExerciseEditorValidator::isFirstNewExerciseNameValid()
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
