@@ -573,6 +573,30 @@ namespace FreeFit
             e->hashtag_labels[id]->clicked();
         }
 
+        std::string ExerciseEditorValidator::getFirstNewExerciseNameText()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
+            return e->name->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getFirstNewExerciseURLText()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
+            return e->url->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getLastNewExerciseNameText()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
+            return e->name->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getLastNewExerciseURLText()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
+            return e->url->text().toStdString();
+        }
+
         bool ExerciseEditorValidator::isFirstNewExerciseNameValid()
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());

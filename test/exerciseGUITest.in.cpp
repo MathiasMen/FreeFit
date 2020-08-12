@@ -209,6 +209,33 @@ TEST_F(ExerciseEditor,ValidateFunctionURLWrong)
     e->accept();
 }
 
+TEST_F(ExerciseEditor,NewExercisesEditText)
+{
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    e->open();
+    v.pushAddButton();
+    v.pushAddButton();
+
+    std::string first_exercise_name = "Pushup";
+    std::string second_exercise_name = "Pushup";
+    std::string first_exercise_url = "http://www.youtube.com/watch?v=BxIUwbb1Nzg";
+    std::string second_exercise_url = "http://www.youtube.com/watch?v=BxIUwbb1Nzh";
+
+    v.setFirstNewExerciseNameText(first_exercise_name);
+    v.setLastNewExerciseNameText(second_exercise_name);
+    v.setFirstNewExerciseURLText(first_exercise_url);
+    v.setLastNewExerciseURLText(second_exercise_url);
+
+    ASSERT_EQ(v.getFirstNewExerciseNameText(),first_exercise_name);
+    ASSERT_EQ(v.getLastNewExerciseNameText(),second_exercise_name);
+    ASSERT_EQ(v.getFirstNewExerciseURLText(),first_exercise_url);
+    ASSERT_EQ(v.getLastNewExerciseURLText(),second_exercise_url);
+
+    e->accept();
+}
+
 TEST_F(ExerciseEditor,DownloadClicked)
 {
     std::string ex_name = "Pushup";
@@ -252,7 +279,7 @@ TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
     e->accept();
 }
 
-TEST_F(ExerciseEditor, XMLOutput)
+TEST_F(ExerciseEditor,XMLOutput)
 {
     std::string ex_name = "Situp";
     std::string ex_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
@@ -317,7 +344,7 @@ TEST_F(ExerciseEditor, XMLOutput)
     ASSERT_EQ(ss.str(),expected_exercises_xml);
 }
 
-TEST_F(ExerciseEditor, AddExerciseToExistingXML)
+TEST_F(ExerciseEditor,AddExerciseToExistingXML)
 {
     std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/AddExerciseToExistingXML.xml";
     std::ofstream out_file(out_path,std::ios::trunc);
