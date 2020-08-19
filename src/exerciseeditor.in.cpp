@@ -645,6 +645,42 @@ namespace FreeFit
             return e->url->validateText();
         }
 
+        void ExerciseEditorValidator::setFirstOldExerciseNameText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->name->setText(QString::fromStdString(s));
+        }
+        
+        void ExerciseEditorValidator::setFirstOldExerciseURLText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->url->setText(QString::fromStdString(s));
+        }
+
+        void ExerciseEditorValidator::setFirstOldExerciseMuscleArea(int id)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            e->hashtag_labels[id]->clicked();
+        }
+
+        void ExerciseEditorValidator::setLastOldExerciseNameText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->name->setText(QString::fromStdString(s));
+        }
+
+        void ExerciseEditorValidator::setLastOldExerciseURLText(std::string s)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->url->setText(QString::fromStdString(s));
+        }
+
+        void ExerciseEditorValidator::setLastOldExerciseMuscleArea(int id)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            e->hashtag_labels[id]->clicked();
+        }
+
         std::string ExerciseEditorValidator::getFirstOldExerciseNameText()
         {
             ExerciseItem* e = *(ee->exercise_items.begin());

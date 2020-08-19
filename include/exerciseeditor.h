@@ -246,6 +246,7 @@ namespace FreeFit
             std::shared_ptr<DownloadExerciseDemand> getFirstExerciseDemand();
 
             void setOutPath(std::string s);
+
             void setFirstNewExerciseNameText(std::string s);
             void setFirstNewExerciseURLText(std::string s);
             void setFirstNewExerciseMuscleArea(int id);
@@ -265,6 +266,12 @@ namespace FreeFit
             bool isFirstNewExerciseNameValid();
             bool isFirstNewExerciseURLValid();
 
+            void setFirstOldExerciseNameText(std::string s);
+            void setFirstOldExerciseURLText(std::string s);
+            void setFirstOldExerciseMuscleArea(int id);
+            void setLastOldExerciseNameText(std::string s);
+            void setLastOldExerciseURLText(std::string s);
+            void setLastOldExerciseMuscleArea(int id);
             std::string getFirstOldExerciseNameText();
             std::string getFirstOldExerciseURLText();
             std::string getFirstOldExerciseStartTime();
