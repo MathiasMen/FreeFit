@@ -374,6 +374,42 @@ TEST_F(ExerciseEditor,OldExercisesEditText)
     e->accept();
 }
 
+TEST_F(ExerciseEditor,OldExercisesEditTags)
+{
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ReadXMLAndPopulateExerciseListOut.xml");
+    e->open();
+    ASSERT_EQ(v.getNumberOfExercises(),2);
+
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(0));
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(2));
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(3));
+    ASSERT_TRUE(v.isLastOldExerciseMuscleAreaSelected(3));
+
+    v.setFirstOldExerciseMuscleArea(0);
+    v.setFirstOldExerciseMuscleArea(2);
+    v.setFirstOldExerciseMuscleArea(3);
+    v.setLastOldExerciseMuscleArea(3);
+
+    ASSERT_FALSE(v.isFirstOldExerciseMuscleAreaSelected(0));
+    ASSERT_FALSE(v.isFirstOldExerciseMuscleAreaSelected(2));
+    ASSERT_FALSE(v.isFirstOldExerciseMuscleAreaSelected(3));
+    ASSERT_FALSE(v.isLastOldExerciseMuscleAreaSelected(3));
+
+    v.setFirstOldExerciseMuscleArea(1);
+    v.setFirstOldExerciseMuscleArea(3);
+    v.setLastOldExerciseMuscleArea(1);
+    v.setLastOldExerciseMuscleArea(2);
+
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(1));
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(3));
+    ASSERT_TRUE(v.isLastOldExerciseMuscleAreaSelected(1));
+    ASSERT_TRUE(v.isLastOldExerciseMuscleAreaSelected(2));
+    e->accept();
+}
+
 TEST_F(ExerciseEditor,XMLOutput)
 {
     std::string ex_name = "Situp";
