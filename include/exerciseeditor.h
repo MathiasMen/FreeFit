@@ -254,8 +254,12 @@ namespace FreeFit
             void setLastNewExerciseMuscleArea(int id);
             std::string getFirstNewExerciseNameText();
             std::string getFirstNewExerciseURLText();
+            std::string getFirstNewExerciseStartTime();
+            std::string getFirstNewExerciseStopTime();
             std::string getLastNewExerciseNameText();
             std::string getLastNewExerciseURLText();
+            std::string getLastNewExerciseStartTime();
+            std::string getLastNewExerciseStopTime();
             bool isFirstNewExerciseMuscleAreaSelected(int id);
             bool isLastNewExerciseMuscleAreaSelected(int id);
             bool isFirstNewExerciseNameValid();
@@ -263,8 +267,12 @@ namespace FreeFit
 
             std::string getFirstOldExerciseNameText();
             std::string getFirstOldExerciseURLText();
+            std::string getFirstOldExerciseStartTime();
+            std::string getFirstOldExerciseStopTime();
             std::string getLastOldExerciseNameText();
             std::string getLastOldExerciseURLText();
+            std::string getLastOldExerciseStartTime();
+            std::string getLastOldExerciseStopTime();
             bool isFirstOldExerciseMuscleAreaSelected(int id);
             bool isLastOldExerciseMuscleAreaSelected(int id);
             bool isFirstOldExerciseNameValid();

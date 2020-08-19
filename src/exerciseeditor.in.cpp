@@ -585,6 +585,18 @@ namespace FreeFit
             return e->url->text().toStdString();
         }
 
+        std::string ExerciseEditorValidator::getFirstNewExerciseStartTime()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
+            return e->getVideoStartTime();
+        }
+
+        std::string ExerciseEditorValidator::getFirstNewExerciseStopTime()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.begin());
+            return e->getVideoEndTime();            
+        }
+
         std::string ExerciseEditorValidator::getLastNewExerciseNameText()
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
@@ -595,6 +607,18 @@ namespace FreeFit
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             return e->url->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getLastNewExerciseStartTime()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
+            return e->getVideoStartTime();
+        }
+
+        std::string ExerciseEditorValidator::getLastNewExerciseStopTime()
+        {
+            ExerciseItem* e = *(ee->new_exercise_items.rbegin());
+            return e->getVideoEndTime();            
         }
 
         bool ExerciseEditorValidator::isFirstNewExerciseMuscleAreaSelected(int id)
@@ -633,6 +657,18 @@ namespace FreeFit
             return e->url->text().toStdString();
         }
 
+        std::string ExerciseEditorValidator::getFirstOldExerciseStartTime()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->getVideoStartTime();
+        }
+
+        std::string ExerciseEditorValidator::getFirstOldExerciseStopTime()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->getVideoEndTime();            
+        }
+
         std::string ExerciseEditorValidator::getLastOldExerciseNameText()
         {
             ExerciseItem* e = *(ee->exercise_items.rbegin());
@@ -643,6 +679,18 @@ namespace FreeFit
         {
             ExerciseItem* e = *(ee->exercise_items.rbegin());
             return e->url->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getLastOldExerciseStartTime()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->getVideoStartTime();
+        }
+
+        std::string ExerciseEditorValidator::getLastOldExerciseStopTime()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->getVideoEndTime();            
         }
 
         bool ExerciseEditorValidator::isFirstOldExerciseMuscleAreaSelected(int id)
