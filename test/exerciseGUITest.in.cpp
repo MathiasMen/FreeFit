@@ -236,6 +236,28 @@ TEST_F(ExerciseEditor,NewExercisesEditText)
     e->accept();
 }
 
+TEST_F(ExerciseEditor,NewExercisesEditUrl)
+{
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.pushAddButton();
+    v.pushAddButton();
+
+    std::string first_exercise_url = "https://www.youtube.com/watch?v=IODxDxX7oi4";
+    std::string second_exercise_url = "https://www.youtube.com/watch?v=1fbU_MkV7NE";
+
+    v.setFirstNewExerciseURLText(first_exercise_url);
+    v.setLastNewExerciseURLText(second_exercise_url);
+
+    ASSERT_EQ(v.getFirstNewExerciseStartTime(),"00:00");
+    ASSERT_EQ(v.getFirstNewExerciseStopTime(),"03:37");
+
+    ASSERT_EQ(v.getLastNewExerciseStartTime(),"00:00");
+    ASSERT_EQ(v.getLastNewExerciseStopTime(),"01:43");
+    e->accept();
+}
+
 TEST_F(ExerciseEditor,NewExercisesEditTags)
 {
     p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
