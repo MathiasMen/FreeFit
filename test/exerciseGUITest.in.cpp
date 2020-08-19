@@ -307,6 +307,17 @@ TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
     v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ReadXMLAndPopulateExerciseListOut.xml");
     e->open();
     ASSERT_EQ(v.getNumberOfExercises(),2);
+
+    ASSERT_EQ(v.getFirstOldExerciseNameText(),"Pushup");
+    ASSERT_EQ(v.getFirstOldExerciseURLText(),"https://www.youtube.com/watch?v=-kwe1EOiWMY");
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(0));
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(2));
+    ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(3));
+
+    ASSERT_EQ(v.getLastOldExerciseNameText(),"Situp");
+    ASSERT_EQ(v.getLastOldExerciseURLText(),"https://www.youtube.com/watch?v=l5YsDbLN43Y");
+    ASSERT_TRUE(v.isLastOldExerciseMuscleAreaSelected(3));
+
     e->accept();
 }
 

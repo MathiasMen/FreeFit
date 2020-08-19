@@ -13,10 +13,10 @@
       ${CMAKE_SOURCE_DIR}/build/test/Pushup_0_0.jpg
     </THUMBNAILPATH>
     <VIDEOSTARTTIME>
-      0
+      1
     </VIDEOSTARTTIME>
     <VIDEOENDTIME>
-      0
+      10
     </VIDEOENDTIME>
     <TRAINEDAREAS>
       <AREA>
