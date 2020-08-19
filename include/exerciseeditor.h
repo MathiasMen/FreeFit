@@ -20,6 +20,7 @@
 #include <QMovie>
 #include <QSpacerItem>
 #include <QMessageBox>
+#include <QProgressDialog>
 
 #include <set>
 #include <functional>

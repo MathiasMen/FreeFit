@@ -413,13 +413,12 @@ TEST_F(ExerciseEditor,OldExercisesEditTags)
 TEST_F(ExerciseEditor,XMLOutput)
 {
     std::string ex_name = "Situp";
-    std::string ex_url = "https://www.youtube.com/watch?v=O-3uPB3fgys";
+    std::string ex_url = "https://www.youtube.com/watch?v=1fbU_MkV7NE";
     
     std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/XMLOutput.xml";
     const int result = std::remove(out_path.c_str());
     p.setPathToExerciseDB(out_path);
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
-
     FreeFit::GUI::ExerciseEditorValidator v(e);
     out_path = "${CMAKE_SOURCE_DIR}/build/test/XMLOutputOut.xml";
     v.setOutPath(out_path);
@@ -427,7 +426,6 @@ TEST_F(ExerciseEditor,XMLOutput)
     v.setFirstNewExerciseURLText(ex_url);
     v.setFirstNewExerciseMuscleArea(0);
     v.setFirstNewExerciseMuscleArea(2);
-
     v.pushDownloadAllButton();
 
     e->accept();
@@ -439,19 +437,19 @@ TEST_F(ExerciseEditor,XMLOutput)
     "      Situp\n"
     "    </NAME>\n"
     "    <VIDEOURL>\n"
-    "      https://www.youtube.com/watch?v=O-3uPB3fgys\n"
+    "      https://www.youtube.com/watch?v=1fbU_MkV7NE\n"
     "    </VIDEOURL>\n"
     "    <VIDEOPATH>\n"
-    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53_resized.mp4\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_0_103.mp4\n"
     "    </VIDEOPATH>\n"
     "    <THUMBNAILPATH>\n"
-    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_50_53.jpg\n"
+    "      ${CMAKE_SOURCE_DIR}/build/test/Situp_0_103.jpg\n"
     "    </THUMBNAILPATH>\n"
     "    <VIDEOSTARTTIME>\n"
-    "      50\n"
+    "      0\n"
     "    </VIDEOSTARTTIME>\n"
     "    <VIDEOENDTIME>\n"
-    "      53\n"
+    "      103\n"
     "    </VIDEOENDTIME>\n"
     "    <TRAINEDAREAS>\n"
     "      <AREA>\n"
@@ -464,14 +462,12 @@ TEST_F(ExerciseEditor,XMLOutput)
     "  </EXERCISE>\n"
     "</EXERCISES>\n";
 
-    std::ifstream f1("${CMAKE_SOURCE_DIR}/build/test/Situp_50_53_resized.mp4");
-    std::ifstream f2("${CMAKE_SOURCE_DIR}/build/test/Situp_50_53.mp4");
-    std::ifstream f3(out_path);
+    std::ifstream f1("${CMAKE_SOURCE_DIR}/build/test/Situp_0_103.mp4");
+    std::ifstream f2(out_path);
     std::stringstream ss;
-    ss << f3.rdbuf();
+    ss << f2.rdbuf();
 
     ASSERT_TRUE(f1.is_open());
-    ASSERT_TRUE(f2.is_open());
     ASSERT_EQ(ss.str(),expected_exercises_xml);
 }
 

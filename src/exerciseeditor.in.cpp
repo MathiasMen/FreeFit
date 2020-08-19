@@ -484,16 +484,14 @@ namespace FreeFit
         {
             if(e->inputIsValid())
             {
-                auto f = [this,e]
-                {
-                    FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
-                    e->setVideoPath(e_dat.getVideoPath());
-                    e->setThumbnailPath(e_dat.getThumbnailPath());
-                    emit exerciseDownloaded(e);
-                };
-                e->showWaitingSymbol();
-                std::thread t = std::thread(f);
-                t.detach();
+                QProgressDialog progress("Downloading files...", QString(), 0, 1, this);
+                progress.setWindowModality(Qt::WindowModal);     
+                progress.show();
+
+                FreeFit::Data::Exercise e_dat = demand_handler.executeDemand(generateDownloadExerciseDemand(e));
+                e->setVideoPath(e_dat.getVideoPath());
+                e->setThumbnailPath(e_dat.getThumbnailPath());
+                emit exerciseDownloaded(e);
                 return true;
             }
             else
@@ -505,7 +503,8 @@ namespace FreeFit
         
         void ExerciseEditor::downloadAllExercises()
         {
-            for(auto e : new_exercise_items)
+            std::list<ExerciseItem*> tmp_exercise_list = new_exercise_items;
+            for(auto e : tmp_exercise_list)
                 downloadExercise(e);
         }
 
