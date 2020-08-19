@@ -313,10 +313,14 @@ TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
     ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(0));
     ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(2));
     ASSERT_TRUE(v.isFirstOldExerciseMuscleAreaSelected(3));
+    ASSERT_EQ(v.getFirstOldExerciseStartTime(),"00:01");
+    ASSERT_EQ(v.getFirstOldExerciseStopTime(),"00:10");
 
     ASSERT_EQ(v.getLastOldExerciseNameText(),"Situp");
     ASSERT_EQ(v.getLastOldExerciseURLText(),"https://www.youtube.com/watch?v=l5YsDbLN43Y");
     ASSERT_TRUE(v.isLastOldExerciseMuscleAreaSelected(3));
+    ASSERT_EQ(v.getLastOldExerciseStartTime(),"00:02");
+    ASSERT_EQ(v.getLastOldExerciseStopTime(),"00:05");
 
     e->accept();
 }
