@@ -347,6 +347,33 @@ TEST_F(ExerciseEditor,ReadXMLAndPopulateExerciseList)
     e->accept();
 }
 
+TEST_F(ExerciseEditor,OldExercisesEditText)
+{
+    p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
+    FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
+    FreeFit::GUI::ExerciseEditorValidator v(e);
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/ReadXMLAndPopulateExerciseListOut.xml");
+    e->open();
+    ASSERT_EQ(v.getNumberOfExercises(),2);
+
+    std::string first_exercise_name = "Pushup";
+    std::string second_exercise_name = "Pushup";
+    std::string first_exercise_url = "http://www.youtube.com/watch?v=BxIUwbb1Nzg";
+    std::string second_exercise_url = "http://www.youtube.com/watch?v=BxIUwbb1Nzh";
+
+    v.setFirstOldExerciseNameText(first_exercise_name);
+    v.setLastOldExerciseNameText(second_exercise_name);
+    v.setFirstOldExerciseURLText(first_exercise_url);
+    v.setLastOldExerciseURLText(second_exercise_url);
+
+    ASSERT_EQ(v.getFirstOldExerciseNameText(),first_exercise_name);
+    ASSERT_EQ(v.getLastOldExerciseNameText(),second_exercise_name);
+    ASSERT_EQ(v.getFirstOldExerciseURLText(),first_exercise_url);
+    ASSERT_EQ(v.getLastOldExerciseURLText(),second_exercise_url);
+
+    e->accept();
+}
+
 TEST_F(ExerciseEditor,XMLOutput)
 {
     std::string ex_name = "Situp";
