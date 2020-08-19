@@ -621,6 +621,66 @@ namespace FreeFit
             return e->url->validateText();
         }
 
+        std::string ExerciseEditorValidator::getFirstOldExerciseNameText()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->name->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getFirstOldExerciseURLText()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->url->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getLastOldExerciseNameText()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->name->text().toStdString();
+        }
+
+        std::string ExerciseEditorValidator::getLastOldExerciseURLText()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->url->text().toStdString();
+        }
+
+        bool ExerciseEditorValidator::isFirstOldExerciseMuscleAreaSelected(int id)
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->hashtag_labels[id]->isToggled();
+        }
+
+        bool ExerciseEditorValidator::isLastOldExerciseMuscleAreaSelected(int id)
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->hashtag_labels[id]->isToggled();
+        }
+
+        bool ExerciseEditorValidator::isFirstOldExerciseNameValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->name->validateText();
+        }
+
+        bool ExerciseEditorValidator::isLastOldExerciseNameValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->name->validateText();
+        }
+
+        bool ExerciseEditorValidator::isFirstOldExerciseURLValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.begin());
+            return e->url->validateText();
+        }
+
+        bool ExerciseEditorValidator::isLastOldExerciseURLValid()
+        {
+            ExerciseItem* e = *(ee->exercise_items.rbegin());
+            return e->url->validateText();
+        }
+
         void ExerciseEditorValidator::connectToDownloadSignalsOfItems()
         {
             connect(ee,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(saveDemandFromDownloadClicked(ExerciseItem*)));

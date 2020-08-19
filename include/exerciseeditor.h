@@ -260,6 +260,18 @@ namespace FreeFit
             bool isLastNewExerciseMuscleAreaSelected(int id);
             bool isFirstNewExerciseNameValid();
             bool isFirstNewExerciseURLValid();
+
+            std::string getFirstOldExerciseNameText();
+            std::string getFirstOldExerciseURLText();
+            std::string getLastOldExerciseNameText();
+            std::string getLastOldExerciseURLText();
+            bool isFirstOldExerciseMuscleAreaSelected(int id);
+            bool isLastOldExerciseMuscleAreaSelected(int id);
+            bool isFirstOldExerciseNameValid();
+            bool isFirstOldExerciseURLValid();
+            bool isLastOldExerciseNameValid();
+            bool isLastOldExerciseURLValid();
+
             void connectToDownloadSignalsOfItems();
             void pushDownloadAllButton();
             void pushFirstDeleteButtonOldExercises();
