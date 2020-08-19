@@ -399,7 +399,7 @@ namespace FreeFit
                 mins += s[0];
             }
             else if (colon_pos == 2)
-                mins = s.substr(0,1);
+                mins = s.substr(0,2);
             else
                 mins = "00";
             secs = s.substr(colon_pos+1,colon_pos+2);
