@@ -34,5 +34,25 @@ TEST_F(WorkoutWidget,Launch)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w,nullptr);
-    ww->show();
+    ww->open();
+    ww->accept();
+}
+
+TEST_F(WorkoutWidget,TimingUpdate)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w,nullptr);
+    FreeFit::GUI::WorkoutWidgetValidator v(ww);
+    v.clickPlayButton();
+    ASSERT_NEAR(v.remainingTimeExercise(),40,1);    
+    int last_time = 40;
+    bool success = true;
+    while (v.remainingTimeExercise() != 0)
+        if (v.remainingTimeExercise() != last_time)
+        {
+            if (v.remainingTimeExercise() != last_time - 1)
+                success = false;
+            last_time = v.remainingTimeExercise();
+        }
+    ASSERT_TRUE(success);    
 }
