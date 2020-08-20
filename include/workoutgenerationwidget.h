@@ -73,9 +73,15 @@ namespace FreeFit
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
                 all_exercises_workout = new WorkoutOption("All Exercises",w1,this);
-                all_exercises_workout->setChecked(true);
                 ly->addWidget(all_exercises_workout,1,0);
                 workout_options.push_back(all_exercises_workout);
+
+                std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
+                filtered_exercises_workout = new WorkoutOption("Filtered by muscle groups",w2,this);
+                ly->addWidget(filtered_exercises_workout,2,0);
+                workout_options.push_back(filtered_exercises_workout);
+
+                all_exercises_workout->setChecked(true);
 
                 connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutGenerationWidget::numberOfRoundsChanged);
                 number_of_rounds->setText(QString::fromStdString(std::to_string(3)));
@@ -129,6 +135,7 @@ namespace FreeFit
         private:
             QGridLayout* ly;
             WorkoutOption* all_exercises_workout;
+            WorkoutOption* filtered_exercises_workout;
             QIntValidator* int_validator;
             MaterialTextField* number_of_rounds;
             std::list<WorkoutOption*> workout_options;
