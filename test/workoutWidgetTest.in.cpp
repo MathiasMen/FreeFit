@@ -56,3 +56,23 @@ TEST_F(WorkoutWidget,TimingUpdate)
         }
     ASSERT_TRUE(success);    
 }
+
+TEST_F(WorkoutWidget,EndNotification)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutWidget* ww = new FreeFit::GUI::WorkoutWidget(w,nullptr);
+    FreeFit::GUI::WorkoutWidgetValidator v(ww);
+    v.clickPlayButton();
+    ASSERT_NEAR(v.remainingTimeExercise(),40,1);
+    ASSERT_NEAR(v.remainingTimeNotification(),37,1);
+    int last_time = 37;
+    bool success = true;
+    while (v.remainingTimeNotification() != 0)
+        if (v.remainingTimeNotification() != last_time)
+        {
+            if (v.remainingTimeNotification() != last_time - 1)
+                success = false;
+            last_time = v.remainingTimeNotification();
+        }
+    ASSERT_TRUE(success);    
+}

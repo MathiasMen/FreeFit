@@ -41,6 +41,8 @@ namespace FreeFit
 
             int getRemainingTime(){return int(exercise_duration_timer->remainingTime()/1000);}
 
+            int getRemainingTimeNotification(){return int(notification_timer->remainingTime()/1000);}
+
             void startTimer(unsigned int seconds)
             {
                 current_time = seconds;
@@ -298,12 +300,12 @@ namespace FreeFit
             Q_OBJECT
             public:
                 WorkoutWidgetValidator(WorkoutWidget* t_w) : ww(t_w){}
-                void connectToTimer()
-                {
-                }
+                
                 void clickPlayButton(){ww->control->play_button->click();}
 
                 int remainingTimeExercise(){return ww->timer->getRemainingTime();}
+
+                int remainingTimeNotification(){return ww->timer->getRemainingTimeNotification();}
             private:
                 WorkoutWidget* ww;
         };
