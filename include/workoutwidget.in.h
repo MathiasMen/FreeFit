@@ -21,9 +21,12 @@ namespace FreeFit
 {
     namespace GUI
     {
+        class WorkoutWidgetValidator;
+
         class WorkoutWidgetTimer : public QWidget
         {
             Q_OBJECT
+            friend WorkoutWidgetValidator;
         public:
             WorkoutWidgetTimer(int start_time, QWidget* parent) : QWidget(parent),
                 line_width(5), angle_factor(16), start_angle(90*angle_factor), current_time(start_time)
@@ -31,7 +34,7 @@ namespace FreeFit
                 exercise_duration_timer = new QTimer(this);
                 notification_timer = new QTimer(this);
                 update_interval_timer = new QTimer(this);
-                update_interval_timer->setInterval(20);
+                update_interval_timer->setInterval(50);
                 this->setMinimumSize(100,100);
                 this->setMaximumSize(100,100);
             }
@@ -121,6 +124,7 @@ namespace FreeFit
         class WorkoutWidgetControl : public QWidget
         {
             Q_OBJECT
+            friend WorkoutWidgetValidator;
         public:
             WorkoutWidgetControl(QWidget* parent = nullptr)
             {
@@ -135,6 +139,7 @@ namespace FreeFit
                 ly->addWidget(recreate_button);
                 ly->addWidget(play_button);
             }
+
             void showPlayIcon()
             {
                 play_button->setText("play");
@@ -157,6 +162,7 @@ namespace FreeFit
         class WorkoutWidget : public MaterialDialog
         {
             Q_OBJECT
+            friend WorkoutWidgetValidator;
         public:
             WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : MaterialDialog(t_p),w(t_w) 
             {
@@ -285,6 +291,21 @@ namespace FreeFit
 
             int memory_exercise_time = 0;
             int pause_time = 10;
+        };
+
+        class WorkoutWidgetValidator : public QObject
+        {
+            Q_OBJECT
+            public:
+                WorkoutWidgetValidator(WorkoutWidget* t_w) : ww(t_w){}
+                void connectToTimer()
+                {
+                }
+                void clickPlayButton(){ww->control->play_button->click();}
+
+                int remainingTimeExercise(){return ww->timer->getRemainingTime();}
+            private:
+                WorkoutWidget* ww;
         };
     }
 }
