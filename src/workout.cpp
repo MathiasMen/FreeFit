@@ -34,6 +34,11 @@ namespace FreeFit
             return std::list<MuscleGroup>{MuscleGroup::Shoulder};
         }
 
+        FilteredByMusclesWorkout::FilteredByMusclesWorkout(std::list<Exercise> t_possible_exercises) : WorkoutBase(t_possible_exercises,3)
+        {
+
+        }
+
         void FilteredByMusclesWorkout::generateExercises()
         {
             for(Exercise e : possible_exercises)

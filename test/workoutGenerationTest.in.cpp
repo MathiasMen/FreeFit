@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 
 #include <list>
+#include <set>
 
+#include "include/datadefinitions.h"
 #include "include/workout.h"
 #include "include/xmlreader.h"
 
@@ -33,4 +35,14 @@ TEST_F(WorkoutTestObject,Launch)
     w->generate();
     ASSERT_EQ(w->getExercisesPerRound().size(),2);
     ASSERT_EQ(w->getRounds(),3);
+}
+
+TEST_F(WorkoutTestObject,FilteredWorkout)
+{
+    FreeFit::Data::FilteredByMusclesWorkout* w_filtered = new FreeFit::Data::FilteredByMusclesWorkout(r->getExerciseList());
+    std::set<FreeFit::Data::MuscleGroup> selected_areas {FreeFit::Data::stringToMuscleGroup("Back")};
+    w_filtered->setSelectedAreas(selected_areas);
+    w_filtered->generate();
+    ASSERT_EQ(w_filtered->getExercisesPerRound().size(),1);
+    ASSERT_EQ(w_filtered->getRounds(),3);
 }
