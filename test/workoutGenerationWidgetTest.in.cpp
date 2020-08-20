@@ -55,7 +55,7 @@ TEST_F(WorkoutGenerationWidgetTest,Launch)
     FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
     w->setPossibleExercises(e_dat);
     w->show();
-    a.exec();
+    w->accept();
 }
 
 TEST_F(WorkoutGenerationWidgetTest,Generate)

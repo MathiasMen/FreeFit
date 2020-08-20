@@ -69,7 +69,6 @@ namespace FreeFit
                 number_of_rounds = new MaterialTextField("Number of rounds",this);
                 int_validator = new QIntValidator(1,50,this);
                 number_of_rounds->setValidator(int_validator);
-                connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutGenerationWidget::numberOfRoundsChanged);
                 ly->addWidget(number_of_rounds,0,0);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
@@ -77,6 +76,9 @@ namespace FreeFit
                 all_exercises_workout->setChecked(true);
                 ly->addWidget(all_exercises_workout,1,0);
                 workout_options.push_back(all_exercises_workout);
+
+                connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutGenerationWidget::numberOfRoundsChanged);
+                number_of_rounds->setText(QString::fromStdString(std::to_string(3)));
 
                 next_page_button = new ControlButton("Workout",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
