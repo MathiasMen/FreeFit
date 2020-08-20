@@ -33,15 +33,18 @@ namespace FreeFit
 
         bool MaterialTextField::validateText()
         {
-            if(!validate_function(text().toStdString()))
+            if (validate_function != nullptr)
             {
-                highlightAsInvalid();
-                return false;
-            }
-            else
-            {
-                highlightAsValid();
-                return true;
+                if(!validate_function(text().toStdString()))
+                {
+                    highlightAsInvalid();
+                    return false;
+                }
+                else
+                {
+                    highlightAsValid();
+                    return true;
+                }
             }
         }
 
