@@ -22,8 +22,11 @@ namespace FreeFit
 {
     namespace GUI
     {
+        class WorkoutGenerationWidgetValidator;
+
         class WorkoutOption : public QRadioButton
         {
+            friend WorkoutGenerationWidgetValidator;
         public:
             WorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : QRadioButton(text,parent), workout_data(w){}
 
@@ -33,6 +36,8 @@ namespace FreeFit
             }
         
             std::list<FreeFit::Data::Exercise> getExercisesPerRound(){return workout_data->getExercisesPerRound();}
+
+            void setRounds(unsigned int r){workout_data->setRounds(r);}
 
             unsigned int getRounds(){return workout_data->getRounds();}
 
@@ -54,6 +59,7 @@ namespace FreeFit
 
         class WorkoutGenerationWidget : public MaterialDialog
         {
+            friend WorkoutGenerationWidgetValidator;
         Q_OBJECT
         public:
             WorkoutGenerationWidget(QWidget* parent = nullptr) : MaterialDialog(parent)
@@ -63,6 +69,7 @@ namespace FreeFit
                 number_of_rounds = new MaterialTextField("Number of rounds",this);
                 int_validator = new QIntValidator(1,50,this);
                 number_of_rounds->setValidator(int_validator);
+                connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutGenerationWidget::numberOfRoundsChanged);
                 ly->addWidget(number_of_rounds,0,0);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
@@ -105,6 +112,11 @@ namespace FreeFit
                 return nullptr;
             }
         public slots:
+            void numberOfRoundsChanged()
+            {
+                if (!number_of_rounds->text().isEmpty())
+                    getSelectedWorkout()->setRounds(std::stoi(number_of_rounds->text().toStdString()));
+            }
 
             void accept() override
             {
@@ -120,6 +132,16 @@ namespace FreeFit
             std::list<WorkoutOption*> workout_options;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
+        };
+
+        class WorkoutGenerationWidgetValidator : public QObject
+        {
+        public:
+            WorkoutGenerationWidgetValidator(WorkoutGenerationWidget* t_w) : QObject(), w(t_w){}
+
+            void setNumberOfRounds(unsigned int r){w->number_of_rounds->setText(QString::fromStdString(std::to_string(r)));}
+        private:
+            WorkoutGenerationWidget* w;
         };
     }
 }

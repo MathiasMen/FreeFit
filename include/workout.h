@@ -18,6 +18,7 @@ namespace FreeFit
                 virtual std::list<MuscleGroup> getMainlyTrainedMuscles() = 0;
                 virtual void generateExercises() = 0;
                 virtual void generateExerciseTimes() = 0;
+                void setRounds(unsigned int r){rounds = r;}
                 unsigned int getRounds(){return rounds;}
                 std::list<Exercise> getExercisesPerRound(){return exercises_per_round;}
                 void setPossibleExercises(std::list<Exercise> t_possible_exercises){possible_exercises = t_possible_exercises;}
