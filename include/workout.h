@@ -2,6 +2,7 @@
 
 #include <string>
 #include <list>
+#include <set>
 
 #include "include/exercise.h"
 
@@ -41,6 +42,20 @@ namespace FreeFit
                 void generateExerciseTimes() override;
             private:
                 AllExercisesWorkout();
+        };
+
+        class FilteredByMusclesWorkout : public WorkoutBase
+        {
+            public:
+                FilteredByMusclesWorkout(std::list<Exercise> t_possible_exercises);
+
+                std::list<MuscleGroup> getMainlyTrainedMuscles() override;
+                void generateExercises() override;
+                void generateExerciseTimes() override;
+                void setSelectedAreas(std::set<MuscleGroup> a);
+            private:
+                std::set<MuscleGroup> selected_areas;
+                FilteredByMusclesWorkout();
         };
     }
 }

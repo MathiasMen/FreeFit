@@ -34,5 +34,33 @@ namespace FreeFit
             return std::list<MuscleGroup>{MuscleGroup::Shoulder};
         }
 
+        void FilteredByMusclesWorkout::generateExercises()
+        {
+            for(Exercise e : possible_exercises)
+            {
+                bool area_match = false;
+                for(MuscleGroup m : e.getTrainedMuscles())
+                    if(selected_areas.count(m) == 1)
+                        area_match = true;
+                if(area_match)
+                    exercises_per_round.push_back(e);            
+            }
+        }
+        
+        void FilteredByMusclesWorkout::generateExerciseTimes()
+        {
+            for(auto& e : exercises_per_round)
+                e.setLength(40);
+        }
+
+        void FilteredByMusclesWorkout::setSelectedAreas(std::set<MuscleGroup> a)
+        {
+            selected_areas = a;
+        }
+
+        std::list<MuscleGroup> FilteredByMusclesWorkout::getMainlyTrainedMuscles()
+        {
+            return std::list<MuscleGroup>{MuscleGroup::Shoulder};
+        }
     }
 }
