@@ -10,7 +10,7 @@
       ${CMAKE_SOURCE_DIR}/build/test/Pushup_0_0.mp4
     </VIDEOPATH>
     <THUMBNAILPATH>
-      ${CMAKE_SOURCE_DIR}/build/test/Pushup_0_0.jpg
+      ${CMAKE_SOURCE_DIR}/test/input/Pushup.jpg
     </THUMBNAILPATH>
     <VIDEOSTARTTIME>
       1
@@ -41,7 +41,7 @@
       ${CMAKE_SOURCE_DIR}/build/test/Situp_2_5_resized.mp4
     </VIDEOPATH>
     <THUMBNAILPATH>
-      ${CMAKE_SOURCE_DIR}/build/test/Situp_2_5.jpg
+      ${CMAKE_SOURCE_DIR}/test/input/Pushup.jpg
     </THUMBNAILPATH>
     <VIDEOSTARTTIME>
       2
