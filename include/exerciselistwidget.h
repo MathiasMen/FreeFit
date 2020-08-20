@@ -57,6 +57,8 @@ namespace FreeFit
 
             int getLengthOfCurrentExercise();
 
+            int getNumberOfExerciseWidgets(){return exercise_widgets.size();}
+            
             std::string getVideoPathOfCurrentExercise();
         private:
             void highlightExercise(FreeFit::GUI::ExerciseListWidgetItem*);

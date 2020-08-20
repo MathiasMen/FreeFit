@@ -55,6 +55,5 @@ TEST_F(WorkoutExerciseList,Launch)
     FreeFit::Data::AllExercisesWorkout* workout = new FreeFit::Data::AllExercisesWorkout(e_dat);
     workout->generate();
     w->generateWidgets(workout);
-    w->show();
-    a.exec();
+    ASSERT_EQ(w->getNumberOfExerciseWidgets(),6);
 }
