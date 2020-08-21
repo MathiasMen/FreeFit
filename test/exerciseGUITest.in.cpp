@@ -316,7 +316,7 @@ TEST_F(ExerciseEditor,DownloadClicked)
     ASSERT_EQ(*it,"Shoulder");
     ASSERT_EQ(*(++it),"Chest");
 
-    std::ifstream f("${CMAKE_SOURCE_DIR}/build/test/Pushup_00:02_00:03.mp4");
+    std::ifstream f("${CMAKE_SOURCE_DIR}/build/test/Pushup_0_217.mp4");
     ASSERT_TRUE(f.is_open());
     e->accept();
 }
