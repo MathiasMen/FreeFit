@@ -28,7 +28,10 @@ namespace FreeFit
         {
             friend WorkoutGenerationWidgetValidator;
         public:
-            WorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : QRadioButton(text,parent), workout_data(w){}
+            WorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : QRadioButton(text,parent), workout_data(w)
+            {
+
+            }
 
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
             {
@@ -51,6 +54,11 @@ namespace FreeFit
                     return possible_options_widget;
                 else
                     return nullptr;
+            }
+
+            void initOptionsWidget()
+            {
+                possible_options_widget = new QWidget(this);
             }
         private:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
