@@ -7,7 +7,6 @@ namespace FreeFit
         class ToggleableLabel : public QLabel
         {
             Q_OBJECT
-        friend ExerciseEditorValidator;
         public:
             ToggleableLabel(QString text, QWidget* parent);
             void setSelectable(bool s);
