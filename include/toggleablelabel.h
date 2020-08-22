@@ -1,5 +1,9 @@
 #pragma once 
 
+#include <QWidget>
+#include <QLabel>
+#include <QString>
+
 namespace FreeFit
 {
     namespace GUI

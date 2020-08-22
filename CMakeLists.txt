@@ -96,6 +96,7 @@ set(project_headers
     ${CMAKE_SOURCE_DIR}/include/parser.h
 	${CMAKE_SOURCE_DIR}/include/profile.h	
 	${CMAKE_SOURCE_DIR}/include/profileeditor.h	
+	${CMAKE_SOURCE_DIR}/include/toggleablelabel.h
 	${CMAKE_SOURCE_DIR}/include/videocutter.h
 	${CMAKE_SOURCE_DIR}/include/workout.h
 	${CMAKE_SOURCE_DIR}/include/workoutwidget.h
