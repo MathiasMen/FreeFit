@@ -11,15 +11,9 @@ namespace FreeFit
 
             ly = new QGridLayout(this);
             
-            QWidget* hashtag_widget = new QWidget(this);
-            QHBoxLayout* hashtag_layout = new QHBoxLayout(hashtag_widget);
-            hashtag_widget->setLayout(hashtag_layout);
+            hashtag_widget = new HashtagBar(this);
             for (auto m : muscle_definitions.strings)
-            {
-                ToggleableLabel* t = new ToggleableLabel("#" + QString::fromStdString(m),hashtag_widget);
-                hashtag_layout->addWidget(t,0,Qt::AlignLeft);
-                hashtag_labels.push_back(t);
-            }
+                hashtag_widget->addHashtag(m);
 
             processMovie = new QMovie("${CMAKE_SOURCE_DIR}/tools/loading.gif");
             processLabel = new QLabel(this);
@@ -81,22 +75,13 @@ namespace FreeFit
 
         std::list<std::string> ExerciseItem::getMuscleAreas()
         {
-            std::list<std::string> l;
-            for (auto label : hashtag_labels)
-                if(label->isToggled())
-                    l.push_back(label->text().remove(QChar('#')).toStdString());
-            return l;
+            return hashtag_widget->getToggledStrings();
         }
 
         void ExerciseItem::setMuscleAreas(std::set<FreeFit::Data::MuscleGroup> muscles)
         {
-            for (auto h : hashtag_labels)
-            {
-                std::string h_name = h->text().remove(QChar('#')).toStdString();
-                for (auto  m : muscles)
-                    if (h_name == muscle_definitions.strings[m])
-                        h->click();
-            }
+            for (auto m : muscles)
+                hashtag_widget->toggleHashtag(muscle_definitions.strings[m]);
         }
 
         bool ExerciseItem::inputIsValid()
@@ -518,7 +503,7 @@ namespace FreeFit
         void ExerciseEditorValidator::setFirstNewExerciseMuscleArea(int id)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
-            e->hashtag_labels[id]->clicked();
+            e->hashtag_widget->toggleHashtag(e->muscle_definitions.strings[id]);
         }
 
         void ExerciseEditorValidator::setLastNewExerciseNameText(std::string s)
@@ -538,7 +523,7 @@ namespace FreeFit
         void ExerciseEditorValidator::setLastNewExerciseMuscleArea(int id)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            e->hashtag_labels[id]->clicked();
+            e->hashtag_widget->toggleHashtag(e->muscle_definitions.strings[id]);
         }
 
         std::string ExerciseEditorValidator::getFirstNewExerciseNameText()
@@ -592,13 +577,13 @@ namespace FreeFit
         bool ExerciseEditorValidator::isFirstNewExerciseMuscleAreaSelected(int id)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
-            return e->hashtag_labels[id]->isToggled();
+            return e->hashtag_widget->isHashtagToggled(e->muscle_definitions.strings[id]);
         }
 
         bool ExerciseEditorValidator::isLastNewExerciseMuscleAreaSelected(int id)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
-            return e->hashtag_labels[id]->isToggled();
+            return e->hashtag_widget->isHashtagToggled(e->muscle_definitions.strings[id]);
         }
 
         bool ExerciseEditorValidator::isFirstNewExerciseNameValid()
@@ -628,7 +613,7 @@ namespace FreeFit
         void ExerciseEditorValidator::setFirstOldExerciseMuscleArea(int id)
         {
             ExerciseItem* e = *(ee->exercise_items.begin());
-            e->hashtag_labels[id]->clicked();
+            e->hashtag_widget->toggleHashtag(e->muscle_definitions.strings[id]);
         }
 
         void ExerciseEditorValidator::setLastOldExerciseNameText(std::string s)
@@ -646,7 +631,7 @@ namespace FreeFit
         void ExerciseEditorValidator::setLastOldExerciseMuscleArea(int id)
         {
             ExerciseItem* e = *(ee->exercise_items.rbegin());
-            e->hashtag_labels[id]->clicked();
+            e->hashtag_widget->toggleHashtag(e->muscle_definitions.strings[id]);
         }
 
         std::string ExerciseEditorValidator::getFirstOldExerciseNameText()
@@ -700,13 +685,13 @@ namespace FreeFit
         bool ExerciseEditorValidator::isFirstOldExerciseMuscleAreaSelected(int id)
         {
             ExerciseItem* e = *(ee->exercise_items.begin());
-            return e->hashtag_labels[id]->isToggled();
+            return e->hashtag_widget->isHashtagToggled(e->muscle_definitions.strings[id]);
         }
 
         bool ExerciseEditorValidator::isLastOldExerciseMuscleAreaSelected(int id)
         {
             ExerciseItem* e = *(ee->exercise_items.rbegin());
-            return e->hashtag_labels[id]->isToggled();
+            return e->hashtag_widget->isHashtagToggled(e->muscle_definitions.strings[id]);
         }
 
         bool ExerciseEditorValidator::isFirstOldExerciseNameValid()

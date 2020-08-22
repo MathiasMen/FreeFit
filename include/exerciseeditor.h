@@ -42,6 +42,7 @@
 #include "include/materialtextfield.h"
 #include "include/materialdialog.h"
 #include "include/materialslider.h"
+#include "include/hashtagbar.h"
 
 namespace FreeFit
 {
@@ -122,6 +123,7 @@ namespace FreeFit
             MaterialTextField* name;
             MaterialTextField* url;
             MaterialSlider* start_stop;
+            HashtagBar* hashtag_widget;
 
             QLabel* start_time_lbl;
             QLabel* stop_time_lbl;
@@ -131,7 +133,6 @@ namespace FreeFit
             MaterialButton* delete_item;
 
             MuscleGroups muscle_definitions;
-            std::vector<ToggleableLabel*> hashtag_labels;
             bool unchanged = true;
             std::string video_path = "";
             std::string thumbnail_path = "";

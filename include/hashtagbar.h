@@ -40,6 +40,13 @@ namespace FreeFit
                             h->click();
                 }
 
+                bool isHashtagToggled(std::string tag_str)
+                {
+                    for (auto h : hashtag_labels)
+                        if (h->text().remove(QChar('#')).toStdString() == tag_str)
+                            return h->isToggled();
+                    return false;
+                }
             private:
                 QHBoxLayout* ly;
                 std::vector<ToggleableLabel*> hashtag_labels;
