@@ -490,14 +490,12 @@ namespace FreeFit
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->name->setText(QString::fromStdString(s));
-//            e->name->textMessageBecauseFocusLost(e->name->text());
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseURLText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.begin());
             e->url->setText(QString::fromStdString(s));
-//            e->url->textMessageBecauseFocusLost(e->url->text());
         }
 
         void ExerciseEditorValidator::setFirstNewExerciseMuscleArea(int id)
@@ -510,14 +508,12 @@ namespace FreeFit
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->name->setText(QString::fromStdString(s));
-//            e->name->textMessageBecauseFocusLost(e->name->text());
         }
 
         void ExerciseEditorValidator::setLastNewExerciseURLText(std::string s)
         {
             ExerciseItem* e = *(ee->new_exercise_items.rbegin());
             e->url->setText(QString::fromStdString(s));
-//            e->url->textMessageBecauseFocusLost(e->url->text());
         }
 
         void ExerciseEditorValidator::setLastNewExerciseMuscleArea(int id)
