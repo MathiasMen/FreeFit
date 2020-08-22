@@ -47,9 +47,15 @@ namespace FreeFit
                             return h->isToggled();
                     return false;
                 }
+
+                void setCategoryName(std::string c){category_name = c;}
+
+                std::string getCategoryName(){return category_name;}
             private:
                 QHBoxLayout* ly;
                 std::vector<ToggleableLabel*> hashtag_labels;
+
+                std::string category_name;
         };
     }
 }
