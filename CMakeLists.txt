@@ -66,6 +66,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/materialtextfield.cpp
 	${CMAKE_SOURCE_DIR}/src/parser.cpp
 	${CMAKE_SOURCE_DIR}/src/profileeditor.cpp
+	${CMAKE_SOURCE_DIR}/src/toggleablelabel.cpp
 	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
 	${CMAKE_SOURCE_DIR}/src/workout.cpp
 	${CMAKE_SOURCE_DIR}/src/workoutwidget.cpp
