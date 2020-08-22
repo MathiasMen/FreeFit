@@ -297,7 +297,7 @@ TEST_F(ExerciseEditor,DownloadClicked)
     p.setPathToExerciseDB("${CMAKE_SOURCE_DIR}/test/input/LaunchEditor.xml");
     FreeFit::GUI::ExerciseEditor* e = new FreeFit::GUI::ExerciseEditor(p);
     FreeFit::GUI::ExerciseEditorValidator v(e);
-    v.setOutPath("${CMAKE_SOURCE_DIR}/test/input/DownloadClicked.xml");
+    v.setOutPath("${CMAKE_SOURCE_DIR}/build/test/DownloadClicked.xml");
     v.pushAddButton();
     v.setFirstNewExerciseNameText(ex_name);
     v.setFirstNewExerciseURLText(ex_url);
