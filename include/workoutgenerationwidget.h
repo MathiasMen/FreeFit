@@ -55,16 +55,6 @@ namespace FreeFit
                 else
                     return nullptr;
             }
-
-            void initOptionsWidget()
-            {
-                possible_options_widget = new QWidget(this);
-            }
-
-            void setOptionLayout(QLayout* ly)
-            {
-                possible_options_widget->setLayout(ly);
-            }
         private:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
