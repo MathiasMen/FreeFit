@@ -24,11 +24,11 @@ namespace FreeFit
     {
         class WorkoutGenerationWidgetValidator;
 
-        class WorkoutOption : public QRadioButton
+        class WorkoutOptionBase : public QRadioButton
         {
             friend WorkoutGenerationWidgetValidator;
         public:
-            WorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : QRadioButton(text,parent), workout_data(w)
+            WorkoutOptionBase(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : QRadioButton(text,parent), workout_data(w)
             {
 
             }
@@ -85,12 +85,12 @@ namespace FreeFit
                 ly->addWidget(number_of_rounds,0,0);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
-                all_exercises_workout = new WorkoutOption("All Exercises",w1,this);
+                all_exercises_workout = new WorkoutOptionBase("All Exercises",w1,this);
                 ly->addWidget(all_exercises_workout,1,0);
                 workout_options.push_back(all_exercises_workout);
 
                 std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
-                filtered_exercises_workout = new WorkoutOption("Filtered by muscle groups",w2,this);
+                filtered_exercises_workout = new WorkoutOptionBase("Filtered by muscle groups",w2,this);
                 ly->addWidget(filtered_exercises_workout,2,0);
                 workout_options.push_back(filtered_exercises_workout);
 
@@ -125,9 +125,9 @@ namespace FreeFit
                     w->setPossibleExercises(e);
             }
 
-            WorkoutOption* getSelectedWorkout()
+            WorkoutOptionBase* getSelectedWorkout()
             {
-                for (WorkoutOption* w : workout_options)
+                for (WorkoutOptionBase* w : workout_options)
                     if (w->isChecked())
                         return w;
                 return nullptr;
@@ -147,11 +147,11 @@ namespace FreeFit
 
         private:
             QGridLayout* ly;
-            WorkoutOption* all_exercises_workout;
-            WorkoutOption* filtered_exercises_workout;
+            WorkoutOptionBase* all_exercises_workout;
+            WorkoutOptionBase* filtered_exercises_workout;
             QIntValidator* int_validator;
             MaterialTextField* number_of_rounds;
-            std::list<WorkoutOption*> workout_options;
+            std::list<WorkoutOptionBase*> workout_options;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
         };
