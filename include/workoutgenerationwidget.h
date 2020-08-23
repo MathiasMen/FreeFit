@@ -16,8 +16,10 @@
 #include <QStyle>
 
 #include "include/exercise.h"
+#include "include/exerciseeditor.h"
 #include "include/workout.h"
 #include "include/controls.h"
+#include "include/hashtagbar.h"
 #include "include/materialdialog.h"
 #include "include/materialtextfield.h"
 
@@ -103,7 +105,14 @@ namespace FreeFit
         public:
             FilteredExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
             {
+                muscle_areas = new HashtagBar(this);
+                for (auto m : muscle_definitions.strings)
+                    muscle_areas->addHashtag(m);
+                possible_options_widget->layout()->addWidget(muscle_areas);
             }
+        private:
+            MuscleGroups muscle_definitions;
+            HashtagBar* muscle_areas;
         };
 
         class WorkoutGenerationWidget : public MaterialDialog
