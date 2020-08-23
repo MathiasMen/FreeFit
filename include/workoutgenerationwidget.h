@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QDialog>
 #include <QGridLayout>
+#include <QVBoxLayout>
 #include <QRadioButton>
 #include <QLineEdit>
 #include <QIntValidator>
@@ -17,6 +18,8 @@
 #include "include/controls.h"
 #include "include/materialdialog.h"
 #include "include/materialtextfield.h"
+
+#include <iostream>
 
 namespace FreeFit
 {
@@ -55,18 +58,40 @@ namespace FreeFit
                 else
                     return nullptr;
             }
-        private:
+        protected:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
         };
 
         class AllExercisesWorkoutOption : public WorkoutOptionBase
         {
+        Q_OBJECT
         public:
             AllExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
             {
+                possible_options_widget = new QWidget;
+                QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
 
+                number_of_rounds = new MaterialTextField("Number of rounds",this);
+                number_of_rounds->setValidator(new QIntValidator(1,50,number_of_rounds));
+
+                ly->addWidget(number_of_rounds);
+
+                connect(number_of_rounds,&QLineEdit::textChanged,this,&AllExercisesWorkoutOption::numberOfRoundsChangedSlot);
             }
+        signals:
+            void numberOfRoundsChanged(int);
+        private slots:
+            void numberOfRoundsChangedSlot()
+            {
+                if (!number_of_rounds->text().isEmpty())
+                {
+                    std::cout << number_of_rounds->text().toStdString() << std::endl;
+                    emit numberOfRoundsChanged(std::stoi(number_of_rounds->text().toStdString()));
+                }
+            }
+        private:
+            MaterialTextField* number_of_rounds;
         };
 
         class WorkoutGenerationWidget : public MaterialDialog
@@ -113,7 +138,7 @@ namespace FreeFit
                 controls_layout->addItem(horizontal_spacer,0,1);
                 controls_layout->addWidget(next_page_button,0,2);
                 if (all_exercises_workout->getOptionsWidget() != nullptr)
-                    controls_layout->addWidget(all_exercises_workout->getOptionsWidget(),1,2);
+                    ly->addWidget(all_exercises_workout->getOptionsWidget(),1,2);
                 ly->addLayout(controls_layout,3,0);
                 this->setLayout(ly);
             }
