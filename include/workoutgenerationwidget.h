@@ -65,7 +65,11 @@ namespace FreeFit
 
             unsigned int getRounds(){return workout_data->getRounds();}
 
-            void generateWorkout(){workout_data->generate();}
+            void generateWorkout()
+            {
+                prepareWorkoutGeneration();
+                workout_data->generate();
+            }
 
             std::shared_ptr<FreeFit::Data::WorkoutBase> getWorkout(){return workout_data;}
 
@@ -76,6 +80,8 @@ namespace FreeFit
                 else
                     return nullptr;
             }
+
+            virtual void prepareWorkoutGeneration() = 0;
         private slots:
             void numberOfRoundsChanged()
             {
@@ -96,6 +102,8 @@ namespace FreeFit
             AllExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
             {
             }
+
+            void prepareWorkoutGeneration(){}
         };
 
         class FilteredExercisesWorkoutOption : public WorkoutOptionBase
@@ -103,14 +111,21 @@ namespace FreeFit
         Q_OBJECT
         friend WorkoutGenerationWidgetValidator;
         public:
-            FilteredExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
+            FilteredExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
             {
                 muscle_areas = new HashtagBar(this);
                 for (auto m : muscle_definitions.strings)
                     muscle_areas->addHashtag(m);
                 possible_options_widget->layout()->addWidget(muscle_areas);
+                specialized_workout = w;
+            }
+
+            void prepareWorkoutGeneration()
+            {
+                specialized_workout->setSelectedAreas(muscle_areas->getToggledStrings());
             }
         private:
+            std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> specialized_workout;
             MuscleGroups muscle_definitions;
             HashtagBar* muscle_areas;
         };
