@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <functional>
+#include <regex>
 
 #include <QApplication>
 #include <QDialog>
@@ -73,7 +75,9 @@ namespace FreeFit
                 QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
 
                 number_of_rounds = new MaterialTextField("Number of rounds",this);
-                number_of_rounds->setValidator(new QIntValidator(1,50,number_of_rounds));
+                std::regex rounds_regex("[1-9]");
+                auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
+                number_of_rounds->setValidationFunction(func_rounds_regex);
 
                 ly->addWidget(number_of_rounds);
 
@@ -84,11 +88,8 @@ namespace FreeFit
         private slots:
             void numberOfRoundsChangedSlot()
             {
-                if (!number_of_rounds->text().isEmpty())
-                {
-                    std::cout << number_of_rounds->text().toStdString() << std::endl;
+                if (!number_of_rounds->text().isEmpty() && number_of_rounds->validateText())
                     emit numberOfRoundsChanged(std::stoi(number_of_rounds->text().toStdString()));
-                }
             }
         private:
             MaterialTextField* number_of_rounds;
