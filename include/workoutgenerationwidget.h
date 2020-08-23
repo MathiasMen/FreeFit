@@ -36,10 +36,10 @@ namespace FreeFit
         public:
             WorkoutOptionBase(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : QRadioButton(text,parent), workout_data(w)
             {
-                possible_options_widget = new QWidget;
+                possible_options_widget = new QWidget(this);
                 QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
 
-                number_of_rounds = new MaterialTextField("Number of rounds",this);
+                number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
                 std::regex rounds_regex("[1-9]");
                 auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
                 number_of_rounds->setValidationFunction(func_rounds_regex);
@@ -127,7 +127,11 @@ namespace FreeFit
 
                 all_exercises_workout->setChecked(true);
 
-                setNumberOfRounds(3);
+                all_exercises_workout->setRounds(3);
+                filtered_exercises_workout->setRounds(3);
+
+                connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+                connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
 
                 next_page_button = new ControlButton("Workout",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
@@ -144,7 +148,17 @@ namespace FreeFit
                 controls_layout->addItem(horizontal_spacer,0,1);
                 controls_layout->addWidget(next_page_button,0,2);
                 if (all_exercises_workout->getOptionsWidget() != nullptr)
+                {
                     ly->addWidget(all_exercises_workout->getOptionsWidget(),1,2);
+                    all_exercises_workout->getOptionsWidget()->show();
+                }
+
+                if (filtered_exercises_workout->getOptionsWidget() != nullptr)
+                {
+                    ly->addWidget(filtered_exercises_workout->getOptionsWidget(),1,2);
+                    filtered_exercises_workout->getOptionsWidget()->hide();
+                }
+
                 ly->addLayout(controls_layout,3,0);
                 this->setLayout(ly);
             }
@@ -174,7 +188,14 @@ namespace FreeFit
                 getSelectedWorkout()->generateWorkout();
                 QDialog::accept();
             }
+        private slots:
+            void optionChanged()
+            {
+                for (WorkoutOptionBase* w : workout_options)
+                    w->getOptionsWidget()->hide();
 
+                getSelectedWorkout()->getOptionsWidget()->show();
+            }
         private:
             QGridLayout* ly;
             WorkoutOptionBase* all_exercises_workout;
