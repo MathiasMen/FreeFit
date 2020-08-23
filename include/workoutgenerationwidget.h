@@ -96,6 +96,16 @@ namespace FreeFit
             }
         };
 
+        class FilteredExercisesWorkoutOption : public WorkoutOptionBase
+        {
+        Q_OBJECT
+        friend WorkoutGenerationWidgetValidator;
+        public:
+            FilteredExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
+            {
+            }
+        };
+
         class WorkoutGenerationWidget : public MaterialDialog
         {
             friend WorkoutGenerationWidgetValidator;
@@ -111,7 +121,7 @@ namespace FreeFit
                 workout_options.push_back(all_exercises_workout);
 
                 std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
-                filtered_exercises_workout = new WorkoutOptionBase("Filtered by muscle groups",w2,this);
+                filtered_exercises_workout = new FilteredExercisesWorkoutOption("Filtered by muscle groups",w2,this);
                 ly->addWidget(filtered_exercises_workout,1,0);
                 workout_options.push_back(filtered_exercises_workout);
 
