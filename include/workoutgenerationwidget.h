@@ -70,6 +70,15 @@ namespace FreeFit
             QWidget* possible_options_widget = nullptr;
         };
 
+        class AllExercisesWorkoutOption : public WorkoutOptionBase
+        {
+        public:
+            AllExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
+            {
+
+            }
+        };
+
         class WorkoutGenerationWidget : public MaterialDialog
         {
             friend WorkoutGenerationWidgetValidator;
@@ -85,7 +94,7 @@ namespace FreeFit
                 ly->addWidget(number_of_rounds,0,0);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
-                all_exercises_workout = new WorkoutOptionBase("All Exercises",w1,this);
+                all_exercises_workout = new AllExercisesWorkoutOption("All Exercises",w1,this);
                 ly->addWidget(all_exercises_workout,1,0);
                 workout_options.push_back(all_exercises_workout);
 
