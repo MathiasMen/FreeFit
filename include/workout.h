@@ -5,6 +5,7 @@
 #include <set>
 
 #include "include/exercise.h"
+#include "include/datadefinitions.h"
 
 namespace FreeFit
 {
@@ -53,6 +54,7 @@ namespace FreeFit
                 void generateExercises() override;
                 void generateExerciseTimes() override;
                 void setSelectedAreas(std::set<MuscleGroup> a);
+                void setSelectedAreas(std::list<std::string> areas);
             private:
                 std::set<MuscleGroup> selected_areas;
                 FilteredByMusclesWorkout();

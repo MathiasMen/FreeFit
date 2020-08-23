@@ -63,6 +63,14 @@ namespace FreeFit
             selected_areas = a;
         }
 
+        void FilteredByMusclesWorkout::setSelectedAreas(std::list<std::string> areas)
+        {
+            std::set<MuscleGroup> areas_data;
+            for (std::string a : areas)
+                areas_data.insert(FreeFit::Data::stringToMuscleGroup(a));
+            setSelectedAreas(areas_data);
+        }
+
         std::list<MuscleGroup> FilteredByMusclesWorkout::getMainlyTrainedMuscles()
         {
             return std::list<MuscleGroup>{MuscleGroup::Shoulder};
