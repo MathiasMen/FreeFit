@@ -161,7 +161,7 @@ namespace FreeFit
 
                 options_canvas->addWidget(all_exercises_workout->getOptionsWidget());
                 options_canvas->addWidget(filtered_exercises_workout->getOptionsWidget());
-                ly->addWidget(options_canvas,1,2);
+                ly->addWidget(options_canvas,0,1,3,1);
 
                 connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
                 connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
