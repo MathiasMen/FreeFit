@@ -102,6 +102,8 @@ namespace FreeFit
         public:
             AllExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr) : WorkoutOptionBase(text,w,parent)
             {
+                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+                possible_options_widget->layout()->addItem(vertical_spacer);
             }
 
             void prepareWorkoutGeneration(){}
