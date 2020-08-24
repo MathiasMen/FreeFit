@@ -140,21 +140,15 @@ namespace FreeFit
             {
                 ly = new QGridLayout(this);
 
-                QSizePolicy sp_retain;
+                options_canvas = new QStackedWidget(this);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
                 all_exercises_workout = new AllExercisesWorkoutOption("All Exercises",w1,this);
-                sp_retain = all_exercises_workout->sizePolicy();
-                sp_retain.setRetainSizeWhenHidden(true);
-                all_exercises_workout->setSizePolicy(sp_retain);
                 ly->addWidget(all_exercises_workout,0,0);
                 workout_options.push_back(all_exercises_workout);
 
                 std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
                 filtered_exercises_workout = new FilteredExercisesWorkoutOption("Filtered by muscle groups",w2,this);
-                sp_retain = filtered_exercises_workout->sizePolicy();
-                sp_retain.setRetainSizeWhenHidden(true);
-                filtered_exercises_workout->setSizePolicy(sp_retain);
                 ly->addWidget(filtered_exercises_workout,1,0);
                 workout_options.push_back(filtered_exercises_workout);
 
@@ -162,6 +156,10 @@ namespace FreeFit
 
                 all_exercises_workout->setRounds(3);
                 filtered_exercises_workout->setRounds(3);
+
+                options_canvas->addWidget(all_exercises_workout->getOptionsWidget());
+                options_canvas->addWidget(filtered_exercises_workout->getOptionsWidget());
+                ly->addWidget(options_canvas,1,2);
 
                 connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
                 connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
@@ -180,18 +178,7 @@ namespace FreeFit
                 controls_layout->addWidget(previous_page_button,0,0);
                 controls_layout->addItem(horizontal_spacer,0,1);
                 controls_layout->addWidget(next_page_button,0,2);
-                if (all_exercises_workout->getOptionsWidget() != nullptr)
-                {
-                    ly->addWidget(all_exercises_workout->getOptionsWidget(),1,2);
-                    all_exercises_workout->getOptionsWidget()->show();
-                }
-
-                if (filtered_exercises_workout->getOptionsWidget() != nullptr)
-                {
-                    ly->addWidget(filtered_exercises_workout->getOptionsWidget(),1,2);
-                    filtered_exercises_workout->getOptionsWidget()->hide();
-                }
-
+                
                 ly->addLayout(controls_layout,3,0);
                 this->setLayout(ly);
             }
@@ -224,16 +211,16 @@ namespace FreeFit
         private slots:
             void optionChanged()
             {
-                for (WorkoutOptionBase* w : workout_options)
-                    w->getOptionsWidget()->hide();
-
-                getSelectedWorkout()->getOptionsWidget()->show();
+                for (unsigned int i = 0; i < workout_options.size(); i++)
+                    if (workout_options[i]->isChecked())
+                        options_canvas->setCurrentIndex(i);
             }
         private:
             QGridLayout* ly;
+            QStackedWidget* options_canvas;
             WorkoutOptionBase* all_exercises_workout;
             WorkoutOptionBase* filtered_exercises_workout;
-            std::list<WorkoutOptionBase*> workout_options;
+            std::vector<WorkoutOptionBase*> workout_options;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
         };
