@@ -111,3 +111,20 @@ TEST_F(WorkoutGenerationWidgetTest,GenerateFiltered)
     w->accept();
     ASSERT_EQ(w->getSelectedWorkout()->getExercisesPerRound().begin()->getName(),"Pushup");
 }
+
+TEST_F(WorkoutGenerationWidgetTest,ToggleUntoggleFilter)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
+    FreeFit::GUI::WorkoutGenerationWidgetValidator v(w);
+    ASSERT_EQ(v.getWorkoutOption(0),w->getSelectedWorkout());
+    v.clickWorkoutOption(1);
+    w->setPossibleExercises(e_dat);
+    v.toggleHashtag("Shoulder");
+    v.toggleHashtag("Chest");
+    v.toggleHashtag("Chest");
+    w->show();
+    w->accept();
+    ASSERT_EQ(w->getSelectedWorkout()->getExercisesPerRound().begin()->getName(),"Pushup");
+    ASSERT_EQ(w->getSelectedWorkout()->getExercisesPerRound().size(),1);
+}
