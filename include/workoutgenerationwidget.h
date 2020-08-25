@@ -233,6 +233,10 @@ namespace FreeFit
             WorkoutGenerationWidgetValidator(WorkoutGenerationWidget* t_w) : QObject(), w(t_w){}
 
             void setNumberOfRounds(unsigned int r){w->all_exercises_workout->number_of_rounds->setText(QString::fromStdString(std::to_string(r)));}
+
+            WorkoutOptionBase* getWorkoutOption(unsigned int n){return w->workout_options[n];}
+
+            void clickWorkoutOption(unsigned int n){w->workout_options[n]->click();}
         private:
             WorkoutGenerationWidget* w;
         };
