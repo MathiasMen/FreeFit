@@ -58,7 +58,7 @@ TEST_F(WorkoutGenerationWidgetTest,Launch)
     w->accept();
 }
 
-TEST_F(WorkoutGenerationWidgetTest,Generate)
+TEST_F(WorkoutGenerationWidgetTest,GenerateAllExercisesWorkout)
 {
     QApplication a(my_argc,my_argv);
     FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
