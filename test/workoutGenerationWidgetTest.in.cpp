@@ -58,6 +58,29 @@ TEST_F(WorkoutGenerationWidgetTest,Launch)
     w->accept();
 }
 
+TEST_F(WorkoutGenerationWidgetTest,DefaultRoundsAllExercisesWorkout)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
+    FreeFit::GUI::WorkoutGenerationWidgetValidator v(w);
+    w->setPossibleExercises(e_dat);
+    w->show();
+    w->accept();
+    ASSERT_EQ(w->getSelectedWorkout()->getRounds(),3);
+}
+
+TEST_F(WorkoutGenerationWidgetTest,DefaultRoundsFilteredExercisesWorkout)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
+    FreeFit::GUI::WorkoutGenerationWidgetValidator v(w);
+    w->setPossibleExercises(e_dat);
+    v.clickWorkoutOption(1);
+    w->show();
+    w->accept();
+    ASSERT_EQ(w->getSelectedWorkout()->getRounds(),3);
+}
+
 TEST_F(WorkoutGenerationWidgetTest,GenerateAllExercisesWorkout)
 {
     QApplication a(my_argc,my_argv);
