@@ -83,3 +83,18 @@ TEST_F(WorkoutGenerationWidgetTest,SwitchWorkoutOptions)
     ASSERT_EQ(v.getWorkoutOption(0),w->getSelectedWorkout());
 }
 
+TEST_F(WorkoutGenerationWidgetTest,GenerateFilteredButNothingSelected)
+{
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::WorkoutGenerationWidget* w = new FreeFit::GUI::WorkoutGenerationWidget;
+    FreeFit::GUI::WorkoutGenerationWidgetValidator v(w);
+    ASSERT_EQ(v.getWorkoutOption(0),w->getSelectedWorkout());
+    v.clickWorkoutOption(1);
+    w->setPossibleExercises(e_dat);
+    v.setNumberOfRounds(4);
+    w->show();
+    w->accept();
+    ASSERT_EQ(w->getSelectedWorkout()->getExercisesPerRound().size(),0);
+    ASSERT_EQ(w->getSelectedWorkout()->getRounds(),4);
+}
+
