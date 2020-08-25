@@ -237,6 +237,12 @@ namespace FreeFit
             WorkoutOptionBase* getWorkoutOption(unsigned int n){return w->workout_options[n];}
 
             void clickWorkoutOption(unsigned int n){w->workout_options[n]->click();}
+
+            void toggleHashtag(std::string s)
+            {
+                FilteredExercisesWorkoutOption* opt = reinterpret_cast<FilteredExercisesWorkoutOption*>(w->filtered_exercises_workout);
+                opt->muscle_areas->toggleHashtag(s);
+            }
         private:
             WorkoutGenerationWidget* w;
         };
