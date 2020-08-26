@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QSpacerItem>
 
 #include "include/toggleablelabel.h"
 
@@ -15,12 +16,14 @@ namespace FreeFit
                 HashtagBar(QWidget* parent = nullptr) : QWidget(parent)
                 {
                     ly = new QHBoxLayout(this);
+                    QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+                    ly->addItem(horizontal_spacer);
                 }
 
                 void addHashtag(std::string tag_str)
                 {
                     ToggleableLabel* t = new ToggleableLabel("#" + QString::fromStdString(tag_str),this);
-                    ly->addWidget(t,0,Qt::AlignLeft);
+                    ly->insertWidget(0,t);
                     hashtag_labels.push_back(t);
                 }
 
