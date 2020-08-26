@@ -7,7 +7,7 @@ namespace FreeFit
             MaterialSliderHandle::MaterialSliderHandle(int width, int height, QWidget* parent):QLabel(parent)
             {
                 setFixedSize(width,height);
-                setStyleSheet("background-color:black; border: 0px; margin: 0px; padding: 0px;");
+                setStyleSheet("background-color:red; border: 1px solid red; border-radius:5px; margin: 0px; padding: 0px;");
             }
 
             void MaterialSliderHandle::mousePressEvent(QMouseEvent* e)
@@ -59,9 +59,6 @@ namespace FreeFit
                 connect(left_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::leftHandleMoved);
                 connect(right_handle,&MaterialSliderHandle::moved,this,&MaterialSlider::rightHandleMoved);
 
-                left_handle->setStyleSheet("background-color:red;");
-                right_handle->setStyleSheet("background-color:red;");
-                
                 left_handle->move(left_handle->mapToParent(QPoint(minPosValue, this->rect().height()/2 - handle_height/2)));
                 right_handle->move(right_handle->mapToParent(QPoint(maxPosValue, this->rect().height()/2 - handle_height/2)));
             }
