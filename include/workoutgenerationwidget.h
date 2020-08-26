@@ -120,6 +120,8 @@ namespace FreeFit
                 for (auto m : muscle_definitions.strings)
                     muscle_areas->addHashtag(m);
                 possible_options_widget->layout()->addWidget(muscle_areas);
+                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+                possible_options_widget->layout()->addItem(vertical_spacer);
                 specialized_workout = w;
             }
 
