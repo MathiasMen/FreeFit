@@ -183,7 +183,7 @@ namespace FreeFit
                 controls_layout->addItem(horizontal_spacer,0,1);
                 controls_layout->addWidget(next_page_button,0,2);
                 
-                ly->addLayout(controls_layout,3,0);
+                ly->addLayout(controls_layout,3,0,1,2);
                 this->setLayout(ly);
             }
 
