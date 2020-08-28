@@ -36,7 +36,7 @@ namespace FreeFit
             if (button_importance == ButtonImportance::Primary)
                 css_string += "background-color:red; color:white; ";
             else
-                css_string += "background-color:white; color:red; border-color:red;";
+                css_string += "background-color:white; color:red; border:2px solid red;";
             if (button_type == ButtonType::ForwardButton)
                 css_string += "text-align:left;";
             else
