@@ -235,7 +235,7 @@ namespace FreeFit
         {                
             ly = new QGridLayout(this);
 
-            add_button = new MaterialButton("Add Exercise",this);
+            add_button = new MaterialButton("Create new exercise",this);
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
 
             new_exercise_label = new QLabel("New Exercises",this);
@@ -250,7 +250,7 @@ namespace FreeFit
             new_exercise_scroll_area->setAlignment(Qt::AlignTop);
             new_exercise_scroll_area->setWidgetResizable(true);
 
-            download_exercises_button = new MaterialButton("Add to Exercises",this);
+            download_exercises_button = new MaterialButton("Add to existing exercises",this);
             connect(download_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
 
             old_exercise_label = new QLabel("Existing Exercises",this);
@@ -286,7 +286,7 @@ namespace FreeFit
             controls_layout->addItem(horizontal_spacer,0,1);
             controls_layout->addWidget(next_page_button,0,2);
 
-            ly->addWidget(add_button,0,1);
+            ly->addWidget(add_button,0,1,1,2);
             ly->addWidget(new_exercise_label,1,1,1,2);
             ly->addWidget(new_exercise_scroll_area,2,1,1,2);
             ly->addWidget(download_exercises_button,3,1,1,2);
