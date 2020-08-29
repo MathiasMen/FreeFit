@@ -157,7 +157,7 @@ namespace FreeFit
             QWebEngineView* browser;
             MaterialTextField* address;
 
-            const QString start_url = "https://www.youtube.com";
+            const QString start_url = "https://www.youtube.com/results?search_query=push+up";
         };
 
         class ExerciseEditor : public MaterialDialog
