@@ -2,6 +2,7 @@
 build/*
 include/youtubedownloader.h
 include/workoutwidget.h
+src/controls.cpp
 src/downloadexercisedemandhandler.cpp
 src/exerciseeditor.cpp
 src/main.cpp

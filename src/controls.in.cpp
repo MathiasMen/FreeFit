@@ -42,7 +42,7 @@ namespace FreeFit
             : QPushButton(button_text,parent), button_type(t), button_importance(i)
         {
             std::string css_string = "border-radius:6px; padding:4px; ";
-            std::string icon_path = "/Users/mathias/Documents/programming_workspace/FreeFit/tools/";
+            std::string icon_path = "${CMAKE_SOURCE_DIR}/tools/";
 
             if (button_importance == ButtonImportance::Primary && button_type == ButtonType::ForwardButton)
                 icon_path += "arrow-right.svg";
