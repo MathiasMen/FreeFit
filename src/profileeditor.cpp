@@ -75,11 +75,11 @@ namespace FreeFit
                 auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
                 profile_name->setValidationFunction(func_name_regex);
 
-                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,ControlButton::Primary,this);
-                connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
-
-                skip_exercises_button = new ControlButton("Skip Exercises",ControlButton::ForwardButton,ControlButton::Secondary,this);
+                skip_exercises_button = new ControlButton("Workout Settings",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
+
+                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,ControlButton::Secondary,this);
+                connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
@@ -97,8 +97,8 @@ namespace FreeFit
                 horizontal_spacer_control = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
                 
                 control_layout->addItem(horizontal_spacer_control);
-                control_layout->addWidget(skip_exercises_button,0,Qt::AlignLeft);
                 control_layout->addWidget(next_page_button,0,Qt::AlignLeft);
+                control_layout->addWidget(skip_exercises_button,0,Qt::AlignLeft);
 
                 ly->addWidget(profile_selection,0,0);
                 ly->addWidget(path_exercises_xml,1,0);
