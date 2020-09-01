@@ -8,6 +8,8 @@
 #include <QApplication>
 #include <QStyle>
 #include <QPainter>
+#include <QIcon>
+#include <QPixmap>
 
 namespace FreeFit
 {
@@ -30,6 +32,8 @@ namespace FreeFit
 
             const int button_width = 140;
             const int button_height = 30;
+
+            QIcon arrow;
         };
     }
 }
