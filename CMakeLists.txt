@@ -67,6 +67,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/materialtextfield.cpp
 	${CMAKE_SOURCE_DIR}/src/parser.cpp
 	${CMAKE_SOURCE_DIR}/src/profileeditor.cpp
+	${CMAKE_SOURCE_DIR}/src/profileitem.cpp
 	${CMAKE_SOURCE_DIR}/src/toggleablelabel.cpp
 	${CMAKE_SOURCE_DIR}/src/videocutter.cpp
 	${CMAKE_SOURCE_DIR}/src/workout.cpp
@@ -97,6 +98,7 @@ set(project_headers
     ${CMAKE_SOURCE_DIR}/include/parser.h
 	${CMAKE_SOURCE_DIR}/include/profile.h	
 	${CMAKE_SOURCE_DIR}/include/profileeditor.h	
+	${CMAKE_SOURCE_DIR}/include/profileitem.h
 	${CMAKE_SOURCE_DIR}/include/toggleablelabel.h
 	${CMAKE_SOURCE_DIR}/include/videocutter.h
 	${CMAKE_SOURCE_DIR}/include/workout.h
