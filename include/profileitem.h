@@ -4,6 +4,8 @@
 #include <QGridLayout>
 #include <QLabel>
 
+#include <iostream>
+
 namespace FreeFit
 {
     namespace GUI
@@ -26,6 +28,7 @@ namespace FreeFit
             {
                 for (unsigned int i = 0; i < 5; i++)
                     decreaseLabelTextSizeIfNecessary(name);
+                name = elidedTextIfNecessary(name);
                 name_label->setText(name);
             }
 
@@ -53,11 +56,23 @@ namespace FreeFit
                 QFont font = name_label->font();
                 QRect bounds = name_label->rect();
                 QRect font_bounds = QFontMetrics(font).boundingRect(s);
-
-                if (font_bounds.width() > bounds.width() || font_bounds.height() > bounds.height())
+                if (font_bounds.width() > bounds.width() - 2 || font_bounds.height() > bounds.height() - 2)
                     font.setPointSize(font.pointSize() - 1);
                 name_label->setFont(font);
             }
+
+            QString elidedTextIfNecessary(QString s)
+            {
+                QFont font = name_label->font();
+                QRect bounds = name_label->rect();
+                QRect font_bounds = QFontMetrics(font).boundingRect(s);
+
+                if (font_bounds.width() > bounds.width() -2 || font_bounds.height() > bounds.height() - 2)
+                    return QFontMetrics(font).elidedText(s,Qt::ElideRight,bounds.width() - 2);
+                else
+                    return s;
+            }
+
 
             QGridLayout* ly;
             QLabel* name_label;
