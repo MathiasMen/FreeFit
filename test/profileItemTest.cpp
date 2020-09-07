@@ -23,7 +23,6 @@ TEST(MaterialWidget,Launch)
 
     QWidget* w = new QWidget;
     QVBoxLayout* ly = new QVBoxLayout(w);
-    w->setStyleSheet("background-color:white");
     FreeFit::GUI::ProfileItem b1("Text1",w);
     FreeFit::GUI::ProfileItem b2("Text2",w);
     FreeFit::GUI::ProfileItem b3("Text3",w);

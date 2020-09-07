@@ -21,13 +21,36 @@ namespace FreeFit
                 name_label->setFixedSize(width,height);
                 setName(t_name);
             }
+
             void setName(QString name)
             {
                 name_label->setText(name);
             }
+
+        protected:
+            void mousePressEvent(QMouseEvent* ev)
+            {
+                QWidget::mousePressEvent(ev);
+
+                selected = !selected;
+                updateStyle();
+            }
+
         private:
+            void updateStyle()
+            {
+                if (selected)
+                    css_string.replace("color:grey; border: 2px solid grey;","color:red; border: 2px solid red;");
+                else
+                    css_string.replace("color:red; border: 2px solid red;","color:grey; border: 2px solid grey;");
+                setStyleSheet(css_string);
+            }
+
             QGridLayout* ly;
             QLabel* name_label;
+
+            bool selected = false;
+            QString css_string = "color:grey; border: 2px solid grey; text-align:center;";
         };
     }
 }
