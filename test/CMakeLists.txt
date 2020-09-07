@@ -48,6 +48,15 @@ target_include_directories(ProfileEditorTest PUBLIC ${test_include_dirs})
 target_link_directories(ProfileEditorTest PUBLIC /usr/local/lib)
 target_link_libraries(ProfileEditorTest ${linked_libs}) 
 
+add_executable( ProfileItemTest
+                profileItemTest.cpp
+                ${project_sources}
+                ${project_headers}
+                ${moc_sources})                
+target_include_directories(ProfileItemTest PUBLIC ${test_include_dirs})
+target_link_directories(ProfileItemTest PUBLIC /usr/local/lib)
+target_link_libraries(ProfileItemTest ${linked_libs}) 
+
 add_executable( WorkoutWidgetExerciseListTest
                 workoutWidgetExerciseListTest.cpp
                 ${project_sources}
@@ -128,6 +137,7 @@ add_test(NAME Datastructures COMMAND DataTest)
 add_test(NAME DataIO COMMAND DataIOTest)
 add_test(NAME ExerciseGUI COMMAND ExerciseGUITest)
 add_test(NAME ProfileEditor COMMAND ProfileEditorTest)
+add_test(NAME ProfileItem COMMAND ProfileItemTest)
 add_test(NAME WorkoutWidgetExerciseList COMMAND WorkoutWidgetExerciseListTest)
 add_test(NAME WorkoutGeneration COMMAND WorkoutGenerationTest)
 add_test(NAME WorkoutWidget COMMAND WorkoutWidgetTest)
