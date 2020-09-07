@@ -24,6 +24,8 @@ namespace FreeFit
 
             void setName(QString name)
             {
+                for (unsigned int i = 0; i < 5; i++)
+                    decreaseLabelTextSizeIfNecessary(name);
                 name_label->setText(name);
             }
 
@@ -44,6 +46,17 @@ namespace FreeFit
                 else
                     css_string.replace("color:red; border: 2px solid red;","color:grey; border: 2px solid grey;");
                 setStyleSheet(css_string);
+            }
+
+            void decreaseLabelTextSizeIfNecessary(QString s)
+            {
+                QFont font = name_label->font();
+                QRect bounds = name_label->rect();
+                QRect font_bounds = QFontMetrics(font).boundingRect(s);
+
+                if (font_bounds.width() > bounds.width() || font_bounds.height() > bounds.height())
+                    font.setPointSize(font.pointSize() - 1);
+                name_label->setFont(font);
             }
 
             QGridLayout* ly;

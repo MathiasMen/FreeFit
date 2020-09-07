@@ -25,7 +25,7 @@ TEST(MaterialWidget,Launch)
     QVBoxLayout* ly = new QVBoxLayout(w);
     FreeFit::GUI::ProfileItem b1("Text1",w);
     FreeFit::GUI::ProfileItem b2("Text2",w);
-    FreeFit::GUI::ProfileItem b3("Text3",w);
+    FreeFit::GUI::ProfileItem b3("Some really long text.",w);
     ly->addWidget(&b1);
     ly->addWidget(&b2);
     ly->addWidget(&b3);
