@@ -78,7 +78,7 @@ namespace FreeFit
             QLabel* name_label;
 
             bool selected = false;
-            QString css_string = "color:grey; border: 2px solid grey; text-align:center;";
+            QString css_string = "color:grey; border: 2px solid grey; border-radius:5px; text-align:center;";
         };
     }
 }
