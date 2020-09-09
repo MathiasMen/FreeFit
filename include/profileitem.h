@@ -15,13 +15,15 @@ namespace FreeFit
         public:
             ProfileItem(QString t_name = "new", QWidget* t_parent = nullptr) : QWidget(t_parent)
             {
-                const int width = 50;
-                const int height = 50;
+                const int width = 200;
+                const int height = 200;
                 this->setFixedSize(width,height);
                 ly = new QGridLayout(this);
                 name_label = new QLabel(this);
                 name_label->setFixedSize(width,height);
+                name_label->setAlignment(Qt::AlignCenter);
                 setName(t_name);
+                updateStyle();
             }
 
             void setName(QString name)
