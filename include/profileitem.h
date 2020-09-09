@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QObject>
 #include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
@@ -12,6 +13,7 @@ namespace FreeFit
     {
         class ProfileItem : public QWidget
         {
+        Q_OBJECT
         public:
             ProfileItem(QString t_name = "new", QWidget* t_parent = nullptr) : QWidget(t_parent)
             {
@@ -34,6 +36,16 @@ namespace FreeFit
                 name_label->setText(name);
             }
 
+            bool getSelected()
+            {
+                return selected;
+            }
+
+            void setSelected(bool b)
+            {
+                selected = b;
+                updateStyle();
+            }
         protected:
             void mousePressEvent(QMouseEvent* ev)
             {
@@ -41,6 +53,7 @@ namespace FreeFit
 
                 selected = !selected;
                 updateStyle();
+                emit itemPressed(this);
             }
 
         private:
@@ -81,6 +94,36 @@ namespace FreeFit
 
             bool selected = false;
             QString css_string = "color:grey; border: 2px solid grey; border-radius:5px; text-align:center;";
+        signals:
+            void itemPressed(ProfileItem* i);
+        };
+
+        class ProfileItemGroup : public QObject
+        {
+        Q_OBJECT
+        public:
+            ProfileItemGroup(){}
+
+            void addItem(ProfileItem* i)
+            {
+                items.push_back(i);
+                connect(i,SIGNAL(itemPressed(ProfileItem*)),this,SLOT(itemPressed(ProfileItem*)));
+            }
+        public slots:
+
+            void itemPressed(ProfileItem* i)
+            {
+                if (!i->getSelected())
+                    i->setSelected(true);
+                else
+                    for (auto item : items)
+                        if (i != item)
+                            item->setSelected(false);
+
+            }
+
+        private:
+            std::list<ProfileItem*> items;
         };
     }
 }
