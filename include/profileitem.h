@@ -83,7 +83,7 @@ namespace FreeFit
                 connect(edit_button,&QPushButton::clicked,this,[this]()
                 {
                     ProfileEditPopup* p = new ProfileEditPopup(this->edit_button);
-                    p->move(QWidget::mapToGlobal(edit_button->pos()));
+                    p->move(QWidget::mapToGlobal(edit_button->pos() + edit_button->rect().bottomRight()));
                     p->show();
                 });
                 setName(t_name);
