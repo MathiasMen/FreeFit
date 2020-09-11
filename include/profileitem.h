@@ -18,11 +18,11 @@ namespace FreeFit
     {
         class ProfileItemValidator;
         
-        class ProfileEditPopup : public QDialog
+        class ProfileEditPopup : public QWidget
         {
         Q_OBJECT
         public: 
-            ProfileEditPopup(QWidget* parent = nullptr) : QDialog(parent)
+            ProfileEditPopup(QWidget* parent = nullptr) : QWidget(parent, Qt::Popup)
             {
                 this->setStyleSheet("background-color:red;");
             }
@@ -82,8 +82,9 @@ namespace FreeFit
                 edit_button->setStyleSheet("color:grey; border-style:none;");
                 connect(edit_button,&QPushButton::clicked,this,[this]()
                 {
-                    ProfileEditPopup* p = new ProfileEditPopup(this);
-                    p->exec();
+                    ProfileEditPopup* p = new ProfileEditPopup(this->edit_button);
+                    p->move(QWidget::mapToGlobal(edit_button->pos()));
+                    p->show();
                 });
                 setName(t_name);
                 updateStyle();
