@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QDialog>
 #include <QObject>
 #include <QWidget>
 #include <QGridLayout>
@@ -16,6 +17,16 @@ namespace FreeFit
     namespace GUI
     {
         class ProfileItemValidator;
+        
+        class ProfileEditPopup : public QDialog
+        {
+        Q_OBJECT
+        public: 
+            ProfileEditPopup(QWidget* parent = nullptr) : QDialog(parent)
+            {
+                this->setStyleSheet("background-color:red;");
+            }
+        };
 
         class ProfileEditButton : public QPushButton
         {
@@ -59,15 +70,24 @@ namespace FreeFit
                 const int width = 200;
                 const int height = 200;
                 this->setFixedSize(width,height);
+
                 ly = new QGridLayout(this);
+                
                 name_label = new QLabel(this);
                 name_label->setFixedSize(width*0.9,height*0.9);
+                name_label->setAlignment(Qt::AlignCenter);
+                
                 edit_button = new ProfileEditButton(QIcon("/Users/mathias/Documents/programming_workspace/FreeFit/tools/edit.svg"),"",this);
                 edit_button->setFixedSize(width*0.1,height*0.1);
                 edit_button->setStyleSheet("color:grey; border-style:none;");
-                name_label->setAlignment(Qt::AlignCenter);
+                connect(edit_button,&QPushButton::clicked,this,[this]()
+                {
+                    ProfileEditPopup* p = new ProfileEditPopup(this);
+                    p->exec();
+                });
                 setName(t_name);
                 updateStyle();
+
                 ly->addWidget(name_label,0,0,Qt::AlignCenter);
                 ly->addWidget(edit_button,1,0,Qt::AlignCenter);
             }
