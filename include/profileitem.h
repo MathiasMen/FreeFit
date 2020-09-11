@@ -135,6 +135,11 @@ namespace FreeFit
                 ly->addWidget(edit_button,1,0,Qt::AlignCenter);
             }
 
+            std::string getName()
+            {
+                return name_label->text().toStdString();
+            }
+
             void setName(QString name)
             {
                 for (unsigned int i = 0; i < 5; i++)
@@ -238,6 +243,11 @@ namespace FreeFit
                     c += 1;
                 }
                 return i;
+            }
+
+            std::string getCurrentName()
+            {
+                return current_profile->getName();
             }
 
             void selectProfile(int i)

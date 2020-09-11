@@ -35,6 +35,7 @@ namespace FreeFit
             void addItem(QString profile_name);
             int currentIndex();
             void selectProfile(int i){profile_group->selectProfile(i);}
+            std::string getCurrentName(){return profile_group->getCurrentName();};
         signals:
             void currentIndexChanged(int);
         private:
@@ -49,13 +50,12 @@ namespace FreeFit
         friend ProfileEditorValidator;
         public:
             ProfileEditor(std::string p_path);
-            std::string getExercisesPath(){return path_exercises_xml->text().toStdString();}
-            std::string getName(){return profile_name->text().toStdString();}
+            std::string getExercisesPath(){return getCurrentlySelectedData().getPathToExerciseDB();}
+            std::string getName(){return getCurrentlySelectedData().getName();}
         signals:
             void skiptToWorkoutGeneration();
         public slots:
             void accept() override;
-            void selectedProfileChanged(int index);
             void informationChanged();
             FreeFit::Data::Profile getCurrentlySelectedData();
         private:
@@ -66,9 +66,6 @@ namespace FreeFit
             QGridLayout* ly;
 
             ProfileSelectionWidget* profile_selection;
-
-            MaterialTextField* path_exercises_xml;
-            MaterialTextField* profile_name;
 
             QSpacerItem* vertical_spacer;
 
@@ -86,27 +83,40 @@ namespace FreeFit
 
             int getNumberOfLoadedProfiles(){return p->v_p.size();}
             FreeFit::Data::Profile getProfile(int index){return p->v_p[index];}
-
+            FreeFit::Data::Profile getSelectedProfileData(){return p->getCurrentlySelectedData();}
+            
             void selectProfile(int i){p->getProfileSelection()->selectProfile(i);};
             void setName(std::string n)
             {
+/*
                 connect(this,SIGNAL(changeTextSignal(const QString&)),p->profile_name,SIGNAL(textEdited(const QString&)));
                 p->profile_name->setText(QString::fromStdString(n));
                 emit changeTextSignal(QString::fromStdString(n));
+*/
             }
+
             void setXMLOutPath(std::string f)
             {
+/*
                 connect(this,SIGNAL(changeTextSignal(const QString&)),p->path_exercises_xml,SIGNAL(textEdited(const QString&)));
                 p->path_exercises_xml->setText(QString::fromStdString(f));
                 emit changeTextSignal(QString::fromStdString(f));
+*/
             }
             void changeOutputPath(std::string f)
             {
                 p->w.setOutPath(f);
             }
+
+            std::string getName(){return "";}
+            std::string getXMLOutPath(){return "";}
+            std::string getProfileCSSString(int i){return "";}
+
+/*
             std::string getName(){return p->profile_name->text().toStdString();}
             std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
             std::string getProfileCSSString(int i){return p->profile_selection->profile_group->getItems()[i]->styleSheet().toStdString();}
+*/
         signals:
             void changeTextSignal(const QString&);
         private:
