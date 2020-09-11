@@ -108,7 +108,7 @@ namespace FreeFit
                 p->w.setOutPath(f);
             }
 
-            std::string getName(){return "";}
+            std::string getName(){return p->profile_selection->getCurrentName();}
             std::string getXMLOutPath(){return "";}
             std::string getProfileCSSString(int i){return "";}
 
