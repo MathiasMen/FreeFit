@@ -13,12 +13,14 @@ namespace FreeFit
                 setWidget(content);
                 setWidgetResizable(true);
                 setFrameShape(QFrame::NoFrame);
+                profile_group = new ProfileItemGroup(this);
             }
 
             void ProfileSelectionWidget::addItem(QString profile_name)
             {
                 ProfileItem* m = new ProfileItem(profile_name,this);
                 content_ly->addWidget(m);
+                profile_group->addItem(m);
             }
 
             int ProfileSelectionWidget::currentIndex()
