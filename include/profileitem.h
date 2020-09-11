@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QIcon>
 #include <QPushButton>
+#include <QPainter>
+#include <QPen>
 
 #include <iostream>
 
@@ -14,6 +16,38 @@ namespace FreeFit
     namespace GUI
     {
         class ProfileItemValidator;
+
+        class ProfileEditButton : public QPushButton
+        {
+        Q_OBJECT
+        public:
+            ProfileEditButton(const QIcon& icon, const QString& text, QWidget* parent = nullptr) : QPushButton(text,parent)
+            {
+                symbol = QIcon(icon);
+            }
+
+        protected:
+            void paintEvent(QPaintEvent* ev)
+            {
+                const int pixmap_height = 20;
+                const int pixmap_width = 20;
+
+                QPushButton::paintEvent(ev);
+                
+                QPixmap p = symbol.pixmap(pixmap_width,pixmap_height);
+                QPainter icon_painter(&p);
+                icon_painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+                icon_painter.setBrush(Qt::gray);
+                icon_painter.drawRect(p.rect());
+
+                QIcon colored_icon = QIcon(p);
+
+                QPainter painter(this);
+                painter.drawPixmap(0,0,pixmap_width,pixmap_height,colored_icon.pixmap(pixmap_width,pixmap_height));
+            }
+        private:
+            QIcon symbol;
+        };
 
         class ProfileItem : public QWidget
         {
@@ -28,7 +62,7 @@ namespace FreeFit
                 ly = new QGridLayout(this);
                 name_label = new QLabel(this);
                 name_label->setFixedSize(width*0.9,height*0.9);
-                edit_button = new QPushButton(QIcon("/Users/mathias/Documents/programming_workspace/FreeFit/tools/edit.svg"),"",this);
+                edit_button = new ProfileEditButton(QIcon("/Users/mathias/Documents/programming_workspace/FreeFit/tools/edit.svg"),"",this);
                 edit_button->setFixedSize(width*0.1,height*0.1);
                 edit_button->setStyleSheet("color:grey; border-style:none;");
                 name_label->setAlignment(Qt::AlignCenter);
@@ -100,7 +134,7 @@ namespace FreeFit
 
             QGridLayout* ly;
             QLabel* name_label;
-            QPushButton* edit_button;
+            ProfileEditButton* edit_button;
 
             bool selected = false;
             QString css_string = "color:grey; border: 2px solid grey; border-radius:5px; text-align:center;";
