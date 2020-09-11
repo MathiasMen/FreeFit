@@ -10,7 +10,7 @@
 #include <QPainter>
 #include <QPen>
 
-#include <iostream>
+#include "include/materialtextfield.h"
 
 namespace FreeFit
 {
@@ -18,14 +18,55 @@ namespace FreeFit
     {
         class ProfileItemValidator;
         
+        struct ProfileEditPopupResult
+        {
+            ProfileEditPopupResult(QString n, bool v)
+                : name(n),name_valid(v)
+            {
+
+            }
+            QString name;
+            bool name_valid;
+        };
+
         class ProfileEditPopup : public QWidget
         {
         Q_OBJECT
         public: 
-            ProfileEditPopup(QWidget* parent = nullptr) : QWidget(parent, Qt::Popup)
+            ProfileEditPopup(QString n, QWidget* parent = nullptr) : QWidget(parent, Qt::Popup)
             {
-                this->setStyleSheet("background-color:red;");
+                ly = new QGridLayout(this);
+                name = new MaterialTextField("Name",this);
+
+                std::regex name_regex("[a-zA-Z\\s]{1,128}");
+                auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
+                name->setValidationFunction(func_name_regex);
+
+                name->setText(n);
+
+                ly->addWidget(name);
             }
+        
+            bool validateName()
+            {
+                return name->validateText();
+            }
+
+            QString getName()
+            {
+                return name->text();
+            }
+        signals:
+            void popupFinished(ProfileEditPopupResult);
+        protected:
+            void closeEvent(QCloseEvent* e)
+            {
+                QWidget::closeEvent(e);
+                emit popupFinished(ProfileEditPopupResult(name->text(),name->validateText()));
+            }
+        private:
+            QGridLayout* ly;
+            MaterialTextField* name;
         };
 
         class ProfileEditButton : public QPushButton
@@ -82,9 +123,10 @@ namespace FreeFit
                 edit_button->setStyleSheet("color:grey; border-style:none;");
                 connect(edit_button,&QPushButton::clicked,this,[this]()
                 {
-                    ProfileEditPopup* p = new ProfileEditPopup(this->edit_button);
+                    ProfileEditPopup* p = new ProfileEditPopup(name_label->text(),this->edit_button);
                     p->move(QWidget::mapToGlobal(edit_button->pos() + edit_button->rect().bottomRight()));
                     p->show();
+                    connect(p,SIGNAL(popupFinished(ProfileEditPopupResult)),this,SLOT(handlePopupFinished(ProfileEditPopupResult)));
                 });
                 setName(t_name);
                 updateStyle();
@@ -110,6 +152,12 @@ namespace FreeFit
             {
                 selected = b;
                 updateStyle();
+            }
+        public slots:
+            void handlePopupFinished(ProfileEditPopupResult p)
+            {
+                if (p.name_valid)
+                    name_label->setText(p.name);
             }
         protected:
             void mousePressEvent(QMouseEvent* ev)
