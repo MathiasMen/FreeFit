@@ -88,7 +88,6 @@ namespace FreeFit
                     return s;
             }
 
-
             QGridLayout* ly;
             QLabel* name_label;
 
@@ -102,13 +101,39 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            ProfileItemGroup(){}
+            ProfileItemGroup(QObject* parent = nullptr) : QObject(parent)
+            {
+
+            }
 
             void addItem(ProfileItem* i)
             {
                 items.push_back(i);
                 connect(i,SIGNAL(itemPressed(ProfileItem*)),this,SLOT(itemPressed(ProfileItem*)));
             }
+
+            int currentIndex()
+            {
+                int i = -1;
+                int c = 0;
+                for (auto pi : items)
+                {
+                    if (pi == current_profile)
+                        i = c;
+                    c += 1;
+                }
+                return i;
+            }
+
+            void selectProfile(int i)
+            {
+                if(items[i]->getSelected())
+                    return;
+                else
+                    itemPressed(items[i]);
+            }
+
+            std::vector<ProfileItem*> getItems(){return items;}
         public slots:
 
             void itemPressed(ProfileItem* i)
@@ -118,12 +143,16 @@ namespace FreeFit
                 else
                     for (auto item : items)
                         if (i != item)
+                        {
                             item->setSelected(false);
+                            current_profile = i;
+                        }
 
             }
 
         private:
-            std::list<ProfileItem*> items;
+            std::vector<ProfileItem*> items;
+            ProfileItem* current_profile;
         };
     }
 }

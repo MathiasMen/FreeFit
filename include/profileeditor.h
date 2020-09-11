@@ -18,6 +18,7 @@
 #include "include/materialbutton.h"
 #include "include/materialdialog.h"
 #include "include/materialclip.h"
+#include "include/profileitem.h"
 
 namespace FreeFit
 {
@@ -25,25 +26,21 @@ namespace FreeFit
     {
         class ProfileEditorValidator;
 
-        class ProfileSelection : public QScrollArea
+        class ProfileSelectionWidget : public QScrollArea
         {
         Q_OBJECT
         friend ProfileEditorValidator;
         public:
-            ProfileSelection(QWidget* parent);
+            ProfileSelectionWidget(QWidget* parent);
             void addItem(QString profile_name);
             int currentIndex();
-            void selectProfile(int i);
+            void selectProfile(int i){profile_group->selectProfile(i);}
         signals:
             void currentIndexChanged(int);
-        private slots:
-            void deselectOthers(MaterialClip* c);
-            void select(MaterialClip* c);
         private:
             QWidget* content;
             QHBoxLayout* content_ly;
-            std::vector<MaterialClip*> profiles;
-            MaterialClip* current_profile;
+            ProfileItemGroup* profile_group;
         };
 
         class ProfileEditor : public MaterialDialog
@@ -62,13 +59,13 @@ namespace FreeFit
             void informationChanged();
             FreeFit::Data::Profile getCurrentlySelectedData();
         private:
-            ProfileSelection* getProfileSelection(){return profile_selection;}
+            ProfileSelectionWidget* getProfileSelection(){return profile_selection;}
             std::vector<FreeFit::Data::Profile> v_p;
             FreeFit::Data::ProfileXMLReader r;
             FreeFit::Data::ProfileWriter w;
             QGridLayout* ly;
 
-            ProfileSelection* profile_selection;
+            ProfileSelectionWidget* profile_selection;
 
             MaterialTextField* path_exercises_xml;
             MaterialTextField* profile_name;
@@ -109,7 +106,7 @@ namespace FreeFit
             }
             std::string getName(){return p->profile_name->text().toStdString();}
             std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
-            std::string getClipCSSString(int i){return p->profile_selection->profiles[i]->styleSheet().toStdString();}
+            std::string getProfileCSSString(int i){return p->profile_selection->profile_group->getItems()[i]->styleSheet().toStdString();}
         signals:
             void changeTextSignal(const QString&);
         private:

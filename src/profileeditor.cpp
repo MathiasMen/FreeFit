@@ -4,7 +4,7 @@ namespace FreeFit
 {
     namespace GUI
     {
-            ProfileSelection::ProfileSelection(QWidget* parent)
+            ProfileSelectionWidget::ProfileSelectionWidget(QWidget* parent)
                 : QScrollArea(parent)
             {
                 content = new QWidget(this);
@@ -15,46 +15,15 @@ namespace FreeFit
                 setFrameShape(QFrame::NoFrame);
             }
 
-            void ProfileSelection::addItem(QString profile_name)
+            void ProfileSelectionWidget::addItem(QString profile_name)
             {
-                MaterialClip* m = new MaterialClip(profile_name);
+                ProfileItem* m = new ProfileItem(profile_name,this);
                 content_ly->addWidget(m);
-                profiles.push_back(m);
-                connect(m,SIGNAL(clicked(MaterialClip*)),this,SLOT(deselectOthers(MaterialClip*)));
-                connect(m,SIGNAL(clicked(MaterialClip*)),this,SLOT(select(MaterialClip*)));
             }
 
-            int ProfileSelection::currentIndex()
+            int ProfileSelectionWidget::currentIndex()
             {
-                int i = -1;
-                int c = 0;
-                for (auto p : profiles)
-                {
-                    if (p == current_profile)
-                        i = c;
-                    c += 1;
-                }
-                return i;
-            }
-
-            void ProfileSelection::selectProfile(int i)
-            {
-                deselectOthers(profiles[i]);
-                select(profiles[i]);
-            }
-
-            void ProfileSelection::deselectOthers(MaterialClip* c)
-            {
-                for (auto p : profiles)
-                    if (p != c)
-                        p->deselect();
-            }
-
-            void ProfileSelection::select(MaterialClip* c)
-            {
-                current_profile = c;
-                c->select();
-                emit currentIndexChanged(currentIndex());
+                return profile_group->currentIndex();
             }
 
             ProfileEditor::ProfileEditor(std::string p_path)
@@ -63,7 +32,7 @@ namespace FreeFit
                 ly = new QGridLayout(this);
                 this->setLayout(ly);
 
-                profile_selection = new ProfileSelection(this);
+                profile_selection = new ProfileSelectionWidget(this);
                 path_exercises_xml = new MaterialTextField("Path to Exercises XML",this);
                 profile_name = new MaterialTextField("Name",this);
 
