@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
+#include <QIcon>
+#include <QPushButton>
 
 #include <iostream>
 
@@ -11,8 +13,11 @@ namespace FreeFit
 {
     namespace GUI
     {
+        class ProfileItemValidator;
+
         class ProfileItem : public QWidget
         {
+        friend ProfileItemValidator;
         Q_OBJECT
         public:
             ProfileItem(QString t_name = "new", QWidget* t_parent = nullptr) : QWidget(t_parent)
@@ -22,10 +27,15 @@ namespace FreeFit
                 this->setFixedSize(width,height);
                 ly = new QGridLayout(this);
                 name_label = new QLabel(this);
-                name_label->setFixedSize(width,height);
+                name_label->setFixedSize(width*0.9,height*0.9);
+                edit_button = new QPushButton(QIcon("/Users/mathias/Documents/programming_workspace/FreeFit/tools/edit.svg"),"",this);
+                edit_button->setFixedSize(width*0.1,height*0.1);
+                edit_button->setStyleSheet("color:grey; border-style:none;");
                 name_label->setAlignment(Qt::AlignCenter);
                 setName(t_name);
                 updateStyle();
+                ly->addWidget(name_label,0,0,Qt::AlignCenter);
+                ly->addWidget(edit_button,1,0,Qt::AlignCenter);
             }
 
             void setName(QString name)
@@ -90,6 +100,7 @@ namespace FreeFit
 
             QGridLayout* ly;
             QLabel* name_label;
+            QPushButton* edit_button;
 
             bool selected = false;
             QString css_string = "color:grey; border: 2px solid grey; border-radius:5px; text-align:center;";
@@ -99,6 +110,7 @@ namespace FreeFit
 
         class ProfileItemGroup : public QObject
         {
+        friend ProfileItemValidator;
         Q_OBJECT
         public:
             ProfileItemGroup(QObject* parent = nullptr) : QObject(parent)
