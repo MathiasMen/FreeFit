@@ -82,41 +82,31 @@ namespace FreeFit
             ProfileEditorValidator(ProfileEditor* t_p) : p(t_p){}
 
             int getNumberOfLoadedProfiles(){return p->v_p.size();}
+
+            ProfileItem* getCurrentSelectionItem()
+            {
+                return p->profile_selection->profile_group->getItems()[p->profile_selection->currentIndex()];
+            }
+
             FreeFit::Data::Profile getProfile(int index){return p->v_p[index];}
+
             FreeFit::Data::Profile getSelectedProfileData(){return p->getCurrentlySelectedData();}
             
             void selectProfile(int i){p->getProfileSelection()->selectProfile(i);};
-            void setName(std::string n)
+
+            void setCurrentName(std::string n)
             {
-/*
-                connect(this,SIGNAL(changeTextSignal(const QString&)),p->profile_name,SIGNAL(textEdited(const QString&)));
-                p->profile_name->setText(QString::fromStdString(n));
-                emit changeTextSignal(QString::fromStdString(n));
-*/
+                getCurrentSelectionItem()->setName(QString::fromStdString(n));
             }
 
-            void setXMLOutPath(std::string f)
-            {
-/*
-                connect(this,SIGNAL(changeTextSignal(const QString&)),p->path_exercises_xml,SIGNAL(textEdited(const QString&)));
-                p->path_exercises_xml->setText(QString::fromStdString(f));
-                emit changeTextSignal(QString::fromStdString(f));
-*/
-            }
             void changeOutputPath(std::string f)
             {
                 p->w.setOutPath(f);
             }
 
-            std::string getName(){return p->profile_selection->getCurrentName();}
-            std::string getXMLOutPath(){return "";}
-            std::string getProfileCSSString(int i){return "";}
+            std::string getCurrentName(){return p->profile_selection->getCurrentName();}
 
-/*
-            std::string getName(){return p->profile_name->text().toStdString();}
-            std::string getXMLOutPath(){return p->path_exercises_xml->text().toStdString();}
-            std::string getProfileCSSString(int i){return p->profile_selection->profile_group->getItems()[i]->styleSheet().toStdString();}
-*/
+            std::string getCurrentProfileCSSString(int i){return getCurrentSelectionItem()->styleSheet().toStdString();}
         signals:
             void changeTextSignal(const QString&);
         private:

@@ -46,10 +46,9 @@ TEST_F(ProfileEditor,SelectionStyling)
     v->selectProfile(1);
     v->selectProfile(0);
     v->selectProfile(1);
-    ASSERT_EQ(v->getName(),"Constanze");
-    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
-    ASSERT_TRUE(v->getProfileCSSString(0).find("color:grey; border: 2px solid grey;") != std::string::npos);
-    ASSERT_TRUE(v->getProfileCSSString(1).find("color:red; border: 2px solid red;") != std::string::npos);
+    ASSERT_EQ(v->getCurrentName(),"Constanze");
+    ASSERT_TRUE(v->getCurrentProfileCSSString(0).find("color:grey; border: 2px solid grey;") != std::string::npos);
+    ASSERT_TRUE(v->getCurrentProfileCSSString(1).find("color:red; border: 2px solid red;") != std::string::npos);
     d->reject();
 }
 
@@ -60,10 +59,8 @@ TEST_F(ProfileEditor,EditSelection)
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
     d->open();
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
-    v->setName("MathiasTest");
-    v->setXMLOutPath("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
-    ASSERT_EQ(v->getName(),"MathiasTest");
-    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
+    v->setCurrentName("MathiasTest");
+    ASSERT_EQ(v->getCurrentName(),"MathiasTest");
     ASSERT_EQ(v->getProfile(0).getName(),"MathiasTest");
     ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
     ASSERT_EQ(v->getProfile(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
@@ -83,8 +80,7 @@ TEST_F(ProfileEditor,ChangeSelection)
     ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
     ASSERT_EQ(v->getProfile(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
     ASSERT_EQ(v->getProfile(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
-    ASSERT_EQ(v->getName(),"Constanze");
-    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
+    ASSERT_EQ(v->getCurrentName(),"Constanze");
     d->reject();
 }
 
@@ -96,11 +92,10 @@ TEST_F(ProfileEditor,ChangeSelectionAndEdit)
     d->open();
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
     v->selectProfile(1);
-    v->setName("ConstanzeTest");
+    v->setCurrentName("ConstanzeTest");
     v->selectProfile(0);
     v->selectProfile(1);
-    ASSERT_EQ(v->getName(),"ConstanzeTest");
-    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
+    ASSERT_EQ(v->getCurrentName(),"ConstanzeTest");
     d->reject();
 }
 
@@ -111,8 +106,7 @@ TEST_F(ProfileEditor,WriteXML)
     FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
     v->changeOutputPath(out_path);
-    v->setXMLOutPath("${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList3.xml");
-    v->setName("Mathias2");
+    v->setCurrentName("Mathias2");
     d->accept();
 
     std::string expected_xml = 
