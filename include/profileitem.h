@@ -17,6 +17,7 @@ namespace FreeFit
     namespace GUI
     {
         class ProfileItemValidator;
+        class ProfileItemGroup;
         
         struct ProfileEditPopupResult
         {
@@ -157,6 +158,11 @@ namespace FreeFit
                 selected = b;
                 updateStyle();
             }
+
+            void setGroupPointer(ProfileItemGroup* p)
+            {
+                group_ptr = p;
+            }
         public slots:
             void handlePopupFinished(ProfileEditPopupResult p)
             {
@@ -167,10 +173,13 @@ namespace FreeFit
             void mousePressEvent(QMouseEvent* ev)
             {
                 QWidget::mousePressEvent(ev);
-
-                selected = !selected;
-                updateStyle();
-                emit itemPressed(this);
+                if (group_ptr == nullptr)
+                {
+                    selected = !selected;
+                    updateStyle();
+                }
+                else
+                    emit itemPressed(this);
             }
 
         private:
@@ -210,6 +219,7 @@ namespace FreeFit
             ProfileEditButton* edit_button;
 
             bool selected = false;
+            ProfileItemGroup* group_ptr = nullptr;
             QString css_string = "color:grey; border: 2px solid grey; border-radius:5px; text-align:center;";
         signals:
             void itemPressed(ProfileItem* i);
@@ -220,13 +230,14 @@ namespace FreeFit
         friend ProfileItemValidator;
         Q_OBJECT
         public:
-            ProfileItemGroup(QObject* parent = nullptr) : QObject(parent)
+            ProfileItemGroup(QObject* parent = nullptr) : QObject(parent),current_profile(nullptr)
             {
 
             }
 
             void addItem(ProfileItem* i)
             {
+                i->setGroupPointer(this);
                 items.push_back(i);
                 connect(i,SIGNAL(itemPressed(ProfileItem*)),this,SLOT(itemPressed(ProfileItem*)));
             }
@@ -246,15 +257,15 @@ namespace FreeFit
 
             std::string getCurrentName()
             {
-                return current_profile->getName();
+                if (current_profile != nullptr)
+                    return current_profile->getName();
+                else
+                    return "";
             }
 
             void selectProfile(int i)
             {
-                if(items[i]->getSelected())
-                    return;
-                else
-                    itemPressed(items[i]);
+                itemPressed(items[i]);
             }
 
             std::vector<ProfileItem*> getItems(){return items;}
@@ -262,21 +273,33 @@ namespace FreeFit
 
             void itemPressed(ProfileItem* i)
             {
-                if (!i->getSelected())
-                    i->setSelected(true);
-                else
-                    for (auto item : items)
-                        if (i != item)
-                        {
-                            item->setSelected(false);
-                            current_profile = i;
-                        }
-
+                for (auto item : items)
+                    item->setSelected(false);
+                i->setSelected(true);
+                current_profile = i;
             }
 
         private:
             std::vector<ProfileItem*> items;
             ProfileItem* current_profile;
+        };
+
+        class ProfileItemValidator
+        {
+        public:
+            ProfileItemValidator(ProfileItemGroup* t_g) : g(t_g){}
+
+            void selectProfileItem(int i)
+            {
+                g->selectProfile(i);
+            }
+
+            std::string getProfileCSSString(int i)
+            {
+                return g->items[i]->styleSheet().toStdString();
+            }
+        private:
+            ProfileItemGroup* g;
         };
     }
 }
