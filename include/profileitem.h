@@ -263,6 +263,12 @@ namespace FreeFit
                     return "";
             }
 
+            void setCurrentName(QString n)
+            {
+                if (current_profile != nullptr)
+                    current_profile->setName(n);
+            }
+
             void selectProfile(int i)
             {
                 itemPressed(items[i]);
@@ -297,6 +303,16 @@ namespace FreeFit
             std::string getProfileCSSString(int i)
             {
                 return g->items[i]->styleSheet().toStdString();
+            }
+
+            std::string getName(int i)
+            {
+                return g->items[i]->getName();
+            }
+
+            std::string getCurrentName()
+            {
+                return g->current_profile->getName();
             }
         private:
             ProfileItemGroup* g;
