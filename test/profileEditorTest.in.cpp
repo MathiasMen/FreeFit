@@ -36,22 +36,6 @@ TEST_F(ProfileEditor,ReadXML)
     d->reject();
 }
 
-TEST_F(ProfileEditor,SelectionStyling)
-{
-    QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
-    FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
-    d->open();
-    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
-    v->selectProfile(1);
-    v->selectProfile(0);
-    v->selectProfile(1);
-    ASSERT_EQ(v->getCurrentName(),"Constanze");
-    ASSERT_TRUE(v->getCurrentProfileCSSString(0).find("color:grey; border: 2px solid grey;") != std::string::npos);
-    ASSERT_TRUE(v->getCurrentProfileCSSString(1).find("color:red; border: 2px solid red;") != std::string::npos);
-    d->reject();
-}
-
 TEST_F(ProfileEditor,EditSelection)
 {
     QApplication a(my_argc,my_argv);
