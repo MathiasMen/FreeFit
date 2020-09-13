@@ -104,37 +104,3 @@ TEST(ProfileItemGroup,ChangeSelectionAndEdit)
     ASSERT_EQ(v.getName(2),"Uschi");
 }
 
-/*
-TEST_F(ProfileEditor,ChangeSelection)
-{
-    QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
-    FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
-    d->open();
-    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
-    v->selectProfile(1);
-    ASSERT_EQ(v->getProfile(0).getName(),"Mathias");
-    ASSERT_EQ(v->getProfile(1).getName(),"Constanze");
-    ASSERT_EQ(v->getProfile(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
-    ASSERT_EQ(v->getProfile(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
-    ASSERT_EQ(v->getName(),"Constanze");
-    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
-    d->reject();
-}
-
-TEST_F(ProfileEditor,ChangeSelectionAndEdit)
-{
-    QApplication a(my_argc,my_argv);
-    FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor(profile_path);
-    FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
-    d->open();
-    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
-    v->selectProfile(1);
-    v->setName("ConstanzeTest");
-    v->selectProfile(0);
-    v->selectProfile(1);
-    ASSERT_EQ(v->getName(),"ConstanzeTest");
-    ASSERT_EQ(v->getXMLOutPath(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
-    d->reject();
-}
-*/
