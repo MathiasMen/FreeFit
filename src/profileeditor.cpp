@@ -14,6 +14,7 @@ namespace FreeFit
                 setWidgetResizable(true);
                 setFrameShape(QFrame::NoFrame);
                 profile_group = new ProfileItemGroup(this);
+                connect(profile_group,SIGNAL(currentNameChanged(std::string)),this,SIGNAL(currentNameChanged(std::string)));
             }
 
             void ProfileSelectionWidget::addItem(QString profile_name)
@@ -35,7 +36,7 @@ namespace FreeFit
                 this->setLayout(ly);
 
                 profile_selection = new ProfileSelectionWidget(this);
-
+                connect(profile_selection,SIGNAL(currentNameChanged(std::string)),this,SLOT(currentNameChanged(std::string)));
                 skip_exercises_button = new ControlButton("Workout Settings",ControlButton::ForwardButton,ControlButton::Primary,this);
                 connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
 

@@ -38,6 +38,7 @@ namespace FreeFit
             std::string getCurrentName(){return profile_group->getCurrentName();};
         signals:
             void currentIndexChanged(int);
+            void currentNameChanged(std::string);
         private:
             QWidget* content;
             QHBoxLayout* content_ly;
@@ -57,6 +58,7 @@ namespace FreeFit
         public slots:
             void accept() override;
             void informationChanged();
+            void currentNameChanged(std::string n){v_p[profile_selection->currentIndex()].setName(n);}
             FreeFit::Data::Profile getCurrentlySelectedData();
         private:
             ProfileSelectionWidget* getProfileSelection(){return profile_selection;}
@@ -88,7 +90,7 @@ namespace FreeFit
                 return p->profile_selection->profile_group->getItems()[p->profile_selection->currentIndex()];
             }
 
-            FreeFit::Data::Profile getProfile(int index){return p->v_p[index];}
+            FreeFit::Data::Profile getProfileData(int index){return p->v_p[index];}
 
             FreeFit::Data::Profile getSelectedProfileData(){return p->getCurrentlySelectedData();}
             

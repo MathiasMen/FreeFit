@@ -146,6 +146,7 @@ namespace FreeFit
                     decreaseLabelTextSizeIfNecessary(name);
                 name = elidedTextIfNecessary(name);
                 name_label->setText(name);
+                emit nameChanged(name.toStdString());
             }
 
             bool getSelected()
@@ -167,8 +168,10 @@ namespace FreeFit
             void handlePopupFinished(ProfileEditPopupResult p)
             {
                 if (p.name_valid)
-                    name_label->setText(p.name);
+                    setName(p.name);
             }
+        signals:
+            void nameChanged(std::string);
         protected:
             void mousePressEvent(QMouseEvent* ev)
             {
@@ -240,6 +243,7 @@ namespace FreeFit
                 i->setGroupPointer(this);
                 items.push_back(i);
                 connect(i,SIGNAL(itemPressed(ProfileItem*)),this,SLOT(itemPressed(ProfileItem*)));
+                connect(i,SIGNAL(nameChanged(std::string)),this,SIGNAL(currentNameChanged(std::string)));
             }
 
             int currentIndex()
@@ -276,7 +280,6 @@ namespace FreeFit
 
             std::vector<ProfileItem*> getItems(){return items;}
         public slots:
-
             void itemPressed(ProfileItem* i)
             {
                 for (auto item : items)
@@ -284,7 +287,8 @@ namespace FreeFit
                 i->setSelected(true);
                 current_profile = i;
             }
-
+        signals:
+            void currentNameChanged(std::string);
         private:
             std::vector<ProfileItem*> items;
             ProfileItem* current_profile;
