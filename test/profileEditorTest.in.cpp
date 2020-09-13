@@ -57,12 +57,15 @@ TEST_F(ProfileEditor,ChangeSelection)
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
     d->open();
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
-    v->selectProfile(1);
     ASSERT_EQ(v->getProfileData(0).getName(),"Mathias");
     ASSERT_EQ(v->getProfileData(1).getName(),"Constanze");
     ASSERT_EQ(v->getProfileData(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
     ASSERT_EQ(v->getProfileData(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
+    ASSERT_EQ(v->getCurrentName(),"Mathias");
+    v->selectProfile(1);
     ASSERT_EQ(v->getCurrentName(),"Constanze");
+    v->selectProfile(0);
+    ASSERT_EQ(v->getCurrentName(),"Mathias");
     d->reject();
 }
 
