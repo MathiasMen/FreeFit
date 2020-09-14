@@ -17,6 +17,7 @@ configure_file(${CMAKE_SOURCE_DIR}/src/downloadexercisedemandhandler.in.cpp ${CM
 configure_file(${CMAKE_SOURCE_DIR}/src/exerciseeditor.in.cpp ${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/src/main.in.cpp ${CMAKE_SOURCE_DIR}/src/main.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/src/mainwindow.in.cpp ${CMAKE_SOURCE_DIR}/src/mainwindow.cpp)
+configure_file(${CMAKE_SOURCE_DIR}/src/profileitem.in.cpp ${CMAKE_SOURCE_DIR}/src/profileitem.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/test/exerciseGUITest.in.cpp ${CMAKE_SOURCE_DIR}/test/exerciseGUITest.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/test/exerciseViewerTest.in.cpp ${CMAKE_SOURCE_DIR}/test/exerciseViewerTest.cpp)
 configure_file(${CMAKE_SOURCE_DIR}/test/profileEditorTest.in.cpp ${CMAKE_SOURCE_DIR}/test/profileEditorTest.cpp)
