@@ -7,6 +7,7 @@ src/downloadexercisedemandhandler.cpp
 src/exerciseeditor.cpp
 src/main.cpp
 src/mainwindow.cpp
+src/profileitem.cpp
 test/exerciseGUITest.cpp
 test/exerciseViewerTest.cpp
 test/profileEditorTest.cpp
