@@ -8,6 +8,7 @@ namespace FreeFit
         {
             ly = new QGridLayout(this);
             name = new MaterialTextField("Name",this);
+            ProfileEditColorPicker* p = new ProfileEditColorPicker(this);
             std::regex name_regex("[a-zA-Z\\s]{1,128}");
             auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
             name->setValidationFunction(func_name_regex);
@@ -15,6 +16,7 @@ namespace FreeFit
             name->setText(n);
 
             ly->addWidget(name);
+            ly->addWidget(p);
         }
 
         void ProfileEditPopup::closeEvent(QCloseEvent* e)

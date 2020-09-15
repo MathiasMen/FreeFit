@@ -1,11 +1,14 @@
 #pragma once
 
+#include <vector>
+
 #include <QDialog>
 #include <QObject>
 #include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
 #include <QIcon>
+#include <QPixmap>
 #include <QPushButton>
 #include <QPainter>
 #include <QPen>
@@ -18,7 +21,43 @@ namespace FreeFit
     {
         class ProfileItemValidator;
         class ProfileItemGroup;
-        
+
+        class ProfileEditColorPickerTile : public QPushButton
+        {
+        public:
+            ProfileEditColorPickerTile(QColor c, QWidget* parent = nullptr) : QPushButton(nullptr)
+            {
+                QPixmap p(20,20);
+                p.fill(c);
+                this->setIcon(p);
+            }
+        };
+
+        class ProfileEditColorPicker : public QWidget
+        {
+        public:
+            ProfileEditColorPicker(QWidget* parent = nullptr) : QWidget(parent)
+            {
+                ly = new QGridLayout(this);
+
+                std::vector<QColor> colors {Qt::red};
+                for (auto c : colors)
+                {
+                    ProfileEditColorPickerTile* t = new ProfileEditColorPickerTile(c,this);
+                    ly->addWidget(t);                    
+                }
+
+            }
+
+            void selectColor(QColor c)
+            {
+                
+            }
+        private:
+            std::vector<QColor> colors {Qt::red};
+            QGridLayout* ly;
+        };
+
         struct ProfileEditPopupResult
         {
             ProfileEditPopupResult(QString n, bool v)
