@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <QPainter>
 #include <QPen>
+#include <QSpacerItem>
 
 #include "include/materialtextfield.h"
 
@@ -40,11 +41,21 @@ namespace FreeFit
             {
                 ly = new QGridLayout(this);
 
-                std::vector<QColor> colors {Qt::red};
+                std::vector<QColor> colors {Qt::red,Qt::blue,Qt::green,Qt::yellow};
+                unsigned int row_counter = 0;
+                unsigned int col_counter = 0;
                 for (auto c : colors)
                 {
                     ProfileEditColorPickerTile* t = new ProfileEditColorPickerTile(c,this);
-                    ly->addWidget(t);                    
+                    ly->addWidget(t,row_counter,col_counter);
+                    if (row_counter == 0)
+                        row_counter = 1;
+                    else
+                    {
+                        row_counter = 0;
+                        col_counter += 1;
+                    }
+                    
                 }
 
             }
@@ -85,6 +96,7 @@ namespace FreeFit
         private:
             QGridLayout* ly;
             MaterialTextField* name;
+            QSpacerItem* horizontal_spacer;
         };
 
         class ProfileEditButton : public QPushButton

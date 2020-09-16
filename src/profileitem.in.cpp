@@ -15,8 +15,11 @@ namespace FreeFit
 
             name->setText(n);
 
-            ly->addWidget(name);
-            ly->addWidget(p);
+            horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+
+            ly->addWidget(name,0,0,1,2);
+            ly->addWidget(p,1,0,1,1);
+            ly->addItem(horizontal_spacer,1,1,1,1);
         }
 
         void ProfileEditPopup::closeEvent(QCloseEvent* e)
