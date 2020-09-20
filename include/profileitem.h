@@ -15,10 +15,10 @@
 #include <QSpacerItem>
 #include <QGroupBox>
 #include <QButtonGroup>
+#include <QRegExp>
 
 #include "include/materialtextfield.h"
 
-#include <iostream>
 
 namespace FreeFit
 {
@@ -170,10 +170,8 @@ namespace FreeFit
 
             void setColor(QString color)
             {
-                std::cout << getName() << " " << this->styleSheet().toStdString() << std::endl;
-                css_string.replace("grey",color);
+                setColorInCSS(color);
                 this->setStyleSheet(css_string);
-                std::cout << getName() << " " << this->styleSheet().toStdString() << std::endl;
             };
         public slots:
             void handlePopupFinished(ProfileEditPopupResult p);
@@ -182,6 +180,11 @@ namespace FreeFit
         protected:
             void mousePressEvent(QMouseEvent* ev);
         private:
+            void setColorInCSS(QString c)
+            {
+                css_string.replace(QRegExp("#([0-9]|[a-f]|[A-F]){6}"),c);
+            }
+
             void updateStyle();
 
             void decreaseLabelTextSizeIfNecessary(QString s);
@@ -194,7 +197,7 @@ namespace FreeFit
 
             bool selected = false;
             ProfileItemGroup* group_ptr = nullptr;
-            QString css_string = "color:grey; border: 2px solid grey; border-radius:5px; text-align:center;";
+            QString css_string = "color:#808080; border: 2px solid #808080; border-radius:5px; text-align:center;";
         signals:
             void itemPressed(ProfileItem* i);
         };

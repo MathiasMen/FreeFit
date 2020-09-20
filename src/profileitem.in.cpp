@@ -116,9 +116,9 @@ namespace FreeFit
         void ProfileItem::updateStyle()
         {
             if (selected)
-                css_string.replace("color:grey; border: 2px solid grey;","color:red; border: 2px solid red;");
+                setColorInCSS(QColor("red").name());
             else
-                css_string.replace("color:red; border: 2px solid red;","color:grey; border: 2px solid grey;");
+                setColorInCSS(QColor("grey").name());
             setStyleSheet(css_string);
         }
 
