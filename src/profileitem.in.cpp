@@ -49,7 +49,7 @@ namespace FreeFit
             painter.drawPixmap(0,0,pixmap_width,pixmap_height,colored_icon.pixmap(pixmap_width,pixmap_height));
         }
 
-        ProfileItem::ProfileItem(QString t_name, QWidget* t_parent) : QWidget(t_parent)
+        ProfileItem::ProfileItem(QString t_name, QWidget* t_parent) : QWidget(t_parent),item_color(QColor("red"))
         {
             const int width = 200;
             const int height = 200;
@@ -116,7 +116,7 @@ namespace FreeFit
         void ProfileItem::updateStyle()
         {
             if (selected)
-                setColorInCSS(QColor("red").name());
+                setColorInCSS(item_color.name());
             else
                 setColorInCSS(QColor("grey").name());
             setStyleSheet(css_string);

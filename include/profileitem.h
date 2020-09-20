@@ -170,6 +170,7 @@ namespace FreeFit
 
             void setColor(QString color)
             {
+                item_color = QColor(color);
                 setColorInCSS(color);
                 this->setStyleSheet(css_string);
             };
@@ -190,6 +191,8 @@ namespace FreeFit
             void decreaseLabelTextSizeIfNecessary(QString s);
 
             QString elidedTextIfNecessary(QString s);
+
+            QColor item_color;
 
             QGridLayout* ly;
             QLabel* name_label;
