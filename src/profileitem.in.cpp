@@ -1,5 +1,7 @@
 #include "include/profileitem.h"
 
+#include <iostream>
+
 namespace FreeFit
 {
     namespace GUI
@@ -8,7 +10,7 @@ namespace FreeFit
         {
             ly = new QGridLayout(this);
             name = new MaterialTextField("Name",this);
-            ProfileEditColorPicker* p = new ProfileEditColorPicker(this);
+            p = new ProfileEditColorPicker(this);
             std::regex name_regex("[a-zA-Z\\s]{1,128}");
             auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
             name->setValidationFunction(func_name_regex);
@@ -25,7 +27,7 @@ namespace FreeFit
         void ProfileEditPopup::closeEvent(QCloseEvent* e)
         {
             QWidget::closeEvent(e);
-            emit popupFinished(ProfileEditPopupResult(name->text(),name->validateText()));
+            emit popupFinished(ProfileEditPopupResult(name->text(),p->getColorName(),name->validateText()));
         }
 
         void ProfileEditButton::paintEvent(QPaintEvent* ev)
@@ -95,6 +97,8 @@ namespace FreeFit
         {
             if (p.name_valid)
                 setName(p.name);
+            if (!p.color_name.isEmpty())
+                setColor(p.color_name);
         }
 
         void ProfileItem::mousePressEvent(QMouseEvent* ev)

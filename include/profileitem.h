@@ -18,6 +18,8 @@
 
 #include "include/materialtextfield.h"
 
+#include <iostream>
+
 namespace FreeFit
 {
     namespace GUI
@@ -29,12 +31,17 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            ProfileEditColorPickerTile(QColor c, QWidget* parent = nullptr) : QPushButton(nullptr)
+            ProfileEditColorPickerTile(QColor c, QWidget* parent = nullptr) : QPushButton(nullptr),color(c)
             {
                 QPixmap p(20,20);
-                p.fill(c);
+                p.fill(color);
                 this->setIcon(p);
                 this->setCheckable(true);
+            }
+
+            QString getColor()
+            {
+                return color.name();
             }
         public slots:
             void updateCSS()
@@ -44,6 +51,8 @@ namespace FreeFit
                 else
                     this->setStyleSheet("");
             }
+        private:
+            QColor color;
         };
 
         class ProfileEditColorPicker : public QGroupBox
@@ -55,7 +64,6 @@ namespace FreeFit
                 grp = new QButtonGroup(this);
                 grp->setExclusive(true);
 
-                std::vector<QColor> colors {Qt::red,Qt::blue,Qt::green,Qt::yellow};
                 unsigned int row_counter = 0;
                 unsigned int col_counter = 0;
                 for (auto c : colors)
@@ -64,6 +72,7 @@ namespace FreeFit
 
                     ly->addWidget(t,row_counter,col_counter);
                     grp->addButton(t);
+                    color_tiles.push_back(t);
                     connect(grp,SIGNAL(buttonClicked(QAbstractButton*)),t,SLOT(updateCSS()));
 
                     if (row_counter == 0)
@@ -81,20 +90,30 @@ namespace FreeFit
             {
                 
             }
+
+            QString getColorName()
+            {
+                for (auto t : color_tiles)
+                    if (t->isChecked())
+                        return t->getColor();
+                return QString();
+            }
         private:
-            std::vector<QColor> colors {Qt::red};
+            std::vector<QColor> colors = {Qt::red,Qt::blue,Qt::green,Qt::yellow};
+            std::vector<ProfileEditColorPickerTile*> color_tiles;
             QGridLayout* ly;
             QButtonGroup* grp;
         };
 
         struct ProfileEditPopupResult
         {
-            ProfileEditPopupResult(QString n, bool v)
-                : name(n),name_valid(v)
+            ProfileEditPopupResult(QString n, QString c, bool v)
+                : name(n),color_name(c),name_valid(v)
             {
 
             }
             QString name;
+            QString color_name;
             bool name_valid;
         };
 
@@ -107,6 +126,8 @@ namespace FreeFit
             bool validateName(){return name->validateText();}
 
             QString getName(){return name->text();}
+
+            QString getColorName(){return p->getColorName();}
         signals:
             void popupFinished(ProfileEditPopupResult);
         protected:
@@ -114,6 +135,7 @@ namespace FreeFit
         private:
             QGridLayout* ly;
             MaterialTextField* name;
+            ProfileEditColorPicker* p;
             QSpacerItem* horizontal_spacer;
         };
 
@@ -145,6 +167,14 @@ namespace FreeFit
             void setSelected(bool b);
 
             void setGroupPointer(ProfileItemGroup* p){group_ptr = p;}
+
+            void setColor(QString color)
+            {
+                std::cout << getName() << " " << this->styleSheet().toStdString() << std::endl;
+                css_string.replace("grey",color);
+                this->setStyleSheet(css_string);
+                std::cout << getName() << " " << this->styleSheet().toStdString() << std::endl;
+            };
         public slots:
             void handlePopupFinished(ProfileEditPopupResult p);
         signals:
