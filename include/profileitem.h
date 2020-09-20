@@ -13,6 +13,8 @@
 #include <QPainter>
 #include <QPen>
 #include <QSpacerItem>
+#include <QGroupBox>
+#include <QButtonGroup>
 
 #include "include/materialtextfield.h"
 
@@ -25,21 +27,33 @@ namespace FreeFit
 
         class ProfileEditColorPickerTile : public QPushButton
         {
+        Q_OBJECT
         public:
             ProfileEditColorPickerTile(QColor c, QWidget* parent = nullptr) : QPushButton(nullptr)
             {
                 QPixmap p(20,20);
                 p.fill(c);
                 this->setIcon(p);
+                this->setCheckable(true);
+            }
+        public slots:
+            void updateCSS()
+            {
+                if (this->isChecked())
+                    this->setStyleSheet("border: 4px solid white;");
+                else
+                    this->setStyleSheet("");
             }
         };
 
-        class ProfileEditColorPicker : public QWidget
+        class ProfileEditColorPicker : public QGroupBox
         {
         public:
-            ProfileEditColorPicker(QWidget* parent = nullptr) : QWidget(parent)
+            ProfileEditColorPicker(QWidget* parent = nullptr) : QGroupBox("Color",parent)
             {
                 ly = new QGridLayout(this);
+                grp = new QButtonGroup(this);
+                grp->setExclusive(true);
 
                 std::vector<QColor> colors {Qt::red,Qt::blue,Qt::green,Qt::yellow};
                 unsigned int row_counter = 0;
@@ -47,17 +61,20 @@ namespace FreeFit
                 for (auto c : colors)
                 {
                     ProfileEditColorPickerTile* t = new ProfileEditColorPickerTile(c,this);
+
                     ly->addWidget(t,row_counter,col_counter);
+                    grp->addButton(t);
+                    connect(grp,SIGNAL(buttonClicked(QAbstractButton*)),t,SLOT(updateCSS()));
+
                     if (row_counter == 0)
                         row_counter = 1;
                     else
                     {
                         row_counter = 0;
                         col_counter += 1;
-                    }
-                    
+                    }                    
                 }
-
+                this->setLayout(ly);
             }
 
             void selectColor(QColor c)
@@ -67,6 +84,7 @@ namespace FreeFit
         private:
             std::vector<QColor> colors {Qt::red};
             QGridLayout* ly;
+            QButtonGroup* grp;
         };
 
         struct ProfileEditPopupResult
