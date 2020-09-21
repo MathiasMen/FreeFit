@@ -33,10 +33,13 @@ namespace FreeFit
         public:
             ProfileEditColorPickerTile(QColor c, QWidget* parent = nullptr) : QPushButton(nullptr),color(c)
             {
+                this->setContentsMargins(0,0,0,0);
+                this->setFixedSize(20,20);
+                this->setCheckable(true);
+                updateCSS();
                 QPixmap p(20,20);
                 p.fill(color);
                 this->setIcon(p);
-                this->setCheckable(true);
             }
 
             QString getColor()
@@ -47,20 +50,28 @@ namespace FreeFit
             void updateCSS()
             {
                 if (this->isChecked())
-                    this->setStyleSheet("border: 4px solid white;");
+                    this->setStyleSheet("border: 2px solid white; border-radius: 0px; padding: 0px 0px 0px 0px;");
                 else
-                    this->setStyleSheet("");
+                    this->setStyleSheet("border: 2px solid grey; border-radius: 0px; padding: 0px 0px 0px 0px;");
             }
         private:
             QColor color;
         };
 
-        class ProfileEditColorPicker : public QGroupBox
+        class ProfileEditColorPicker : public QWidget
         {
         public:
-            ProfileEditColorPicker(QWidget* parent = nullptr) : QGroupBox("Color",parent)
+            ProfileEditColorPicker(QWidget* parent = nullptr) : QWidget(parent)
             {
+                this->setContentsMargins(0,0,0,0);
                 ly = new QGridLayout(this);
+                ly->setContentsMargins(0,0,0,0);
+                color_ly = new QGridLayout;
+                color_ly->setContentsMargins(0,0,0,0);
+
+                color_lbl = new QLabel("Color",this);
+                ly->addWidget(color_lbl,0,0,Qt::AlignLeft);
+
                 grp = new QButtonGroup(this);
                 grp->setExclusive(true);
 
@@ -70,7 +81,7 @@ namespace FreeFit
                 {
                     ProfileEditColorPickerTile* t = new ProfileEditColorPickerTile(c,this);
 
-                    ly->addWidget(t,row_counter,col_counter);
+                    color_ly->addWidget(t,row_counter,col_counter,Qt::AlignLeft);
                     grp->addButton(t);
                     color_tiles.push_back(t);
                     connect(grp,SIGNAL(buttonClicked(QAbstractButton*)),t,SLOT(updateCSS()));
@@ -83,6 +94,8 @@ namespace FreeFit
                         col_counter += 1;
                     }                    
                 }
+
+                ly->addLayout(color_ly,1,0,Qt::AlignLeft);
                 this->setLayout(ly);
             }
 
@@ -102,6 +115,8 @@ namespace FreeFit
             std::vector<QColor> colors = {Qt::red,Qt::blue,Qt::green,Qt::yellow};
             std::vector<ProfileEditColorPickerTile*> color_tiles;
             QGridLayout* ly;
+            QGridLayout* color_ly;
+            QLabel* color_lbl;
             QButtonGroup* grp;
         };
 

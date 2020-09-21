@@ -17,7 +17,7 @@ namespace FreeFit
 
             name->setText(n);
 
-            horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+            horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
 
             ly->addWidget(name,0,0,1,2);
             ly->addWidget(p,1,0,1,1);
