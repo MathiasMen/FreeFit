@@ -183,6 +183,8 @@ namespace FreeFit
 
             void setGroupPointer(ProfileItemGroup* p){group_ptr = p;}
 
+            QString getColor(){return item_color.name();}
+
             void setColor(QString color)
             {
                 item_color = QColor(color);
@@ -230,6 +232,8 @@ namespace FreeFit
             void addItem(ProfileItem* i);
 
             int currentIndex();
+
+            std::string getCurrentColor();
 
             std::string getCurrentName();
 

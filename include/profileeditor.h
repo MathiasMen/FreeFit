@@ -36,6 +36,7 @@ namespace FreeFit
             int currentIndex();
             void selectProfile(int i){profile_group->selectProfile(i);}
             std::string getCurrentName(){return profile_group->getCurrentName();};
+            std::string getCurrentColor(){return profile_group->getCurrentColor();};
         signals:
             void currentIndexChanged(int);
             void currentNameChanged(std::string);

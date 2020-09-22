@@ -173,6 +173,14 @@ namespace FreeFit
                 return "";
         }
 
+        std::string ProfileItemGroup::getCurrentColor()
+        {
+            if (current_profile != nullptr)
+                return current_profile->getColor().toStdString();
+            else
+                return "";
+        }
+
         void ProfileItemGroup::setCurrentName(QString n)
         {
             if (current_profile != nullptr)
