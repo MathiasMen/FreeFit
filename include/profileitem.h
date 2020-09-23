@@ -31,29 +31,11 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            ProfileEditColorPickerTile(QColor c, QWidget* parent = nullptr) : QPushButton(nullptr),color(c)
-            {
-                this->setContentsMargins(0,0,0,0);
-                this->setFixedSize(20,20);
-                this->setCheckable(true);
-                updateCSS();
-                QPixmap p(20,20);
-                p.fill(color);
-                this->setIcon(p);
-            }
+            ProfileEditColorPickerTile(QColor c, QWidget* parent);
 
-            QString getColor()
-            {
-                return color.name();
-            }
+            QString getColor(){return color.name();}
         public slots:
-            void updateCSS()
-            {
-                if (this->isChecked())
-                    this->setStyleSheet("border: 2px solid white; border-radius: 0px; padding: 0px 0px 0px 0px;");
-                else
-                    this->setStyleSheet("border: 2px solid grey; border-radius: 0px; padding: 0px 0px 0px 0px;");
-            }
+            void updateCSS();
         private:
             QColor color;
         };
@@ -61,56 +43,14 @@ namespace FreeFit
         class ProfileEditColorPicker : public QWidget
         {
         public:
-            ProfileEditColorPicker(QWidget* parent = nullptr) : QWidget(parent)
-            {
-                this->setContentsMargins(0,0,0,0);
-                ly = new QGridLayout(this);
-                ly->setContentsMargins(0,0,0,0);
-                color_ly = new QGridLayout;
-                color_ly->setContentsMargins(0,0,0,0);
-
-                color_lbl = new QLabel("Color",this);
-                ly->addWidget(color_lbl,0,0,Qt::AlignLeft);
-
-                grp = new QButtonGroup(this);
-                grp->setExclusive(true);
-
-                unsigned int row_counter = 0;
-                unsigned int col_counter = 0;
-                for (auto c : colors)
-                {
-                    ProfileEditColorPickerTile* t = new ProfileEditColorPickerTile(c,this);
-
-                    color_ly->addWidget(t,row_counter,col_counter,Qt::AlignLeft);
-                    grp->addButton(t);
-                    color_tiles.push_back(t);
-                    connect(grp,SIGNAL(buttonClicked(QAbstractButton*)),t,SLOT(updateCSS()));
-
-                    if (row_counter == 0)
-                        row_counter = 1;
-                    else
-                    {
-                        row_counter = 0;
-                        col_counter += 1;
-                    }                    
-                }
-
-                ly->addLayout(color_ly,1,0,Qt::AlignLeft);
-                this->setLayout(ly);
-            }
+            ProfileEditColorPicker(QWidget* parent = nullptr);
 
             void selectColor(QColor c)
             {
                 
             }
 
-            QString getColorName()
-            {
-                for (auto t : color_tiles)
-                    if (t->isChecked())
-                        return t->getColor();
-                return QString();
-            }
+            QString getColorName();
         private:
             std::vector<QColor> colors = {Qt::red,Qt::blue,Qt::green,Qt::yellow};
             std::vector<ProfileEditColorPickerTile*> color_tiles;
@@ -185,12 +125,7 @@ namespace FreeFit
 
             QString getColor(){return item_color.name();}
 
-            void setColor(QString color)
-            {
-                item_color = QColor(color);
-                setColorInCSS(color);
-                this->setStyleSheet(css_string);
-            };
+            void setColor(QString color);
         public slots:
             void handlePopupFinished(ProfileEditPopupResult p);
         signals:
@@ -198,10 +133,7 @@ namespace FreeFit
         protected:
             void mousePressEvent(QMouseEvent* ev);
         private:
-            void setColorInCSS(QString c)
-            {
-                css_string.replace(QRegExp("#([0-9]|[a-f]|[A-F]){6}"),c);
-            }
+            void setColorInCSS(QString c);
 
             void updateStyle();
 

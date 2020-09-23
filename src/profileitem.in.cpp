@@ -6,6 +6,71 @@ namespace FreeFit
 {
     namespace GUI
     {
+        ProfileEditColorPickerTile::ProfileEditColorPickerTile(QColor c, QWidget* parent) : QPushButton(nullptr),color(c)
+        {
+            this->setContentsMargins(0,0,0,0);
+            this->setFixedSize(20,20);
+            this->setCheckable(true);
+            updateCSS();
+            QPixmap p(20,20);
+            p.fill(color);
+            this->setIcon(p);
+        }
+
+        void ProfileEditColorPickerTile::updateCSS()
+        {
+            if (this->isChecked())
+                this->setStyleSheet("border: 2px solid white; border-radius: 0px; padding: 0px 0px 0px 0px;");
+            else
+                this->setStyleSheet("border: 2px solid grey; border-radius: 0px; padding: 0px 0px 0px 0px;");
+        }
+
+        ProfileEditColorPicker::ProfileEditColorPicker(QWidget* parent) : QWidget(parent)
+        {
+            this->setContentsMargins(0,0,0,0);
+            ly = new QGridLayout(this);
+            ly->setContentsMargins(0,0,0,0);
+            color_ly = new QGridLayout;
+            color_ly->setContentsMargins(0,0,0,0);
+
+            color_lbl = new QLabel("Color",this);
+            ly->addWidget(color_lbl,0,0,Qt::AlignLeft);
+
+            grp = new QButtonGroup(this);
+            grp->setExclusive(true);
+
+            unsigned int row_counter = 0;
+            unsigned int col_counter = 0;
+            for (auto c : colors)
+            {
+                ProfileEditColorPickerTile* t = new ProfileEditColorPickerTile(c,this);
+
+                color_ly->addWidget(t,row_counter,col_counter,Qt::AlignLeft);
+                grp->addButton(t);
+                color_tiles.push_back(t);
+                connect(grp,SIGNAL(buttonClicked(QAbstractButton*)),t,SLOT(updateCSS()));
+
+                if (row_counter == 0)
+                    row_counter = 1;
+                else
+                {
+                    row_counter = 0;
+                    col_counter += 1;
+                }                    
+            }
+
+            ly->addLayout(color_ly,1,0,Qt::AlignLeft);
+            this->setLayout(ly);
+        }
+
+        QString ProfileEditColorPicker::getColorName()
+        {
+            for (auto t : color_tiles)
+                if (t->isChecked())
+                    return t->getColor();
+            return QString();
+        }
+
         ProfileEditPopup::ProfileEditPopup(QString n, QWidget* parent) : QWidget(parent, Qt::Popup)
         {
             ly = new QGridLayout(this);
@@ -93,6 +158,13 @@ namespace FreeFit
             updateStyle();
         }
 
+        void ProfileItem::setColor(QString color)
+        {
+            item_color = QColor(color);
+            setColorInCSS(color);
+            this->setStyleSheet(css_string);
+        };
+
         void ProfileItem::handlePopupFinished(ProfileEditPopupResult p)
         {
             if (p.name_valid)
@@ -111,6 +183,11 @@ namespace FreeFit
             }
             else
                 emit itemPressed(this);
+        }
+
+        void ProfileItem::setColorInCSS(QString c)
+        {
+            css_string.replace(QRegExp("#([0-9]|[a-f]|[A-F]){6}"),c);
         }
 
         void ProfileItem::updateStyle()
