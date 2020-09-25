@@ -112,11 +112,13 @@ namespace FreeFit
         {
             std::shared_ptr<XMLNode> p = std::make_shared<XMLNode>(nullptr,"PROFILE","");
             std::shared_ptr<XMLNode> p_name = std::make_shared<XMLNode>(p,"NAME",p_dat.getName());
+            std::shared_ptr<XMLNode> p_color = std::make_shared<XMLNode>(p,"COLOR",p_dat.getColor());
             std::shared_ptr<XMLNode> p_picture_path = std::make_shared<XMLNode>(p,"PICTUREPATH",p_dat.getPicturePath());
             std::shared_ptr<XMLNode> p_date_of_last_workout = std::make_shared<XMLNode>(p,"DATELASTWORKOUT",p_dat.getDateLastWorkout());
             std::shared_ptr<XMLNode> p_path_to_exercise_database = std::make_shared<XMLNode>(p,"PATHEXDB",p_dat.getPathToExerciseDB());
             std::shared_ptr<XMLNode> p_perf_factor = std::make_shared<XMLNode>(p,"PERFFACTOR",std::to_string(p_dat.getPerformanceFactor()));
             p->addChild(p_name);
+            p->addChild(p_color);
             p->addChild(p_picture_path);
             p->addChild(p_date_of_last_workout);
             p->addChild(p_path_to_exercise_database);

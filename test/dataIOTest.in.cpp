@@ -293,14 +293,17 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
     "    <NAME>\n"
     "      Mathias\n"
     "    </NAME>\n"
+    "    <COLOR>\n"
+    "      #ff0000\n"
+    "    </COLOR>\n"
     "    <PICTUREPATH>\n"
-    "      DummyPicturePath\n"
+    "      DummyPicturePath1\n"
     "    </PICTUREPATH>\n"
     "    <DATELASTWORKOUT>\n"
     "      01.01.2000\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      DummyExercisesPath\n"
+    "      DummyExercisesPath1\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      10.000000\n"
@@ -310,14 +313,17 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
     "    <NAME>\n"
     "      Constanze\n"
     "    </NAME>\n"
+    "    <COLOR>\n"
+    "      #00ff00\n"
+    "    </COLOR>\n"
     "    <PICTUREPATH>\n"
-    "      DummyPicturePath\n"
+    "      DummyPicturePath2\n"
     "    </PICTUREPATH>\n"
     "    <DATELASTWORKOUT>\n"
     "      01.01.2001\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
-    "      DummyExercisesPath\n"
+    "      DummyExercisesPath2\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      11.000000\n"
@@ -327,16 +333,18 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
 
     FreeFit::Data::Profile p1;
     p1.setName("Mathias");
-    p1.setPicturePath("DummyPicturePath");
+    p1.setColor("#ff0000");
+    p1.setPicturePath("DummyPicturePath1");
     p1.setDateLastWorkout("01.01.2000");
-    p1.setPathToExerciseDB("DummyExercisesPath");
+    p1.setPathToExerciseDB("DummyExercisesPath1");
     p1.setPerformanceFactor(10.0);
 
     FreeFit::Data::Profile p2;
     p2.setName("Constanze");
-    p2.setPicturePath("DummyPicturePath");
+    p2.setColor("#00ff00");
+    p2.setPicturePath("DummyPicturePath2");
     p2.setDateLastWorkout("01.01.2001");
-    p2.setPathToExerciseDB("DummyExercisesPath");
+    p2.setPathToExerciseDB("DummyExercisesPath2");
     p2.setPerformanceFactor(11.0);
     
     std::list<FreeFit::Data::Profile> l {p1,p2};
