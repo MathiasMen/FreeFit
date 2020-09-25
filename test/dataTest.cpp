@@ -99,7 +99,27 @@ TEST_F(WorkoutTest, WorkoutGeneration3)
     ASSERT_EQ(el_it->getName(),"Ex2");
 }
 
-TEST(ProfileTest, Generation)
+TEST(ProfileTest, GenerationAndModification)
 {
+    std::string test_name = "TestName";
+    std::string test_color = "TestColor";
+    std::string test_pic_path = "TestPicPath";
+    std::string test_date = "TestDate";
+    std::string test_db_path = "TestDBPath";
+    double test_performace_factor = 2.0;
+
     FreeFit::Data::Profile p;   
+    p.setName(test_name);
+    p.setColor(test_color);
+    p.setPicturePath(test_pic_path);
+    p.setDateLastWorkout(test_date);
+    p.setPathToExerciseDB(test_db_path);
+    p.setPerformanceFactor(test_performace_factor);
+
+    ASSERT_EQ(test_name,p.getName());
+    ASSERT_EQ(test_color,p.getColor());
+    ASSERT_EQ(test_pic_path,p.getPicturePath());
+    ASSERT_EQ(test_date,p.getDateLastWorkout());
+    ASSERT_EQ(test_db_path,p.getPathToExerciseDB());
+    ASSERT_EQ(test_performace_factor,p.getPerformanceFactor());
 }

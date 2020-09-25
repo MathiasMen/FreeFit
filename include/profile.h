@@ -14,6 +14,9 @@ namespace FreeFit
                 void setName(std::string n){name = n;}
                 std::string getName(){return name;}
 
+                void setColor(std::string c){color = c;}
+                std::string getColor(){return color;}
+
                 void setPicturePath(std::string p){picture_path = p;}
                 std::string getPicturePath(){return picture_path;}
 
@@ -27,6 +30,7 @@ namespace FreeFit
                 double getPerformanceFactor(){return performance_factor;}
             private:
                 std::string name;
+                std::string color;
                 std::string picture_path;
                 std::string date_of_last_workout;
                 std::string path_to_exercise_database;
