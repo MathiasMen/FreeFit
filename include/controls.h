@@ -24,6 +24,10 @@ namespace FreeFit
             enum ButtonImportance {Primary, Secondary};
 
             ControlButton(QString button_text, ButtonType t, ButtonImportance i = ButtonImportance::Primary, QWidget* parent = nullptr);
+
+            void setColor(std::string c);
+
+            void updateStyle();
         protected:
             void paintEvent(QPaintEvent* ev) override;
         private:
@@ -34,6 +38,9 @@ namespace FreeFit
             const int button_height = 30;
 
             QIcon arrow;
+
+            std::string color;
+            std::string css_string;
         };
     }
 }
