@@ -46,6 +46,9 @@ namespace FreeFit
             if(root->findFirstChild("NAME"))
                 p.setName(root->findFirstChild("NAME")->getValue());
 
+            if(root->findFirstChild("COLOR"))
+                p.setColor(root->findFirstChild("COLOR")->getValue());
+                
             if(root->findFirstChild("PICTUREPATH"))
                 p.setPicturePath(root->findFirstChild("PICTUREPATH")->getValue());
 

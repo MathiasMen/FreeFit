@@ -366,13 +366,15 @@ TEST_F(ProfileXMLTest, ReadXML)
     std::list<FreeFit::Data::Profile> l_p = r.getProfileList();
 
     ASSERT_EQ(l_p.begin()->getName(),"Mathias");
-    ASSERT_EQ(l_p.begin()->getPicturePath(),"DummyPicturePath");
+    ASSERT_EQ(l_p.begin()->getColor(),"#ff0000");
+    ASSERT_EQ(l_p.begin()->getPicturePath(),"DummyPicturePath1");
     ASSERT_EQ(l_p.begin()->getDateLastWorkout(),"01.01.2000");
-    ASSERT_EQ(l_p.begin()->getPathToExerciseDB(),"DummyExercisesPath");
+    ASSERT_EQ(l_p.begin()->getPathToExerciseDB(),"DummyExercisesPath1");
     ASSERT_EQ(l_p.begin()->getPerformanceFactor(),10.0);
     ASSERT_EQ(l_p.rbegin()->getName(),"Constanze");
-    ASSERT_EQ(l_p.rbegin()->getPicturePath(),"DummyPicturePath");
+    ASSERT_EQ(l_p.rbegin()->getColor(),"#00ff00");
+    ASSERT_EQ(l_p.rbegin()->getPicturePath(),"DummyPicturePath2");
     ASSERT_EQ(l_p.rbegin()->getDateLastWorkout(),"01.01.2001");
-    ASSERT_EQ(l_p.rbegin()->getPathToExerciseDB(),"DummyExercisesPath");
+    ASSERT_EQ(l_p.rbegin()->getPathToExerciseDB(),"DummyExercisesPath2");
     ASSERT_EQ(l_p.rbegin()->getPerformanceFactor(),11.0);
 }
