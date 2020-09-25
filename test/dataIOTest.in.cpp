@@ -279,14 +279,10 @@ TEST_F(ExerciseXMLTest, ParseXMLNodeTreeAndReturnExerciseList)
 }
 
 
-class ProfileXMLTest : public ::testing::Test
+TEST(ProfileXMLTest, WriteXMLFile)
 {
-    protected:
-        std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
-};
+    std::string out_path = "${CMAKE_BINARY_DIR}/test/WriteProfileFileTest.xml";
 
-TEST_F(ProfileXMLTest, WriteXMLFile)
-{
     std::string expected = 
     "<PROFILES>\n"
     "  <PROFILE>\n"
@@ -360,9 +356,11 @@ TEST_F(ProfileXMLTest, WriteXMLFile)
     ASSERT_EQ(ss.str(),expected);
 }
 
-TEST_F(ProfileXMLTest, ReadXML)
+TEST(ProfileXMLTest, ReadXML)
 {
-    FreeFit::Data::ProfileXMLReader r(out_path);
+    std::string in_path = "${CMAKE_SOURCE_DIR}/test/input/WriteProfileFileTest.xml";
+
+    FreeFit::Data::ProfileXMLReader r(in_path);
     std::list<FreeFit::Data::Profile> l_p = r.getProfileList();
 
     ASSERT_EQ(l_p.begin()->getName(),"Mathias");
