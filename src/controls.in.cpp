@@ -14,27 +14,27 @@ namespace FreeFit
             if (button_importance == ButtonImportance::Primary)
                 pen.setColor(Qt::white);
             else
-                pen.setColor(Qt::red);
+                pen.setColor(QColor(QString::fromStdString(color)));
             painter.setPen(pen);
 
             const int pad = 5;
             const int pixmap_height = 20;
             const int pixmap_width = 20;
+            const int arrow_length = 15;
+            const int tip_length = 5;
             if (button_type == ButtonType::ForwardButton)
             {
-                if (!arrow.isNull())
-                {
-                    const int y = (height() - pixmap_height) / 2;
-                    painter.drawPixmap(width() - pixmap_width - pad, y, arrow.pixmap(pixmap_width,pixmap_height));
-                }
+                const int y = (height() / 2);
+                painter.drawLine(width() - pad - arrow_length, y, width() - pad, y);
+                painter.drawLine(width() - pad, y, width() - pad - tip_length, y + tip_length);
+                painter.drawLine(width() - pad, y, width() - pad - tip_length, y - tip_length);
             }
             else
             {
-                if (!arrow.isNull())
-                {
-                    const int y = (height() - pixmap_height) / 2;
-                    painter.drawPixmap(pad, y, arrow.pixmap(pixmap_width,pixmap_height));
-                }
+                const int y = (height() / 2);
+                painter.drawLine(pad + arrow_length, y, pad, y);
+                painter.drawLine(pad, y, pad + tip_length, y + tip_length);
+                painter.drawLine(pad, y, pad + tip_length, y - tip_length);
             }
         }
 
@@ -47,19 +47,6 @@ namespace FreeFit
         void ControlButton::updateStyle()
         {
             css_string = "border-radius:6px; padding:4px; ";
-            std::string icon_path = "${CMAKE_SOURCE_DIR}/tools/";
-
-            if (button_importance == ButtonImportance::Primary && button_type == ButtonType::ForwardButton)
-                icon_path += "arrow-right.svg";
-            else if (button_importance == ButtonImportance::Primary && button_type == ButtonType::BackwardButton)
-                icon_path += "arrow-left.svg";
-            else if (button_importance == ButtonImportance::Secondary && button_type == ButtonType::ForwardButton)
-                icon_path += "arrow-right-secondary.svg";
-            else if (button_importance == ButtonImportance::Secondary && button_type == ButtonType::BackwardButton)
-                icon_path += "arrow-left-secondary.svg";
-
-            arrow = QIcon(QString::fromStdString(icon_path));
-
             if (button_importance == ButtonImportance::Primary)
                 css_string += "background-color:" + color + "; color:#ffffff; ";
             else

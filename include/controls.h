@@ -37,8 +37,6 @@ namespace FreeFit
             const int button_width = 140;
             const int button_height = 30;
 
-            QIcon arrow;
-
             std::string color;
             std::string css_string;
         };
