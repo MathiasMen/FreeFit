@@ -3,6 +3,8 @@
 #include <QDialog>
 #include <QWidget>
 
+#include <string>
+
 namespace FreeFit
 {
     namespace GUI
@@ -12,8 +14,21 @@ namespace FreeFit
         public:
             MaterialDialog(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags()) : QDialog(parent,f)
             {
-                setStyleSheet("background-color:white; color:red;");
+                setColor("#ff0000");
             }
+
+            void setColor(std::string c)
+            {
+                color = c;
+                updateStyle();
+            }
+
+            void updateStyle()
+            {
+                setStyleSheet(QString::fromStdString("background-color:#ffffff; color:" + color + ";"));
+            }
+        private:
+            std::string color;            
         };
     }
 }
