@@ -230,10 +230,11 @@ namespace FreeFit
         }
 
         ExerciseEditor::ExerciseEditor(FreeFit::Data::Profile t_p)
-            :   MaterialDialog(),p(t_p),demand_handler(),info_demand_handler(),
+            :   MaterialDialog("Workout Type","Profile",""),p(t_p),demand_handler(),info_demand_handler(),
                 r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
         {                
-            ly = new QGridLayout(this);
+            connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
+            connect(getRejectButton(), &QPushButton::clicked, this, &QDialog::reject);
 
             add_button = new MaterialButton("Create new exercise",this);
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
@@ -274,28 +275,13 @@ namespace FreeFit
 
             browser = new ExerciseEditorBrowser(this);
 
-            next_page_button = new ControlButton("Workout Type", ControlButton::ForwardButton,ControlButton::Primary,this);
-            connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
-
-            previous_page_button = new ControlButton("Profile", ControlButton::BackwardButton,ControlButton::Primary,this);
-            connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
-
-            QGridLayout* controls_layout = new QGridLayout;
-            QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
-            controls_layout->addWidget(previous_page_button,0,0);
-            controls_layout->addItem(horizontal_spacer,0,1);
-            controls_layout->addWidget(next_page_button,0,2);
-
-            ly->addWidget(add_button,0,1,1,2);
-            ly->addWidget(new_exercise_label,1,1,1,2);
-            ly->addWidget(new_exercise_scroll_area,2,1,1,2);
-            ly->addWidget(download_exercises_button,3,1,1,2);
-            ly->addWidget(old_exercise_label,4,1,1,2);
-            ly->addWidget(old_exercise_scroll_area,5,1,1,2);
-            ly->addWidget(browser,0,0,6,1);
-            ly->addLayout(controls_layout,6,0,1,3);
-
-            this->setLayout(ly);
+            addWidget(add_button,0,1,1,2);
+            addWidget(new_exercise_label,1,1,1,2);
+            addWidget(new_exercise_scroll_area,2,1,1,2);
+            addWidget(download_exercises_button,3,1,1,2);
+            addWidget(old_exercise_label,4,1,1,2);
+            addWidget(old_exercise_scroll_area,5,1,1,2);
+            addWidget(browser,0,0,6,1);
         }
 
         void ExerciseEditor::accept()
