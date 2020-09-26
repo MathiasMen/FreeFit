@@ -62,6 +62,7 @@ namespace FreeFit
 
             void addWidget(QWidget* w,int row, int col,int row_span = 1, int col_span = 1, Qt::Alignment al = Qt::Alignment()){content_layout->addWidget(w,row,col,row_span,col_span,al);}
             void addItem(QLayoutItem* w,int row, int col,int row_span = 1, int col_span = 1, Qt::Alignment al = Qt::Alignment()){content_layout->addItem(w,row,col,row_span,col_span,al);}
+            void addLayout(QLayout* l,int row, int col,int row_span = 1, int col_span = 1, Qt::Alignment al = Qt::Alignment()){content_layout->addLayout(l,row,col,row_span,col_span,al);}
 
             void setColor(std::string c)
             {

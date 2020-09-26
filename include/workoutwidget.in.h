@@ -168,8 +168,6 @@ namespace FreeFit
         public:
             WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : MaterialDialog("","","",t_p),w(t_w) 
             {
-                ly = new QHBoxLayout(this);
-
                 QGridLayout* left_ly = new QGridLayout;
                 QGridLayout* right_ly = new QGridLayout;
 
@@ -197,10 +195,8 @@ namespace FreeFit
                 connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handleExerciseEnded);
                 connect(timer,&WorkoutWidgetTimer::notificationTimerEnded,this,&WorkoutWidget::playNotificationSound);
 
-                ly->addLayout(left_ly);
-                ly->addLayout(right_ly);
-
-                this->setLayout(ly);
+                addLayout(left_ly,0,0);
+                addLayout(right_ly,0,1);
             }
 
             void setWorkout(FreeFit::Data::WorkoutBase* t_w){w = t_w;}
