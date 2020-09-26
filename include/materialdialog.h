@@ -25,8 +25,6 @@ namespace FreeFit
                             Qt::WindowFlags f = Qt::WindowFlags())
                 : QDialog(parent,f),reject_button(nullptr),skip_button(nullptr),accept_button(nullptr)
             {
-                setColor("#ff0000");
-
                 ly = new QVBoxLayout(this);
                 content_layout = new QGridLayout();
                 control_layout = new QHBoxLayout();
@@ -50,10 +48,12 @@ namespace FreeFit
                 if (accept_button != nullptr)
                     control_layout->addWidget(accept_button,0,Qt::AlignLeft);
 
-                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
                 ly->addLayout(content_layout);
                 ly->addItem(vertical_spacer);
                 ly->addLayout(control_layout);
+
+                setColor("#ff0000");
             }
 
             ControlButton* getRejectButton(){return reject_button;}
