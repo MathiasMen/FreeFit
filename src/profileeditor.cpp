@@ -30,18 +30,13 @@ namespace FreeFit
             }
 
             ProfileEditor::ProfileEditor(std::string p_path)
-                : MaterialDialog(),r(p_path),w(p_path)
+                : MaterialDialog("","Exercises","Workout Settings"),r(p_path),w(p_path)
             {
-                ly = new QGridLayout(this);
-                this->setLayout(ly);
+                connect(getSkipButton(),SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
+                connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
 
                 profile_selection = new ProfileSelectionWidget(this);
                 connect(profile_selection,SIGNAL(currentNameChanged(std::string)),this,SLOT(currentNameChanged(std::string)));
-                skip_exercises_button = new ControlButton("Workout Settings",ControlButton::ForwardButton,ControlButton::Primary,this);
-                connect(skip_exercises_button,SIGNAL(clicked()),this,SIGNAL(skiptToWorkoutGeneration()));
-
-                next_page_button = new ControlButton("Exercises",ControlButton::ForwardButton,ControlButton::Secondary,this);
-                connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
 
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
@@ -50,18 +45,7 @@ namespace FreeFit
 
                 profile_selection->selectProfile(0);
 
-                vertical_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-
-                control_layout = new QHBoxLayout();
-                horizontal_spacer_control = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
-                
-                control_layout->addItem(horizontal_spacer_control);
-                control_layout->addWidget(next_page_button,0,Qt::AlignLeft);
-                control_layout->addWidget(skip_exercises_button,0,Qt::AlignLeft);
-
-                ly->addWidget(profile_selection,0,0);
-                ly->addItem(vertical_spacer,3,0);
-                ly->addLayout(control_layout,4,0);
+                addWidget(profile_selection,0,0);
             }
 
             void ProfileEditor::accept()

@@ -66,7 +66,6 @@ namespace FreeFit
             std::vector<FreeFit::Data::Profile> v_p;
             FreeFit::Data::ProfileXMLReader r;
             FreeFit::Data::ProfileWriter w;
-            QGridLayout* ly;
 
             ProfileSelectionWidget* profile_selection;
 
@@ -74,7 +73,6 @@ namespace FreeFit
 
             ControlButton* next_page_button;
             ControlButton* skip_exercises_button;
-            QHBoxLayout* control_layout;
             QSpacerItem* horizontal_spacer_control;
         };
 
