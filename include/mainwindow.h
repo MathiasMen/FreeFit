@@ -33,6 +33,7 @@ private:
     QAction* reload_css;
 
     std::string profile_path;
+    std::string color;
 private slots:
     void reloadCSSTriggered();
     void presentProfileEditor();

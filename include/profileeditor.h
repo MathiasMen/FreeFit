@@ -55,13 +55,18 @@ namespace FreeFit
             ProfileEditor(std::string p_path);
             std::string getExercisesPath(){return getCurrentlySelectedData().getPathToExerciseDB();}
             std::string getName(){return getCurrentlySelectedData().getName();}
+            std::string getColor(){return getCurrentlySelectedData().getColor();}
         signals:
             void skiptToWorkoutGeneration();
         public slots:
             void accept() override;
             void informationChanged();
             void currentNameChanged(std::string n){v_p[profile_selection->currentIndex()].setName(n);}
-            void currentColorChanged(std::string c){this->setColor(c);}
+            void currentColorChanged(std::string c)
+            {
+                v_p[profile_selection->currentIndex()].setColor(c);
+                this->setColor(c);
+            }
 
             FreeFit::Data::Profile getCurrentlySelectedData();
         private:

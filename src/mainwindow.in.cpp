@@ -1,7 +1,7 @@
 #include "include/mainwindow.h"
 
 MainWindow::MainWindow(std::string t_profile_path, QWidget *parent) :
-    QMainWindow(parent), p(nullptr),e(nullptr),w(nullptr),ww(nullptr), profile_path(t_profile_path)
+    QMainWindow(parent), p(nullptr),e(nullptr),w(nullptr),ww(nullptr), profile_path(t_profile_path),color("")
 {
     tool_bar = addToolBar("Refreshing");
     reload_css = tool_bar->addAction("Reload CSS");
@@ -44,6 +44,7 @@ void MainWindow::skipFromProfileToWorkoutType()
 
 void MainWindow::presentExerciseEditor()
 {
+    color = p->getColor();
     this->setWindowTitle("Exercises");
     reInitExerciseEditor();
     connect(e,SIGNAL(accepted()),this,SLOT(presentWorkoutGenerationWidget()));
@@ -79,6 +80,8 @@ void MainWindow::reInitProfileEditor()
     if (p != nullptr)
         delete p;
 	p = new FreeFit::GUI::ProfileEditor(profile_path);
+    if (!color.empty())
+        p->setColor(color);
 }
 
 void MainWindow::reInitExerciseEditor()
@@ -86,6 +89,8 @@ void MainWindow::reInitExerciseEditor()
     if (e != nullptr)
         delete e;
 	e = new FreeFit::GUI::ExerciseEditor(p->getCurrentlySelectedData());
+    if (!color.empty())
+        e->setColor(color);
 }
 
 void MainWindow::reInitWorkoutGenerationWidget()
@@ -94,6 +99,8 @@ void MainWindow::reInitWorkoutGenerationWidget()
         delete w;
     w = new FreeFit::GUI::WorkoutGenerationWidget;
     w->setPossibleExercises(e->getExerciseData());
+    if (!color.empty())
+        w->setColor(color);
 }
 
 void MainWindow::reInitWorkoutWidget()
@@ -101,4 +108,6 @@ void MainWindow::reInitWorkoutWidget()
     if (ww != nullptr)
         delete ww;
 	ww = new FreeFit::GUI::WorkoutWidget(w->getSelectedWorkout()->getWorkout().get());
+    if (!color.empty())
+        ww->setColor(color);
 }
