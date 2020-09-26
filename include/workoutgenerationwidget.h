@@ -140,20 +140,21 @@ namespace FreeFit
             friend WorkoutGenerationWidgetValidator;
         Q_OBJECT
         public:
-            WorkoutGenerationWidget(QWidget* parent = nullptr) : MaterialDialog(parent)
+            WorkoutGenerationWidget(QWidget* parent = nullptr) : MaterialDialog("Exercises","Workout","",parent)
             {
-                ly = new QGridLayout(this);
+                connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
+                connect(getRejectButton(), &QPushButton::clicked, this, &QDialog::reject);
 
                 options_canvas = new QStackedWidget(this);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
                 all_exercises_workout = new AllExercisesWorkoutOption("All Exercises",w1,this);
-                ly->addWidget(all_exercises_workout,0,0);
+                addWidget(all_exercises_workout,0,0);
                 workout_options.push_back(all_exercises_workout);
 
                 std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
                 filtered_exercises_workout = new FilteredExercisesWorkoutOption("Filtered by muscle groups",w2,this);
-                ly->addWidget(filtered_exercises_workout,1,0);
+                addWidget(filtered_exercises_workout,1,0);
                 workout_options.push_back(filtered_exercises_workout);
 
                 all_exercises_workout->setChecked(true);
@@ -163,28 +164,10 @@ namespace FreeFit
 
                 options_canvas->addWidget(all_exercises_workout->getOptionsWidget());
                 options_canvas->addWidget(filtered_exercises_workout->getOptionsWidget());
-                ly->addWidget(options_canvas,0,1,3,1);
+                addWidget(options_canvas,0,1,3,1);
 
                 connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
                 connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
-
-                next_page_button = new ControlButton("Workout",ControlButton::ForwardButton,ControlButton::Primary,this);
-                connect(next_page_button, &QPushButton::clicked, this, &QDialog::accept);
-
-                previous_page_button = new ControlButton("Exercises", ControlButton::BackwardButton,ControlButton::Primary,this);
-                connect(previous_page_button, &QPushButton::clicked, this, &QDialog::reject);
-
-                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
-                ly->addItem(vertical_spacer,2,0);
-
-                QGridLayout* controls_layout = new QGridLayout;
-                QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
-                controls_layout->addWidget(previous_page_button,0,0);
-                controls_layout->addItem(horizontal_spacer,0,1);
-                controls_layout->addWidget(next_page_button,0,2);
-                
-                ly->addLayout(controls_layout,3,0,1,2);
-                this->setLayout(ly);
             }
 
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e)

@@ -166,7 +166,7 @@ namespace FreeFit
             Q_OBJECT
             friend WorkoutWidgetValidator;
         public:
-            WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : MaterialDialog(t_p),w(t_w) 
+            WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p = nullptr) : MaterialDialog("","","",t_p),w(t_w) 
             {
                 ly = new QHBoxLayout(this);
 
