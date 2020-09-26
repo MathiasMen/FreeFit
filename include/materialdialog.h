@@ -68,6 +68,9 @@ namespace FreeFit
             {
                 color = c;
                 updateStyle();
+                setColorOfButton(c,reject_button);
+                setColorOfButton(c,accept_button);
+                setColorOfButton(c,skip_button);
             }
 
             void updateStyle()
@@ -75,6 +78,12 @@ namespace FreeFit
                 setStyleSheet(QString::fromStdString("background-color:#ffffff; color:" + color + ";"));
             }
         private:
+            void setColorOfButton(std::string c, ControlButton* b)
+            {
+                if (b != nullptr)
+                    b->setColor(c);
+            }
+
             QVBoxLayout* ly;
             QGridLayout* content_layout;
             QHBoxLayout* control_layout;
