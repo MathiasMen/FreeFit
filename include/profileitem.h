@@ -130,6 +130,7 @@ namespace FreeFit
             void handlePopupFinished(ProfileEditPopupResult p);
         signals:
             void nameChanged(std::string);
+            void colorChanged(std::string);
         protected:
             void mousePressEvent(QMouseEvent* ev);
         private:
@@ -178,6 +179,7 @@ namespace FreeFit
             void itemPressed(ProfileItem* i);
         signals:
             void currentNameChanged(std::string);
+            void currentColorChanged(std::string);
         private:
             std::vector<ProfileItem*> items;
             ProfileItem* current_profile;

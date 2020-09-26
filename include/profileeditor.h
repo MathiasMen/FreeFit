@@ -40,6 +40,7 @@ namespace FreeFit
         signals:
             void currentIndexChanged(int);
             void currentNameChanged(std::string);
+            void currentColorChanged(std::string);
         private:
             QWidget* content;
             QHBoxLayout* content_ly;
@@ -60,6 +61,8 @@ namespace FreeFit
             void accept() override;
             void informationChanged();
             void currentNameChanged(std::string n){v_p[profile_selection->currentIndex()].setName(n);}
+            void currentColorChanged(std::string c){this->setColor(c);}
+
             FreeFit::Data::Profile getCurrentlySelectedData();
         private:
             ProfileSelectionWidget* getProfileSelection(){return profile_selection;}

@@ -163,6 +163,7 @@ namespace FreeFit
             item_color = QColor(color);
             setColorInCSS(color);
             this->setStyleSheet(css_string);
+            emit colorChanged(color.toStdString());
         };
 
         void ProfileItem::handlePopupFinished(ProfileEditPopupResult p)
@@ -227,6 +228,7 @@ namespace FreeFit
             items.push_back(i);
             connect(i,SIGNAL(itemPressed(ProfileItem*)),this,SLOT(itemPressed(ProfileItem*)));
             connect(i,SIGNAL(nameChanged(std::string)),this,SIGNAL(currentNameChanged(std::string)));
+            connect(i,SIGNAL(colorChanged(std::string)),this,SIGNAL(currentColorChanged(std::string)));
         }
 
         int ProfileItemGroup::currentIndex()

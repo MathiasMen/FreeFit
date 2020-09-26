@@ -15,6 +15,7 @@ namespace FreeFit
                 setFrameShape(QFrame::NoFrame);
                 profile_group = new ProfileItemGroup(this);
                 connect(profile_group,SIGNAL(currentNameChanged(std::string)),this,SIGNAL(currentNameChanged(std::string)));
+                connect(profile_group,SIGNAL(currentColorChanged(std::string)),this,SIGNAL(currentColorChanged(std::string)));
             }
 
             void ProfileSelectionWidget::addItem(QString profile_name)
@@ -37,6 +38,7 @@ namespace FreeFit
 
                 profile_selection = new ProfileSelectionWidget(this);
                 connect(profile_selection,SIGNAL(currentNameChanged(std::string)),this,SLOT(currentNameChanged(std::string)));
+                connect(profile_selection,SIGNAL(currentColorChanged(std::string)),this,SLOT(currentColorChanged(std::string)));
 
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
