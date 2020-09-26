@@ -52,7 +52,7 @@ namespace FreeFit
 
             QString getColorName();
         private:
-            std::vector<QColor> colors = {Qt::red,Qt::blue,Qt::green,Qt::yellow};
+            std::vector<QColor> colors = {Qt::darkRed, Qt::red, Qt::darkBlue, Qt::blue, Qt::darkGreen, Qt::green, Qt::darkYellow, Qt::yellow, Qt::darkGray, Qt::gray};
             std::vector<ProfileEditColorPickerTile*> color_tiles;
             QGridLayout* ly;
             QGridLayout* color_ly;
