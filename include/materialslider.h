@@ -18,6 +18,7 @@ namespace FreeFit
             MaterialSliderHandle(int width, int height, QWidget* parent = nullptr);
             void setMinX(int x){minVal = x;}
             void setMaxX(int x){maxVal = x;}
+            void setColor(std::string c);
         signals:
             void moved(int);
         protected:
@@ -25,10 +26,13 @@ namespace FreeFit
             void mouseMoveEvent(QMouseEvent* e);
             void mouseReleaseEvent(QMouseEvent* e);
         private:
+            void updateCSS();
+            
             int minVal;
             int maxVal;
             QPoint offset;
             bool pressed = false;
+            std::string color;
         };
 
         class MaterialSlider : public QWidget
@@ -38,6 +42,7 @@ namespace FreeFit
             MaterialSlider(QWidget* parent = nullptr,int h_w = 10,int h_h = 20);
             void setMinValue(int v){min_mapped_value = v;}
             void setMaxValue(int v){max_mapped_value = v;}
+            void setColor(std::string c);
         signals:
             void valuesChanged(int,int);
         public slots:
