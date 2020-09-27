@@ -1,6 +1,6 @@
 #include "include/exerciselistwidget.h"
 
-FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,FreeFit::Data::Exercise t_e) : QWidget(parent), e_dat(t_e)
+FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,FreeFit::Data::Exercise t_e) : QWidget(parent), e_dat(t_e), color("#ff0000"), is_bold(false)
 {
     ly = new QGridLayout(this);
     lbl_name = new QLabel(QString::fromStdString(e_dat.getName()),this);
@@ -30,6 +30,27 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     this->setLayout(ly);
 } 
 
+void FreeFit::GUI::ExerciseListWidgetItem::updateCSS()
+{
+    QString css_string = QString::fromStdString("color:" + color + ";");
+    if (is_bold)
+        css_string += " font-weight:bold;";
+    lbl_name->setStyleSheet(css_string);
+    lbl_duration->setStyleSheet(css_string);
+}
+
+void FreeFit::GUI::ExerciseListWidgetItem::setColor(std::string c)
+{
+    color = c;
+    updateCSS();
+}
+
+void FreeFit::GUI::ExerciseListWidgetItem::setBold(bool b)
+{
+    is_bold = b;
+    updateCSS();
+}
+
 int FreeFit::GUI::ExerciseListWidgetItem::getNameLength()
 {
     return lbl_name->width();
@@ -41,7 +62,7 @@ void FreeFit::GUI::ExerciseListWidgetItem::setNameLength(int l)
 }
 
 FreeFit::GUI::ExerciseListWidget::ExerciseListWidget(QWidget* parent)
-    : QWidget(parent)
+    : QWidget(parent),color("#ff0000")
 {
     scroll_area = new QScrollArea(this);
 
@@ -113,13 +134,19 @@ std::string FreeFit::GUI::ExerciseListWidget::getVideoPathOfCurrentExercise()
 
 void FreeFit::GUI::ExerciseListWidget::highlightExercise(FreeFit::GUI::ExerciseListWidgetItem* e)
 {
-    e->setStyleSheet("font-weight:bold;");
+    e->setBold(true);
+}
+
+void FreeFit::GUI::ExerciseListWidget::setColor(std::string c)
+{
+    for (auto e : exercise_widgets)
+        e->setColor(c);
 }
 
 void FreeFit::GUI::ExerciseListWidget::resetHighlightings()
 {
     for (auto e : exercise_widgets)
-        e->setStyleSheet("");
+        e->setBold(false);
 }
 
 void FreeFit::GUI::ExerciseListWidget::exerciseClickedSlot(FreeFit::Data::Exercise d)
