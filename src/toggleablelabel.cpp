@@ -12,6 +12,7 @@ namespace FreeFit
 
         void ToggleableLabel::updateCSS()
         {
+            QString css_string;
             if (toggled)
                 css_string = QString::fromStdString("background-color:" + color + "; color:white; border:2px solid " + color + "; border-radius:5px;");
             else

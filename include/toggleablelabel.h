@@ -27,7 +27,7 @@ namespace FreeFit
             void updateCSS();
 
             bool toggled;
-            QString css_string;
+
             std::string color;
         };
     }
