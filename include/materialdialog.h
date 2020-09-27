@@ -77,6 +77,8 @@ namespace FreeFit
             {
                 setStyleSheet(QString::fromStdString("background-color:#ffffff; color:" + color + ";"));
             }
+        protected:
+            std::string color;
         private:
             void setColorOfButton(std::string c, ControlButton* b)
             {
@@ -90,9 +92,7 @@ namespace FreeFit
 
             ControlButton* reject_button;
             ControlButton* accept_button;
-            ControlButton* skip_button;
-
-            std::string color;     
+            ControlButton* skip_button;     
         };
     }
 }
