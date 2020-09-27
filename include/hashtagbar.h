@@ -60,6 +60,12 @@ namespace FreeFit
                 void setCategoryName(std::string c){category_name = c;}
 
                 std::string getCategoryName(){return category_name;}
+
+                void setLabelsSelectable(bool s)
+                {
+                    for (auto l : hashtag_labels)
+                        l->setSelectable(s);
+                }
             private:
                 QHBoxLayout* ly;
                 std::vector<ToggleableLabel*> hashtag_labels;

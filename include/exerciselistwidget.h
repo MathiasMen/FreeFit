@@ -18,6 +18,7 @@
 #include "include/workout.h"
 #include "include/datadefinitions.h"
 #include "include/exerciseeditor.h"
+#include "include/hashtagbar.h"
 
 namespace FreeFit
 {
@@ -37,7 +38,7 @@ namespace FreeFit
             void setBold(bool b);
         private:
             void updateCSS();
-            
+
             FreeFit::Data::Exercise e_dat;
 
             std::string color;
@@ -47,7 +48,7 @@ namespace FreeFit
 
             QLabel* lbl_name;
             QLabel* lbl_duration;
-            QWidget* trained_areas;
+            HashtagBar* trained_areas;
             QLabel* lbl_image;
             QImage  img_thumbnail;
         };

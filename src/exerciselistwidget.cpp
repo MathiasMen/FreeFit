@@ -5,14 +5,11 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     ly = new QGridLayout(this);
     lbl_name = new QLabel(QString::fromStdString(e_dat.getName()),this);
     lbl_duration = new QLabel(QDateTime::fromTime_t(e_dat.getLength()).toUTC().toString("mm:ss"),this);
-    trained_areas = new QWidget(this);
-    QHBoxLayout* trained_areas_ly = new QHBoxLayout(trained_areas);
+    
+    trained_areas = new HashtagBar(this);
     for (auto a : e_dat.getTrainedMuscles())
-    {
-        ToggleableLabel* l = new ToggleableLabel("#" + QString::fromStdString(FreeFit::Data::muscleGroupToString(a)),trained_areas);
-        l->setSelectable(false);
-        trained_areas_ly->addWidget(l);
-    }
+        trained_areas->addHashtag(FreeFit::Data::muscleGroupToString(a));
+    trained_areas->setLabelsSelectable(false);
 
     lbl_image = new QLabel("",this);
     if(e_dat.getThumbnailPath() != "")
@@ -42,6 +39,7 @@ void FreeFit::GUI::ExerciseListWidgetItem::updateCSS()
 void FreeFit::GUI::ExerciseListWidgetItem::setColor(std::string c)
 {
     color = c;
+    trained_areas->setColor(c);
     updateCSS();
 }
 
