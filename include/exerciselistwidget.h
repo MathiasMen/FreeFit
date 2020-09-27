@@ -33,8 +33,15 @@ namespace FreeFit
             void setExerciseLength(int l){e_dat.setLength(l);}
             int getExerciseLength(){return e_dat.getLength();}
             std::string getVideoPath(){return e_dat.getVideoPath();}
+            void setColor(std::string c);
+            void setBold(bool b);
         private:
+            void updateCSS();
+            
             FreeFit::Data::Exercise e_dat;
+
+            std::string color;
+            bool is_bold;
 
             QGridLayout* ly;
 
@@ -60,6 +67,8 @@ namespace FreeFit
             int getNumberOfExerciseWidgets(){return exercise_widgets.size();}
             
             std::string getVideoPathOfCurrentExercise();
+
+            void setColor(std::string c);
         private:
             void highlightExercise(FreeFit::GUI::ExerciseListWidgetItem*);
 
@@ -71,6 +80,8 @@ namespace FreeFit
             QScrollArea* scroll_area;
             std::list<ExerciseListWidgetItem*> exercise_widgets;
             std::list<FreeFit::GUI::ExerciseListWidgetItem*>::iterator current_exercise;
+
+            std::string color;
         signals:
             void exerciseClickedSignal(FreeFit::Data::Exercise d);
         public slots:
