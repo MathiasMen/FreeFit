@@ -283,6 +283,15 @@ namespace FreeFit
             addWidget(old_exercise_scroll_area,5,1,1,2);
             addWidget(browser,0,0,6,1);
         }
+        
+        void ExerciseEditor::setColor(std::string c)
+        {
+            MaterialDialog::setColor(c);
+            new_exercise_label->setStyleSheet(QString::fromStdString("color:" + c + ";"));
+            add_button->setColor(c);
+            download_exercises_button->setColor(c);
+            old_exercise_label->setStyleSheet(QString::fromStdString("color:" + c + ";"));
+        }
 
         void ExerciseEditor::accept()
         {   

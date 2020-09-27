@@ -168,14 +168,14 @@ namespace FreeFit
             ExerciseEditor(FreeFit::Data::Profile t_p);
             void deleteProfile(){delete browser->getWebEngineView()->page();};
             std::list<FreeFit::Data::Exercise> getExerciseData();
+            void setColor(std::string c);
         private:
             MaterialButton* add_button;
-            MaterialButton* download_all_button;
+            MaterialButton* download_exercises_button;
             QLabel* new_exercise_label;
             QWidget* new_exercise_area;        
             QVBoxLayout* new_exercise_area_ly;                
             QScrollArea* new_exercise_scroll_area;
-            QPushButton* download_exercises_button;
             QLabel* old_exercise_label;
             QWidget* old_exercise_area;
             QVBoxLayout* old_exercise_area_ly;
