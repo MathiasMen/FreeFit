@@ -19,6 +19,12 @@ namespace FreeFit
                     QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
                     ly->addItem(horizontal_spacer);
                 }
+                
+                void setColor(std::string c)
+                {
+                    for (auto l : hashtag_labels)
+                        l->setColor(c);
+                }
 
                 void addHashtag(std::string tag_str)
                 {

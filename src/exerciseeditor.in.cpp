@@ -79,6 +79,7 @@ namespace FreeFit
             stop_time_lbl->setStyleSheet(QString::fromStdString("color:" + c + ";"));
             delete_item->setColor(c);
             start_stop->setColor(c);
+            hashtag_widget->setColor(c);
         }
 
         std::list<std::string> ExerciseItem::getMuscleAreas()
