@@ -83,6 +83,7 @@ namespace FreeFit
             }
 
             virtual void prepareWorkoutGeneration() = 0;
+            virtual void setColor(std::string c) = 0;
         private slots:
             void numberOfRoundsChanged()
             {
@@ -107,6 +108,8 @@ namespace FreeFit
             }
 
             void prepareWorkoutGeneration(){}
+
+            void setColor(std::string c){}
         };
 
         class FilteredExercisesWorkoutOption : public WorkoutOptionBase
@@ -128,6 +131,11 @@ namespace FreeFit
             void prepareWorkoutGeneration()
             {
                 specialized_workout->setSelectedAreas(muscle_areas->getToggledStrings());
+            }
+
+            void setColor(std::string c)
+            {
+                muscle_areas->setColor(c);
             }
         private:
             std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> specialized_workout;
@@ -168,6 +176,13 @@ namespace FreeFit
 
                 connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
                 connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+            }
+
+            void setColor(std::string c)
+            {
+                MaterialDialog::setColor(c);
+                all_exercises_workout->setColor(c);
+                filtered_exercises_workout->setColor(c);
             }
 
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
