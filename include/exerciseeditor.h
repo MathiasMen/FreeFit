@@ -75,6 +75,8 @@ namespace FreeFit
             std::string getName(){return name->text().toStdString();};
             void setName(std::string n){name->setText(QString::fromStdString(n)); name->validateText();};
 
+            void setColor(std::string c);
+
             std::string getURL(){return url->text().toStdString();};
             void setURL(std::string u){url->setText(QString::fromStdString(u)); url->validateText();};
 

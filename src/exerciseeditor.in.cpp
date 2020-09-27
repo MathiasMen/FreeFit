@@ -73,6 +73,12 @@ namespace FreeFit
             ly->addWidget(hashtag_widget,++row_counter,0,col_counter,2,Qt::AlignLeft);
         }
 
+        void ExerciseItem::setColor(std::string c)
+        {
+            start_time_lbl->setStyleSheet(QString::fromStdString("color:" + c + ";"));
+            stop_time_lbl->setStyleSheet(QString::fromStdString("color:" + c + ";"));
+        }
+
         std::list<std::string> ExerciseItem::getMuscleAreas()
         {
             return hashtag_widget->getToggledStrings();
@@ -291,6 +297,11 @@ namespace FreeFit
             add_button->setColor(c);
             download_exercises_button->setColor(c);
             old_exercise_label->setStyleSheet(QString::fromStdString("color:" + c + ";"));
+
+            for (auto ex : exercise_items)
+                ex->setColor(c);
+            for (auto new_ex : new_exercise_items)
+                new_ex->setColor(c);
         }
 
         void ExerciseEditor::accept()
@@ -376,6 +387,7 @@ namespace FreeFit
         void ExerciseEditor::addExercise()
         {
             ExerciseItem* e = new ExerciseItem(this);
+            e->setColor(color);
             new_exercise_items.push_back(e);
             new_exercise_area_ly->insertWidget(0,e);
             connect(e,&ExerciseItem::deleteItemTriggered,this,&ExerciseEditor::deleteExercise);
