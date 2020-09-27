@@ -4,10 +4,18 @@ namespace FreeFit
 {
     namespace GUI
     {    
-        ToggleableLabel::ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent)
+        ToggleableLabel::ToggleableLabel(QString text, QWidget* parent):QLabel(text,parent),toggled(false),color("#ff0000")
         {
-            css_string = QString("background-color:white; color:red; border:2px solid red; border-radius:5px;");
+            updateCSS();
             setSelectable(true);
+        }
+
+        void ToggleableLabel::updateCSS()
+        {
+            if (toggled)
+                css_string = QString::fromStdString("background-color:" + color + "; color:white; border:2px solid " + color + "; border-radius:5px;");
+            else
+                css_string = QString::fromStdString("background-color:white; color:" + color + "; border:2px solid " + color + "; border-radius:5px;");
             setStyleSheet(css_string);
         }
 
@@ -25,14 +33,16 @@ namespace FreeFit
                 disconnect(this,&ToggleableLabel::clicked,this,&ToggleableLabel::clicked_impl);
         }
 
+        void ToggleableLabel::setColor(std::string c)
+        {
+            color = c;
+            updateCSS();
+        }
+
         void ToggleableLabel::clicked_impl()
         {
             toggled = !toggled;
-            if(toggled)
-                css_string.replace("background-color:white; color:red;","background-color:red; color:white;");
-            else
-                css_string.replace("background-color:red; color:white;","background-color:white; color:red;");
-            setStyleSheet(css_string);
+            updateCSS();
         }
     }
 }

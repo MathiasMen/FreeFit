@@ -14,6 +14,7 @@ namespace FreeFit
         public:
             ToggleableLabel(QString text, QWidget* parent);
             void setSelectable(bool s);
+            void setColor(std::string c);
             bool isToggled(){return toggled;}
             void click(){clicked_impl();};
         signals:
@@ -23,8 +24,11 @@ namespace FreeFit
         private slots:
             void clicked_impl();
         private:
-            bool toggled = false;
+            void updateCSS();
+
+            bool toggled;
             QString css_string;
+            std::string color;
         };
     }
 }
