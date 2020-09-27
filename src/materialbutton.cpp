@@ -4,11 +4,23 @@ namespace FreeFit
 {
     namespace GUI
    {
-        MaterialButton::MaterialButton(QString t, QWidget* parent) : QPushButton(t,parent),t_update(new QTimer)
+        MaterialButton::MaterialButton(QString t, QWidget* parent) : QPushButton(t,parent),t_update(new QTimer),color("#ff0000")
         {
-            this->setStyleSheet("background-color:white; color:black; border: 2px solid red; padding: 20px;");
             this->setFlat(true);
             connect(this,SIGNAL(rippleFinished()),this,SLOT(handleRippleFinished()));
+            updateCSS();
+        }
+        
+        void MaterialButton::updateCSS()
+        {
+            this->setStyleSheet(QString::fromStdString("background-color:white; color:" + color + "; border: 2px solid " + color + "; padding: 20px;"));
+        }
+
+        void MaterialButton::setColor(std::string c)
+        {
+            color = c;
+            updateCSS();
+            update();
         }
 
         void MaterialButton::paintEvent(QPaintEvent* ev)
@@ -65,7 +77,7 @@ namespace FreeFit
             QPen pen = painter->pen();
             pen.setColor(Qt::white);
             painter->setPen(pen);
-            painter->setBrush(QBrush(Qt::red));
+            painter->setBrush(QBrush(QColor(QString::fromStdString(color))));
 
             painter->setOpacity(0.5*rippleOpacityCounter/rippleSteps);
             painter->drawEllipse(click_pos,100*rippleRadiusCounter/rippleSteps,100*rippleRadiusCounter/rippleSteps);

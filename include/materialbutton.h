@@ -19,6 +19,7 @@ namespace FreeFit
             Q_OBJECT
             public:
                 MaterialButton(QString t, QWidget* parent = nullptr);
+                void setColor(std::string c);
             protected:
                 void paintEvent(QPaintEvent* ev) override;
                 void mousePressEvent(QMouseEvent* ev) override;
@@ -26,6 +27,7 @@ namespace FreeFit
                 void updateRippleData();
                 void handleRippleFinished();
             private:
+                void updateCSS();
                 void animateRipple(QPainter* painter);
 
                 QTimer* t_update;
@@ -35,6 +37,7 @@ namespace FreeFit
                 int rippleRadiusCounter;
                 QPointF click_pos;
                 std::function<void(QPainter*)> currentPaintFunction;
+                std::string color;
             signals:
                 void rippleFinished();
         };
