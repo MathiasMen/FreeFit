@@ -34,7 +34,7 @@ TEST(ProfileItemGroup,Launch)
     ly->addWidget(&b2);
     ly->addWidget(&b3);
     w->show();
-    a.exec();
+    w->close();
 }
 
 TEST(ProfileItemGroup,SelectionStyling)
@@ -57,8 +57,9 @@ TEST(ProfileItemGroup,SelectionStyling)
     ly->addWidget(&b1);
     ly->addWidget(&b2);
     ly->addWidget(&b3);
-    ASSERT_TRUE(v.getProfileCSSString(0).find("color:grey; border: 2px solid grey;") != std::string::npos);
-    ASSERT_TRUE(v.getProfileCSSString(1).find("color:red; border: 2px solid red;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(0).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#ff0000; border: 2px solid #ff0000;") != std::string::npos);
+    w->close();
 }
 
 TEST(ProfileItemGroup,ChangeSelectionAndEdit)
@@ -86,5 +87,6 @@ TEST(ProfileItemGroup,ChangeSelectionAndEdit)
     ASSERT_EQ(v.getName(0),"Mathias");
     ASSERT_EQ(v.getName(1),"ConstanzeTest");
     ASSERT_EQ(v.getName(2),"Uschi");
+    w->close();
 }
 
