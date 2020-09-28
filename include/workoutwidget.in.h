@@ -28,7 +28,7 @@ namespace FreeFit
             Q_OBJECT
             friend WorkoutWidgetValidator;
         public:
-            WorkoutWidgetTimer(int start_time, QWidget* parent) : QWidget(parent),
+            WorkoutWidgetTimer(int start_time, QWidget* parent) : QWidget(parent), color("#ff0000"),
                 line_width(5), angle_factor(16), start_angle(90*angle_factor), current_time(start_time)
             {
                 exercise_duration_timer = new QTimer(this);
@@ -37,6 +37,12 @@ namespace FreeFit
                 update_interval_timer->setInterval(50);
                 this->setMinimumSize(100,100);
                 this->setMaximumSize(100,100);
+            }
+
+            void setColor(std::string c)
+            {
+                color = c;
+                update();
             }
 
             int getRemainingTime(){return int(exercise_duration_timer->remainingTime()/1000);}
@@ -85,7 +91,7 @@ namespace FreeFit
             void paintEvent(QPaintEvent* ev) override
             {
                 QPainter painter(this);
-                painter.setPen(QPen(QBrush(Qt::red),line_width));
+                painter.setPen(QPen(QBrush(QColor(QString::fromStdString(color))),line_width));
                 QFont f = painter.font();
                 f.setPixelSize(36);
                 painter.setFont(f);
@@ -110,6 +116,8 @@ namespace FreeFit
             }
 
         private:
+            std::string color;
+
             QTimer* exercise_duration_timer;
             QTimer* notification_timer;
             QTimer* update_interval_timer;
@@ -202,6 +210,13 @@ namespace FreeFit
             void setWorkout(FreeFit::Data::WorkoutBase* t_w){w = t_w;}
 
             void setPauseTime(int t_p){pause_time = t_p;}
+
+            void setColor(std::string c)
+            {
+                MaterialDialog::setColor(c);
+                exercise_list->setColor(c);
+                timer->setColor(c);
+            }
         private slots:
             void handleExerciseEnded()
             {
