@@ -18,9 +18,9 @@ namespace FreeFit
                 connect(profile_group,SIGNAL(currentColorChanged(std::string)),this,SIGNAL(currentColorChanged(std::string)));
             }
 
-            void ProfileSelectionWidget::addItem(QString profile_name)
+            void ProfileSelectionWidget::addItem(QString profile_name,QString profile_color)
             {
-                ProfileItem* m = new ProfileItem(profile_name,this);
+                ProfileItem* m = new ProfileItem(profile_name,profile_color,this);
                 content_ly->addWidget(m);
                 profile_group->addItem(m);
             }
@@ -43,7 +43,7 @@ namespace FreeFit
                 for (auto p : r.getProfileList())
                     v_p.push_back(p);
                 for (auto p : v_p)
-                    profile_selection->addItem(QString::fromStdString(p.getName()));
+                    profile_selection->addItem(QString::fromStdString(p.getName()),QString::fromStdString(p.getColor()));
 
                 profile_selection->selectProfile(0);
 

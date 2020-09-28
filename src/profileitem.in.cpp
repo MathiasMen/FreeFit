@@ -114,7 +114,7 @@ namespace FreeFit
             painter.drawPixmap(0,0,pixmap_width,pixmap_height,colored_icon.pixmap(pixmap_width,pixmap_height));
         }
 
-        ProfileItem::ProfileItem(QString t_name, QWidget* t_parent) : QWidget(t_parent),item_color(QColor("red"))
+        ProfileItem::ProfileItem(QString t_name, QColor t_color, QWidget* t_parent) : QWidget(t_parent),item_color(t_color)
         {
             const int width = 200;
             const int height = 200;
@@ -137,6 +137,7 @@ namespace FreeFit
                 connect(p,SIGNAL(popupFinished(ProfileEditPopupResult)),this,SLOT(handlePopupFinished(ProfileEditPopupResult)));
             });
             setName(t_name);
+            setColor(t_color.name());
             updateStyle();
 
             ly->addWidget(name_label,0,0,Qt::AlignCenter);

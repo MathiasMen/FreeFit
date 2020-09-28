@@ -111,7 +111,7 @@ namespace FreeFit
         friend ProfileItemValidator;
         Q_OBJECT
         public:
-            ProfileItem(QString t_name = "new", QWidget* t_parent = nullptr);
+            ProfileItem(QString t_name = "new", QColor = QColor("red"), QWidget* t_parent = nullptr);
 
             std::string getName(){return name_label->text().toStdString();}
 
