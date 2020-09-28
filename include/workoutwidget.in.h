@@ -159,6 +159,13 @@ namespace FreeFit
             {
                 play_button->setText("pause");
             }
+
+            void setColor(std::string c)
+            {
+                recreate_button->setColor(c);
+                play_button->setColor(c);
+            }
+
         signals:
             void recreateClicked();
             void playClicked();
@@ -216,6 +223,7 @@ namespace FreeFit
                 MaterialDialog::setColor(c);
                 exercise_list->setColor(c);
                 timer->setColor(c);
+                control->setColor(c);
             }
         private slots:
             void handleExerciseEnded()
