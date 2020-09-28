@@ -29,13 +29,10 @@ private:
 	FreeFit::GUI::ExerciseEditor* e;
     FreeFit::GUI::WorkoutGenerationWidget* w;
 	FreeFit::GUI::WorkoutWidget* ww;
-    QToolBar* tool_bar;
-    QAction* reload_css;
 
     std::string profile_path;
     std::string color;
 private slots:
-    void reloadCSSTriggered();
     void presentProfileEditor();
     void presentExerciseEditor();
     void presentWorkoutGenerationWidget();
