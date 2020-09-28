@@ -92,6 +92,7 @@ TEST_F(ProfileEditor,WriteXML)
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
     v->changeOutputPath(out_path);
     v->setCurrentName("Mathias2");
+    v->setCurrentColor("#008000");
     d->accept();
 
     std::string expected_xml = 
@@ -100,6 +101,9 @@ TEST_F(ProfileEditor,WriteXML)
     "    <NAME>\n"
     "      Mathias2\n"
     "    </NAME>\n"
+    "    <COLOR>\n"
+    "      #008000\n"
+    "    </COLOR>\n"
     "    <PICTUREPATH>\n"
     "      DummyPicturePath\n"
     "    </PICTUREPATH>\n"
@@ -117,6 +121,8 @@ TEST_F(ProfileEditor,WriteXML)
     "    <NAME>\n"
     "      Constanze\n"
     "    </NAME>\n"
+    "    <COLOR>\n"
+    "    </COLOR>\n"
     "    <PICTUREPATH>\n"
     "      DummyPicturePath\n"
     "    </PICTUREPATH>\n"

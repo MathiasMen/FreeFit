@@ -108,6 +108,11 @@ namespace FreeFit
                 getCurrentSelectionItem()->setName(QString::fromStdString(n));
             }
 
+            void setCurrentColor(std::string c)
+            {
+                getCurrentSelectionItem()->setColor(QString::fromStdString(c));
+            }
+
             void changeOutputPath(std::string f)
             {
                 p->w.setOutPath(f);
