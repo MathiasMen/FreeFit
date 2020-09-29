@@ -49,24 +49,33 @@ TEST(ProfileItemGroup,SelectionStyling)
 {
     QApplication a(my_argc,my_argv);
 
+    QString text1 = "Text1", text2 = "Text2", text3 = "Some really long text.";
+    QColor color1("green"), color2("blue"), color3("red");
     QWidget* w = new QWidget;
     QVBoxLayout* ly = new QVBoxLayout(w);
     FreeFit::GUI::ProfileItemGroup g;
     FreeFit::GUI::ProfileItemValidator v(&g);
-    FreeFit::GUI::ProfileItem b1("Text1");
-    FreeFit::GUI::ProfileItem b2("Text2");
-    FreeFit::GUI::ProfileItem b3("Some really long text.");
+    FreeFit::GUI::ProfileItem b1(text1,color1,w);
+    FreeFit::GUI::ProfileItem b2(text2,color2,w);
+    FreeFit::GUI::ProfileItem b3(text3,color3,w);
     g.addItem(&b1);
     g.addItem(&b2);
     g.addItem(&b3);
-    v.selectProfileItem(1);
-    v.selectProfileItem(0);
-    v.selectProfileItem(1);
     ly->addWidget(&b1);
     ly->addWidget(&b2);
     ly->addWidget(&b3);
+    v.selectProfileItem(1);
     ASSERT_TRUE(v.getProfileCSSString(0).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
-    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#ff0000; border: 2px solid #ff0000;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#0000ff; border: 2px solid #0000ff;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(2).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
+    v.selectProfileItem(0);
+    ASSERT_TRUE(v.getProfileCSSString(0).find("color:#008000; border: 2px solid #008000;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(2).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
+    v.selectProfileItem(1);
+    ASSERT_TRUE(v.getProfileCSSString(0).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#0000ff; border: 2px solid #0000ff;") != std::string::npos);
+    ASSERT_TRUE(v.getProfileCSSString(2).find("color:#808080; border: 2px solid #808080;") != std::string::npos);
     w->close();
 }
 
