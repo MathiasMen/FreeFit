@@ -3,6 +3,9 @@
     <NAME>
       Mathias
     </NAME>
+    <COLOR>
+      #00ff00
+    </COLOR>
     <PICTUREPATH>
       DummyPicturePath
     </PICTUREPATH>
@@ -20,6 +23,9 @@
     <NAME>
       Constanze
     </NAME>
+    <COLOR>
+      #0000ff
+    </COLOR>
     <PICTUREPATH>
       DummyPicturePath
     </PICTUREPATH>
