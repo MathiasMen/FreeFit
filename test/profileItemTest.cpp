@@ -43,6 +43,7 @@ TEST(ProfileItemGroup,Launch)
     ASSERT_EQ(b1.getColor(),color1.name());
     ASSERT_EQ(b2.getColor(),color2.name());
     ASSERT_EQ(b3.getColor(),color3.name());
+    ASSERT_EQ(&g,b1.getGroupPointer());
 }
 
 TEST(ProfileItemGroup,SelectionStyling)

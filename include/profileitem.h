@@ -121,6 +121,8 @@ namespace FreeFit
 
             void setSelected(bool b);
 
+            ProfileItemGroup* getGroupPointer(){return group_ptr;}
+
             void setGroupPointer(ProfileItemGroup* p){group_ptr = p;}
 
             QString getColor(){return item_color.name();}
