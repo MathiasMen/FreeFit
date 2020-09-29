@@ -8,6 +8,8 @@
 
 #include "include/profileitem.h"
 
+#include <iostream>
+
 int my_argc;
 char** my_argv;
 
@@ -108,3 +110,44 @@ TEST(ProfileItemGroup,ChangeSelectionAndEdit)
     w->close();
 }
 
+TEST(ProfileItem,HandlePopupResult)
+{
+    QApplication a(my_argc,my_argv);
+
+    QString text1 = "Text1", text2 = "Text2", text3 = "Some really long text.";
+    QColor color1("red"), color2("green"), color3("blue");
+    FreeFit::GUI::ProfileEditPopupResult res1("Text1Changed","",true), res2("Text2Changed","#0000ff",true), res3("Text3Changed","#ff0000",false);
+
+    FreeFit::GUI::ProfileItemGroup g;
+    FreeFit::GUI::ProfileItemValidator v(&g);
+    FreeFit::GUI::ProfileItem b1(text1,color1);
+    FreeFit::GUI::ProfileItem b2(text2,color2);
+    FreeFit::GUI::ProfileItem b3(text3,color3);
+    g.addItem(&b1);
+    g.addItem(&b2);
+    g.addItem(&b3);    
+
+    ASSERT_EQ(b1.getName(),text1.toStdString());
+    ASSERT_EQ(b2.getName(),text2.toStdString());
+    ASSERT_EQ(b3.getName(),text3.toStdString());
+    v.selectProfileItem(0);
+    ASSERT_TRUE(v.getProfileCSSString(0).find("color:#ff0000; border: 2px solid #ff0000;") != std::string::npos);
+    v.selectProfileItem(1);
+    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#008000; border: 2px solid #008000;") != std::string::npos);
+    v.selectProfileItem(2);
+    ASSERT_TRUE(v.getProfileCSSString(2).find("color:#0000ff; border: 2px solid #0000ff;") != std::string::npos);
+
+    b1.handlePopupFinished(res1);
+    b2.handlePopupFinished(res2);
+    b3.handlePopupFinished(res3);
+
+    ASSERT_EQ(b1.getName(),"Text1Changed");
+    ASSERT_EQ(b2.getName(),"Text2Changed");
+    ASSERT_EQ(b3.getName(),text3.toStdString());
+    v.selectProfileItem(0);
+    ASSERT_TRUE(v.getProfileCSSString(0).find("color:#ff0000; border: 2px solid #ff0000;") != std::string::npos);
+    v.selectProfileItem(1);
+    ASSERT_TRUE(v.getProfileCSSString(1).find("color:#0000ff; border: 2px solid #0000ff;") != std::string::npos);
+    v.selectProfileItem(2);
+    ASSERT_TRUE(v.getProfileCSSString(2).find("color:#ff0000; border: 2px solid #ff0000;") != std::string::npos);
+}
