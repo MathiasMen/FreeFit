@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QString>
+#include <QColor>
 
 #include "include/profileitem.h"
 
@@ -21,20 +23,26 @@ TEST(ProfileItemGroup,Launch)
 {
     QApplication a(my_argc,my_argv);
 
+    QString text1 = "Text1", text2 = "Text2", text3 = "Some really long text.";
+    QColor color1("red"), color2("green"), color3("blue");
     QWidget* w = new QWidget;
     QVBoxLayout* ly = new QVBoxLayout(w);
     FreeFit::GUI::ProfileItemGroup g;
-    FreeFit::GUI::ProfileItem b1("Text1",w);
-    FreeFit::GUI::ProfileItem b2("Text2",w);
-    FreeFit::GUI::ProfileItem b3("Some really long text.",w);
+    FreeFit::GUI::ProfileItem b1(text1,color1,w);
+    FreeFit::GUI::ProfileItem b2(text2,color2,w);
+    FreeFit::GUI::ProfileItem b3(text3,color3,w);
     g.addItem(&b1);
     g.addItem(&b2);
     g.addItem(&b3);
     ly->addWidget(&b1);
     ly->addWidget(&b2);
     ly->addWidget(&b3);
-    w->show();
-    w->close();
+    ASSERT_EQ(b1.getName(),text1.toStdString());
+    ASSERT_EQ(b2.getName(),text2.toStdString());
+    ASSERT_EQ(b3.getName(),text3.toStdString());
+    ASSERT_EQ(b1.getColor(),color1.name());
+    ASSERT_EQ(b2.getColor(),color2.name());
+    ASSERT_EQ(b3.getColor(),color3.name());
 }
 
 TEST(ProfileItemGroup,SelectionStyling)
