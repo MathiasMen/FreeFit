@@ -34,11 +34,7 @@ namespace FreeFit
             ProfileSelectionWidget(QWidget* parent);
             void addItem(QString profile_name, QString profile_color);
             int currentIndex();
-            void selectProfile(int i)
-            {
-                profile_group->selectProfile(i);
-                emit currentColorChanged(getCurrentColor());
-            }
+            void selectProfile(int i);
             std::string getCurrentName(){return profile_group->getCurrentName();};
             std::string getCurrentColor(){return profile_group->getCurrentColor();};
         signals:

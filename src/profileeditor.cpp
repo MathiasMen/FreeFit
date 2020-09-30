@@ -30,6 +30,12 @@ namespace FreeFit
                 return profile_group->currentIndex();
             }
 
+            void ProfileSelectionWidget::selectProfile(int i)
+            {
+                profile_group->selectProfile(i);
+                emit currentColorChanged(getCurrentColor());
+            }
+
             ProfileEditor::ProfileEditor(std::string p_path)
                 : MaterialDialog("","Exercises","Workout Settings"),r(p_path),w(p_path)
             {
