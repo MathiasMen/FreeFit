@@ -110,6 +110,25 @@ TEST(ProfileItemGroup,ChangeSelectionAndEdit)
     w->close();
 }
 
+TEST(ProfileItemGroup,GetItems)
+{
+    QApplication a(my_argc,my_argv);
+
+    FreeFit::GUI::ProfileItemGroup g;
+    FreeFit::GUI::ProfileItemValidator v(&g);
+    FreeFit::GUI::ProfileItem b1("Mathias");
+    FreeFit::GUI::ProfileItem b2("Constanze");
+    FreeFit::GUI::ProfileItem b3("Uschi");
+
+    g.addItem(&b1);
+    g.addItem(&b2);
+    g.addItem(&b3);
+    ASSERT_EQ(g.getItems().size(),3);
+    ASSERT_EQ(g.getItems()[0],&b1);
+    ASSERT_EQ(g.getItems()[1],&b2);
+    ASSERT_EQ(g.getItems()[2],&b3);
+}
+
 TEST(ProfileItem,HandlePopupResult)
 {
     QApplication a(my_argc,my_argv);
