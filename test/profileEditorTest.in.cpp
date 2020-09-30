@@ -30,6 +30,8 @@ TEST_F(ProfileEditor,ReadXML)
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
     ASSERT_EQ(v->getProfileData(0).getName(),"Mathias");
     ASSERT_EQ(v->getProfileData(1).getName(),"Constanze");
+    ASSERT_EQ(v->getProfileData(0).getColor(),"#00ff00");
+    ASSERT_EQ(v->getProfileData(1).getColor(),"#0000ff");
     ASSERT_EQ(v->getProfileData(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
     ASSERT_EQ(v->getProfileData(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
     d->resize(1024,640);
