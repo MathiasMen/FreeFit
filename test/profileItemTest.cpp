@@ -151,3 +151,26 @@ TEST(ProfileItem,HandlePopupResult)
     v.selectProfileItem(2);
     ASSERT_TRUE(v.getProfileCSSString(2).find("color:#ff0000; border: 2px solid #ff0000;") != std::string::npos);
 }
+
+TEST(ProfileItem,FontSize)
+{
+    QApplication a(my_argc,my_argv);
+
+    QString text1 = "Text1";
+    QString long_text = text1.repeated(100);
+    QColor color1("red");
+
+    QWidget* w = new QWidget;
+    QVBoxLayout* ly = new QVBoxLayout(w);
+
+    FreeFit::GUI::ProfileItemGroup g;
+    FreeFit::GUI::ProfileItemValidator v(&g);
+    FreeFit::GUI::ProfileItem b(long_text,color1);
+    g.addItem(&b);
+    ly->addWidget(&b);
+
+    v.selectProfileItem(0);
+    ASSERT_EQ(v.getCurrentFontSize(),8);
+    ASSERT_EQ(v.getCurrentName(),long_text.toStdString());
+    ASSERT_EQ(v.getCurrentDisplayName(),"Text1Text1Text1Text1Text1Text1Text1Text1T\xE2\x80\xA6");
+}

@@ -146,11 +146,12 @@ namespace FreeFit
 
         void ProfileItem::setName(QString name)
         {
+            name_text = name;
             for (unsigned int i = 0; i < 5; i++)
                 decreaseLabelTextSizeIfNecessary(name);
             name = elidedTextIfNecessary(name);
             name_label->setText(name);
-            emit nameChanged(name.toStdString());
+            emit nameChanged(name_text.toStdString());
         }
 
         void ProfileItem::setSelected(bool b)

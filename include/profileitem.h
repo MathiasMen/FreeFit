@@ -113,7 +113,7 @@ namespace FreeFit
         public:
             ProfileItem(QString t_name = "new", QColor = QColor("red"), QWidget* t_parent = nullptr);
 
-            std::string getName(){return name_label->text().toStdString();}
+            std::string getName(){return name_text.toStdString();}
 
             void setName(QString name);
 
@@ -150,6 +150,7 @@ namespace FreeFit
             QLabel* name_label;
             ProfileEditButton* edit_button;
 
+            QString name_text;
             bool selected = false;
             ProfileItemGroup* group_ptr = nullptr;
             QString css_string = "color:#808080; border: 2px solid #808080; border-radius:5px; text-align:center;";
@@ -199,6 +200,10 @@ namespace FreeFit
             std::string getName(int i){return g->items[i]->getName();}
 
             std::string getCurrentName(){return g->current_profile->getName();}
+
+            std::string getCurrentDisplayName(){return g->current_profile->name_label->text().toStdString();}
+
+            int getCurrentFontSize(){return g->getItems()[g->currentIndex()]->name_label->font().pointSize();}
         private:
             ProfileItemGroup* g;
         };
