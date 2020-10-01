@@ -120,6 +120,8 @@ namespace FreeFit
 
             std::string getCurrentName(){return p->profile_selection->getCurrentName();}
 
+            std::string getCurrentColor(){return p->profile_selection->getCurrentColor();}
+
             std::string getCurrentProfileCSSString(int i){return getCurrentSelectionItem()->styleSheet().toStdString();}
         signals:
             void changeTextSignal(const QString&);

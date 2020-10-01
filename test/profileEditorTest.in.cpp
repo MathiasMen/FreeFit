@@ -46,7 +46,9 @@ TEST_F(ProfileEditor,EditSelection)
     d->open();
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
     v->setCurrentName("MathiasTest");
+    v->setCurrentColor("#00ff00");
     ASSERT_EQ(v->getCurrentName(),"MathiasTest");
+    ASSERT_EQ(v->getCurrentColor(),"#00ff00");
     ASSERT_EQ(v->getProfileData(0).getName(),"MathiasTest");
     ASSERT_EQ(v->getProfileData(1).getName(),"Constanze");
     d->reject();
