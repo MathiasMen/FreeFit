@@ -79,8 +79,6 @@ namespace FreeFit
 
             QSpacerItem* vertical_spacer;
 
-            ControlButton* next_page_button;
-            ControlButton* skip_exercises_button;
             QSpacerItem* horizontal_spacer_control;
         };
 
