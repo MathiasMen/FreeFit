@@ -66,10 +66,13 @@ TEST_F(ProfileEditor,ChangeSelection)
     ASSERT_EQ(v->getProfileData(0).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList.xml");
     ASSERT_EQ(v->getProfileData(1).getPathToExerciseDB(),"${CMAKE_SOURCE_DIR}/test/input/ReadXMLAndPopulateExerciseList2.xml");
     ASSERT_EQ(v->getCurrentName(),"Mathias");
+    ASSERT_EQ(v->getCurrentColor(),"#00ff00");
     v->selectProfile(1);
     ASSERT_EQ(v->getCurrentName(),"Constanze");
+    ASSERT_EQ(v->getCurrentColor(),"#0000ff");
     v->selectProfile(0);
     ASSERT_EQ(v->getCurrentName(),"Mathias");
+    ASSERT_EQ(v->getCurrentColor(),"#00ff00");
     d->reject();
 }
 
