@@ -123,6 +123,10 @@ namespace FreeFit
             std::string getCurrentColor(){return p->profile_selection->getCurrentColor();}
 
             std::string getCurrentProfileCSSString(int i){return getCurrentSelectionItem()->styleSheet().toStdString();}
+
+            std::string getNextButtonCSS(){return p->getAcceptButton()->styleSheet().toStdString();}
+
+            std::string getSkipButtonCSS(){return p->getSkipButton()->styleSheet().toStdString();}
         signals:
             void changeTextSignal(const QString&);
         private:

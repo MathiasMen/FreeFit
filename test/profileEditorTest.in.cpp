@@ -49,6 +49,10 @@ TEST_F(ProfileEditor,EditSelection)
     v->setCurrentColor("#00ff00");
     ASSERT_EQ(v->getCurrentName(),"MathiasTest");
     ASSERT_EQ(v->getCurrentColor(),"#00ff00");
+    ASSERT_TRUE(v->getNextButtonCSS().find("background-color:#00ff00") != std::string::npos);
+    ASSERT_TRUE(v->getNextButtonCSS().find("color:#ffffff") != std::string::npos);
+    ASSERT_TRUE(v->getSkipButtonCSS().find("background-color:#ffffff") != std::string::npos);
+    ASSERT_TRUE(v->getSkipButtonCSS().find("color:#00ff00") != std::string::npos);
     ASSERT_EQ(v->getProfileData(0).getName(),"MathiasTest");
     ASSERT_EQ(v->getProfileData(1).getName(),"Constanze");
     d->reject();
