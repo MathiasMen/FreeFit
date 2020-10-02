@@ -60,7 +60,6 @@ namespace FreeFit
             void skiptToWorkoutGeneration();
         public slots:
             void accept() override;
-            void informationChanged();
             void currentNameChanged(std::string n){v_p[profile_selection->currentIndex()].setName(n);}
             void currentColorChanged(std::string c)
             {

@@ -133,6 +133,7 @@ TEST_F(ProfileEditor,WriteXML)
     "      Constanze\n"
     "    </NAME>\n"
     "    <COLOR>\n"
+    "      #0000ff\n"
     "    </COLOR>\n"
     "    <PICTUREPATH>\n"
     "      DummyPicturePath\n"

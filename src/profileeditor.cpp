@@ -68,12 +68,6 @@ namespace FreeFit
                 QDialog::accept();
             }
 
-            void ProfileEditor::informationChanged()
-            {
-                FreeFit::Data::Profile& p = v_p[profile_selection->currentIndex()];
-                p.setName(profile_selection->getCurrentName());
-            }
-
             FreeFit::Data::Profile ProfileEditor::getCurrentlySelectedData()
             {
                 return v_p[profile_selection->currentIndex()];
