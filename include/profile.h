@@ -8,12 +8,12 @@ namespace FreeFit
     {
         class Profile
         {
-            static Profile newProfileProfile()
-            {
-                return Profile("New Profile","#ff0000","","","",1.0);
-            }
-
             public:
+                static Profile buildNewProfileProfile()
+                {
+                    return Profile("New Profile","#ff0000","","","",1.0);
+                }
+
                 Profile(){};
                 Profile(std::string n,
                         std::string c,
@@ -30,7 +30,7 @@ namespace FreeFit
 
                 bool isNewProfileProfile()
                 {
-                    Profile p = newProfileProfile();
+                    Profile p = buildNewProfileProfile();
                     return (name == p.getName() &&
                             color == p.getColor() &&
                             picture_path == p.getPicturePath() &&
