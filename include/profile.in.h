@@ -41,7 +41,7 @@ namespace FreeFit
 
                 void generatePathToExerciseDB()
                 {
-                    path_to_exercise_database = "${CMAKE_SOURCE_DIR}/" + name + ".xml";
+                    this->path_to_exercise_database = "${CMAKE_BINARY_DIR}/" + name + ".xml";
                 }
 
                 void setName(std::string n){name = n;}
