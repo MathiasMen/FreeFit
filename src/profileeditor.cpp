@@ -51,6 +51,10 @@ namespace FreeFit
                 for (auto p : v_p)
                     profile_selection->addItem(QString::fromStdString(p.getName()),QString::fromStdString(p.getColor()));
 
+                FreeFit::Data::Profile newProfileProfile = FreeFit::Data::Profile::buildNewProfileProfile();
+                v_p.push_back(newProfileProfile);
+                profile_selection->addItem(QString::fromStdString(newProfileProfile.getName()),QString::fromStdString(newProfileProfile.getColor()));
+
                 profile_selection->selectProfile(0);
 
                 addWidget(profile_selection,0,0);
@@ -58,11 +62,12 @@ namespace FreeFit
 
             void ProfileEditor::accept()
             {
-                v_p.begin()->setName(getName());
-                v_p.begin()->setPathToExerciseDB(getExercisesPath());
                 std::list<FreeFit::Data::Profile> l;
                 for(auto p : v_p)
-                    l.push_back(p);
+                {
+                    if (!p.isNewProfileProfile())
+                        l.push_back(p);
+                }
                 w.createNodeTree(l);
                 w.write();
                 QDialog::accept();
