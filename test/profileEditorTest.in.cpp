@@ -95,6 +95,52 @@ TEST_F(ProfileEditor,ChangeSelectionAndEdit)
     d->reject();
 }
 
+TEST_F(ProfileEditor,CreateProfileAndWriteXML)
+{
+    std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/ProfileEditorCreateProfileXML.xml";
+    QApplication a(my_argc,my_argv);
+    FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor("${CMAKE_SOURCE_DIR}/test/input/EmptyProfiles.xml");
+    FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
+    v->changeOutputPath(out_path);
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),1);
+    v->setCurrentName("Mathias");
+    v->setCurrentColor("#00ff00");
+    ASSERT_EQ(v->getCurrentName(),"Mathias");
+    ASSERT_EQ(v->getCurrentColor(),"#00ff00");
+    d->accept();
+
+    std::string expected_xml = 
+    "<PROFILES>\n"
+    "  <PROFILE>\n"
+    "    <NAME>\n"
+    "      Mathias\n"
+    "    </NAME>\n"
+    "    <COLOR>\n"
+    "      #00ff00\n"
+    "    </COLOR>\n"
+    "    <PICTUREPATH>\n"
+    "    </PICTUREPATH>\n"
+    "    <DATELASTWORKOUT>\n"
+    "    </DATELASTWORKOUT>\n"
+    "    <PATHEXDB>\n"
+    "    </PATHEXDB>\n"
+    "    <PERFFACTOR>\n"
+    "      1,000000\n"
+    "    </PERFFACTOR>\n"
+    "  </PROFILE>\n"
+    "</PROFILES>\n";
+
+    std::ifstream f(out_path);
+    std::stringstream ss;
+    ss << f.rdbuf();
+
+    ASSERT_EQ(ss.str(),expected_xml);
+}
+
+// TEST_F(ProfileEditor,CreateProfileAndCheckNewProfileProfileGenerated)
+
+// TEST_F(ProfileEditor,CreateProfileCheckPathsGeneratedCorrectly)
+
 TEST_F(ProfileEditor,WriteXML)
 {
     std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/ProfileEditorWriteXML.xml";
