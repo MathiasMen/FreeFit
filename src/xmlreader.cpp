@@ -116,9 +116,6 @@ namespace FreeFit
             for ( auto n : r->findAllChildren("PROFILE"))
                 l.push_back(p.parse(n));
             
-            if (l.empty())
-                l.push_back(Profile());
-
             return l;
         }
     }
