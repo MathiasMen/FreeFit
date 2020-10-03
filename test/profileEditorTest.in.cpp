@@ -95,7 +95,7 @@ TEST_F(ProfileEditor,ChangeSelectionAndEdit)
     d->reject();
 }
 
-TEST_F(ProfileEditor,CreateProfileAndWriteXML)
+TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
 {
     std::string out_path = "${CMAKE_SOURCE_DIR}/build/test/ProfileEditorCreateProfileXML.xml";
     QApplication a(my_argc,my_argv);
@@ -107,6 +107,13 @@ TEST_F(ProfileEditor,CreateProfileAndWriteXML)
     v->setCurrentColor("#00ff00");
     ASSERT_EQ(v->getCurrentName(),"Mathias");
     ASSERT_EQ(v->getCurrentColor(),"#00ff00");
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
+    v->selectProfile(1);
+    ASSERT_EQ(v->getCurrentName(),FreeFit::Data::Profile::buildNewProfileProfile().getName());
+    ASSERT_EQ(v->getCurrentColor(),FreeFit::Data::Profile::buildNewProfileProfile().getColor());
+    v->setCurrentName("Constanze");
+    v->setCurrentColor("#0000ff");
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),3);
     d->accept();
 
     std::string expected_xml = 
@@ -117,6 +124,23 @@ TEST_F(ProfileEditor,CreateProfileAndWriteXML)
     "    </NAME>\n"
     "    <COLOR>\n"
     "      #00ff00\n"
+    "    </COLOR>\n"
+    "    <PICTUREPATH>\n"
+    "    </PICTUREPATH>\n"
+    "    <DATELASTWORKOUT>\n"
+    "    </DATELASTWORKOUT>\n"
+    "    <PATHEXDB>\n"
+    "    </PATHEXDB>\n"
+    "    <PERFFACTOR>\n"
+    "      1,000000\n"
+    "    </PERFFACTOR>\n"
+    "  </PROFILE>\n"
+    "  <PROFILE>\n"
+    "    <NAME>\n"
+    "      Constanze\n"
+    "    </NAME>\n"
+    "    <COLOR>\n"
+    "      #0000ff\n"
     "    </COLOR>\n"
     "    <PICTUREPATH>\n"
     "    </PICTUREPATH>\n"
