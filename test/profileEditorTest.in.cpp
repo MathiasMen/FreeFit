@@ -115,6 +115,7 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
     v->setCurrentColor("#0000ff");
     ASSERT_EQ(v->getNumberOfLoadedProfiles(),3);
     d->accept();
+    ASSERT_EQ(v->getCurrentExercisesPath(),"${CMAKE_BINARY_DIR}/Constanze.xml");
 
     std::string expected_xml = 
     "<PROFILES>\n"
@@ -130,6 +131,7 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
     "    <DATELASTWORKOUT>\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
+    "      ${CMAKE_BINARY_DIR}/Mathias.xml\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      1,000000\n"
@@ -147,6 +149,7 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
     "    <DATELASTWORKOUT>\n"
     "    </DATELASTWORKOUT>\n"
     "    <PATHEXDB>\n"
+    "      ${CMAKE_BINARY_DIR}/Constanze.xml\n"
     "    </PATHEXDB>\n"
     "    <PERFFACTOR>\n"
     "      1,000000\n"
@@ -160,8 +163,6 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
 
     ASSERT_EQ(ss.str(),expected_xml);
 }
-
-// TEST_F(ProfileEditor,CreateProfileAndCheckNewProfileProfileGenerated)
 
 // TEST_F(ProfileEditor,CreateProfileCheckPathsGeneratedCorrectly)
 

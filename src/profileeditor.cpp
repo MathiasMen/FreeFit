@@ -60,11 +60,16 @@ namespace FreeFit
             void ProfileEditor::accept()
             {
                 std::list<FreeFit::Data::Profile> l;
+                
+                for (auto& p : v_p)
+                    if (!p.isNewProfileProfile())
+                        if (p.getPathToExerciseDB().empty())
+                            p.generatePathToExerciseDB();
+                
                 for(auto p : v_p)
-                {
                     if (!p.isNewProfileProfile())
                         l.push_back(p);
-                }
+
                 w.createNodeTree(l);
                 w.write();
                 QDialog::accept();

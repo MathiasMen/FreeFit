@@ -117,6 +117,8 @@ namespace FreeFit
 
             std::string getCurrentColor(){return p->profile_selection->getCurrentColor();}
 
+            std::string getCurrentExercisesPath(){return getSelectedProfileData().getPathToExerciseDB();}
+
             std::string getCurrentProfileCSSString(int i){return getCurrentSelectionItem()->styleSheet().toStdString();}
 
             std::string getNextButtonCSS(){return p->getAcceptButton()->styleSheet().toStdString();}
