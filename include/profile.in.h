@@ -39,6 +39,11 @@ namespace FreeFit
                             performance_factor == p.getPerformanceFactor());
                 }
 
+                void generatePathToExerciseDB()
+                {
+                    path_to_exercise_database = "${CMAKE_SOURCE_DIR}/" + name + ".xml";
+                }
+
                 void setName(std::string n){name = n;}
                 std::string getName(){return name;}
 
