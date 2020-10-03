@@ -51,10 +51,7 @@ namespace FreeFit
                 for (auto p : v_p)
                     profile_selection->addItem(QString::fromStdString(p.getName()),QString::fromStdString(p.getColor()));
 
-                FreeFit::Data::Profile newProfileProfile = FreeFit::Data::Profile::buildNewProfileProfile();
-                v_p.push_back(newProfileProfile);
-                profile_selection->addItem(QString::fromStdString(newProfileProfile.getName()),QString::fromStdString(newProfileProfile.getColor()));
-
+                addNewProfileProfile();
                 profile_selection->selectProfile(0);
 
                 addWidget(profile_selection,0,0);
@@ -71,6 +68,37 @@ namespace FreeFit
                 w.createNodeTree(l);
                 w.write();
                 QDialog::accept();
+            }
+
+            void ProfileEditor::currentNameChanged(std::string n)
+            {
+                v_p[profile_selection->currentIndex()].setName(n);
+                checkNewProfileProfileExists();
+            }
+
+            void ProfileEditor::currentColorChanged(std::string c)
+            {
+                v_p[profile_selection->currentIndex()].setColor(c);
+                this->setColor(c);
+                checkNewProfileProfileExists();
+            }
+
+            void ProfileEditor::checkNewProfileProfileExists()
+            {
+                bool newProfileProfileExists = false;
+                for (auto p : v_p)
+                    if (p.isNewProfileProfile())
+                        newProfileProfileExists = true;
+
+                if (!newProfileProfileExists)
+                    addNewProfileProfile();
+            }
+
+            void ProfileEditor::addNewProfileProfile()
+            {
+                FreeFit::Data::Profile newProfileProfile = FreeFit::Data::Profile::buildNewProfileProfile();
+                v_p.push_back(newProfileProfile);
+                profile_selection->addItem(QString::fromStdString(newProfileProfile.getName()),QString::fromStdString(newProfileProfile.getColor()));
             }
 
             FreeFit::Data::Profile ProfileEditor::getCurrentlySelectedData()

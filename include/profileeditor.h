@@ -60,16 +60,14 @@ namespace FreeFit
             void skiptToWorkoutGeneration();
         public slots:
             void accept() override;
-            void currentNameChanged(std::string n){v_p[profile_selection->currentIndex()].setName(n);}
-            void currentColorChanged(std::string c)
-            {
-                v_p[profile_selection->currentIndex()].setColor(c);
-                this->setColor(c);
-            }
-
+            void currentNameChanged(std::string n);            
+            void currentColorChanged(std::string c);
             FreeFit::Data::Profile getCurrentlySelectedData();
-        private:
+        private:            
+            void checkNewProfileProfileExists();
+            void addNewProfileProfile();
             ProfileSelectionWidget* getProfileSelection(){return profile_selection;}
+            
             std::vector<FreeFit::Data::Profile> v_p;
             FreeFit::Data::ProfileXMLReader r;
             FreeFit::Data::ProfileWriter w;
