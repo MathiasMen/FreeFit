@@ -67,7 +67,7 @@ namespace FreeFit
             void checkNewProfileProfileExists();
             void addNewProfileProfile();
             ProfileSelectionWidget* getProfileSelection(){return profile_selection;}
-            
+
             std::vector<FreeFit::Data::Profile> v_p;
             FreeFit::Data::ProfileXMLReader r;
             FreeFit::Data::ProfileWriter w;
@@ -85,7 +85,16 @@ namespace FreeFit
         public:
             ProfileEditorValidator(ProfileEditor* t_p) : p(t_p){}
 
-            int getNumberOfLoadedProfiles(){return p->v_p.size();}
+            int getNumberOfProfiles(){return p->v_p.size();}
+
+            int getNumberOfLoadedProfiles()
+            {
+                int counter = 0;
+                for (auto p : p->v_p)
+                    if (!p.isNewProfileProfile())
+                        counter += 1;
+                return counter;
+            }
 
             ProfileItem* getCurrentSelectionItem()
             {

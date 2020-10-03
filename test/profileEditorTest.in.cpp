@@ -102,18 +102,21 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
     FreeFit::GUI::ProfileEditor* d = new FreeFit::GUI::ProfileEditor("${CMAKE_SOURCE_DIR}/test/input/EmptyProfiles.xml");
     FreeFit::GUI::ProfileEditorValidator* v = new FreeFit::GUI::ProfileEditorValidator(d);
     v->changeOutputPath(out_path);
-    ASSERT_EQ(v->getNumberOfLoadedProfiles(),1);
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),0);
+    ASSERT_EQ(v->getNumberOfProfiles(),1);
     v->setCurrentName("Mathias");
     v->setCurrentColor("#00ff00");
     ASSERT_EQ(v->getCurrentName(),"Mathias");
     ASSERT_EQ(v->getCurrentColor(),"#00ff00");
-    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),1);
+    ASSERT_EQ(v->getNumberOfProfiles(),2);
     v->selectProfile(1);
     ASSERT_EQ(v->getCurrentName(),FreeFit::Data::Profile::buildNewProfileProfile().getName());
     ASSERT_EQ(v->getCurrentColor(),FreeFit::Data::Profile::buildNewProfileProfile().getColor());
     v->setCurrentName("Constanze");
     v->setCurrentColor("#0000ff");
-    ASSERT_EQ(v->getNumberOfLoadedProfiles(),3);
+    ASSERT_EQ(v->getNumberOfLoadedProfiles(),2);
+    ASSERT_EQ(v->getNumberOfProfiles(),3);
     d->accept();
     ASSERT_EQ(v->getCurrentExercisesPath(),"${CMAKE_BINARY_DIR}/Constanze.xml");
 
@@ -163,8 +166,6 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
 
     ASSERT_EQ(ss.str(),expected_xml);
 }
-
-// TEST_F(ProfileEditor,CreateProfileCheckPathsGeneratedCorrectly)
 
 TEST_F(ProfileEditor,WriteXML)
 {
