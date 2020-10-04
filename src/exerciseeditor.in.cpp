@@ -287,6 +287,8 @@ namespace FreeFit
             if (exercise_items.empty())
                 addExercise();
 
+            toggle_browser_old_exercises_button = new MaterialButton("Toggle browser/old exercises",this);
+            connect(toggle_browser_old_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::toggleBrowserOldExercises);
             browser_and_old_exercises_container = new QStackedWidget(this);
             browser = new ExerciseEditorBrowser(this);
             old_exercises_viewer = new ExistingExerciseViewer(this);
@@ -300,7 +302,8 @@ namespace FreeFit
             addWidget(download_exercises_button,3,1,1,2);
             addWidget(old_exercise_label,4,1,1,2);
             addWidget(old_exercise_scroll_area,5,1,1,2);
-            addWidget(browser_and_old_exercises_container,0,0,6,1);
+            addWidget(toggle_browser_old_exercises_button,6,1,1,2);
+            addWidget(browser_and_old_exercises_container,0,0,7,1);
         }
         
         void ExerciseEditor::setColor(std::string c)
@@ -345,6 +348,14 @@ namespace FreeFit
                 lst.push_back(exerciseItemToData(e));
             w.createNodeTree(lst);
             w.write();
+        }
+
+        void ExerciseEditor::toggleBrowserOldExercises()
+        {
+            if (browser_and_old_exercises_container->currentIndex() == 0)
+                browser_and_old_exercises_container->setCurrentIndex(1);
+            else
+                browser_and_old_exercises_container->setCurrentIndex(0);
         }
 
         FreeFit::Data::Exercise ExerciseEditor::exerciseItemToData(ExerciseItem* e)

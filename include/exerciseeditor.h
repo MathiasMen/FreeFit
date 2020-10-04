@@ -181,6 +181,7 @@ namespace FreeFit
         private:
             MaterialButton* add_button;
             MaterialButton* download_exercises_button;
+            MaterialButton* toggle_browser_old_exercises_button;
             QLabel* new_exercise_label;
             QWidget* new_exercise_area;        
             QVBoxLayout* new_exercise_area_ly;                
@@ -214,6 +215,7 @@ namespace FreeFit
             void reject() override;
             void exerciseUrlChanged(ExerciseItem*,std::string);
         private slots:
+            void toggleBrowserOldExercises();
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
             std::string secondsIntToTimeFormatString(int);
