@@ -202,6 +202,11 @@ namespace FreeFit
             style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
         }
 
+        ExistingExerciseViewer::ExistingExerciseViewer(QWidget* parent) : QWidget(parent)
+        {
+            this->setStyleSheet("background-color:black;");
+        }
+
         ExerciseEditorBrowser::ExerciseEditorBrowser(QWidget* parent) : QWidget(parent)
         {
             this->setMinimumSize(600,600);
@@ -282,7 +287,12 @@ namespace FreeFit
             if (exercise_items.empty())
                 addExercise();
 
+            browser_and_old_exercises_container = new QStackedWidget(this);
             browser = new ExerciseEditorBrowser(this);
+            old_exercises_viewer = new ExistingExerciseViewer(this);
+            browser_and_old_exercises_container->addWidget(browser);
+            browser_and_old_exercises_container->addWidget(old_exercises_viewer);
+            browser_and_old_exercises_container->setCurrentIndex(1);
 
             addWidget(add_button,0,1,1,2);
             addWidget(new_exercise_label,1,1,1,2);
@@ -290,7 +300,7 @@ namespace FreeFit
             addWidget(download_exercises_button,3,1,1,2);
             addWidget(old_exercise_label,4,1,1,2);
             addWidget(old_exercise_scroll_area,5,1,1,2);
-            addWidget(browser,0,0,6,1);
+            addWidget(browser_and_old_exercises_container,0,0,6,1);
         }
         
         void ExerciseEditor::setColor(std::string c)

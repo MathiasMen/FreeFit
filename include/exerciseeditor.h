@@ -143,6 +143,13 @@ namespace FreeFit
             void downloadItemTriggered(ExerciseItem*);
         };
 
+        class ExistingExerciseViewer : public QWidget
+        {
+        Q_OBJECT
+        public:
+            ExistingExerciseViewer(QWidget* parent = nullptr);
+        };
+
         class ExerciseEditorBrowser : public QWidget
         {
         Q_OBJECT
@@ -182,7 +189,9 @@ namespace FreeFit
             QWidget* old_exercise_area;
             QVBoxLayout* old_exercise_area_ly;
             QScrollArea* old_exercise_scroll_area;
+            QStackedWidget* browser_and_old_exercises_container;
             ExerciseEditorBrowser* browser;
+            ExistingExerciseViewer* old_exercises_viewer;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
             QGridLayout* ly;
