@@ -204,7 +204,6 @@ namespace FreeFit
 
         ExistingExerciseViewer::ExistingExerciseViewer(QWidget* parent) : QWidget(parent)
         {
-            this->setStyleSheet("background-color:black;");
         }
 
         ExerciseEditorBrowser::ExerciseEditorBrowser(QWidget* parent) : QWidget(parent)
@@ -246,39 +245,53 @@ namespace FreeFit
         ExerciseEditor::ExerciseEditor(FreeFit::Data::Profile t_p)
             :   MaterialDialog("Workout Type","Profile",""),p(t_p),demand_handler(),info_demand_handler(),
                 r(t_p.getPathToExerciseDB()),w(t_p.getPathToExerciseDB())
-        {                
+        {
             connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
             connect(getRejectButton(), &QPushButton::clicked, this, &QDialog::reject);
 
-            add_button = new MaterialButton("Create new exercise",this);
-            connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
+            tab_widget = new QTabWidget(this);
 
+            new_exercises_widget = new QWidget;
+            QHBoxLayout* new_exercises_widget_ly = new QHBoxLayout(new_exercises_widget);
+            browser = new ExerciseEditorBrowser(this);
+            QGridLayout* new_exercises_right_panel_ly = new QGridLayout;
             new_exercise_label = new QLabel("New Exercises",this);
-
             new_exercise_area = new QWidget(this);
             new_exercise_area_ly = new QVBoxLayout(new_exercise_area);
             new_exercise_area_ly->addStretch();
             new_exercise_area->setLayout(new_exercise_area_ly);
-
             new_exercise_scroll_area = new QScrollArea(this);
             new_exercise_scroll_area->setWidget(new_exercise_area);
             new_exercise_scroll_area->setAlignment(Qt::AlignTop);
             new_exercise_scroll_area->setWidgetResizable(true);
-
             download_exercises_button = new MaterialButton("Add to existing exercises",this);
             connect(download_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
+            add_button = new MaterialButton("Create new exercise",this);
+            connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
+            new_exercises_right_panel_ly->addWidget(add_button,0,1,1,2);
+            new_exercises_right_panel_ly->addWidget(new_exercise_label,1,1,1,2);
+            new_exercises_right_panel_ly->addWidget(new_exercise_scroll_area,2,1,1,2);
+            new_exercises_right_panel_ly->addWidget(download_exercises_button,3,1,1,2);
+            new_exercises_widget_ly->addWidget(browser);
+            new_exercises_widget_ly->addLayout(new_exercises_right_panel_ly);
 
-            old_exercise_label = new QLabel("Existing Exercises",this);
-
-            old_exercise_area = new QWidget(this);
-            old_exercise_area_ly = new QVBoxLayout(old_exercise_area);
+            old_exercises_widget = new QWidget;
+            QVBoxLayout* old_exercises_widget_ly = new QVBoxLayout(old_exercises_widget);
+            old_exercises_viewer = new ExistingExerciseViewer(this);
+            old_exercise_area_ly = new QVBoxLayout(old_exercises_viewer);
             old_exercise_area_ly->addStretch();
-            old_exercise_area->setLayout(old_exercise_area_ly);
-
+            old_exercises_viewer->setLayout(old_exercise_area_ly);
             old_exercise_scroll_area = new QScrollArea(this);
-            old_exercise_scroll_area->setWidget(old_exercise_area);
+            old_exercise_scroll_area->setWidget(old_exercises_viewer);
             old_exercise_scroll_area->setAlignment(Qt::AlignTop);
             old_exercise_scroll_area->setWidgetResizable(true);
+            old_exercise_label = new QLabel("Existing Exercises",this);
+            old_exercises_widget_ly->addWidget(old_exercise_label);
+            old_exercises_widget_ly->addWidget(old_exercise_scroll_area);
+
+            tab_widget->addTab(new_exercises_widget,"Add new Exercises");
+            tab_widget->addTab(old_exercises_widget,"Edit old Exercises");            
+            addWidget(tab_widget,0,0);
 
             r.read();
             for (auto e_data : r.getExerciseList())
@@ -286,24 +299,6 @@ namespace FreeFit
 
             if (exercise_items.empty())
                 addExercise();
-
-            toggle_browser_old_exercises_button = new MaterialButton("Toggle browser/old exercises",this);
-            connect(toggle_browser_old_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::toggleBrowserOldExercises);
-            browser_and_old_exercises_container = new QStackedWidget(this);
-            browser = new ExerciseEditorBrowser(this);
-            old_exercises_viewer = new ExistingExerciseViewer(this);
-            browser_and_old_exercises_container->addWidget(browser);
-            browser_and_old_exercises_container->addWidget(old_exercises_viewer);
-            browser_and_old_exercises_container->setCurrentIndex(1);
-
-            addWidget(add_button,0,1,1,2);
-            addWidget(new_exercise_label,1,1,1,2);
-            addWidget(new_exercise_scroll_area,2,1,1,2);
-            addWidget(download_exercises_button,3,1,1,2);
-            addWidget(old_exercise_label,4,1,1,2);
-            addWidget(old_exercise_scroll_area,5,1,1,2);
-            addWidget(toggle_browser_old_exercises_button,6,1,1,2);
-            addWidget(browser_and_old_exercises_container,0,0,7,1);
         }
         
         void ExerciseEditor::setColor(std::string c)
@@ -348,14 +343,6 @@ namespace FreeFit
                 lst.push_back(exerciseItemToData(e));
             w.createNodeTree(lst);
             w.write();
-        }
-
-        void ExerciseEditor::toggleBrowserOldExercises()
-        {
-            if (browser_and_old_exercises_container->currentIndex() == 0)
-                browser_and_old_exercises_container->setCurrentIndex(1);
-            else
-                browser_and_old_exercises_container->setCurrentIndex(0);
         }
 
         FreeFit::Data::Exercise ExerciseEditor::exerciseItemToData(ExerciseItem* e)

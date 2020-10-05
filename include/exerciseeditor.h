@@ -21,6 +21,7 @@
 #include <QSpacerItem>
 #include <QMessageBox>
 #include <QProgressDialog>
+#include <QTabWidget>
 
 #include <set>
 #include <functional>
@@ -179,20 +180,24 @@ namespace FreeFit
             std::list<FreeFit::Data::Exercise> getExerciseData();
             void setColor(std::string c);
         private:
+            QTabWidget* tab_widget;
+
+            QWidget* new_exercises_widget;
+            ExerciseEditorBrowser* browser;
             MaterialButton* add_button;
             MaterialButton* download_exercises_button;
-            MaterialButton* toggle_browser_old_exercises_button;
             QLabel* new_exercise_label;
             QWidget* new_exercise_area;        
             QVBoxLayout* new_exercise_area_ly;                
             QScrollArea* new_exercise_scroll_area;
+
+            QWidget* old_exercises_widget;
+            ExistingExerciseViewer* old_exercises_viewer;
             QLabel* old_exercise_label;
             QWidget* old_exercise_area;
             QVBoxLayout* old_exercise_area_ly;
             QScrollArea* old_exercise_scroll_area;
-            QStackedWidget* browser_and_old_exercises_container;
-            ExerciseEditorBrowser* browser;
-            ExistingExerciseViewer* old_exercises_viewer;
+
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
             QGridLayout* ly;
@@ -215,7 +220,6 @@ namespace FreeFit
             void reject() override;
             void exerciseUrlChanged(ExerciseItem*,std::string);
         private slots:
-            void toggleBrowserOldExercises();
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
             std::string secondsIntToTimeFormatString(int);
