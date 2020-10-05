@@ -291,7 +291,7 @@ namespace FreeFit
             tab_widget->setTabPosition(QTabWidget::North);
             tab_widget->addTab(new_exercises_widget,"Add new Exercises");
             tab_widget->addTab(old_exercises_widget,"Edit old Exercises");            
-            tab_widget->setStyleSheet("QTabBar::tab { height: 40px; width: 100px; }");
+            tab_widget->setStyleSheet("QTabBar::tab { height: 40px; width: 100px; } \n QTabWidget::tab-bar {left: 0;}");
             addWidget(tab_widget,0,0);
 
             r.read();
