@@ -283,15 +283,16 @@ namespace FreeFit
             old_exercise_scroll_area->setWidget(old_exercises_viewer);
             old_exercise_scroll_area->setAlignment(Qt::AlignTop);
             old_exercise_scroll_area->setWidgetResizable(true);
-            old_exercise_label = new QLabel("Existing Exercises",this);
-            old_exercises_widget_ly->addWidget(old_exercise_label);
             old_exercises_widget_ly->addWidget(old_exercise_scroll_area);
 
             tab_widget = new QTabWidget(this);
             tab_widget->setTabPosition(QTabWidget::North);
-            tab_widget->addTab(new_exercises_widget,"Add new Exercises");
             tab_widget->addTab(old_exercises_widget,"Edit old Exercises");            
-            tab_widget->setStyleSheet("QTabBar::tab { height: 40px; width: 100px; } \n QTabWidget::tab-bar {left: 0;}");
+            tab_widget->addTab(new_exercises_widget,"Add new Exercises");
+            tab_widget->setStyleSheet( "QTabWidget::pane {border: 1px solid grey;} \n"
+                                        "QTabBar::tab {background-color:grey; color:red; border: 2px solid darkgrey; border-top-left-radius:4px; border-top-right-radius:4px; padding 20px;} \n"
+                                        "QTabBar::tab::selected {background-color:red; color:white; border: 2px solid red; border-top-left-radius:4px; border-top-right-radius:4px; padding 20px;} \n"
+                                        "QTabWidget::tab-bar {left: 5px;}");
             addWidget(tab_widget,0,0);
 
             r.read();
@@ -308,7 +309,6 @@ namespace FreeFit
             new_exercise_label->setStyleSheet(QString::fromStdString("color:" + c + ";"));
             add_button->setColor(c);
             download_exercises_button->setColor(c);
-            old_exercise_label->setStyleSheet(QString::fromStdString("color:" + c + ";"));
 
             for (auto ex : exercise_items)
                 ex->setColor(c);

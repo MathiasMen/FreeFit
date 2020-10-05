@@ -193,7 +193,6 @@ namespace FreeFit
 
             QWidget* old_exercises_widget;
             ExistingExerciseViewer* old_exercises_viewer;
-            QLabel* old_exercise_label;
             QWidget* old_exercise_area;
             QVBoxLayout* old_exercise_area_ly;
             QScrollArea* old_exercise_scroll_area;
