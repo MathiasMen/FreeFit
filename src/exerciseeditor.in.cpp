@@ -249,8 +249,6 @@ namespace FreeFit
             connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
             connect(getRejectButton(), &QPushButton::clicked, this, &QDialog::reject);
 
-            tab_widget = new QTabWidget(this);
-
             new_exercises_widget = new QWidget;
             QHBoxLayout* new_exercises_widget_ly = new QHBoxLayout(new_exercises_widget);
             browser = new ExerciseEditorBrowser(this);
@@ -289,8 +287,11 @@ namespace FreeFit
             old_exercises_widget_ly->addWidget(old_exercise_label);
             old_exercises_widget_ly->addWidget(old_exercise_scroll_area);
 
+            tab_widget = new QTabWidget(this);
+            tab_widget->setTabPosition(QTabWidget::North);
             tab_widget->addTab(new_exercises_widget,"Add new Exercises");
             tab_widget->addTab(old_exercises_widget,"Edit old Exercises");            
+            tab_widget->setStyleSheet("QTabBar::tab { height: 40px; width: 100px; }");
             addWidget(tab_widget,0,0);
 
             r.read();
