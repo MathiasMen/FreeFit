@@ -356,6 +356,20 @@ namespace FreeFit
 
         void ExerciseEditor::filterOldExercises()
         {
+            QString s = old_exercises_filter_ln->getText();
+            if (!s.isEmpty())
+            {
+                for (auto e : exercise_items)
+                    if (!QString::fromStdString(e->getName()).contains(s, Qt::CaseInsensitive))
+                        e->hide();
+                    else
+                        e->show();
+            }
+            else
+            {
+                for (auto e : exercise_items)
+                    e->show();
+            }
         }
 
         FreeFit::Data::Exercise ExerciseEditor::exerciseItemToData(ExerciseItem* e)
