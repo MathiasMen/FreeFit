@@ -48,6 +48,15 @@ namespace FreeFit
             }
         }
 
+        QString MaterialTextField::getText()
+        {
+            QString s = QLineEdit::text();
+            if (s == t)
+                return QString("");
+            else
+                return s;
+        }
+
         void MaterialTextField::setText(const QString& t)
         {
             QLineEdit::setText(t);

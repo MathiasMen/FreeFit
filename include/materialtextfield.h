@@ -28,6 +28,7 @@ namespace FreeFit
             void highlightAsValid();
             void setValidationFunction(std::function<bool(std::string)> f){validate_function = f;}
             bool validateText();
+            QString getText();
             void setText(const QString&);
         protected:
             void paintEvent(QPaintEvent* ev) override;
