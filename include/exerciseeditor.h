@@ -220,6 +220,7 @@ namespace FreeFit
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
             std::string secondsIntToTimeFormatString(int);
+            void updateDownloadButtonStatus();
             void registerExerciseItem(ExerciseItem* e);
             void addExercise();
             void addExistingExercise(FreeFit::Data::Exercise e_dat);

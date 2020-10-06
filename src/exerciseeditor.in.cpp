@@ -309,6 +309,8 @@ namespace FreeFit
 
             if (exercise_items.empty())
                 addExercise();
+
+            updateDownloadButtonStatus();
         }
         
         void ExerciseEditor::setColor(std::string c)
@@ -412,6 +414,14 @@ namespace FreeFit
             std::string s_s = (secs > 9 ? std::to_string(secs) : std::string("0" + std::to_string(secs)));
             return s_m + ":" + s_s;
         }
+        
+        void ExerciseEditor::updateDownloadButtonStatus()
+        {
+            if (new_exercise_items.empty())
+                download_exercises_button->setDisabled(true);
+            else
+                download_exercises_button->setDisabled(false);
+        }
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
         {
@@ -435,6 +445,7 @@ namespace FreeFit
             connect(this,SIGNAL(setExerciseStartTimeSignal(ExerciseItem*,std::string)),e,SLOT(setVideoStartTime(ExerciseItem*,std::string)));
             connect(this,SIGNAL(setExerciseEndTimeSignal(ExerciseItem*,std::string)),e,SLOT(setVideoEndTime(ExerciseItem*,std::string)));
             connect(this,SIGNAL(setExerciseSliderRange(ExerciseItem*,int,int)),e,SLOT(setSliderRange(ExerciseItem*,int,int)));
+            updateDownloadButtonStatus();
         }
 
         void ExerciseEditor::addExistingExercise(FreeFit::Data::Exercise e_dat)
@@ -514,6 +525,7 @@ namespace FreeFit
             new_exercise_area_ly->removeWidget(e);
             disconnect(e,nullptr,nullptr,nullptr);
             delete e;
+            updateDownloadButtonStatus();
         }
 
         std::list<FreeFit::Data::Exercise> ExerciseEditor::getExerciseData()

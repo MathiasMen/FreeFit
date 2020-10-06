@@ -13,7 +13,7 @@ namespace FreeFit
         
         void MaterialButton::updateCSS()
         {
-            this->setStyleSheet(QString::fromStdString("background-color:white; color:" + color + "; border: 2px solid " + color + "; padding: 20px;"));
+            this->setStyleSheet(QString::fromStdString("QPushButton{background-color:white; color:" + color + "; border: 2px solid " + color + "; padding: 20px;} \n QPushButton:disabled {background-color:white;color:grey;border: 2px solid grey;}"));
         }
 
         void MaterialButton::setColor(std::string c)
