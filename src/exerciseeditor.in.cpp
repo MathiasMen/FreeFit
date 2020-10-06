@@ -275,6 +275,8 @@ namespace FreeFit
 
             old_exercises_widget = new QWidget;
             QVBoxLayout* old_exercises_widget_ly = new QVBoxLayout(old_exercises_widget);
+            old_exercises_filter_ln = new MaterialTextField("Filter",this);
+            connect(old_exercises_filter_ln,&QLineEdit::textEdited,this,&ExerciseEditor::filterOldExercises);
             old_exercises_viewer = new ExistingExerciseViewer(this);
             old_exercise_area_ly = new QVBoxLayout(old_exercises_viewer);
             old_exercise_area_ly->addStretch();
@@ -283,6 +285,7 @@ namespace FreeFit
             old_exercise_scroll_area->setWidget(old_exercises_viewer);
             old_exercise_scroll_area->setAlignment(Qt::AlignTop);
             old_exercise_scroll_area->setWidgetResizable(true);
+            old_exercises_widget_ly->addWidget(old_exercises_filter_ln);
             old_exercises_widget_ly->addWidget(old_exercise_scroll_area);
 
             tab_widget = new QTabWidget(this);
@@ -349,6 +352,10 @@ namespace FreeFit
                 lst.push_back(exerciseItemToData(e));
             w.createNodeTree(lst);
             w.write();
+        }
+
+        void ExerciseEditor::filterOldExercises()
+        {
         }
 
         FreeFit::Data::Exercise ExerciseEditor::exerciseItemToData(ExerciseItem* e)

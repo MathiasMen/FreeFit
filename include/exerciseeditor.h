@@ -192,6 +192,7 @@ namespace FreeFit
             QScrollArea* new_exercise_scroll_area;
 
             QWidget* old_exercises_widget;
+            MaterialTextField* old_exercises_filter_ln;
             ExistingExerciseViewer* old_exercises_viewer;
             QWidget* old_exercise_area;
             QVBoxLayout* old_exercise_area_ly;
@@ -215,6 +216,7 @@ namespace FreeFit
             void reject() override;
             void exerciseUrlChanged(ExerciseItem*,std::string);
         private slots:
+            void filterOldExercises();
             FreeFit::Data::Exercise exerciseItemToData(ExerciseItem* e);
             int timeFormatStringToSecondsInt(std::string);
             std::string secondsIntToTimeFormatString(int);
