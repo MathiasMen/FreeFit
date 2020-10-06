@@ -289,9 +289,14 @@ namespace FreeFit
             tab_widget->setTabPosition(QTabWidget::North);
             tab_widget->addTab(old_exercises_widget,"Edit old Exercises");            
             tab_widget->addTab(new_exercises_widget,"Add new Exercises");
+            QString tab_css_const_part( "height: 25px;"
+                                        "border-top: 2px solid red; border-right: 2px solid red;"
+                                        "border-left: 2px solid red; border-top-left-radius:4px;"
+                                        "border-top-right-radius:4px; padding:5px; margin-left:2px;"
+                                        "margin-right:2px; margin-bottom:-2px;");
             tab_widget->setStyleSheet( "QTabWidget::pane {border: 1px solid grey;} \n"
-                                        "QTabBar::tab {background-color:grey; color:red; border: 2px solid darkgrey; border-top-left-radius:4px; border-top-right-radius:4px; padding 20px;} \n"
-                                        "QTabBar::tab::selected {background-color:red; color:white; border: 2px solid red; border-top-left-radius:4px; border-top-right-radius:4px; padding 20px;} \n"
+                                        "QTabBar::tab {background-color:white; color:red;" + tab_css_const_part + "}\n"
+                                        "QTabBar::tab::selected {background-color:red; color:white;" + tab_css_const_part + "} \n"
                                         "QTabWidget::tab-bar {left: 5px;}");
             addWidget(tab_widget,0,0);
 
