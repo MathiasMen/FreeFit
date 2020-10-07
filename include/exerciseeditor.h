@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <QProgressDialog>
 #include <QTabWidget>
+#include <QIcon>
 
 #include <set>
 #include <functional>
@@ -44,6 +45,7 @@
 #include "include/materialdialog.h"
 #include "include/materialslider.h"
 #include "include/hashtagbar.h"
+#include "include/iconbutton.h"
 
 namespace FreeFit
 {
@@ -135,7 +137,7 @@ namespace FreeFit
 
             QLabel* item_downloaded_icon;
             QLabel* item_downloaded_text;
-            MaterialButton* delete_item;
+            IconButton* delete_item;
 
             MuscleGroups muscle_definitions;
             bool unchanged = true;

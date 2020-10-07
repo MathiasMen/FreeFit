@@ -49,7 +49,7 @@ namespace FreeFit
 
             item_downloaded_icon = new QLabel("",this);
             item_downloaded_text = new QLabel("",this);
-            delete_item = new MaterialButton("Delete",this);
+            delete_item = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/edit.svg"),"",this);
             connect(delete_item,&QPushButton::clicked,this,&ExerciseItem::deleteClicked);
 
             int row_counter = -1;
