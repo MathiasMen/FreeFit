@@ -18,7 +18,7 @@
 #include <QRegExp>
 
 #include "include/materialtextfield.h"
-
+#include "include/iconbutton.h"
 
 namespace FreeFit
 {
@@ -94,18 +94,6 @@ namespace FreeFit
             QSpacerItem* horizontal_spacer;
         };
 
-        class ProfileEditButton : public QPushButton
-        {
-        Q_OBJECT
-        public:
-            ProfileEditButton(const QIcon& icon, const QString& text, QWidget* parent = nullptr) : QPushButton(text,parent),symbol(icon){}
-
-        protected:
-            void paintEvent(QPaintEvent* ev);
-        private:
-            QIcon symbol;
-        };
-
         class ProfileItem : public QWidget
         {
         friend ProfileItemValidator;
@@ -148,7 +136,7 @@ namespace FreeFit
 
             QGridLayout* ly;
             QLabel* name_label;
-            ProfileEditButton* edit_button;
+            IconButton* edit_button;
 
             QString name_text;
             bool selected = false;

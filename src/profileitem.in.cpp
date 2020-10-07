@@ -95,25 +95,6 @@ namespace FreeFit
             emit popupFinished(ProfileEditPopupResult(name->text(),p->getColorName(),name->validateText()));
         }
 
-        void ProfileEditButton::paintEvent(QPaintEvent* ev)
-        {
-            const int pixmap_height = 20;
-            const int pixmap_width = 20;
-
-            QPushButton::paintEvent(ev);
-            
-            QPixmap p = symbol.pixmap(pixmap_width,pixmap_height);
-            QPainter icon_painter(&p);
-            icon_painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-            icon_painter.setBrush(Qt::gray);
-            icon_painter.drawRect(p.rect());
-
-            QIcon colored_icon = QIcon(p);
-
-            QPainter painter(this);
-            painter.drawPixmap(0,0,pixmap_width,pixmap_height,colored_icon.pixmap(pixmap_width,pixmap_height));
-        }
-
         ProfileItem::ProfileItem(QString t_name, QColor t_color, QWidget* t_parent) : QWidget(t_parent),item_color(t_color)
         {
             const int width = 200;
@@ -126,7 +107,7 @@ namespace FreeFit
             name_label->setFixedSize(width*0.9,height*0.9);
             name_label->setAlignment(Qt::AlignCenter);
             
-            edit_button = new ProfileEditButton(QIcon("${CMAKE_SOURCE_DIR}/tools/edit.svg"),"",this);
+            edit_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/edit.svg"),"",this);
             edit_button->setFixedSize(width*0.1,height*0.1);
             edit_button->setStyleSheet("color:grey; border-style:none;");
             connect(edit_button,&QPushButton::clicked,this,[this]()
