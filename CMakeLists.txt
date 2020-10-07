@@ -69,6 +69,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/materialslider.cpp
 	${CMAKE_SOURCE_DIR}/src/materialtextfield.cpp
 	${CMAKE_SOURCE_DIR}/src/parser.cpp
+	${CMAKE_SOURCE_DIR}/src/profile.cpp
 	${CMAKE_SOURCE_DIR}/src/profileeditor.cpp
 	${CMAKE_SOURCE_DIR}/src/profileitem.cpp
 	${CMAKE_SOURCE_DIR}/src/toggleablelabel.cpp
