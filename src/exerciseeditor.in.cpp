@@ -45,6 +45,7 @@ namespace FreeFit
             
             connect(start_stop,&MaterialSlider::valuesChanged,this,&ExerciseItem::sliderChanged);
             connect(url,&QLineEdit::textChanged,this,&ExerciseItem::urlChanged);
+            connect(name,&QLineEdit::textChanged,this,&ExerciseItem::nameChanged);
 
             item_downloaded_icon = new QLabel("",this);
             item_downloaded_text = new QLabel("",this);
@@ -156,18 +157,26 @@ namespace FreeFit
             unchanged = false;
             disconnect(name,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
             disconnect(url,&QLineEdit::textChanged,this,&ExerciseItem::itemChanged);
+            emit dataChanged();
         }
 
         void ExerciseItem::urlChanged()
         {
+            emit dataChanged();
             if(url->validateText())
                 emit urlChange(this,url->text().toStdString());
+        }
+
+        void ExerciseItem::nameChanged()
+        {
+            emit dataChanged();
         }
 
         void ExerciseItem::sliderChanged(int start, int stop)
         {
             start_time_lbl->setText(QString::fromStdString(timeIntToString(start)));
             stop_time_lbl->setText(QString::fromStdString(timeIntToString(stop)));
+            emit dataChanged();
         }
 
         void ExerciseItem::setSliderRange(int start, int stop)
@@ -420,7 +429,19 @@ namespace FreeFit
             if (new_exercise_items.empty())
                 download_exercises_button->setDisabled(true);
             else
-                download_exercises_button->setDisabled(false);
+            {
+                bool valid_exercises = true;
+                for (auto e : new_exercise_items)
+                    if (!e->inputIsValid())
+                    {
+                        valid_exercises = false;
+                        break;
+                    }
+                if (valid_exercises)
+                    download_exercises_button->setDisabled(false);
+                else
+                    download_exercises_button->setDisabled(true);
+            }
         }
 
         void ExerciseEditor::registerExerciseItem(ExerciseItem* e)
@@ -442,6 +463,7 @@ namespace FreeFit
             connect(e,&ExerciseItem::downloadItemTriggered,this,&ExerciseEditor::downloadExercise);
             connect(this,SIGNAL(exerciseDownloaded(ExerciseItem*)),this,SLOT(moveExerciseToExisting(ExerciseItem*)));
             connect(e,SIGNAL(urlChange(ExerciseItem*,std::string)),this,SLOT(exerciseUrlChanged(ExerciseItem*,std::string)));
+            connect(e,SIGNAL(dataChanged()),this,SLOT(updateDownloadButtonStatus()));
             connect(this,SIGNAL(setExerciseStartTimeSignal(ExerciseItem*,std::string)),e,SLOT(setVideoStartTime(ExerciseItem*,std::string)));
             connect(this,SIGNAL(setExerciseEndTimeSignal(ExerciseItem*,std::string)),e,SLOT(setVideoEndTime(ExerciseItem*,std::string)));
             connect(this,SIGNAL(setExerciseSliderRange(ExerciseItem*,int,int)),e,SLOT(setSliderRange(ExerciseItem*,int,int)));

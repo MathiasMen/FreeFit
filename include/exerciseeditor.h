@@ -105,10 +105,12 @@ namespace FreeFit
             void setVideoEndTime(ExerciseItem* e, std::string t);
         signals:
             void urlChange(ExerciseItem*,std::string);
+            void dataChanged();
         private slots:
             void resetStylesheetOnce();
             void itemChanged();
             void urlChanged();
+            void nameChanged();
             void sliderChanged(int,int);
             void setSliderRange(int,int);
             void setSliderRange(ExerciseItem*,int,int);
