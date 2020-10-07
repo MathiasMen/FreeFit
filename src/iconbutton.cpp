@@ -14,7 +14,7 @@ namespace FreeFit
             QPixmap p = symbol.pixmap(pixmap_width,pixmap_height);
             QPainter icon_painter(&p);
             icon_painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-            icon_painter.setBrush(Qt::gray);
+            icon_painter.setBrush(color);
             icon_painter.drawRect(p.rect());
 
             QIcon colored_icon = QIcon(p);
