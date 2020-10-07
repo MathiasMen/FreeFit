@@ -30,7 +30,7 @@ namespace FreeFit
             url->setToolTip("Youtube-links only.");
 
             std::regex name_regex("[a-zA-Z0-9\\s]{1,256}");
-            auto func_name_regex = [name_regex](std::string s)->bool{return std::regex_match(s,name_regex);};
+            auto func_name_regex = [name_regex](std::string s)->bool{return (std::regex_match(s,name_regex) && s != "Name");};
             name->setValidationFunction(func_name_regex);
 
             std::regex url_regex("https:\\/\\/www\\.youtube\\.com\\/watch?.*");
