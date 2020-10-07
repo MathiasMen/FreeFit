@@ -13,59 +13,23 @@ namespace FreeFit
         class HashtagBar : public QWidget
         {
             public:
-                HashtagBar(QWidget* parent = nullptr) : QWidget(parent)
-                {
-                    ly = new QHBoxLayout(this);
-                    QSpacerItem* horizontal_spacer = new QSpacerItem(1,1,QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
-                    ly->addItem(horizontal_spacer);
-                }
+                HashtagBar(QWidget* parent = nullptr);
                 
-                void setColor(std::string c)
-                {
-                    for (auto l : hashtag_labels)
-                        l->setColor(c);
-                }
+                void setColor(std::string c);
 
-                void addHashtag(std::string tag_str)
-                {
-                    ToggleableLabel* t = new ToggleableLabel("#" + QString::fromStdString(tag_str),this);
-                    ly->insertWidget(0,t);
-                    hashtag_labels.push_back(t);
-                }
+                void addHashtag(std::string tag_str);
 
-                std::list<std::string> getToggledStrings()
-                {
-                    std::list<std::string> l;
-                    for (auto label : hashtag_labels)
-                        if(label->isToggled())
-                            l.push_back(label->text().remove(QChar('#')).toStdString());
-                    return l;
-                }
+                std::list<std::string> getToggledStrings();
 
-                void toggleHashtag(std::string tag_str)
-                {
-                    for (auto h : hashtag_labels)
-                        if (h->text().remove(QChar('#')).toStdString() == tag_str)
-                            h->click();
-                }
+                void toggleHashtag(std::string tag_str);
 
-                bool isHashtagToggled(std::string tag_str)
-                {
-                    for (auto h : hashtag_labels)
-                        if (h->text().remove(QChar('#')).toStdString() == tag_str)
-                            return h->isToggled();
-                    return false;
-                }
+                bool isHashtagToggled(std::string tag_str);
 
                 void setCategoryName(std::string c){category_name = c;}
 
                 std::string getCategoryName(){return category_name;}
 
-                void setLabelsSelectable(bool s)
-                {
-                    for (auto l : hashtag_labels)
-                        l->setSelectable(s);
-                }
+                void setLabelsSelectable(bool s);
             private:
                 QHBoxLayout* ly;
                 std::vector<ToggleableLabel*> hashtag_labels;
