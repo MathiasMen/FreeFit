@@ -63,6 +63,7 @@ set(project_sources
 	${CMAKE_SOURCE_DIR}/src/exerciseeditor.cpp
 	${CMAKE_SOURCE_DIR}/src/exerciselistwidget.cpp
 	${CMAKE_SOURCE_DIR}/src/exerciseviewer.cpp
+	${CMAKE_SOURCE_DIR}/src/iconbutton.cpp
 	${CMAKE_SOURCE_DIR}/src/materialbutton.cpp
 	${CMAKE_SOURCE_DIR}/src/materialclip.cpp
 	${CMAKE_SOURCE_DIR}/src/materialslider.cpp
@@ -92,6 +93,7 @@ set(project_headers
 	${CMAKE_SOURCE_DIR}/include/exerciseeditor.h
 	${CMAKE_SOURCE_DIR}/include/exerciselistwidget.h
 	${CMAKE_SOURCE_DIR}/include/exerciseviewer.h
+	${CMAKE_SOURCE_DIR}/include/iconbutton.h
     ${CMAKE_SOURCE_DIR}/include/materialbutton.h
     ${CMAKE_SOURCE_DIR}/include/materialclip.h
     ${CMAKE_SOURCE_DIR}/include/materialdialog.h
