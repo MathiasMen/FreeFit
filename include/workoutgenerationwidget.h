@@ -52,17 +52,18 @@ namespace FreeFit
                 auto func_no_exercises_regex = [no_of_exercises_regex](std::string s)->bool{return std::regex_match(s,no_of_exercises_regex);};
                 max_number_of_exercises->setValidationFunction(func_no_exercises_regex);
 
-                time_of_exercise = new MaterialTextField("Time of exercises",possible_options_widget);
-                std::regex time_of_exercise_regex("[1-9][1-9][1-9]");
+                time_of_exercises = new MaterialTextField("Time of exercises",possible_options_widget);
+                std::regex time_of_exercise_regex("[1-9][0-9]{0,2}");
                 auto func_time_of_exercise_regex = [time_of_exercise_regex](std::string s)->bool{return std::regex_match(s,time_of_exercise_regex);};
-                time_of_exercise->setValidationFunction(func_time_of_exercise_regex);
+                time_of_exercises->setValidationFunction(func_time_of_exercise_regex);
 
                 ly->addWidget(number_of_rounds);
                 ly->addWidget(max_number_of_exercises);
-                ly->addWidget(time_of_exercise);
+                ly->addWidget(time_of_exercises);
 
                 connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfRoundsChanged);
                 connect(max_number_of_exercises,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfExercisesPerRoundChanged);
+                connect(time_of_exercises,&QLineEdit::textChanged,this,&WorkoutOptionBase::timeOfExercisesChanged);
             }
 
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
@@ -109,12 +110,18 @@ namespace FreeFit
                 if (!max_number_of_exercises->text().isEmpty() && max_number_of_exercises->validateText())
                     workout_data->setMaxNumberOfExercisesPerRound(std::stoi(max_number_of_exercises->text().toStdString()));
             }
+
+            void timeOfExercisesChanged()
+            {
+                if (!time_of_exercises->text().isEmpty() && time_of_exercises->validateText())
+                    workout_data->setTimeOfExercises(std::stoi(time_of_exercises->text().toStdString()));
+            }
         protected:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
             MaterialTextField* number_of_rounds;
             MaterialTextField* max_number_of_exercises;
-            MaterialTextField* time_of_exercise;
+            MaterialTextField* time_of_exercises;
         };
 
         class AllExercisesWorkoutOption : public WorkoutOptionBase
