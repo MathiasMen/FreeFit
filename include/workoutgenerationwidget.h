@@ -170,7 +170,7 @@ namespace FreeFit
                 options_canvas = new QStackedWidget(this);
 
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
-                all_exercises_workout = new AllExercisesWorkoutOption("All Exercises",w1,this);
+                all_exercises_workout = new AllExercisesWorkoutOption("Random Exercises",w1,this);
                 addWidget(all_exercises_workout,0,0);
                 workout_options.push_back(all_exercises_workout);
 
