@@ -43,11 +43,13 @@ namespace FreeFit
                 QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
 
                 number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
+                max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",possible_options_widget);
                 std::regex rounds_regex("[1-9]");
                 auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
                 number_of_rounds->setValidationFunction(func_rounds_regex);
 
                 ly->addWidget(number_of_rounds);
+                ly->addWidget(max_number_of_exercises);
 
                 connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfRoundsChanged);
             }
@@ -94,6 +96,7 @@ namespace FreeFit
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
             MaterialTextField* number_of_rounds;
+            MaterialTextField* max_number_of_exercises;
         };
 
         class AllExercisesWorkoutOption : public WorkoutOptionBase
