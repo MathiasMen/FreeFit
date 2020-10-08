@@ -52,8 +52,14 @@ namespace FreeFit
                 auto func_no_exercises_regex = [no_of_exercises_regex](std::string s)->bool{return std::regex_match(s,no_of_exercises_regex);};
                 max_number_of_exercises->setValidationFunction(func_no_exercises_regex);
 
+                time_of_exercise = new MaterialTextField("Time of exercises",possible_options_widget);
+                std::regex time_of_exercise_regex("[1-9][1-9][1-9]");
+                auto func_time_of_exercise_regex = [time_of_exercise_regex](std::string s)->bool{return std::regex_match(s,time_of_exercise_regex);};
+                time_of_exercise->setValidationFunction(func_time_of_exercise_regex);
+
                 ly->addWidget(number_of_rounds);
                 ly->addWidget(max_number_of_exercises);
+                ly->addWidget(time_of_exercise);
 
                 connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfRoundsChanged);
                 connect(max_number_of_exercises,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfExercisesPerRoundChanged);
@@ -108,6 +114,7 @@ namespace FreeFit
             QWidget* possible_options_widget = nullptr;
             MaterialTextField* number_of_rounds;
             MaterialTextField* max_number_of_exercises;
+            MaterialTextField* time_of_exercise;
         };
 
         class AllExercisesWorkoutOption : public WorkoutOptionBase
