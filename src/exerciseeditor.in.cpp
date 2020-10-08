@@ -272,7 +272,7 @@ namespace FreeFit
             new_exercise_scroll_area->setAlignment(Qt::AlignTop);
             new_exercise_scroll_area->setWidgetResizable(true);
             download_exercises_button = new MaterialButton("Add to existing exercises",this);
-            connect(download_exercises_button,&QPushButton::clicked,this,&ExerciseEditor::downloadAllExercises);
+            connect(download_exercises_button,&MaterialButton::rippleFinished,this,&ExerciseEditor::downloadAllExercises);
             add_button = new MaterialButton("Create new exercise",this);
             connect(add_button,&QPushButton::clicked,this,&ExerciseEditor::addExercise);
             new_exercises_right_panel_ly->addWidget(add_button,0,1,1,2);
