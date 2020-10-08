@@ -191,26 +191,31 @@ namespace FreeFit
                 connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
                 connect(getRejectButton(), &QPushButton::clicked, this, &QDialog::reject);
 
-                options_canvas = new QStackedWidget(this);
-
+                option_selection = new QWidget(this);
+                option_selection_ly = new QVBoxLayout(option_selection);
+                option_selection->setStyleSheet("background-color:#f8f8ff;");
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
                 all_exercises_workout = new AllExercisesWorkoutOption("Random Exercises",w1,this);
-                addWidget(all_exercises_workout,0,0);
                 workout_options.push_back(all_exercises_workout);
+                option_selection_ly->addWidget(all_exercises_workout);
 
                 std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
                 filtered_exercises_workout = new FilteredExercisesWorkoutOption("Filtered by muscle groups",w2,this);
-                addWidget(filtered_exercises_workout,1,0);
                 workout_options.push_back(filtered_exercises_workout);
+                option_selection_ly->addWidget(filtered_exercises_workout);
+                option_selection_ly->addStretch();
+                addWidget(option_selection,0,0);
 
                 all_exercises_workout->setChecked(true);
 
                 all_exercises_workout->setRounds(3);
                 filtered_exercises_workout->setRounds(3);
 
+                options_canvas = new QStackedWidget(this);
+                options_canvas->setStyleSheet("background-color:#f8f8ff;");
                 options_canvas->addWidget(all_exercises_workout->getOptionsWidget());
                 options_canvas->addWidget(filtered_exercises_workout->getOptionsWidget());
-                addWidget(options_canvas,0,1,3,1);
+                addWidget(options_canvas,0,1);
 
                 connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
                 connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
@@ -256,8 +261,9 @@ namespace FreeFit
                         options_canvas->setCurrentIndex(i);
             }
         private:
-            QGridLayout* ly;
             QStackedWidget* options_canvas;
+            QWidget* option_selection;
+            QVBoxLayout* option_selection_ly;
             WorkoutOptionBase* all_exercises_workout;
             WorkoutOptionBase* filtered_exercises_workout;
             std::vector<WorkoutOptionBase*> workout_options;
