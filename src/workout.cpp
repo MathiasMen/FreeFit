@@ -4,7 +4,7 @@ namespace FreeFit
 {
     namespace Data
     {
-        WorkoutBase::WorkoutBase(std::list<Exercise> t_possible_exercises, unsigned int t_rounds) : possible_exercises(t_possible_exercises),rounds(t_rounds){}
+        WorkoutBase::WorkoutBase(std::list<Exercise> t_possible_exercises, unsigned int t_rounds) : possible_exercises(t_possible_exercises),rounds(t_rounds),time_per_exercise(30){}
 
         AllExercisesWorkout::AllExercisesWorkout(std::list<Exercise> t_possible_exercises) : WorkoutBase(t_possible_exercises,3)
         {
@@ -27,7 +27,7 @@ namespace FreeFit
         void AllExercisesWorkout::generateExerciseTimes()
         {
             for(auto& e : exercises_per_round)
-                e.setLength(40);
+                e.setLength(time_per_exercise);
         }
 
         std::list<MuscleGroup> AllExercisesWorkout::getMainlyTrainedMuscles()
@@ -59,7 +59,7 @@ namespace FreeFit
         void FilteredByMusclesWorkout::generateExerciseTimes()
         {
             for(auto& e : exercises_per_round)
-                e.setLength(40);
+                e.setLength(time_per_exercise);
         }
 
         void FilteredByMusclesWorkout::setSelectedAreas(std::set<MuscleGroup> a)
