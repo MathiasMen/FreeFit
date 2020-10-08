@@ -42,6 +42,8 @@ namespace FreeFit
                 possible_options_widget = new QWidget(this);
                 QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
 
+                n_exercises_lbl = new QLabel(this);
+
                 number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
                 std::regex rounds_regex("[1-9]");
                 auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
@@ -57,6 +59,7 @@ namespace FreeFit
                 auto func_time_of_exercise_regex = [time_of_exercise_regex](std::string s)->bool{return std::regex_match(s,time_of_exercise_regex);};
                 time_of_exercises->setValidationFunction(func_time_of_exercise_regex);
 
+                ly->addWidget(n_exercises_lbl);
                 ly->addWidget(number_of_rounds);
                 ly->addWidget(max_number_of_exercises);
                 ly->addWidget(time_of_exercises);
@@ -69,6 +72,7 @@ namespace FreeFit
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
             {
                 workout_data->setPossibleExercises(e);
+                n_exercises_lbl->setText("Exercises in database: " + QString::number(e.size()));
             }
         
             std::list<FreeFit::Data::Exercise> getExercisesPerRound(){return workout_data->getExercisesPerRound();}
@@ -119,6 +123,7 @@ namespace FreeFit
         protected:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
+            QLabel* n_exercises_lbl;
             MaterialTextField* number_of_rounds;
             MaterialTextField* max_number_of_exercises;
             MaterialTextField* time_of_exercises;
