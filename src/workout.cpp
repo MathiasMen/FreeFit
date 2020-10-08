@@ -20,7 +20,8 @@ namespace FreeFit
         void AllExercisesWorkout::generateExercises()
         {
             for(Exercise e : possible_exercises)
-                exercises_per_round.push_back(e);            
+                if (exercises_per_round.size() < max_no_exercises_per_round)
+                    exercises_per_round.push_back(e);
         }
         
         void AllExercisesWorkout::generateExerciseTimes()
@@ -43,12 +44,15 @@ namespace FreeFit
         {
             for(Exercise e : possible_exercises)
             {
-                bool area_match = false;
-                for(MuscleGroup m : e.getTrainedMuscles())
-                    if(selected_areas.count(m) == 1)
-                        area_match = true;
-                if(area_match)
-                    exercises_per_round.push_back(e);            
+                if (exercises_per_round.size() < max_no_exercises_per_round)
+                {
+                    bool area_match = false;
+                    for(MuscleGroup m : e.getTrainedMuscles())
+                        if(selected_areas.count(m) == 1)
+                            area_match = true;
+                    if(area_match)
+                        exercises_per_round.push_back(e);            
+                }
             }
         }
         

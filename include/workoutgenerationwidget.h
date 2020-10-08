@@ -43,15 +43,20 @@ namespace FreeFit
                 QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
 
                 number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
-                max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",possible_options_widget);
                 std::regex rounds_regex("[1-9]");
                 auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
                 number_of_rounds->setValidationFunction(func_rounds_regex);
+
+                max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",possible_options_widget);
+                std::regex no_of_exercises_regex("[1-9]");
+                auto func_no_exercises_regex = [no_of_exercises_regex](std::string s)->bool{return std::regex_match(s,no_of_exercises_regex);};
+                max_number_of_exercises->setValidationFunction(func_no_exercises_regex);
 
                 ly->addWidget(number_of_rounds);
                 ly->addWidget(max_number_of_exercises);
 
                 connect(number_of_rounds,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfRoundsChanged);
+                connect(max_number_of_exercises,&QLineEdit::textChanged,this,&WorkoutOptionBase::numberOfExercisesPerRoundChanged);
             }
 
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
@@ -91,6 +96,12 @@ namespace FreeFit
             {
                 if (!number_of_rounds->text().isEmpty() && number_of_rounds->validateText())
                     workout_data->setRounds(std::stoi(number_of_rounds->text().toStdString()));
+            }
+
+            void numberOfExercisesPerRoundChanged()
+            {
+                if (!max_number_of_exercises->text().isEmpty() && max_number_of_exercises->validateText())
+                    workout_data->setMaxNumberOfExercisesPerRound(std::stoi(max_number_of_exercises->text().toStdString()));
             }
         protected:
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
