@@ -44,17 +44,22 @@ namespace FreeFit
 
                 n_exercises_lbl = new QLabel(this);
 
+                const unsigned int max_textfield_width = 300;
+
                 number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
+                number_of_rounds->setMaximumWidth(max_textfield_width);
                 std::regex rounds_regex("[1-9]");
                 auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
                 number_of_rounds->setValidationFunction(func_rounds_regex);
 
                 max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",possible_options_widget);
+                max_number_of_exercises->setMaximumWidth(max_textfield_width);
                 std::regex no_of_exercises_regex("[1-9]");
                 auto func_no_exercises_regex = [no_of_exercises_regex](std::string s)->bool{return std::regex_match(s,no_of_exercises_regex);};
                 max_number_of_exercises->setValidationFunction(func_no_exercises_regex);
 
                 time_of_exercises = new MaterialTextField("Time of exercises",possible_options_widget);
+                time_of_exercises->setMaximumWidth(max_textfield_width);
                 std::regex time_of_exercise_regex("[1-9][0-9]{0,2}");
                 auto func_time_of_exercise_regex = [time_of_exercise_regex](std::string s)->bool{return std::regex_match(s,time_of_exercise_regex);};
                 time_of_exercises->setValidationFunction(func_time_of_exercise_regex);
