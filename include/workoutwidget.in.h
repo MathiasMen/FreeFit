@@ -15,7 +15,7 @@
 #include "include/exerciselistwidget.h"
 #include "include/exerciseviewer.h"
 #include "include/materialdialog.h"
-#include "include/materialbutton.h"
+#include "include/iconbutton.h"
 
 namespace FreeFit
 {
@@ -89,8 +89,8 @@ namespace FreeFit
         private:
             QHBoxLayout* ly;
 
-            MaterialButton* recreate_button;
-            MaterialButton* play_button;
+            IconButton* recreate_button;
+            IconButton* play_button;
         };
 
         class WorkoutWidget : public MaterialDialog

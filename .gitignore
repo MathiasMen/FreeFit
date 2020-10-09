@@ -9,6 +9,7 @@ src/exerciseeditor.cpp
 src/main.cpp
 src/mainwindow.cpp
 src/profileitem.cpp
+src/workoutwidget.cpp
 test/exerciseGUITest.cpp
 test/exerciseViewerTest.cpp
 test/profileEditorTest.cpp

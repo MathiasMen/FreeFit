@@ -87,8 +87,14 @@ namespace FreeFit
         {
             ly = new QHBoxLayout(this);
 
-            recreate_button = new MaterialButton("recreate",this);
-            play_button = new MaterialButton("play",this);
+            recreate_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/recreate.svg"),"",this);
+            play_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/play.svg"),"",this);
+
+            recreate_button->setStyleSheet("border: 2px solid gainsboro; border-radius:20px;");
+            play_button->setStyleSheet("border: 2px solid gainsboro; border-radius:20px;");
+            
+            recreate_button->setMaximumSize(25,25);
+            play_button->setMaximumSize(25,25);
 
             connect(recreate_button,&QPushButton::clicked,this,&WorkoutWidgetControl::recreateClicked);
             connect(play_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playClicked);
