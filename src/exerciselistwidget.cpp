@@ -15,7 +15,8 @@ FreeFit::GUI::ExerciseListWidgetItem::ExerciseListWidgetItem(QWidget* parent,Fre
     if(e_dat.getThumbnailPath() != "")
     {
         img_thumbnail = QImage(QString::fromStdString(e_dat.getThumbnailPath()));
-        img_thumbnail = img_thumbnail.scaled(50,50);
+        const unsigned int img_scaling = 8;
+        img_thumbnail = img_thumbnail.scaled(16*img_scaling,9*img_scaling);
         lbl_image->setPixmap(QPixmap::fromImage(img_thumbnail));
         lbl_image->adjustSize();
     }
