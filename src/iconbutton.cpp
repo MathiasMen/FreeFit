@@ -8,6 +8,7 @@ namespace FreeFit
         {
             const int pixmap_height = 20;
             const int pixmap_width = 20;
+            const int padding = 2;
 
             QPushButton::paintEvent(ev);
 
@@ -20,7 +21,9 @@ namespace FreeFit
             QIcon colored_icon = QIcon(p);
 
             QPainter painter(this);
-            painter.drawPixmap(0,0,pixmap_width,pixmap_height,colored_icon.pixmap(pixmap_width,pixmap_height));
+            painter.setPen(color);
+            painter.drawPixmap(padding,padding,pixmap_width,pixmap_height,colored_icon.pixmap(pixmap_width,pixmap_height));
+            painter.drawEllipse(0,0,pixmap_width+2*padding,pixmap_height+2*padding);
         }
     }
 }
