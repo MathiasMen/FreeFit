@@ -87,32 +87,36 @@ namespace FreeFit
         {
             ly = new QHBoxLayout(this);
 
-            this->setStyleSheet("border:none; padding: 10px;");
+            this->setStyleSheet("border:none; padding:10px;");
 
-            recreate_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/recreate.svg"),"",this);
-            play_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/play.svg"),"",this);
+            play_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/play.svg");
+            pause_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/pause.svg");
+            recreate_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/recreate.svg");
+
+            recreate_button = new IconButton(recreate_icon,"",this);
+            play_pause_button = new IconButton(play_icon,"",this);
 
             connect(recreate_button,&QPushButton::clicked,this,&WorkoutWidgetControl::recreateClicked);
-            connect(play_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playClicked);
+            connect(play_pause_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playPauseClicked);
 
             ly->addWidget(recreate_button);
-            ly->addWidget(play_button);
+            ly->addWidget(play_pause_button);
         }
 
         void WorkoutWidgetControl::showPlayIcon()
         {
-            play_button->setText("play");
+            play_pause_button->setIcon(play_icon);
         }
 
         void WorkoutWidgetControl::showPauseIcon()
         {
-            play_button->setText("pause");
+            play_pause_button->setIcon(pause_icon);
         }
 
         void WorkoutWidgetControl::setColor(std::string c)
         {
             recreate_button->setColor(c);
-            play_button->setColor(c);
+            play_pause_button->setColor(c);
         }
     
         WorkoutWidget::WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p) : MaterialDialog("","","",t_p),w(t_w) 
@@ -138,7 +142,7 @@ namespace FreeFit
 
             control->setMinimumWidth(320);
             connect(control,&WorkoutWidgetControl::recreateClicked,this,&WorkoutWidget::recreateClicked);
-            connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
+            connect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::playClicked);
 
             exercise_view->setMinimumWidth(640);
             connect(timer,&WorkoutWidgetTimer::exerciseTimeEnded,this,&WorkoutWidget::handleExerciseEnded);
@@ -197,11 +201,12 @@ namespace FreeFit
 
         void WorkoutWidget::playClicked()
         {
+            std::cout << "play clicked!" << std::endl;
             int t = (memory_exercise_time != 0 ? memory_exercise_time : exercise_list->getLengthOfCurrentExercise());
             exercise_view->start();
             timer->startTimer(t);
-            disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
-            connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::pauseClicked);
+            disconnect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::playClicked);
+            connect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::pauseClicked);
             connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
             memory_exercise_time = 0;
             control->showPauseIcon();
@@ -209,12 +214,13 @@ namespace FreeFit
 
         void WorkoutWidget::pauseClicked()
         {
+            std::cout << "pause clicked!" << std::endl;
             memory_exercise_time = timer->getRemainingTime();
             disconnect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
-            disconnect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::pauseClicked);
+            disconnect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::pauseClicked);
             exercise_view->pause();
             timer->stop();
-            connect(control,&WorkoutWidgetControl::playClicked,this,&WorkoutWidget::playClicked);
+            connect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::playClicked);
             control->showPlayIcon();
         }
 

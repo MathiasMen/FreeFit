@@ -19,6 +19,12 @@ namespace FreeFit
                 setFlat(true);
             }
 
+            void setIcon(QIcon icon)
+            {
+                symbol = icon;
+                update();
+            }
+
             void setColor(std::string c)
             {
                 color = QColor(QString::fromStdString(c));

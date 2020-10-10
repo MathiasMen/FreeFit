@@ -85,12 +85,16 @@ namespace FreeFit
 
         signals:
             void recreateClicked();
-            void playClicked();
+            void playPauseClicked();
         private:
             QHBoxLayout* ly;
 
+            QIcon play_icon;
+            QIcon pause_icon;
+            QIcon recreate_icon;
+
             IconButton* recreate_button;
-            IconButton* play_button;
+            IconButton* play_pause_button;
         };
 
         class WorkoutWidget : public MaterialDialog
@@ -142,7 +146,7 @@ namespace FreeFit
             public:
                 WorkoutWidgetValidator(WorkoutWidget* t_w) : ww(t_w){}
                 
-                void clickPlayButton(){ww->control->play_button->click();}
+                void clickPlayButton(){ww->control->play_pause_button->click();}
 
                 int remainingTimeExercise(){return ww->timer->getRemainingTime();}
 
