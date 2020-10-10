@@ -93,8 +93,8 @@ namespace FreeFit
             pause_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/pause.svg");
             recreate_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/recreate.svg");
 
-            recreate_button = new IconButton(recreate_icon,"",this);
-            play_pause_button = new IconButton(play_icon,"",this);
+            recreate_button = new IconButton(recreate_icon,"",this,40,2);
+            play_pause_button = new IconButton(play_icon,"",this,40,2);
 
             connect(recreate_button,&QPushButton::clicked,this,&WorkoutWidgetControl::recreateClicked);
             connect(play_pause_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playPauseClicked);
@@ -201,7 +201,6 @@ namespace FreeFit
 
         void WorkoutWidget::playClicked()
         {
-            std::cout << "play clicked!" << std::endl;
             int t = (memory_exercise_time != 0 ? memory_exercise_time : exercise_list->getLengthOfCurrentExercise());
             exercise_view->start();
             timer->startTimer(t);
@@ -214,7 +213,6 @@ namespace FreeFit
 
         void WorkoutWidget::pauseClicked()
         {
-            std::cout << "pause clicked!" << std::endl;
             memory_exercise_time = timer->getRemainingTime();
             disconnect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
             disconnect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::pauseClicked);

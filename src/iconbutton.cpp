@@ -6,8 +6,8 @@ namespace FreeFit
     {
         void IconButton::paintEvent(QPaintEvent* ev)
         {
-            const int pixmap_height = 20;
-            const int pixmap_width = 20;
+            const int pixmap_height = size;
+            const int pixmap_width = size;
             const int padding = 2;
 
             QPushButton::paintEvent(ev);
