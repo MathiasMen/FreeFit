@@ -131,6 +131,7 @@ namespace FreeFit
             
             exercise_view = new FreeFit::GUI::Exerciseviewer(this);
             timer = new WorkoutWidgetTimer(w->getExercisesPerRound().begin()->getLength(),this);
+            timer->setColor(QColor(Qt::gray).name().toStdString());
             right_ly->addWidget(exercise_view,0,0,1,3);
             right_ly->addWidget(timer,1,1,Qt::AlignHCenter);
 
@@ -209,6 +210,7 @@ namespace FreeFit
             connect(exercise_view,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(triggerReplay(QMediaPlayer::State)));
             memory_exercise_time = 0;
             control->showPauseIcon();
+            timer->setColor(color);
         }
 
         void WorkoutWidget::pauseClicked()
@@ -220,6 +222,7 @@ namespace FreeFit
             timer->stop();
             connect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::playClicked);
             control->showPlayIcon();
+            timer->setColor(QColor(Qt::gray).name().toStdString());
         }
 
         void WorkoutWidget::triggerReplay(QMediaPlayer::State s)
