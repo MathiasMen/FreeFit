@@ -54,7 +54,6 @@ namespace FreeFit
 
         void WorkoutWidgetTimer::stop()
         {
-            current_time = 0;
             disconnectTimers();
             stopTimers();
         }
