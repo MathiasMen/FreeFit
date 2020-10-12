@@ -81,6 +81,10 @@ void FreeFit::GUI::ExerciseListWidget::generateWidgets(FreeFit::Data::WorkoutBas
             row_counter += 1;
         }
         QLabel* round_label = new QLabel("Round " + QString::number(r));
+        if (r % 2 == 0)
+            round_label->setStyleSheet(QString::fromStdString("background-color:grey; color:" + color + ";"));
+        else
+            round_label->setStyleSheet(QString::fromStdString("background-color:gainsboro; color:" + color + ";"));
         QGraphicsScene* scene = new QGraphicsScene(sub_widget);
         scene->addWidget(round_label);
         QGraphicsView* view = new QGraphicsView(scene,this);
