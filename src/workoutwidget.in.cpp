@@ -90,15 +90,11 @@ namespace FreeFit
 
             play_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/play.svg");
             pause_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/pause.svg");
-            recreate_icon = QIcon("${CMAKE_SOURCE_DIR}/tools/recreate.svg");
 
-            recreate_button = new IconButton(recreate_icon,"",this,40,2);
             play_pause_button = new IconButton(play_icon,"",this,40,2);
 
-            connect(recreate_button,&QPushButton::clicked,this,&WorkoutWidgetControl::recreateClicked);
             connect(play_pause_button,&QPushButton::clicked,this,&WorkoutWidgetControl::playPauseClicked);
 
-            ly->addWidget(recreate_button);
             ly->addWidget(play_pause_button);
         }
 
@@ -114,11 +110,10 @@ namespace FreeFit
 
         void WorkoutWidgetControl::setColor(std::string c)
         {
-            recreate_button->setColor(c);
             play_pause_button->setColor(c);
         }
     
-        WorkoutWidget::WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p) : MaterialDialog("","","",t_p),w(t_w) 
+        WorkoutWidget::WorkoutWidget(FreeFit::Data::WorkoutBase* t_w, QWidget* t_p) : MaterialDialog("Recreate","","",t_p),w(t_w) 
         {
             QGridLayout* left_ly = new QGridLayout;
             QGridLayout* right_ly = new QGridLayout;
@@ -141,7 +136,6 @@ namespace FreeFit
             exercise_view->setMinimumSize(640,360);
 
             control->setMinimumWidth(320);
-            connect(control,&WorkoutWidgetControl::recreateClicked,this,&WorkoutWidget::recreateClicked);
             connect(control,&WorkoutWidgetControl::playPauseClicked,this,&WorkoutWidget::playClicked);
 
             exercise_view->setMinimumWidth(640);

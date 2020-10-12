@@ -84,16 +84,13 @@ namespace FreeFit
             void setColor(std::string c);
 
         signals:
-            void recreateClicked();
             void playPauseClicked();
         private:
             QHBoxLayout* ly;
 
             QIcon play_icon;
             QIcon pause_icon;
-            QIcon recreate_icon;
 
-            IconButton* recreate_button;
             IconButton* play_pause_button;
         };
 
@@ -117,8 +114,6 @@ namespace FreeFit
             void nextExercise();
 
             void workoutFinished();
-
-            void recreateClicked(){}
 
             void playClicked();
 
