@@ -26,7 +26,7 @@ namespace FreeFit
             current_time = seconds;
             exercise_duration_timer->setInterval(seconds*1000);
             exercise_duration_timer->setSingleShot(true);
-            notification_timer->setInterval((seconds-3)*1000);
+            notification_timer->setInterval((seconds-5)*1000);
             notification_timer->setSingleShot(true);
             connect(exercise_duration_timer,&QTimer::timeout,this,&WorkoutWidgetTimer::timerEnded);
             connect(update_interval_timer, &QTimer::timeout, this, QOverload<>::of(&WorkoutWidgetTimer::update));  
