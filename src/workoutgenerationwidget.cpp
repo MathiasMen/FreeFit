@@ -106,11 +106,12 @@ namespace FreeFit
                 specialized_workout->setSelectedAreas(muscle_areas->getToggledStrings());
             }
 
-            CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent)
+            CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
             {
                 QLabel* l = new QLabel("Hello world!",possible_options_widget);
                 possible_options_widget->layout()->addWidget(l);
                 QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+                possible_options_widget->layout()->addItem(vertical_spacer);
                 specialized_workout = w;
             }
 
@@ -142,22 +143,30 @@ namespace FreeFit
                 filtered_exercises_workout = new FilteredExercisesWorkoutOption("Filtered by muscle groups",w2,this);
                 workout_options.push_back(filtered_exercises_workout);
                 option_selection_ly->addWidget(filtered_exercises_workout);
+
+                std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w3 = std::make_shared<FreeFit::Data::CustomExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
+                custom_exercises_workout = new CustomExercisesWorkoutOption("Custom Exercises",w3,this);                
+                workout_options.push_back(custom_exercises_workout);
+                option_selection_ly->addWidget(custom_exercises_workout);
+
                 option_selection_ly->addStretch();
                 addWidget(option_selection,0,0);
-
                 all_exercises_workout->setChecked(true);
 
                 all_exercises_workout->setRounds(3);
                 filtered_exercises_workout->setRounds(3);
+                custom_exercises_workout->setRounds(3);
 
                 options_canvas = new QStackedWidget(this);
                 options_canvas->setStyleSheet("background-color:#f8f8ff;");
                 options_canvas->addWidget(all_exercises_workout->getOptionsWidget());
                 options_canvas->addWidget(filtered_exercises_workout->getOptionsWidget());
+                options_canvas->addWidget(custom_exercises_workout->getOptionsWidget());
                 addWidget(options_canvas,0,1);
 
                 connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
                 connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+                connect(custom_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
             }
 
             void WorkoutGenerationWidget::setColor(std::string c)

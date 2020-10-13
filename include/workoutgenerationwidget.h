@@ -130,6 +130,7 @@ namespace FreeFit
             QVBoxLayout* option_selection_ly;
             WorkoutOptionBase* all_exercises_workout;
             WorkoutOptionBase* filtered_exercises_workout;
+            WorkoutOptionBase* custom_exercises_workout;
             std::vector<WorkoutOptionBase*> workout_options;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
