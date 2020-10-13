@@ -95,6 +95,16 @@ namespace FreeFit
             HashtagBar* muscle_areas;
         };
 
+        class CustomExercisesWorkoutOption : public WorkoutOptionBase
+        {
+        public:
+            CustomExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
+            void prepareWorkoutGeneration(){}
+            void setColor(std::string c){}
+        private:
+            std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
+        };
+
         class WorkoutGenerationWidget : public MaterialDialog
         {
             friend WorkoutGenerationWidgetValidator;
