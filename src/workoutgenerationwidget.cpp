@@ -108,11 +108,34 @@ namespace FreeFit
 
             CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
             {
-                QLabel* l = new QLabel("Hello world!",possible_options_widget);
-                possible_options_widget->layout()->addWidget(l);
+                lists_container = new QWidget(this);
+                lists_container_ly = new QGridLayout(lists_container);
+
+                existing_exercises_list = new QListWidget(lists_container);
+                add_button = new QPushButton("Add selected",lists_container);
+                remove_button = new QPushButton("Remove selected",lists_container);
+                selected_exercises_list = new QListWidget(lists_container);
+
+                lists_container_ly->addWidget(existing_exercises_list,0,0,2,1);
+                lists_container_ly->addWidget(add_button,0,1,1,1);
+                lists_container_ly->addWidget(remove_button,1,1,1,1);
+                lists_container_ly->addWidget(selected_exercises_list,0,2,2,1);
+
+                possible_options_widget->layout()->addWidget(lists_container);
+
                 QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
                 possible_options_widget->layout()->addItem(vertical_spacer);
                 specialized_workout = w;
+            }
+
+            void CustomExercisesWorkoutOption::setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
+            {
+                WorkoutOptionBase::setPossibleExercises(e);
+
+                existing_exercises_list->clear();
+                selected_exercises_list->clear();
+                for (auto exercise : e)
+                    existing_exercises_list->addItem(QString::fromStdString(exercise.getName()));
             }
 
             void CustomExercisesWorkoutOption::prepareWorkoutGeneration()
@@ -174,6 +197,7 @@ namespace FreeFit
                 MaterialDialog::setColor(c);
                 all_exercises_workout->setColor(c);
                 filtered_exercises_workout->setColor(c);
+                custom_exercises_workout->setColor(c);
             }
 
             void WorkoutGenerationWidget::setPossibleExercises(std::list<FreeFit::Data::Exercise> e)

@@ -39,7 +39,7 @@ namespace FreeFit
         public:
             WorkoutOptionBase(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
 
-            void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
+            virtual void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
         
             std::list<FreeFit::Data::Exercise> getExercisesPerRound(){return workout_data->getExercisesPerRound();}
 
@@ -101,8 +101,16 @@ namespace FreeFit
             CustomExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
             void prepareWorkoutGeneration();
             void setColor(std::string c);
+            void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
         private:
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
+
+            QWidget* lists_container;
+            QGridLayout* lists_container_ly;
+            QListWidget* existing_exercises_list;
+            QPushButton* add_button;
+            QPushButton* remove_button;
+            QListWidget* selected_exercises_list;
         };
 
         class WorkoutGenerationWidget : public MaterialDialog
