@@ -105,7 +105,25 @@ namespace FreeFit
             {
                 specialized_workout->setSelectedAreas(muscle_areas->getToggledStrings());
             }
-    
+
+            CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent)
+            {
+                QLabel* l = new QLabel("Hello world!",possible_options_widget);
+                possible_options_widget->layout()->addWidget(l);
+                QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
+                specialized_workout = w;
+            }
+
+            void CustomExercisesWorkoutOption::prepareWorkoutGeneration()
+            {
+
+            }
+
+            void CustomExercisesWorkoutOption::setColor(std::string c)
+            {
+
+            }
+
             WorkoutGenerationWidget::WorkoutGenerationWidget(QWidget* parent) : MaterialDialog("Exercises","Workout","",parent)
             {
                 connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
@@ -114,6 +132,7 @@ namespace FreeFit
                 option_selection = new QWidget(this);
                 option_selection_ly = new QVBoxLayout(option_selection);
                 option_selection->setStyleSheet("background-color:#f8f8ff;");
+                
                 std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
                 all_exercises_workout = new AllExercisesWorkoutOption("Random Exercises",w1,this);
                 workout_options.push_back(all_exercises_workout);

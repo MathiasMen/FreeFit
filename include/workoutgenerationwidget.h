@@ -98,9 +98,9 @@ namespace FreeFit
         class CustomExercisesWorkoutOption : public WorkoutOptionBase
         {
         public:
-            CustomExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
-            void prepareWorkoutGeneration(){}
-            void setColor(std::string c){}
+            CustomExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
+            void prepareWorkoutGeneration();
+            void setColor(std::string c);
         private:
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
         };
