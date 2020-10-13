@@ -63,5 +63,17 @@ namespace FreeFit
                 std::set<MuscleGroup> selected_areas;
                 FilteredByMusclesWorkout();
         };
+
+        class CustomExercisesWorkout : public WorkoutBase
+        {
+        public:
+            CustomExercisesWorkout(std::list<Exercise> t_possible_exercises);
+
+            std::list<MuscleGroup> getMainlyTrainedMuscles() override;
+            void generateExercises() override;
+            void generateExerciseTimes() override;
+        private:
+            CustomExercisesWorkout();
+        };
     }
 }

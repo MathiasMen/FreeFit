@@ -79,5 +79,27 @@ namespace FreeFit
         {
             return std::list<MuscleGroup>{MuscleGroup::Shoulder};
         }
+
+        CustomExercisesWorkout::CustomExercisesWorkout(std::list<Exercise> t_possible_exercises) : WorkoutBase(t_possible_exercises,3)
+        {
+
+        }
+
+        std::list<MuscleGroup> CustomExercisesWorkout::getMainlyTrainedMuscles()
+        {
+            return std::list<MuscleGroup>{MuscleGroup::Shoulder};
+        }
+
+        void CustomExercisesWorkout::generateExercises()
+        {
+            for(auto& e : possible_exercises)
+                exercises_per_round.push_back(e);
+        }
+
+        void CustomExercisesWorkout::generateExerciseTimes()
+        {
+            for(auto& e : exercises_per_round)
+                e.setLength(time_per_exercise);
+        }
     }
 }
