@@ -168,7 +168,11 @@ namespace FreeFit
 
             void CustomExercisesWorkoutOption::prepareWorkoutGeneration()
             {
-
+                for (unsigned int i = 0; i < existing_exercises_list->count(); i++)
+                {
+                    QListWidgetItem* it = existing_exercises_list->item(i);
+                    workout_data->removeExerciseByName(it->text().toStdString());
+                }
             }
 
             void CustomExercisesWorkoutOption::setColor(std::string c)

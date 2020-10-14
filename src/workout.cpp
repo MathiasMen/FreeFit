@@ -6,6 +6,18 @@ namespace FreeFit
     {
         WorkoutBase::WorkoutBase(std::list<Exercise> t_possible_exercises, unsigned int t_rounds) : possible_exercises(t_possible_exercises),rounds(t_rounds),time_per_exercise(30){}
 
+        void WorkoutBase::removeExerciseByName(std::string name)
+        {
+            auto item = possible_exercises.end();
+            for (auto it = possible_exercises.begin(); it != possible_exercises.end(); it++)
+                if (it->getName() == name)
+                {
+                    item = it;
+                    break;
+                }
+            possible_exercises.erase(item);
+        }
+
         AllExercisesWorkout::AllExercisesWorkout(std::list<Exercise> t_possible_exercises) : WorkoutBase(t_possible_exercises,3)
         {
 
