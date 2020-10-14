@@ -116,6 +116,9 @@ namespace FreeFit
                 remove_button = new QPushButton("Remove selected",lists_container);
                 selected_exercises_list = new QListWidget(lists_container);
 
+                connect(add_button,&QPushButton::clicked,this,&CustomExercisesWorkoutOption::addButtonClicked);
+                connect(remove_button,&QPushButton::clicked,this,&CustomExercisesWorkoutOption::removeButtonClicked);
+
                 lists_container_ly->addWidget(existing_exercises_list,0,0,2,1);
                 lists_container_ly->addWidget(add_button,0,1,1,1);
                 lists_container_ly->addWidget(remove_button,1,1,1,1);
@@ -136,6 +139,28 @@ namespace FreeFit
                 selected_exercises_list->clear();
                 for (auto exercise : e)
                     existing_exercises_list->addItem(QString::fromStdString(exercise.getName()));
+            }
+
+            void CustomExercisesWorkoutOption::addButtonClicked()
+            {
+                QList<QListWidgetItem*> selected_items = existing_exercises_list->selectedItems();
+                for (QListWidgetItem* s : selected_items)
+                {
+                    QString exercise_name = s->text();
+                    selected_exercises_list->addItem(exercise_name);
+                    delete s;
+                }
+            }
+
+            void CustomExercisesWorkoutOption::removeButtonClicked()
+            {
+                QList<QListWidgetItem*> to_be_removed_items = selected_exercises_list->selectedItems();
+                for (QListWidgetItem* s : to_be_removed_items)
+                {
+                    QString exercise_name = s->text();
+                    existing_exercises_list->addItem(exercise_name);
+                    delete s;
+                }
             }
 
             void CustomExercisesWorkoutOption::prepareWorkoutGeneration()

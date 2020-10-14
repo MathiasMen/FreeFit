@@ -103,6 +103,9 @@ namespace FreeFit
             void setColor(std::string c);
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
         private:
+            void addButtonClicked();
+            void removeButtonClicked();
+
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
 
             QWidget* lists_container;
