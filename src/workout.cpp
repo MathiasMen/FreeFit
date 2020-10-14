@@ -29,6 +29,14 @@ namespace FreeFit
             generateExerciseTimes();
         }
 
+        std::list<std::string> WorkoutBase::getExercisesPerRoundNames()
+        {
+            std::list<std::string> result;
+            for (auto e : possible_exercises)
+                result.push_back(e.getName());
+            return result;
+        }
+
         void AllExercisesWorkout::generateExercises()
         {
             for(Exercise e : possible_exercises)

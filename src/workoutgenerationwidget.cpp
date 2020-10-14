@@ -108,6 +108,9 @@ namespace FreeFit
 
             CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
             {
+                exercises_filter_ln = new MaterialTextField("Filter",this);
+                connect(exercises_filter_ln,&QLineEdit::textEdited,this,&CustomExercisesWorkoutOption::updateExistingExercises);
+
                 lists_container = new QWidget(this);
                 lists_container_ly = new QGridLayout(lists_container);
 
@@ -127,11 +130,14 @@ namespace FreeFit
                 lists_container_ly->addWidget(remove_button,1,1,1,1);
                 lists_container_ly->addWidget(selected_exercises_list,0,2,2,1);
 
+                possible_options_widget->layout()->addWidget(exercises_filter_ln);
                 possible_options_widget->layout()->addWidget(lists_container);
 
                 QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
                 possible_options_widget->layout()->addItem(vertical_spacer);
                 specialized_workout = w;
+
+                updateExistingExercises();
             }
 
             void CustomExercisesWorkoutOption::setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
@@ -140,8 +146,45 @@ namespace FreeFit
 
                 existing_exercises_list->clear();
                 selected_exercises_list->clear();
-                for (auto exercise : e)
-                    existing_exercises_list->addItem(QString::fromStdString(exercise.getName()));
+                updateExistingExercises();
+            }
+
+            void CustomExercisesWorkoutOption::updateExistingExercises()
+            {
+                std::list<std::string> exercise_names = specialized_workout->getExercisesPerRoundNames();
+                std::list<std::string> filtered_exercise_names;
+                
+                std::list<std::string> selected_exercise_names;
+                for (unsigned int i = 0; i < selected_exercises_list->count(); i++)
+                    selected_exercise_names.push_back(selected_exercises_list->item(i)->text().toStdString());
+
+                std::string filter_string = exercises_filter_ln->text().toStdString();
+
+                for (auto e : exercise_names)
+                {
+                    std::string filter_string = exercises_filter_ln->getText().toStdString();
+                    bool filter_string_found;
+                    if (filter_string.empty())
+                        filter_string_found = true;
+                    else
+                        filter_string_found = (e.find(filter_string) != std::string::npos);
+                    
+                    bool exercise_not_selected = true;
+                    for (auto selected_e_name : selected_exercise_names)
+                        if (selected_e_name == e)
+                        {
+                            exercise_not_selected = false;
+                            break;
+                        }
+
+                    if (filter_string_found && exercise_not_selected)
+                        filtered_exercise_names.push_back(e);     
+                }
+
+                existing_exercises_list->clear();
+
+                for (auto e : filtered_exercise_names)
+                    existing_exercises_list->addItem(QString::fromStdString(e));
             }
 
             void CustomExercisesWorkoutOption::addButtonClicked()

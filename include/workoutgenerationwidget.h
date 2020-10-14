@@ -97,17 +97,21 @@ namespace FreeFit
 
         class CustomExercisesWorkoutOption : public WorkoutOptionBase
         {
+        Q_OBJECT
         public:
             CustomExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
             void prepareWorkoutGeneration();
             void setColor(std::string c);
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
+        private slots:
+            void updateExistingExercises();
         private:
             void addButtonClicked();
             void removeButtonClicked();
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
 
+            MaterialTextField* exercises_filter_ln;
             QWidget* lists_container;
             QGridLayout* lists_container_ly;
             QListWidget* existing_exercises_list;

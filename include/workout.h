@@ -25,6 +25,7 @@ namespace FreeFit
                 void setTimeOfExercises(unsigned int t){time_per_exercise = t;}
                 unsigned int getRounds(){return rounds;}
                 std::list<Exercise> getExercisesPerRound(){return exercises_per_round;}
+                std::list<std::string> getExercisesPerRoundNames();
                 void setPossibleExercises(std::list<Exercise> t_possible_exercises){possible_exercises = t_possible_exercises;}
                 bool isPossibleExercisesEmpty(){return (possible_exercises.size() == 0);}
                 void removeExerciseByName(std::string name);
