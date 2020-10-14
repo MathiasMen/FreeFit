@@ -116,6 +116,9 @@ namespace FreeFit
                 remove_button = new QPushButton("Remove selected",lists_container);
                 selected_exercises_list = new QListWidget(lists_container);
 
+                existing_exercises_list->setSelectionMode(QAbstractItemView::MultiSelection);
+                selected_exercises_list->setSelectionMode(QAbstractItemView::MultiSelection);
+
                 connect(add_button,&QPushButton::clicked,this,&CustomExercisesWorkoutOption::addButtonClicked);
                 connect(remove_button,&QPushButton::clicked,this,&CustomExercisesWorkoutOption::removeButtonClicked);
 
