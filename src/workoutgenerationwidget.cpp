@@ -44,10 +44,11 @@ namespace FreeFit
         void ToggleContainer::setContent(QWidget* c)
         {
             delete contentArea.layout();
-            QVBoxLayout* content_area_ly = new QVBoxLayout(&contentArea);
-            content_area_ly->addWidget(c);
+            QVBoxLayout content_area_ly;
+            content_area_ly.addWidget(c);
+            contentArea.setLayout(&content_area_ly);
             const auto collapsedHeight = sizeHint().height() - contentArea.maximumHeight();
-            auto contentHeight = content_area_ly->sizeHint().height();
+            auto contentHeight = c->rect().height();
             for (int i = 0; i < toggleAnimation.animationCount() - 1; ++i) {
                 QPropertyAnimation * spoilerAnimation = static_cast<QPropertyAnimation *>(toggleAnimation.animationAt(i));
                 spoilerAnimation->setDuration(animationDuration);
@@ -58,6 +59,7 @@ namespace FreeFit
             contentAnimation->setDuration(animationDuration);
             contentAnimation->setStartValue(0);
             contentAnimation->setEndValue(contentHeight);
+            c->show();
         }
 
         // Remove text argument from constructor!!
@@ -68,22 +70,22 @@ namespace FreeFit
 
             n_exercises_lbl = new QLabel(this);
 
-            const unsigned int max_textfield_width = 300;
+            const unsigned int textfield_width = 300;
 
             number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
-            number_of_rounds->setMaximumWidth(max_textfield_width);
+            number_of_rounds->setFixedWidth(textfield_width);
             std::regex rounds_regex("[1-9]");
             auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
             number_of_rounds->setValidationFunction(func_rounds_regex);
 
             max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",possible_options_widget);
-            max_number_of_exercises->setMaximumWidth(max_textfield_width);
+            max_number_of_exercises->setFixedWidth(textfield_width);
             std::regex no_of_exercises_regex("[1-9]");
             auto func_no_exercises_regex = [no_of_exercises_regex](std::string s)->bool{return std::regex_match(s,no_of_exercises_regex);};
             max_number_of_exercises->setValidationFunction(func_no_exercises_regex);
 
             time_of_exercises = new MaterialTextField("Time of exercises",possible_options_widget);
-            time_of_exercises->setMaximumWidth(max_textfield_width);
+            time_of_exercises->setFixedWidth(textfield_width);
             std::regex time_of_exercise_regex("[1-9][0-9]{0,2}");
             auto func_time_of_exercise_regex = [time_of_exercise_regex](std::string s)->bool{return std::regex_match(s,time_of_exercise_regex);};
             time_of_exercises->setValidationFunction(func_time_of_exercise_regex);
@@ -301,43 +303,33 @@ namespace FreeFit
             connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
             connect(getRejectButton(), &QPushButton::clicked, this, &QDialog::reject);
 
-            option_selection = new QWidget(this);
-            option_selection_ly = new QVBoxLayout(option_selection);
-            option_selection->setStyleSheet("background-color:#f8f8ff;");
-            
             std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
-            all_exercises_workout = new AllExercisesWorkoutOption("Random Exercises",w1,this);
+            ToggleContainer* all_exercises_container = new ToggleContainer("Random Exercises",300,this);
+            all_exercises_workout = new AllExercisesWorkoutOption("",w1);
             workout_options.push_back(all_exercises_workout);
-            option_selection_ly->addWidget(all_exercises_workout);
-
+            all_exercises_container->setContent(all_exercises_workout);
+            addWidget(all_exercises_container,0,0);
+/*
             std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
-            filtered_exercises_workout = new FilteredExercisesWorkoutOption("Filtered by muscle groups",w2,this);
+            ToggleContainer* filtered_exercises_container = new ToggleContainer("Filtered by muscle groups",300,this);
+            filtered_exercises_workout = new FilteredExercisesWorkoutOption("",w2);
             workout_options.push_back(filtered_exercises_workout);
-            option_selection_ly->addWidget(filtered_exercises_workout);
+            all_exercises_container->setContent(filtered_exercises_container);
+            addWidget(filtered_exercises_container,1,0);
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w3 = std::make_shared<FreeFit::Data::CustomExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
-            custom_exercises_workout = new CustomExercisesWorkoutOption("Custom Exercises",w3,this);                
+            ToggleContainer* custom_exercises_container = new ToggleContainer("Custom Exercises",300,this);
+            custom_exercises_workout = new CustomExercisesWorkoutOption("",w3);                
             workout_options.push_back(custom_exercises_workout);
-            option_selection_ly->addWidget(custom_exercises_workout);
-
-            option_selection_ly->addStretch();
-            addWidget(option_selection,0,0);
+            all_exercises_container->setContent(custom_exercises_container);
+            addWidget(custom_exercises_container,2,0);
+*/
+/*
+            option_selection->setStyleSheet("background-color:#f8f8ff;");
             all_exercises_workout->setSelected(true);
-
-            all_exercises_workout->setRounds(3);
-            filtered_exercises_workout->setRounds(3);
             custom_exercises_workout->setRounds(3);
-
-            options_canvas = new QStackedWidget(this);
-            options_canvas->setStyleSheet("background-color:#f8f8ff;");
-            options_canvas->addWidget(all_exercises_workout->getOptionsWidget());
-            options_canvas->addWidget(filtered_exercises_workout->getOptionsWidget());
-            options_canvas->addWidget(custom_exercises_workout->getOptionsWidget());
-            addWidget(options_canvas,0,1);
-
             //connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
-            //connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
-            //connect(custom_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+*/
         }
 
         void WorkoutGenerationWidget::setColor(std::string c)
