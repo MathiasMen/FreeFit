@@ -108,8 +108,15 @@ namespace FreeFit
 
             CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
             {
-                exercises_filter_ln = new MaterialTextField("Filter",this);
+                filter_container = new QWidget(this);
+                filter_container_ly = new QHBoxLayout(filter_container);
+                exercises_filter_ln = new MaterialTextField("Filter",filter_container);
                 connect(exercises_filter_ln,&QLineEdit::textEdited,this,&CustomExercisesWorkoutOption::updateExistingExercises);
+
+                no_of_exercises_indicator = new QLabel("",filter_container);
+
+                filter_container_ly->addWidget(exercises_filter_ln);
+                filter_container_ly->addWidget(no_of_exercises_indicator);
 
                 lists_container = new QWidget(this);
                 lists_container_ly = new QGridLayout(lists_container);
@@ -130,7 +137,7 @@ namespace FreeFit
                 lists_container_ly->addWidget(remove_button,1,1,1,1);
                 lists_container_ly->addWidget(selected_exercises_list,0,2,2,1);
 
-                possible_options_widget->layout()->addWidget(exercises_filter_ln);
+                possible_options_widget->layout()->addWidget(filter_container);
                 possible_options_widget->layout()->addWidget(lists_container);
 
                 QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
@@ -185,6 +192,8 @@ namespace FreeFit
 
                 for (auto e : filtered_exercise_names)
                     existing_exercises_list->addItem(QString::fromStdString(e));
+
+                updateFilterLabel();
             }
 
             void CustomExercisesWorkoutOption::addButtonClicked()
@@ -207,6 +216,13 @@ namespace FreeFit
                     existing_exercises_list->addItem(exercise_name);
                     delete s;
                 }
+            }
+
+            void CustomExercisesWorkoutOption::updateFilterLabel()
+            {
+                unsigned int n_total_exercises = workout_data->getPossibleExercises().size();
+                unsigned int n_matching_exercises = existing_exercises_list->count() + selected_exercises_list->count();
+                no_of_exercises_indicator->setText(QString::number(n_matching_exercises) + " / " + QString::number(n_total_exercises));
             }
 
             void CustomExercisesWorkoutOption::prepareWorkoutGeneration()

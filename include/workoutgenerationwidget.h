@@ -108,10 +108,15 @@ namespace FreeFit
         private:
             void addButtonClicked();
             void removeButtonClicked();
+            void updateFilterLabel();
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
 
+            QWidget* filter_container;
+            QHBoxLayout* filter_container_ly;
             MaterialTextField* exercises_filter_ln;
+            QLabel* no_of_exercises_indicator;
+
             QWidget* lists_container;
             QGridLayout* lists_container_ly;
             QListWidget* existing_exercises_list;
