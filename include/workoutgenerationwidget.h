@@ -8,7 +8,9 @@
 #include <QDialog>
 #include <QGridLayout>
 #include <QVBoxLayout>
-#include <QRadioButton>
+#include <QToolButton>
+#include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
 #include <QLineEdit>
 #include <QIntValidator>
 #include <QPushButton>
@@ -32,7 +34,22 @@ namespace FreeFit
     {
         class WorkoutGenerationWidgetValidator;
 
-        class WorkoutOptionBase : public QRadioButton
+        class ToggleContainer : public QWidget
+        {
+        Q_OBJECT
+        private:
+            QGridLayout mainLayout;
+            QToolButton toggleButton;
+            QFrame headerLine;
+            QParallelAnimationGroup toggleAnimation;
+            QScrollArea contentArea;
+            int animationDuration{300};
+        public:
+            explicit ToggleContainer(const QString & title = "", const int animationDuration = 300, QWidget *parent = 0);
+            void setContent(QWidget* c);
+        };
+
+        class WorkoutOptionBase : public QWidget
         {
         Q_OBJECT
         friend WorkoutGenerationWidgetValidator;
@@ -54,11 +71,15 @@ namespace FreeFit
             QWidget* getOptionsWidget();            
             virtual void prepareWorkoutGeneration() = 0;
             virtual void setColor(std::string c) = 0;
+
+            void click(){} // REMOVE!
+
         private slots:
             void numberOfRoundsChanged();
             void numberOfExercisesPerRoundChanged();
             void timeOfExercisesChanged();
         protected:
+            bool selected = false;
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
             QLabel* n_exercises_lbl;
