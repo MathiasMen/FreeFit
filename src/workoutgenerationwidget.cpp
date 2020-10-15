@@ -322,7 +322,7 @@ namespace FreeFit
 
             option_selection_ly->addStretch();
             addWidget(option_selection,0,0);
-            all_exercises_workout->setChecked(true);
+            all_exercises_workout->setSelected(true);
 
             all_exercises_workout->setRounds(3);
             filtered_exercises_workout->setRounds(3);
@@ -335,9 +335,9 @@ namespace FreeFit
             options_canvas->addWidget(custom_exercises_workout->getOptionsWidget());
             addWidget(options_canvas,0,1);
 
-            connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
-            connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
-            connect(custom_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+            //connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+            //connect(filtered_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
+            //connect(custom_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
         }
 
         void WorkoutGenerationWidget::setColor(std::string c)
@@ -357,7 +357,7 @@ namespace FreeFit
         WorkoutOptionBase* WorkoutGenerationWidget::getSelectedWorkout()
         {
             for (WorkoutOptionBase* w : workout_options)
-                if (w->isChecked())
+                if (w->isSelected())
                     return w;
             return nullptr;
         }
@@ -376,7 +376,7 @@ namespace FreeFit
         void WorkoutGenerationWidget::optionChanged()
         {
             for (unsigned int i = 0; i < workout_options.size(); i++)
-                if (workout_options[i]->isChecked())
+                if (workout_options[i]->isSelected())
                     options_canvas->setCurrentIndex(i);
         }
     }

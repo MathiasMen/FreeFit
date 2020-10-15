@@ -74,6 +74,10 @@ namespace FreeFit
 
             void click(){} // REMOVE!
 
+            void setSelected(bool s){selected = s;}
+            
+            bool isSelected(){return selected;}
+
         private slots:
             void numberOfRoundsChanged();
             void numberOfExercisesPerRoundChanged();
