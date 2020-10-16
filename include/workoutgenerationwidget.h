@@ -33,6 +33,7 @@ namespace FreeFit
     namespace GUI
     {
         class WorkoutGenerationWidgetValidator;
+        class WorkoutOptionBase;
 
         class ToggleContainer : public QWidget
         {
@@ -46,7 +47,8 @@ namespace FreeFit
             int animationDuration{300};
         public:
             explicit ToggleContainer(const QString & title = "", const int animationDuration = 300, QWidget *parent = 0);
-            void setContent(QWidget* c);
+            void setContent(WorkoutOptionBase* c);
+            void toggle();
         protected:
             void resizeEvent(QResizeEvent* ev)
             {
@@ -56,7 +58,7 @@ namespace FreeFit
         private:
             void updatePropertyAnimations();
 
-            QWidget* content;
+            WorkoutOptionBase* content;
         };
 
         class WorkoutOptionBase : public QWidget
@@ -87,11 +89,15 @@ namespace FreeFit
             void setSelected(bool s){selected = s;}
 
             bool isSelected(){return selected;}
+
+            QString getName(){return name;}
+            void setName(QString n){name = n;}
         private slots:
             void numberOfRoundsChanged();
             void numberOfExercisesPerRoundChanged();
             void timeOfExercisesChanged();
         protected:
+            QString name;
             bool selected = false;
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
             QWidget* possible_options_widget = nullptr;
@@ -176,8 +182,6 @@ namespace FreeFit
 
         public slots:
             void accept() override;
-        private slots:
-            void optionChanged();
         private:
             QStackedWidget* options_canvas;
             QWidget* option_selection;

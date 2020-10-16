@@ -34,22 +34,30 @@ namespace FreeFit
             mainLayout.addWidget(&headerLine, row++, 2, 1, 1);
             mainLayout.addWidget(&contentArea, row, 0, 1, 3);
             setLayout(&mainLayout);
-            QObject::connect(&toggleButton, &QToolButton::clicked, [this](const bool checked) {
+            QObject::connect(&toggleButton, &QToolButton::clicked, [this](const bool checked)
+            {
+                content->setSelected(checked);
                 toggleButton.setArrowType(checked ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
                 toggleAnimation.setDirection(checked ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
                 toggleAnimation.start();
             });
         }
 
-        void ToggleContainer::setContent(QWidget* c)
+        void ToggleContainer::setContent(WorkoutOptionBase* c)
         {
             content = c;
+            content->setName(toggleButton.text());
             delete contentArea.layout();
             QVBoxLayout content_area_ly;
             content_area_ly.addWidget(content);
             contentArea.setLayout(&content_area_ly);
             updatePropertyAnimations();
             content->show();
+        }
+
+        void ToggleContainer::toggle()
+        {
+            toggleButton.click();
         }
 
         void ToggleContainer::updatePropertyAnimations()
@@ -329,14 +337,18 @@ namespace FreeFit
             workout_options.push_back(custom_exercises_workout);
             custom_exercises_container->setContent(custom_exercises_workout);
             addWidget(custom_exercises_container,2,0);
+            
+            all_exercises_workout->setRounds(3);
+            filtered_exercises_workout->setRounds(3);
+            custom_exercises_workout->setRounds(3);
+            all_exercises_container->toggle();
+
 /*
             option_selection->setStyleSheet("background-color:#f8f8ff;");
-            all_exercises_workout->setSelected(true);
-            custom_exercises_workout->setRounds(3);
-            //connect(all_exercises_workout,&QRadioButton::toggled,this,&WorkoutGenerationWidget::optionChanged);
 */
         }
 
+        // ADAPT CONTAINERS!
         void WorkoutGenerationWidget::setColor(std::string c)
         {
             MaterialDialog::setColor(c);
@@ -368,13 +380,6 @@ namespace FreeFit
         {
             getSelectedWorkout()->generateWorkout();
             QDialog::accept();
-        }
-
-        void WorkoutGenerationWidget::optionChanged()
-        {
-            for (unsigned int i = 0; i < workout_options.size(); i++)
-                if (workout_options[i]->isSelected())
-                    options_canvas->setCurrentIndex(i);
         }
     }
 }
