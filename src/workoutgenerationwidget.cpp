@@ -43,13 +43,21 @@ namespace FreeFit
 
         void ToggleContainer::setContent(QWidget* c)
         {
+            content = c;
             delete contentArea.layout();
             QVBoxLayout content_area_ly;
-            content_area_ly.addWidget(c);
+            content_area_ly.addWidget(content);
             contentArea.setLayout(&content_area_ly);
+            updatePropertyAnimations();
+            content->show();
+        }
+
+        void ToggleContainer::updatePropertyAnimations()
+        {
             const auto collapsedHeight = sizeHint().height() - contentArea.maximumHeight();
-            auto contentHeight = c->rect().height();
-            for (int i = 0; i < toggleAnimation.animationCount() - 1; ++i) {
+            auto contentHeight = content->rect().height();
+            for (int i = 0; i < toggleAnimation.animationCount() - 1; ++i)
+            {
                 QPropertyAnimation * spoilerAnimation = static_cast<QPropertyAnimation *>(toggleAnimation.animationAt(i));
                 spoilerAnimation->setDuration(animationDuration);
                 spoilerAnimation->setStartValue(collapsedHeight);
@@ -59,7 +67,6 @@ namespace FreeFit
             contentAnimation->setDuration(animationDuration);
             contentAnimation->setStartValue(0);
             contentAnimation->setEndValue(contentHeight);
-            c->show();
         }
 
         // Remove text argument from constructor!!
@@ -309,21 +316,20 @@ namespace FreeFit
             workout_options.push_back(all_exercises_workout);
             all_exercises_container->setContent(all_exercises_workout);
             addWidget(all_exercises_container,0,0);
-/*
+
             std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* filtered_exercises_container = new ToggleContainer("Filtered by muscle groups",300,this);
             filtered_exercises_workout = new FilteredExercisesWorkoutOption("",w2);
             workout_options.push_back(filtered_exercises_workout);
-            all_exercises_container->setContent(filtered_exercises_container);
+            filtered_exercises_container->setContent(filtered_exercises_workout);
             addWidget(filtered_exercises_container,1,0);
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w3 = std::make_shared<FreeFit::Data::CustomExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* custom_exercises_container = new ToggleContainer("Custom Exercises",300,this);
             custom_exercises_workout = new CustomExercisesWorkoutOption("",w3);                
             workout_options.push_back(custom_exercises_workout);
-            all_exercises_container->setContent(custom_exercises_container);
+            custom_exercises_container->setContent(custom_exercises_workout);
             addWidget(custom_exercises_container,2,0);
-*/
 /*
             option_selection->setStyleSheet("background-color:#f8f8ff;");
             all_exercises_workout->setSelected(true);
