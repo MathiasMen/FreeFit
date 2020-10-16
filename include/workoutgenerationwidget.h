@@ -64,7 +64,7 @@ namespace FreeFit
         Q_OBJECT
         friend WorkoutGenerationWidgetValidator;
         public:
-            WorkoutOptionBase(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
+            WorkoutOptionBase(std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
 
             virtual void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
         
@@ -106,7 +106,7 @@ namespace FreeFit
         Q_OBJECT
         friend WorkoutGenerationWidgetValidator;
         public:
-            AllExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
+            AllExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::WorkoutBase> w = nullptr, QWidget* parent = nullptr);
 
             void prepareWorkoutGeneration(){}
 
@@ -118,7 +118,7 @@ namespace FreeFit
         Q_OBJECT
         friend WorkoutGenerationWidgetValidator;
         public:
-            FilteredExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w = nullptr, QWidget* parent = nullptr);
+            FilteredExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w = nullptr, QWidget* parent = nullptr);
 
             void prepareWorkoutGeneration();
 
@@ -133,7 +133,7 @@ namespace FreeFit
         {
         Q_OBJECT
         public:
-            CustomExercisesWorkoutOption(QString text = "", std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
+            CustomExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
             void prepareWorkoutGeneration();
             void setColor(std::string c);
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);

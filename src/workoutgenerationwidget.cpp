@@ -69,8 +69,7 @@ namespace FreeFit
             contentAnimation->setEndValue(contentHeight);
         }
 
-        // Remove text argument from constructor!!
-        WorkoutOptionBase::WorkoutOptionBase(QString text, std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : QWidget(parent), workout_data(w)
+        WorkoutOptionBase::WorkoutOptionBase(std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : QWidget(parent), workout_data(w)
         {
             possible_options_widget = new QWidget(this);
             QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
@@ -150,13 +149,13 @@ namespace FreeFit
                 workout_data->setTimeOfExercises(std::stoi(time_of_exercises->text().toStdString()));
         }
 
-        AllExercisesWorkoutOption::AllExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
+        AllExercisesWorkoutOption::AllExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : WorkoutOptionBase(w,parent)
         {
             QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
             possible_options_widget->layout()->addItem(vertical_spacer);
         }
 
-        FilteredExercisesWorkoutOption::FilteredExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
+        FilteredExercisesWorkoutOption::FilteredExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w, QWidget* parent) : WorkoutOptionBase(w,parent)
         {
             muscle_areas = new HashtagBar(this);
             for (auto m : muscle_definitions.strings)
@@ -172,7 +171,7 @@ namespace FreeFit
             specialized_workout->setSelectedAreas(muscle_areas->getToggledStrings());
         }
 
-        CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(QString text, std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(text,w,parent)
+        CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(w,parent)
         {
             filter_container = new QWidget(this);
             filter_container_ly = new QHBoxLayout(filter_container);
@@ -312,21 +311,21 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* all_exercises_container = new ToggleContainer("Random Exercises",300,this);
-            all_exercises_workout = new AllExercisesWorkoutOption("",w1);
+            all_exercises_workout = new AllExercisesWorkoutOption(w1);
             workout_options.push_back(all_exercises_workout);
             all_exercises_container->setContent(all_exercises_workout);
             addWidget(all_exercises_container,0,0);
 
             std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* filtered_exercises_container = new ToggleContainer("Filtered by muscle groups",300,this);
-            filtered_exercises_workout = new FilteredExercisesWorkoutOption("",w2);
+            filtered_exercises_workout = new FilteredExercisesWorkoutOption(w2);
             workout_options.push_back(filtered_exercises_workout);
             filtered_exercises_container->setContent(filtered_exercises_workout);
             addWidget(filtered_exercises_container,1,0);
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w3 = std::make_shared<FreeFit::Data::CustomExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* custom_exercises_container = new ToggleContainer("Custom Exercises",300,this);
-            custom_exercises_workout = new CustomExercisesWorkoutOption("",w3);                
+            custom_exercises_workout = new CustomExercisesWorkoutOption(w3);                
             workout_options.push_back(custom_exercises_workout);
             custom_exercises_container->setContent(custom_exercises_workout);
             addWidget(custom_exercises_container,2,0);
