@@ -74,7 +74,6 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::WorkoutBase> getWorkout(){return workout_data;}
 
-            QWidget* getOptionsWidget();            
             virtual void prepareWorkoutGeneration() = 0;
             virtual void setColor(std::string c) = 0;
 
@@ -94,7 +93,6 @@ namespace FreeFit
             QString name;
             bool selected = false;
             std::shared_ptr<FreeFit::Data::WorkoutBase> workout_data;
-            QWidget* possible_options_widget = nullptr;
             QLabel* n_exercises_lbl;
             MaterialTextField* number_of_rounds;
             MaterialTextField* max_number_of_exercises;

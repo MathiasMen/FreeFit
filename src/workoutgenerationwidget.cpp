@@ -31,7 +31,6 @@ namespace FreeFit
         {
             content = c;
             content->setStyleSheet("background-color: white; border: none;");
-            content->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
             content->setMaximumHeight(0);
             content->setMinimumHeight(0);
             content->setName(toggle_button.text());
@@ -62,7 +61,7 @@ namespace FreeFit
         void ToggleContainer::updateAnimationProperties()
         {
             const unsigned int min_value = 0;
-            const unsigned int max_value = sizeHint().height();
+            const unsigned int max_value = content->sizeHint().height();
 
             min_height_animation->setDuration(animation_duration);
             min_height_animation->setStartValue(min_value);
@@ -74,26 +73,25 @@ namespace FreeFit
 
         WorkoutOptionBase::WorkoutOptionBase(std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : QWidget(parent), workout_data(w)
         {
-            possible_options_widget = new QWidget(this);
-            QVBoxLayout* ly = new QVBoxLayout(possible_options_widget);
+            QVBoxLayout* ly = new QVBoxLayout(this);
 
             n_exercises_lbl = new QLabel(this);
 
             const unsigned int textfield_width = 300;
 
-            number_of_rounds = new MaterialTextField("Number of rounds",possible_options_widget);
+            number_of_rounds = new MaterialTextField("Number of rounds",this);
             number_of_rounds->setFixedWidth(textfield_width);
             std::regex rounds_regex("[1-9]");
             auto func_rounds_regex = [rounds_regex](std::string s)->bool{return std::regex_match(s,rounds_regex);};
             number_of_rounds->setValidationFunction(func_rounds_regex);
 
-            max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",possible_options_widget);
+            max_number_of_exercises = new MaterialTextField("Maximum number of exercises per round",this);
             max_number_of_exercises->setFixedWidth(textfield_width);
             std::regex no_of_exercises_regex("[1-9]");
             auto func_no_exercises_regex = [no_of_exercises_regex](std::string s)->bool{return std::regex_match(s,no_of_exercises_regex);};
             max_number_of_exercises->setValidationFunction(func_no_exercises_regex);
 
-            time_of_exercises = new MaterialTextField("Time of exercises",possible_options_widget);
+            time_of_exercises = new MaterialTextField("Time of exercises",this);
             time_of_exercises->setFixedWidth(textfield_width);
             std::regex time_of_exercise_regex("[1-9][0-9]{0,2}");
             auto func_time_of_exercise_regex = [time_of_exercise_regex](std::string s)->bool{return std::regex_match(s,time_of_exercise_regex);};
@@ -126,14 +124,6 @@ namespace FreeFit
             workout_data->generate();
         }
 
-        QWidget* WorkoutOptionBase::getOptionsWidget()
-        {
-            if (possible_options_widget != nullptr)
-                return possible_options_widget;
-            else
-                return nullptr;
-        }
-
         void WorkoutOptionBase::numberOfRoundsChanged()
         {
             if (!number_of_rounds->text().isEmpty() && number_of_rounds->validateText())
@@ -155,7 +145,7 @@ namespace FreeFit
         AllExercisesWorkoutOption::AllExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : WorkoutOptionBase(w,parent)
         {
             QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
-            possible_options_widget->layout()->addItem(vertical_spacer);
+            layout()->addItem(vertical_spacer);
         }
 
         FilteredExercisesWorkoutOption::FilteredExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w, QWidget* parent) : WorkoutOptionBase(w,parent)
@@ -163,9 +153,9 @@ namespace FreeFit
             muscle_areas = new HashtagBar(this);
             for (auto m : muscle_definitions.strings)
                 muscle_areas->addHashtag(m);
-            possible_options_widget->layout()->addWidget(muscle_areas);
+            layout()->addWidget(muscle_areas);
             QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
-            possible_options_widget->layout()->addItem(vertical_spacer);
+            layout()->addItem(vertical_spacer);
             specialized_workout = w;
         }
 
@@ -205,11 +195,11 @@ namespace FreeFit
             lists_container_ly->addWidget(remove_button,1,1,1,1);
             lists_container_ly->addWidget(selected_exercises_list,0,2,2,1);
 
-            possible_options_widget->layout()->addWidget(filter_container);
-            possible_options_widget->layout()->addWidget(lists_container);
+            layout()->addWidget(filter_container);
+            layout()->addWidget(lists_container);
 
             QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
-            possible_options_widget->layout()->addItem(vertical_spacer);
+            layout()->addItem(vertical_spacer);
             specialized_workout = w;
 
             updateExistingExercises();
