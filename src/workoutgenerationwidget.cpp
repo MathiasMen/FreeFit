@@ -30,7 +30,6 @@ namespace FreeFit
         void ToggleContainer::setContent(WorkoutOptionBase* c)
         {
             content = c;
-            content->setStyleSheet("background-color: white; border: none;");
             content->setMaximumHeight(0);
             content->setMinimumHeight(0);
             content->setName(toggle_button.text());
