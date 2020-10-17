@@ -42,12 +42,6 @@ namespace FreeFit
             explicit ToggleContainer(const QString & title = "", const int animationDuration = 300, QWidget *parent = 0);
             void setContent(WorkoutOptionBase* c);
             void toggle();
-        protected:
-            void resizeEvent(QResizeEvent* ev)
-            {
-                updateAnimationProperties();
-                QWidget::resizeEvent(ev);
-            }
         private:
             void updateAnimationProperties();
 
