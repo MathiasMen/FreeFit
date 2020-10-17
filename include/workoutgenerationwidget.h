@@ -38,13 +38,6 @@ namespace FreeFit
         class ToggleContainer : public QWidget
         {
         Q_OBJECT
-        private:
-            QGridLayout mainLayout;
-            QToolButton toggleButton;
-            QFrame headerLine;
-            QParallelAnimationGroup toggleAnimation;
-            QScrollArea contentArea;
-            int animationDuration{300};
         public:
             explicit ToggleContainer(const QString & title = "", const int animationDuration = 300, QWidget *parent = 0);
             void setContent(WorkoutOptionBase* c);
@@ -52,12 +45,19 @@ namespace FreeFit
         protected:
             void resizeEvent(QResizeEvent* ev)
             {
-                updatePropertyAnimations();
+                updateAnimationProperties();
                 QWidget::resizeEvent(ev);
             }
         private:
-            void updatePropertyAnimations();
+            void updateAnimationProperties();
 
+            QGridLayout main_layout;
+            QToolButton toggle_button;
+            QFrame header_line;
+            QParallelAnimationGroup* toggle_animation;
+            QPropertyAnimation* min_height_animation;
+            QPropertyAnimation* max_height_animation;
+            int animation_duration{300};
             WorkoutOptionBase* content;
         };
 

@@ -4,77 +4,72 @@ namespace FreeFit
 {
     namespace GUI
     {
-        ToggleContainer::ToggleContainer(const QString & title, const int animationDuration, QWidget *parent) : QWidget(parent), animationDuration(animationDuration)
+        ToggleContainer::ToggleContainer(const QString & title, const int a_d, QWidget *parent) : QWidget(parent), animation_duration(a_d)
         {
-            toggleButton.setStyleSheet("QToolButton { border: none; }");
-            toggleButton.setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-            toggleButton.setArrowType(Qt::ArrowType::RightArrow);
-            toggleButton.setText(title);
-            toggleButton.setCheckable(true);
-            toggleButton.setChecked(false);
+            toggle_button.setStyleSheet("QToolButton { border: none; }");
+            toggle_button.setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+            toggle_button.setArrowType(Qt::ArrowType::RightArrow);
+            toggle_button.setText(title);
+            toggle_button.setCheckable(true);
+            toggle_button.setChecked(false);
 
-            headerLine.setFrameShape(QFrame::HLine);
-            headerLine.setFrameShadow(QFrame::Sunken);
-            headerLine.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+            toggle_animation = new QParallelAnimationGroup;
 
-            contentArea.setStyleSheet("QScrollArea { background-color: white; border: none; }");
-            contentArea.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-            // start out collapsed
-            contentArea.setMaximumHeight(0);
-            contentArea.setMinimumHeight(0);
-            // let the entire widget grow and shrink with its content
-            toggleAnimation.addAnimation(new QPropertyAnimation(this, "minimumHeight"));
-            toggleAnimation.addAnimation(new QPropertyAnimation(this, "maximumHeight"));
-            toggleAnimation.addAnimation(new QPropertyAnimation(&contentArea, "maximumHeight"));
-            // don't waste space
-            mainLayout.setVerticalSpacing(0);
-            mainLayout.setContentsMargins(0, 0, 0, 0);
+            header_line.setFrameShape(QFrame::HLine);
+            header_line.setFrameShadow(QFrame::Sunken);
+            header_line.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+
+            main_layout.setVerticalSpacing(0);
+            main_layout.setContentsMargins(0, 0, 0, 0);
             int row = 0;
-            mainLayout.addWidget(&toggleButton, row, 0, 1, 1, Qt::AlignLeft);
-            mainLayout.addWidget(&headerLine, row++, 2, 1, 1);
-            mainLayout.addWidget(&contentArea, row, 0, 1, 3);
-            setLayout(&mainLayout);
-            QObject::connect(&toggleButton, &QToolButton::clicked, [this](const bool checked)
-            {
-                content->setSelected(checked);
-                toggleButton.setArrowType(checked ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
-                toggleAnimation.setDirection(checked ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
-                toggleAnimation.start();
-            });
+            main_layout.addWidget(&toggle_button, row, 0, 1, 1, Qt::AlignLeft);
+            main_layout.addWidget(&header_line, row++, 2, 1, 1);
+            setLayout(&main_layout);
         }
 
         void ToggleContainer::setContent(WorkoutOptionBase* c)
         {
             content = c;
-            content->setName(toggleButton.text());
-            delete contentArea.layout();
-            QVBoxLayout content_area_ly;
-            content_area_ly.addWidget(content);
-            contentArea.setLayout(&content_area_ly);
-            updatePropertyAnimations();
+            content->setStyleSheet("background-color: white; border: none;");
+            content->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            content->setMaximumHeight(0);
+            content->setMinimumHeight(0);
+            content->setName(toggle_button.text());
+
+            min_height_animation = new QPropertyAnimation(content,"minimumHeight");
+            max_height_animation = new QPropertyAnimation(content,"maximumHeight");
+            toggle_animation->addAnimation(min_height_animation);
+            toggle_animation->addAnimation(max_height_animation);
+
+            main_layout.addWidget(content, 1, 0, 1, 3);
+
+            QObject::connect(&toggle_button, &QToolButton::clicked, [this](const bool checked)
+            {
+                content->setSelected(checked);
+                updateAnimationProperties();
+                toggle_button.setArrowType(checked ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
+                toggle_animation->setDirection(checked ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
+                toggle_animation->start();
+            });
             content->show();
         }
 
         void ToggleContainer::toggle()
         {
-            toggleButton.click();
+            toggle_button.click();
         }
 
-        void ToggleContainer::updatePropertyAnimations()
+        void ToggleContainer::updateAnimationProperties()
         {
-            const auto collapsedHeight = sizeHint().height() - contentArea.maximumHeight();
-            auto contentHeight = content->rect().height();
-            for (int i = 0; i < toggleAnimation.animationCount() - 1; ++i)
-            {
-                QPropertyAnimation * spoilerAnimation = static_cast<QPropertyAnimation *>(toggleAnimation.animationAt(i));
-                spoilerAnimation->setDuration(animationDuration);
-                spoilerAnimation->setStartValue(collapsedHeight);
-                spoilerAnimation->setEndValue(collapsedHeight + contentHeight);
-            }
-            QPropertyAnimation * contentAnimation = static_cast<QPropertyAnimation *>(toggleAnimation.animationAt(toggleAnimation.animationCount() - 1));
-            contentAnimation->setDuration(animationDuration);
-            contentAnimation->setStartValue(0);
-            contentAnimation->setEndValue(contentHeight);
+            const unsigned int min_value = 0;
+            const unsigned int max_value = sizeHint().height();
+
+            min_height_animation->setDuration(animation_duration);
+            min_height_animation->setStartValue(min_value);
+            min_height_animation->setEndValue(max_value);
+            max_height_animation->setDuration(animation_duration);
+            max_height_animation->setStartValue(min_value);
+            max_height_animation->setEndValue(max_value);
         }
 
         WorkoutOptionBase::WorkoutOptionBase(std::shared_ptr<FreeFit::Data::WorkoutBase> w, QWidget* parent) : QWidget(parent), workout_data(w)
