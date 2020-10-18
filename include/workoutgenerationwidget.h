@@ -41,7 +41,11 @@ namespace FreeFit
         public:
             explicit ToggleContainer(const QString & title = "", const int animationDuration = 300, QWidget *parent = 0);
             void setContent(WorkoutOptionBase* c);
-            void toggle();
+            
+            void setSelected(bool s);
+            bool isSelected();
+        signals:
+            void selected(ToggleContainer*,bool);
         private:
             void updateAnimationProperties();
 

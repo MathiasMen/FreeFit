@@ -41,20 +41,24 @@ namespace FreeFit
 
             main_layout.addWidget(content, 1, 0, 1, 3);
 
-            QObject::connect(&toggle_button, &QToolButton::clicked, [this](const bool checked)
-            {
-                content->setSelected(checked);
-                updateAnimationProperties();
-                toggle_button.setArrowType(checked ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
-                toggle_animation->setDirection(checked ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
-                toggle_animation->start();
-            });
+            QObject::connect(&toggle_button, &QToolButton::clicked, [this](const bool checked){setSelected(checked);});
             content->show();
         }
 
-        void ToggleContainer::toggle()
+        void ToggleContainer::setSelected(bool s)
         {
-            toggle_button.click();
+            toggle_button.setChecked(s);
+            content->setSelected(s);
+            updateAnimationProperties();
+            toggle_button.setArrowType(s ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
+            toggle_animation->setDirection(s ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
+            toggle_animation->start();
+            emit selected(this,s);
+        }
+
+        bool ToggleContainer::isSelected()
+        {
+            return content->isSelected();
         }
 
         void ToggleContainer::updateAnimationProperties()
@@ -325,11 +329,7 @@ namespace FreeFit
             all_exercises_workout->setRounds(3);
             filtered_exercises_workout->setRounds(3);
             custom_exercises_workout->setRounds(3);
-            all_exercises_container->toggle();
-
-/*
-            option_selection->setStyleSheet("background-color:#f8f8ff;");
-*/
+            all_exercises_container->setSelected(true);
         }
 
         // ADAPT CONTAINERS!
