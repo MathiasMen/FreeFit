@@ -41,19 +41,18 @@ namespace FreeFit
 
             main_layout.addWidget(content, 1, 0, 1, 3);
 
-            QObject::connect(&toggle_button, &QToolButton::clicked, [this](const bool checked){setSelected(checked);});
+            QObject::connect(&toggle_button, &QToolButton::clicked, [this](){emit selected(this,!this->content->isSelected());});
             content->show();
         }
 
-        void ToggleContainer::setSelected(bool s)
+        void ToggleContainer::setSelected(bool s, bool animation)
         {
             toggle_button.setChecked(s);
             content->setSelected(s);
-            updateAnimationProperties();
+            updateAnimationProperties(animation);
             toggle_button.setArrowType(s ? Qt::ArrowType::DownArrow : Qt::ArrowType::RightArrow);
             toggle_animation->setDirection(s ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
             toggle_animation->start();
-            emit selected(this,s);
         }
 
         bool ToggleContainer::isSelected()
@@ -61,15 +60,23 @@ namespace FreeFit
             return content->isSelected();
         }
 
-        void ToggleContainer::updateAnimationProperties()
+        void ToggleContainer::updateAnimationProperties(bool animation)
         {
             const unsigned int min_value = 0;
             const unsigned int max_value = content->sizeHint().height();
 
-            min_height_animation->setDuration(animation_duration);
+            if (animation)
+            {
+                min_height_animation->setDuration(animation_duration);
+                max_height_animation->setDuration(animation_duration);
+            }
+            else
+            {
+                min_height_animation->setDuration(0);
+                max_height_animation->setDuration(0);
+            }
             min_height_animation->setStartValue(min_value);
             min_height_animation->setEndValue(max_value);
-            max_height_animation->setDuration(animation_duration);
             max_height_animation->setStartValue(min_value);
             max_height_animation->setEndValue(max_value);
         }
@@ -307,6 +314,8 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::AllExercisesWorkout> w1 = std::make_shared<FreeFit::Data::AllExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* all_exercises_container = new ToggleContainer("Random Exercises",300,this);
+            workout_containers.push_back(all_exercises_container);
+            connect(all_exercises_container,SIGNAL(selected(ToggleContainer*,bool)),this,SLOT(handleToggleContainerSelected(ToggleContainer*,bool)));
             all_exercises_workout = new AllExercisesWorkoutOption(w1);
             workout_options.push_back(all_exercises_workout);
             all_exercises_container->setContent(all_exercises_workout);
@@ -314,6 +323,8 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::FilteredByMusclesWorkout> w2 = std::make_shared<FreeFit::Data::FilteredByMusclesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* filtered_exercises_container = new ToggleContainer("Filtered by muscle groups",300,this);
+            connect(filtered_exercises_container,SIGNAL(selected(ToggleContainer*,bool)),this,SLOT(handleToggleContainerSelected(ToggleContainer*,bool)));
+            workout_containers.push_back(filtered_exercises_container);
             filtered_exercises_workout = new FilteredExercisesWorkoutOption(w2);
             workout_options.push_back(filtered_exercises_workout);
             filtered_exercises_container->setContent(filtered_exercises_workout);
@@ -321,6 +332,8 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w3 = std::make_shared<FreeFit::Data::CustomExercisesWorkout>(std::list<FreeFit::Data::Exercise>());
             ToggleContainer* custom_exercises_container = new ToggleContainer("Custom Exercises",300,this);
+            connect(custom_exercises_container,SIGNAL(selected(ToggleContainer*,bool)),this,SLOT(handleToggleContainerSelected(ToggleContainer*,bool)));
+            workout_containers.push_back(custom_exercises_container);
             custom_exercises_workout = new CustomExercisesWorkoutOption(w3);                
             workout_options.push_back(custom_exercises_workout);
             custom_exercises_container->setContent(custom_exercises_workout);
@@ -364,6 +377,17 @@ namespace FreeFit
         {
             getSelectedWorkout()->generateWorkout();
             QDialog::accept();
+        }
+
+        void WorkoutGenerationWidget::handleToggleContainerSelected(ToggleContainer* sender, bool selected)
+        {
+            if (selected)
+            {
+                for (auto c : workout_containers)
+                    c->setSelected(false,false);
+
+                sender->setSelected(true);
+            }
         }
     }
 }

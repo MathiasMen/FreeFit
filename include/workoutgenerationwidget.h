@@ -42,12 +42,12 @@ namespace FreeFit
             explicit ToggleContainer(const QString & title = "", const int animationDuration = 300, QWidget *parent = 0);
             void setContent(WorkoutOptionBase* c);
             
-            void setSelected(bool s);
+            void setSelected(bool s, bool animation = true);
             bool isSelected();
         signals:
             void selected(ToggleContainer*,bool);
         private:
-            void updateAnimationProperties();
+            void updateAnimationProperties(bool animation = true);
 
             QGridLayout main_layout;
             QToolButton toggle_button;
@@ -178,6 +178,8 @@ namespace FreeFit
 
         public slots:
             void accept() override;
+        private slots:
+            void handleToggleContainerSelected(ToggleContainer* sender, bool selected);
         private:
             QStackedWidget* options_canvas;
             QWidget* option_selection;
@@ -186,6 +188,7 @@ namespace FreeFit
             WorkoutOptionBase* filtered_exercises_workout;
             WorkoutOptionBase* custom_exercises_workout;
             std::vector<WorkoutOptionBase*> workout_options;
+            std::vector<ToggleContainer*> workout_containers;
             ControlButton* next_page_button;
             ControlButton* previous_page_button;
         };
