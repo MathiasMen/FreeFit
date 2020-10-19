@@ -139,6 +139,9 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
     "    <PERFFACTOR>\n"
     "      1,000000\n"
     "    </PERFFACTOR>\n"
+    "    <WORKOUTDB>\n"
+    "      ${CMAKE_BINARY_DIR}/Mathias_workouts.xml\n"
+    "    </WORKOUTDB>\n"
     "  </PROFILE>\n"
     "  <PROFILE>\n"
     "    <NAME>\n"
@@ -157,6 +160,9 @@ TEST_F(ProfileEditor,CreateProfilesAndWriteXML)
     "    <PERFFACTOR>\n"
     "      1,000000\n"
     "    </PERFFACTOR>\n"
+    "    <WORKOUTDB>\n"
+    "      ${CMAKE_BINARY_DIR}/Constanze_workouts.xml\n"
+    "    </WORKOUTDB>\n"
     "  </PROFILE>\n"
     "</PROFILES>\n";
 
@@ -199,6 +205,9 @@ TEST_F(ProfileEditor,WriteXML)
     "    <PERFFACTOR>\n"
     "      10,000000\n"
     "    </PERFFACTOR>\n"
+    "    <WORKOUTDB>\n"
+    "      ${CMAKE_BINARY_DIR}/Mathias_workouts.xml\n"
+    "    </WORKOUTDB>\n"
     "  </PROFILE>\n"
     "  <PROFILE>\n"
     "    <NAME>\n"
@@ -219,6 +228,9 @@ TEST_F(ProfileEditor,WriteXML)
     "    <PERFFACTOR>\n"
     "      11,000000\n"
     "    </PERFFACTOR>\n"
+    "    <WORKOUTDB>\n"
+    "      ${CMAKE_BINARY_DIR}/Constanze_workouts.xml\n"
+    "    </WORKOUTDB>\n"
     "  </PROFILE>\n"
     "</PROFILES>\n";
 

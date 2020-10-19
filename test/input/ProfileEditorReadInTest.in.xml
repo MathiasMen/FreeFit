@@ -18,6 +18,9 @@
     <PERFFACTOR>
       10,000000
     </PERFFACTOR>
+    <WORKOUTDB>
+      ${CMAKE_BINARY_DIR}/Mathias_workouts.xml
+    </WORKOUTDB>
   </PROFILE>
   <PROFILE>
     <NAME>
@@ -38,5 +41,8 @@
     <PERFFACTOR>
       11,000000
     </PERFFACTOR>
+    <WORKOUTDB>
+      ${CMAKE_BINARY_DIR}/Constanze_workouts.xml
+    </WORKOUTDB>
   </PROFILE>
 </PROFILES>
