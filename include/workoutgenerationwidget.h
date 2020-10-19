@@ -17,6 +17,7 @@
 #include <QLabel>
 #include <QStyle>
 #include <QSizePolicy>
+#include <QComboBox>
 
 #include "include/exercise.h"
 #include "include/exerciseeditor.h"
@@ -25,8 +26,6 @@
 #include "include/hashtagbar.h"
 #include "include/materialdialog.h"
 #include "include/materialtextfield.h"
-
-#include <iostream>
 
 namespace FreeFit
 {
@@ -148,6 +147,8 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
 
+            MaterialTextField* workout_name_ln;
+            QComboBox* custom_workout_selection;
             QWidget* filter_container;
             QHBoxLayout* filter_container_ly;
             MaterialTextField* exercises_filter_ln;

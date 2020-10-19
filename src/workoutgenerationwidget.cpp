@@ -176,6 +176,9 @@ namespace FreeFit
 
         CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(w,parent)
         {
+            workout_name_ln = new MaterialTextField("Workout Name",this);
+            custom_workout_selection = new QComboBox(this);
+
             filter_container = new QWidget(this);
             filter_container_ly = new QHBoxLayout(filter_container);
             exercises_filter_ln = new MaterialTextField("Filter",filter_container);
@@ -205,6 +208,8 @@ namespace FreeFit
             lists_container_ly->addWidget(remove_button,1,1,1,1);
             lists_container_ly->addWidget(selected_exercises_list,0,2,2,1);
 
+            layout()->addWidget(workout_name_ln);
+            layout()->addWidget(custom_workout_selection);
             layout()->addWidget(filter_container);
             layout()->addWidget(lists_container);
 
