@@ -64,7 +64,10 @@ namespace FreeFit
                 for (auto& p : v_p)
                     if (!p.isNewProfileProfile())
                         if (p.getPathToExerciseDB().empty())
+                        {
                             p.generatePathToExerciseDB();
+                            p.generatePathToCustomWorkoutDB();
+                        }
                 
                 for(auto p : v_p)
                     if (!p.isNewProfileProfile())

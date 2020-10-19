@@ -11,16 +11,21 @@ namespace FreeFit
             public:
                 static Profile buildNewProfileProfile()
                 {
-                    return Profile("New Profile","#ff0000","","","",1.0);
+                    return Profile("New Profile","#ff0000","","","",1.0,"");
                 }
 
                 Profile(){};
-                Profile(std::string n,std::string c,std::string p_path,std::string date,std::string db_path,double perf);
+                Profile(std::string n,std::string c,std::string p_path,std::string date,std::string db_path,double perf,std::string w_db_path);
 
                 bool isNewProfileProfile();
                 void generatePathToExerciseDB()
                 {
                     this->path_to_exercise_database = "${CMAKE_BINARY_DIR}/" + name + ".xml";
+                }
+
+                void generatePathToCustomWorkoutDB()
+                {
+                    this->path_to_custom_workouts_db = "${CMAKE_BINARY_DIR}/" + name + "_workouts.xml";
                 }
 
                 void setName(std::string n){name = n;}
@@ -40,6 +45,9 @@ namespace FreeFit
 
                 void setPerformanceFactor(double p){performance_factor = p;}
                 double getPerformanceFactor(){return performance_factor;}
+
+                void setPathToCustomWorkoutsDB(std::string db){path_to_custom_workouts_db = db;}
+                std::string getPathToCustomWorkoutsDB(){return path_to_custom_workouts_db;}
             private:
                 std::string name;
                 std::string color;
@@ -47,6 +55,7 @@ namespace FreeFit
                 std::string date_of_last_workout;
                 std::string path_to_exercise_database;
                 double performance_factor;
+                std::string path_to_custom_workouts_db;
         };
     }
 }

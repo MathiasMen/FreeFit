@@ -4,8 +4,8 @@ namespace FreeFit
 {
     namespace Data
     {
-        Profile::Profile(std::string n,std::string c,std::string p_path,std::string date,std::string db_path,double perf)
-        :name(n),color(c),picture_path(p_path),date_of_last_workout(date),path_to_exercise_database(db_path),performance_factor(perf)
+        Profile::Profile(std::string n,std::string c,std::string p_path,std::string date,std::string db_path,double perf,std::string w_db_path)
+        :name(n),color(c),picture_path(p_path),date_of_last_workout(date),path_to_exercise_database(db_path),performance_factor(perf),path_to_custom_workouts_db(w_db_path)
         {
             
         }
