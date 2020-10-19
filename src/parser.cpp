@@ -60,6 +60,9 @@ namespace FreeFit
 
             if(root->findFirstChild("PERFFACTOR"))
                 p.setPerformanceFactor(std::stod(root->findFirstChild("PERFFACTOR")->getValue()));
+
+            if(root->findFirstChild("WORKOUTDB"))
+                p.setPathToCustomWorkoutsDB(root->findFirstChild("WORKOUTDB")->getValue());
             return p;
         }
     }
