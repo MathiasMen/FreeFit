@@ -176,8 +176,16 @@ namespace FreeFit
 
         CustomExercisesWorkoutOption::CustomExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w, QWidget* parent) : WorkoutOptionBase(w,parent)
         {
-            workout_name_ln = new MaterialTextField("Workout Name",this);
-            custom_workout_selection = new QComboBox(this);
+            QWidget* workout_selection = new QWidget(this);
+            QGridLayout* workout_selection_ly = new QGridLayout(workout_selection);
+            workout_name_ln = new MaterialTextField("Workout Name",workout_selection);
+            custom_workout_selection = new QComboBox(workout_selection);
+            save_workout_button = new QPushButton("Save",workout_selection);
+            delete_workout_button = new QPushButton("Delete",workout_selection);
+            workout_selection_ly->addWidget(workout_name_ln,0,0);
+            workout_selection_ly->addWidget(save_workout_button,0,1);
+            workout_selection_ly->addWidget(custom_workout_selection,1,0);
+            workout_selection_ly->addWidget(delete_workout_button,1,1);
 
             filter_container = new QWidget(this);
             filter_container_ly = new QHBoxLayout(filter_container);
@@ -208,8 +216,7 @@ namespace FreeFit
             lists_container_ly->addWidget(remove_button,1,1,1,1);
             lists_container_ly->addWidget(selected_exercises_list,0,2,2,1);
 
-            layout()->addWidget(workout_name_ln);
-            layout()->addWidget(custom_workout_selection);
+            layout()->addWidget(workout_selection);
             layout()->addWidget(filter_container);
             layout()->addWidget(lists_container);
 
