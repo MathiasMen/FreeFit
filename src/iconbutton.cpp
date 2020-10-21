@@ -8,7 +8,6 @@ namespace FreeFit
         {
             const int pixmap_height = size;
             const int pixmap_width = size;
-            const int padding = 2;
 
             QPushButton::paintEvent(ev);
 

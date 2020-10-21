@@ -107,8 +107,7 @@ namespace FreeFit
             name_label->setFixedSize(width*0.9,height*0.9);
             name_label->setAlignment(Qt::AlignCenter);
             
-            edit_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/edit.svg"),"",this);
-            edit_button->setFixedSize(width*0.1,height*0.1);
+            edit_button = new IconButton(QIcon("${CMAKE_SOURCE_DIR}/tools/edit.svg"),"",this,20,6);
             edit_button->setStyleSheet("color:grey; border-style:none;");
             connect(edit_button,&QPushButton::clicked,this,[this]()
             {
