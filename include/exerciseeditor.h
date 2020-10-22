@@ -234,6 +234,7 @@ namespace FreeFit
             void downloadAllExercises();            
             void deleteExercise(ExerciseItem* e);
             void writeXML();
+            void setTabsCss();
         };
 
         class ExerciseEditorValidator : public QWidget

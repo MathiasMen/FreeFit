@@ -301,15 +301,7 @@ namespace FreeFit
             tab_widget->setTabPosition(QTabWidget::North);
             tab_widget->addTab(old_exercises_widget,"Edit old Exercises");            
             tab_widget->addTab(new_exercises_widget,"Add new Exercises");
-            QString tab_css_const_part( "height: 25px;"
-                                        "border-top: 2px solid red; border-right: 2px solid red;"
-                                        "border-left: 2px solid red; border-top-left-radius:4px;"
-                                        "border-top-right-radius:4px; padding:5px; margin-left:2px;"
-                                        "margin-right:2px; margin-bottom:-2px;");
-            tab_widget->setStyleSheet( "QTabWidget::pane {border: 1px solid grey;} \n"
-                                        "QTabBar::tab {background-color:white; color:red;" + tab_css_const_part + "}\n"
-                                        "QTabBar::tab::selected {background-color:red; color:white;" + tab_css_const_part + "} \n"
-                                        "QTabWidget::tab-bar {left: 5px;}");
+            setTabsCss();
             addWidget(tab_widget,0,0);
 
             r.read();
@@ -320,6 +312,7 @@ namespace FreeFit
                 addExercise();
 
             updateDownloadButtonStatus();
+            setColor("#ff0000");
         }
         
         void ExerciseEditor::setColor(std::string c)
@@ -333,6 +326,8 @@ namespace FreeFit
                 ex->setColor(c);
             for (auto new_ex : new_exercise_items)
                 new_ex->setColor(c);
+
+            setTabsCss();
         }
 
         void ExerciseEditor::accept()
@@ -553,6 +548,20 @@ namespace FreeFit
         std::list<FreeFit::Data::Exercise> ExerciseEditor::getExerciseData()
         {
             return r.getExerciseList();
+        }
+
+        void ExerciseEditor::setTabsCss()
+        {
+            QString c = QString::fromStdString(color);
+            QString tab_css_const_part( "height: 25px;"
+                                        "border-top: 2px solid " + c + "; border-right: 2px solid " + c + ";"
+                                        "border-left: 2px solid " + c + "; border-top-left-radius:4px;"
+                                        "border-top-right-radius:4px; padding:5px; margin-left:2px;"
+                                        "margin-right:2px; margin-bottom:-2px;");
+            tab_widget->setStyleSheet(  "QTabWidget::pane {border: 1px solid grey;} \n"
+                                        "QTabBar::tab {background-color:white; color:" + c + ";" + tab_css_const_part + "}\n"
+                                        "QTabBar::tab::selected {background-color:"+ c + "; color:white;" + tab_css_const_part + "} \n"
+                                        "QTabWidget::tab-bar {left: 5px;}");
         }
 
         std::shared_ptr<DownloadExerciseDemand> ExerciseEditorValidator::getFirstExerciseDemand()
