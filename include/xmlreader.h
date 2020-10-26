@@ -56,7 +56,7 @@ namespace FreeFit
         {
         public:
             WorkoutXMLReader(std::string f):BaseXMLReader(f){}
-            std::list<Workout> getWorkoutList();
-        }    
+            std::list<CustomExercisesWorkout> getWorkoutList();
+        };
     }
 }

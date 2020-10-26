@@ -119,9 +119,9 @@ namespace FreeFit
             return l;
         }
 
-        std::list<Workout> WorkoutXMLReader::getWorkoutList()
+        std::list<CustomExercisesWorkout> WorkoutXMLReader::getWorkoutList()
         {
-            std::list<Workout> l;
+            std::list<CustomExercisesWorkout> l;
             WorkoutTreeParser p;
             std::shared_ptr<XMLNode> r = read();
             for (auto w : r->findAllChildren("WORKOUT"))
