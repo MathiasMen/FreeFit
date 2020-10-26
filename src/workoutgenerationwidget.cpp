@@ -401,5 +401,12 @@ namespace FreeFit
                 sender->setSelected(true);
             }
         }
+
+        void WorkoutGenerationWidget::updateCustomWorkouts()
+        {
+            FreeFit::Data::WorkoutXMLReader r {path_to_saved_workouts};
+            CustomExercisesWorkoutOption* c_opt = dynamic_cast<CustomExercisesWorkoutOption*>(custom_exercises_workout);
+            c_opt->setSavedWorkouts(r.getWorkoutList());
+        }
     }
 }

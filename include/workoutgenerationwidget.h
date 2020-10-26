@@ -26,6 +26,7 @@
 #include "include/hashtagbar.h"
 #include "include/materialdialog.h"
 #include "include/materialtextfield.h"
+#include "include/xmlreader.h"
 
 namespace FreeFit
 {
@@ -138,14 +139,17 @@ namespace FreeFit
             void prepareWorkoutGeneration();
             void setColor(std::string c);
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
+            void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l){saved_workouts = l;}
         private slots:
             void updateExistingExercises();
         private:
             void addButtonClicked();
             void removeButtonClicked();
             void updateFilterLabel();
+            void updateCustomWorkouts();
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
+            std::list<FreeFit::Data::CustomExercisesWorkout> saved_workouts;
 
             MaterialTextField* workout_name_ln;
             QComboBox* custom_workout_selection;
@@ -179,11 +183,20 @@ namespace FreeFit
 
             void setNumberOfRounds(int n);
 
+            void setPathToSavedWorkouts(std::string path)
+            {
+                path_to_saved_workouts = path;
+                updateCustomWorkouts();
+            }
         public slots:
             void accept() override;
         private slots:
             void handleToggleContainerSelected(ToggleContainer* sender, bool selected);
         private:
+            void updateCustomWorkouts();
+
+            std::string path_to_saved_workouts;
+
             QStackedWidget* options_canvas;
             QWidget* option_selection;
             QVBoxLayout* option_selection_ly;
