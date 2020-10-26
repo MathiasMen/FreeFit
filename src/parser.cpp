@@ -5,6 +5,7 @@ namespace FreeFit
     namespace Data
     {
         ExerciseTreeParser::ExerciseTreeParser(){}
+
         std::list<Exercise> ExerciseTreeParser::parse(std::shared_ptr<XMLNode> root)
         {
             std::list<Exercise> l;
@@ -64,6 +65,30 @@ namespace FreeFit
             if(root->findFirstChild("WORKOUTDB"))
                 p.setPathToCustomWorkoutsDB(root->findFirstChild("WORKOUTDB")->getValue());
             return p;
+        }
+
+        WorkoutTreeParser::WorkoutTreeParser(){}
+
+        CustomExercisesWorkout WorkoutTreeParser::parse(std::shared_ptr<XMLNode> root)
+        {
+            CustomExercisesWorkout w {std::list<Exercise>()};
+            if(root->findFirstChild("NAME"))
+                w.setName(root->findFirstChild("NAME")->getValue());
+
+            if(root->findFirstChild("EXERCISE"))
+            {
+                std::list<std::shared_ptr<XMLNode>> exercises = root->findAllChildren("EXERCISE");
+                for (auto e_ptr : exercises)
+                {
+                    Exercise e;
+                    if(e_ptr->findFirstChild("NAME"))
+                        e.setName(e_ptr->findFirstChild("NAME")->getValue());
+                    std::list<Exercise> l = w.getPossibleExercises();
+                    l.push_back(e);
+                    w.setPossibleExercises(l);
+                }
+            }
+            return w;
         }
     }
 }

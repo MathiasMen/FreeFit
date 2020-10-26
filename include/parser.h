@@ -5,6 +5,7 @@
 #include <string>
 #include "include/exercise.h"
 #include "include/profile.h"
+#include "include/workout.h"
 #include "include/xmlnode.h"
 
 namespace FreeFit
@@ -23,6 +24,13 @@ namespace FreeFit
             public:
                 ProfileTreeParser();
                 Profile parse(std::shared_ptr<XMLNode> root);
+        };
+
+        class WorkoutTreeParser
+        {
+            public:
+                WorkoutTreeParser();
+                CustomExercisesWorkout parse(std::shared_ptr<XMLNode> root);
         };
     }
 }
