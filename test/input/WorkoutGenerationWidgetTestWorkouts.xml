@@ -1,0 +1,40 @@
+<WORKOUT>
+  <NAME>
+    WorkoutMathias
+  </NAME>
+  <EXERCISE>
+    <EXERCISENAME>
+      Pushup
+    </EXERCISENAME>
+  </EXERCISE>
+  <EXERCISE>
+    <EXERCISENAME>
+      Plank
+    </EXERCISENAME>
+  </EXERCISE>
+  <EXERCISE>
+    <EXERCISENAME>
+      Situp
+    </EXERCISENAME>
+  </EXERCISE>
+</WORKOUT>
+<WORKOUT>
+  <NAME>
+    WorkoutMathias2
+  </NAME>
+  <EXERCISE>
+    <EXERCISENAME>
+      Pushup2
+    </EXERCISENAME>
+  </EXERCISE>
+  <EXERCISE>
+    <EXERCISENAME>
+      Plank2
+    </EXERCISENAME>
+  </EXERCISE>
+  <EXERCISE>
+    <EXERCISENAME>
+      Situp2
+    </EXERCISENAME>
+  </EXERCISE>
+</WORKOUT>
