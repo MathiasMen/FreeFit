@@ -9,6 +9,7 @@
 #include "include/exercise.h"
 #include "include/parser.h"
 #include "include/profile.h"
+#include "include/workout.h"
 
 namespace FreeFit
 {
@@ -49,6 +50,13 @@ namespace FreeFit
         public:
             ProfileXMLReader(std::string f):BaseXMLReader(f){}
             std::list<Profile> getProfileList();
-        };        
+        };
+
+        class WorkoutXMLReader : public BaseXMLReader
+        {
+        public:
+            WorkoutXMLReader(std::string f):BaseXMLReader(f){}
+            std::list<Workout> getWorkoutList();
+        }    
     }
 }

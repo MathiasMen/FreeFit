@@ -118,5 +118,16 @@ namespace FreeFit
             
             return l;
         }
+
+        std::list<Workout> WorkoutXMLReader::getWorkoutList()
+        {
+            std::list<Workout> l;
+            WorkoutTreeParser p;
+            std::shared_ptr<XMLNode> r = read();
+            for (auto w : r->findAllChildren("WORKOUT"))
+                l.push_back(p.parse(w));
+
+            return l;
+        }
     }
 }
