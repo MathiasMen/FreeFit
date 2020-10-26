@@ -139,14 +139,19 @@ namespace FreeFit
             void prepareWorkoutGeneration();
             void setColor(std::string c);
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
-            void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l){saved_workouts = l;}
+            void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l)
+            {
+                saved_workouts = l;
+                updateSavedWorkouts();
+            }
         private slots:
             void updateExistingExercises();
         private:
             void addButtonClicked();
             void removeButtonClicked();
             void updateFilterLabel();
-            void updateCustomWorkouts();
+            void updateSavedWorkouts();
+            void registerCustomWorkout(FreeFit::Data::CustomExercisesWorkout w);
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
             std::list<FreeFit::Data::CustomExercisesWorkout> saved_workouts;

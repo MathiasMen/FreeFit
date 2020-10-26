@@ -319,6 +319,17 @@ namespace FreeFit
 
         }
 
+        void CustomExercisesWorkoutOption::updateSavedWorkouts()
+        {
+            for (auto w : saved_workouts)
+                registerCustomWorkout(w);
+        }
+
+        void CustomExercisesWorkoutOption::registerCustomWorkout(FreeFit::Data::CustomExercisesWorkout w)
+        {
+            custom_workout_selection->addItem(QString::fromStdString(w.getName()));
+        }
+
         WorkoutGenerationWidget::WorkoutGenerationWidget(QWidget* parent) : MaterialDialog("Exercises","Workout","",parent)
         {
             connect(getAcceptButton(), &QPushButton::clicked, this, &QDialog::accept);
@@ -404,7 +415,7 @@ namespace FreeFit
 
         void WorkoutGenerationWidget::updateCustomWorkouts()
         {
-            FreeFit::Data::WorkoutXMLReader r {path_to_saved_workouts};
+            FreeFit::Data::WorkoutXMLReader r(path_to_saved_workouts);
             CustomExercisesWorkoutOption* c_opt = dynamic_cast<CustomExercisesWorkoutOption*>(custom_exercises_workout);
             c_opt->setSavedWorkouts(r.getWorkoutList());
         }
