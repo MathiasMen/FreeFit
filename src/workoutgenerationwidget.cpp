@@ -319,8 +319,19 @@ namespace FreeFit
 
         }
 
+        void CustomExercisesWorkoutOption::selectSavedWorkout(int id_w)
+        {
+            existing_exercises_list->clear();
+            selected_exercises_list->clear();
+
+            FreeFit::Data::CustomExercisesWorkout w = saved_workouts[id_w];
+
+            setPossibleExercises(w.getPossibleExercises());
+        }
+
         void CustomExercisesWorkoutOption::updateSavedWorkouts()
         {
+            custom_workout_selection->clear();
             for (auto w : saved_workouts)
                 registerCustomWorkout(w);
         }

@@ -3,6 +3,7 @@
 #include <memory>
 #include <functional>
 #include <regex>
+#include <vector>
 
 #include <QApplication>
 #include <QDialog>
@@ -141,10 +142,13 @@ namespace FreeFit
             void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
             void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l)
             {
-                saved_workouts = l;
+                saved_workouts.clear();
+                for (auto w : l)
+                    saved_workouts.push_back(w);
                 updateSavedWorkouts();
             }
         private slots:
+            void selectSavedWorkout(int id_w);
             void updateExistingExercises();
         private:
             void addButtonClicked();
@@ -154,7 +158,7 @@ namespace FreeFit
             void registerCustomWorkout(FreeFit::Data::CustomExercisesWorkout w);
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
-            std::list<FreeFit::Data::CustomExercisesWorkout> saved_workouts;
+            std::vector<FreeFit::Data::CustomExercisesWorkout> saved_workouts;
 
             MaterialTextField* workout_name_ln;
             QComboBox* custom_workout_selection;
