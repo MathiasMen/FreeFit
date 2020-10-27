@@ -178,15 +178,15 @@ namespace FreeFit
         {
             QWidget* workout_selection = new QWidget(this);
             QGridLayout* workout_selection_ly = new QGridLayout(workout_selection);
-            workout_name_ln = new MaterialTextField("Workout Name",workout_selection);
             custom_workout_selection = new QComboBox(workout_selection);
             custom_workout_selection->setEditable(true);
             save_workout_button = new QPushButton("Save",workout_selection);
             delete_workout_button = new QPushButton("Delete",workout_selection);
-            workout_selection_ly->addWidget(workout_name_ln,0,0);
-            workout_selection_ly->addWidget(save_workout_button,0,1);
-            workout_selection_ly->addWidget(custom_workout_selection,1,0);
-            workout_selection_ly->addWidget(delete_workout_button,1,1);
+            QGridLayout* selection_button_ly = new QGridLayout;
+            workout_selection_ly->addWidget(custom_workout_selection,0,0);
+            selection_button_ly->addWidget(save_workout_button,0,0);
+            selection_button_ly->addWidget(delete_workout_button,0,1);
+            workout_selection_ly->addLayout(selection_button_ly,0,1);
             connect(custom_workout_selection,SIGNAL(currentIndexChanged(int)),this,SLOT(selectSavedWorkout(int)));
             connect(custom_workout_selection,SIGNAL(currentTextChanged(QString)),this,SLOT(changeCurrentWorkoutName(QString)));
 
