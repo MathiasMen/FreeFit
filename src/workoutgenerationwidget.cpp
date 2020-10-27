@@ -186,6 +186,7 @@ namespace FreeFit
             workout_selection_ly->addWidget(save_workout_button,0,1);
             workout_selection_ly->addWidget(custom_workout_selection,1,0);
             workout_selection_ly->addWidget(delete_workout_button,1,1);
+            connect(custom_workout_selection,SIGNAL(currentIndexChanged(int)),this,SLOT(selectSavedWorkout(int)));
 
             filter_container = new QWidget(this);
             filter_container_ly = new QHBoxLayout(filter_container);
