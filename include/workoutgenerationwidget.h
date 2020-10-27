@@ -149,6 +149,7 @@ namespace FreeFit
             }
         private slots:
             void selectSavedWorkout(int id_w);
+            void changeCurrentWorkoutName(QString n);
             void updateExistingExercises();
         private:
             void addButtonClicked();

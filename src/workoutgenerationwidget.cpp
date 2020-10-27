@@ -180,6 +180,7 @@ namespace FreeFit
             QGridLayout* workout_selection_ly = new QGridLayout(workout_selection);
             workout_name_ln = new MaterialTextField("Workout Name",workout_selection);
             custom_workout_selection = new QComboBox(workout_selection);
+            custom_workout_selection->setEditable(true);
             save_workout_button = new QPushButton("Save",workout_selection);
             delete_workout_button = new QPushButton("Delete",workout_selection);
             workout_selection_ly->addWidget(workout_name_ln,0,0);
@@ -187,6 +188,7 @@ namespace FreeFit
             workout_selection_ly->addWidget(custom_workout_selection,1,0);
             workout_selection_ly->addWidget(delete_workout_button,1,1);
             connect(custom_workout_selection,SIGNAL(currentIndexChanged(int)),this,SLOT(selectSavedWorkout(int)));
+            connect(custom_workout_selection,SIGNAL(currentTextChanged(QString)),this,SLOT(changeCurrentWorkoutName(QString)));
 
             filter_container = new QWidget(this);
             filter_container_ly = new QHBoxLayout(filter_container);
@@ -328,6 +330,12 @@ namespace FreeFit
             FreeFit::Data::CustomExercisesWorkout w = saved_workouts[id_w];
 
             setPossibleExercises(w.getPossibleExercises());
+        }
+
+        void CustomExercisesWorkoutOption::changeCurrentWorkoutName(QString n)
+        {
+            FreeFit::Data::CustomExercisesWorkout* w = &saved_workouts[custom_workout_selection->currentIndex()];
+            w->setName(n.toStdString());
         }
 
         void CustomExercisesWorkoutOption::updateSavedWorkouts()
