@@ -5,9 +5,11 @@
 #include <fstream>
 #include <list>
 #include <memory>
+#include <set>
 #include "include/xmlnode.h"
 #include "include/exercise.h"
 #include "include/profile.h"
+#include "include/workout.h"
 
 namespace FreeFit
 {
@@ -50,6 +52,15 @@ namespace FreeFit
             std::shared_ptr<XMLNode> profileToNode(FreeFit::Data::Profile p);
             void addProfilesToNodeTree(std::list<FreeFit::Data::Profile> l_p);
             void createNodeTree(std::list<FreeFit::Data::Profile> l_p);
+        };
+
+        class WorkoutWriter : public BaseXMLWriter
+        {
+            WorkoutWriter(std::string filepath) : BaseXMLWriter(filepath){}
+
+            std::shared_ptr<XMLNode> workoutToNode(FreeFit::Data::WorkoutBase* workout);
+            void addWorkoutsToNodeTree(std::list<FreeFit::Data::WorkoutBase*> l_w);
+            void createNodeTree(std::list<FreeFit::Data::WorkoutBase*> l_w);
         };
     }
 }
