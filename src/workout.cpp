@@ -18,6 +18,24 @@ namespace FreeFit
             possible_exercises.erase(item);
         }
 
+        void WorkoutBase::addExerciseToRoundIfPossible(std::string e)
+        {
+            for (auto p_e : possible_exercises)
+                if (p_e.getName() == e)
+                    exercises_per_round.push_back(p_e);
+        }
+
+        void WorkoutBase::removeExerciseFromRoundIfPossible(std::string e)
+        {
+            auto item = exercises_per_round.end();
+            for (auto it = exercises_per_round.begin(); it != exercises_per_round.end(); it++)
+                if (it->getName() == e)
+                {
+                    item = it;
+                }
+            exercises_per_round.erase(item);
+        }
+
         AllExercisesWorkout::AllExercisesWorkout(std::list<Exercise> t_possible_exercises) : WorkoutBase(t_possible_exercises,3)
         {
 
