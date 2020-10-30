@@ -56,6 +56,7 @@ namespace FreeFit
 
         class WorkoutWriter : public BaseXMLWriter
         {
+        public:
             WorkoutWriter(std::string filepath) : BaseXMLWriter(filepath){}
 
             std::shared_ptr<XMLNode> workoutToNode(FreeFit::Data::WorkoutBase* workout);
