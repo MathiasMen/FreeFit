@@ -233,6 +233,7 @@ namespace FreeFit
         void CustomExercisesWorkoutOption::setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
         {
             WorkoutOptionBase::setPossibleExercises(e);
+            specialized_workout->setPossibleExercises(e);
 
             existing_exercises_list->clear();
             selected_exercises_list->clear();
@@ -286,6 +287,7 @@ namespace FreeFit
             {
                 QString exercise_name = s->text();
                 selected_exercises_list->addItem(exercise_name);
+                saved_workouts[custom_workout_selection->currentIndex()].addExerciseToRoundIfPossible(exercise_name.toStdString());
                 delete s;
             }
         }
@@ -297,6 +299,7 @@ namespace FreeFit
             {
                 QString exercise_name = s->text();
                 existing_exercises_list->addItem(exercise_name);
+                saved_workouts[custom_workout_selection->currentIndex()].removeExerciseFromRoundIfPossible(exercise_name.toStdString());
                 delete s;
             }
         }
@@ -419,7 +422,19 @@ namespace FreeFit
         void WorkoutGenerationWidget::accept()
         {
             getSelectedWorkout()->generateWorkout();
+            CustomExercisesWorkoutOption* c = dynamic_cast<CustomExercisesWorkoutOption*>(custom_exercises_workout);
+            c->writeXML();
             QDialog::accept();
+        }
+
+        void CustomExercisesWorkoutOption::writeXML()
+        {
+            std::list<FreeFit::Data::CustomExercisesWorkout> lst;
+            FreeFit::Data::WorkoutWriter writer(path_to_saved_workouts);
+            for (auto w : saved_workouts)
+                lst.push_back(w);
+            writer.createNodeTree(lst);
+            writer.write();
         }
 
         void WorkoutGenerationWidget::handleToggleContainerSelected(ToggleContainer* sender, bool selected)

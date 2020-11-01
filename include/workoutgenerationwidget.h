@@ -28,6 +28,7 @@
 #include "include/materialdialog.h"
 #include "include/materialtextfield.h"
 #include "include/xmlreader.h"
+#include "include/xmlwriter.h"
 
 namespace FreeFit
 {
@@ -147,7 +148,10 @@ namespace FreeFit
                     saved_workouts.push_back(w);
                 updateSavedWorkouts();
             }
-            std::vector<FreeFit::Data::CustomExercisesWorkout> getSavedWorkouts(){return saved_workouts;}
+            void setPathToSavedWorkouts(std::string path){path_to_saved_workouts = path;}
+
+            std::vector<FreeFit::Data::CustomExercisesWorkout>* getSavedWorkouts(){return &saved_workouts;}
+            void writeXML();
         private slots:
             void selectSavedWorkout(int id_w);
             void changeCurrentWorkoutName(QString n);
@@ -161,6 +165,7 @@ namespace FreeFit
 
             std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
             std::vector<FreeFit::Data::CustomExercisesWorkout> saved_workouts;
+            std::string path_to_saved_workouts;
 
             MaterialTextField* workout_name_ln;
             QComboBox* custom_workout_selection;
@@ -197,6 +202,8 @@ namespace FreeFit
             void setPathToSavedWorkouts(std::string path)
             {
                 path_to_saved_workouts = path;
+                CustomExercisesWorkoutOption* c_opt = dynamic_cast<CustomExercisesWorkoutOption*>(custom_exercises_workout);
+                c_opt->setPathToSavedWorkouts(path);
                 updateCustomWorkouts();
             }
         public slots:
