@@ -4,25 +4,25 @@
       WorkoutMathias
     </NAME>
     <EXERCISE>
-      <EXERCISENAME>
+      <NAME>
         Pushup
-      </EXERCISENAME>
+      </NAME>
       <SELECTED>
         0
       </SELECTED>
     </EXERCISE>
     <EXERCISE>
-      <EXERCISENAME>
+      <NAME>
         Plank
-      </EXERCISENAME>
+      </NAME>
       <SELECTED>
         0
       </SELECTED>
     </EXERCISE>
     <EXERCISE>
-      <EXERCISENAME>
+      <NAME>
         Situp
-      </EXERCISENAME>
+      </NAME>
       <SELECTED>
         0
       </SELECTED>
@@ -33,25 +33,25 @@
       WorkoutMathias2
     </NAME>
     <EXERCISE>
-      <EXERCISENAME>
+      <NAME>
         Pushup2
-      </EXERCISENAME>
+      </NAME>
       <SELECTED>
         1
       </SELECTED>
     </EXERCISE>
     <EXERCISE>
-      <EXERCISENAME>
+      <NAME>
         Plank2
-      </EXERCISENAME>
+      </NAME>
       <SELECTED>
         0
       </SELECTED>
     </EXERCISE>
     <EXERCISE>
-      <EXERCISENAME>
+      <NAME>
         Situp2
-      </EXERCISENAME>
+      </NAME>
       <SELECTED>
         0
       </SELECTED>

@@ -81,8 +81,8 @@ namespace FreeFit
                 for (auto e_ptr : exercises)
                 {
                     Exercise e;
-                    if(e_ptr->findFirstChild("EXERCISENAME"))
-                        e.setName(e_ptr->findFirstChild("EXERCISENAME")->getValue());
+                    if(e_ptr->findFirstChild("NAME"))
+                        e.setName(e_ptr->findFirstChild("NAME")->getValue());
                     std::list<Exercise> l = w.getPossibleExercises();
                     l.push_back(e);
                     w.setPossibleExercises(l);
