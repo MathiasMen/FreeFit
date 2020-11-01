@@ -391,7 +391,6 @@ namespace FreeFit
             all_exercises_container->setSelected(true);
         }
 
-        // ADAPT CONTAINERS!
         void WorkoutGenerationWidget::setColor(std::string c)
         {
             MaterialDialog::setColor(c);
