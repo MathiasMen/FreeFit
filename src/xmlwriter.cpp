@@ -143,12 +143,15 @@ namespace FreeFit
             addProfilesToNodeTree(l_p);
         }
 
-        std::shared_ptr<XMLNode> WorkoutWriter::workoutToNode(FreeFit::Data::WorkoutBase* workout)
+        std::shared_ptr<XMLNode> WorkoutWriter::workoutToNode(FreeFit::Data::CustomExercisesWorkout workout)
         {
             std::shared_ptr<XMLNode> w = std::make_shared<XMLNode>(nullptr,"WORKOUT","");
-            std::shared_ptr<XMLNode> w_name = std::make_shared<XMLNode>(w,"NAME",workout->getName());
+
+            std::shared_ptr<XMLNode> w_name = std::make_shared<XMLNode>(w,"NAME",workout.getName());
+            w->addChild(w_name);
+
             std::set<std::string> selected_exercises;
-            for (auto e : workout->getExercisesPerRound())
+            for (auto e : workout.getExercisesPerRound())
             {
                 std::string e_name = e.getName();
                 std::shared_ptr<XMLNode> w_exercise = std::make_shared<XMLNode>(w,"EXERCISE","");
@@ -159,7 +162,7 @@ namespace FreeFit
                 w->addChild(w_exercise);
                 selected_exercises.insert(e_name);
             }
-            for (auto e : workout->getPossibleExercises())
+            for (auto e : workout.getPossibleExercises())
             {
                 std::string e_name = e.getName();
                 if (selected_exercises.count(e_name) == 0)
@@ -173,20 +176,19 @@ namespace FreeFit
                 }
             }
 
-            w->addChild(w_name);
             return w;
         }
 
-        void WorkoutWriter::addWorkoutsToNodeTree(std::list<FreeFit::Data::WorkoutBase*> l_w)
+        void WorkoutWriter::addWorkoutsToNodeTree(std::list<FreeFit::Data::CustomExercisesWorkout> l_w)
         {
-            for (FreeFit::Data::WorkoutBase* w_data : l_w)
+            for (FreeFit::Data::CustomExercisesWorkout w_data : l_w)
             {
                 std::shared_ptr<XMLNode> w = workoutToNode(w_data);
                 root->addChild(w);
             }
         }
 
-        void WorkoutWriter::createNodeTree(std::list<FreeFit::Data::WorkoutBase*> l_w)
+        void WorkoutWriter::createNodeTree(std::list<FreeFit::Data::CustomExercisesWorkout> l_w)
         {
             root = std::make_shared<XMLNode>(nullptr,"WORKOUTS","");
             addWorkoutsToNodeTree(l_w);

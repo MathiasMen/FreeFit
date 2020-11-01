@@ -59,9 +59,9 @@ namespace FreeFit
         public:
             WorkoutWriter(std::string filepath) : BaseXMLWriter(filepath){}
 
-            std::shared_ptr<XMLNode> workoutToNode(FreeFit::Data::WorkoutBase* workout);
-            void addWorkoutsToNodeTree(std::list<FreeFit::Data::WorkoutBase*> l_w);
-            void createNodeTree(std::list<FreeFit::Data::WorkoutBase*> l_w);
+            std::shared_ptr<XMLNode> workoutToNode(FreeFit::Data::CustomExercisesWorkout workout);
+            void addWorkoutsToNodeTree(std::list<FreeFit::Data::CustomExercisesWorkout> l_w);
+            void createNodeTree(std::list<FreeFit::Data::CustomExercisesWorkout> l_w);
         };
     }
 }
