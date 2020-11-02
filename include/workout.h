@@ -27,6 +27,22 @@ namespace FreeFit
                 std::list<Exercise> getExercisesPerRound(){return exercises_per_round;}
                 std::list<std::string> getExercisesPerRoundNames();
                 std::list<Exercise> getPossibleExercises(){return possible_exercises;}
+                std::list<Exercise> getPossibleExercisesMinusRoundExercises()
+                {
+                    std::list<Exercise> result{};
+
+                    for (Exercise possible_exercise : getPossibleExercises())
+                    {
+                        bool found = false;
+                        for (Exercise round_exercise : getExercisesPerRound())
+                            if (round_exercise.getName() == possible_exercise.getName())
+                                found = true;
+                        if (!found)
+                            result.push_back(possible_exercise);
+                    }    
+
+                    return result;
+                }
                 void setPossibleExercises(std::list<Exercise> t_possible_exercises){possible_exercises = t_possible_exercises;}
                 bool isPossibleExercisesEmpty(){return (possible_exercises.size() == 0);}
                 void removeExerciseByName(std::string name);
