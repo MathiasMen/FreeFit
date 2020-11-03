@@ -140,13 +140,7 @@ namespace FreeFit
             CustomExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
             void prepareWorkoutGeneration();
             void setColor(std::string c);
-            void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l)
-            {
-                saved_workouts.clear();
-                for (auto w : l)
-                    saved_workouts.push_back(w);
-                updateSavedWorkouts();
-            }
+            void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l);
             void setPathToSavedWorkouts(std::string path){path_to_saved_workouts = path;}
 
             std::vector<FreeFit::Data::CustomExercisesWorkout>* getSavedWorkouts(){return &saved_workouts;}
@@ -159,7 +153,6 @@ namespace FreeFit
             void addButtonClicked();
             void removeButtonClicked();
             void updateFilterLabel();
-            void updateSavedWorkouts();
             void registerCustomWorkout(FreeFit::Data::CustomExercisesWorkout w);
 
             std::vector<FreeFit::Data::CustomExercisesWorkout> saved_workouts;

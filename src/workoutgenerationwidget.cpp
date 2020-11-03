@@ -313,6 +313,18 @@ namespace FreeFit
 
         }
 
+        void CustomExercisesWorkoutOption::setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l)
+        {
+            saved_workouts.clear();
+            custom_workout_selection->clear();
+            for (auto w : l)
+            {
+                saved_workouts.push_back(w);
+                registerCustomWorkout(w);
+            }
+            selectSavedWorkout(0);
+        }
+
         void CustomExercisesWorkoutOption::selectSavedWorkout(int id_w)
         {
             existing_exercises_list->clear();
@@ -327,13 +339,6 @@ namespace FreeFit
         {
             FreeFit::Data::CustomExercisesWorkout* w = &saved_workouts[custom_workout_selection->currentIndex()];
             w->setName(n.toStdString());
-        }
-
-        void CustomExercisesWorkoutOption::updateSavedWorkouts()
-        {
-            custom_workout_selection->clear();
-            for (auto w : saved_workouts)
-                registerCustomWorkout(w);
         }
 
         void CustomExercisesWorkoutOption::registerCustomWorkout(FreeFit::Data::CustomExercisesWorkout w)
