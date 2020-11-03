@@ -83,12 +83,12 @@ namespace FreeFit
                     Exercise e;
                     if(e_ptr->findFirstChild("NAME"))
                         e.setName(e_ptr->findFirstChild("NAME")->getValue());
-                    if(e_ptr->findFirstChild("SELECTED"))
-                        if(e_ptr->findFirstChild("SELECTED")->getValue() == "1")
-                            w.addExerciseToRoundIfPossible(e.getName());
                     std::list<Exercise> l = w.getPossibleExercises();
                     l.push_back(e);
                     w.setPossibleExercises(l);
+                    if(e_ptr->findFirstChild("SELECTED"))
+                        if(e_ptr->findFirstChild("SELECTED")->getValue() == "1")
+                            w.addExerciseToRound(e.getName());
                 }
             }
             return w;
