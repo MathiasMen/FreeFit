@@ -227,11 +227,6 @@ namespace FreeFit
             layout()->addItem(vertical_spacer);
         }
 
-        void CustomExercisesWorkoutOption::setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
-        {
-            WorkoutOptionBase::setPossibleExercises(e);
-        }
-
         void CustomExercisesWorkoutOption::updateExistingExercises()
         {
             FreeFit::Data::CustomExercisesWorkout current_workout = saved_workouts[custom_workout_selection->currentIndex()];
@@ -387,7 +382,7 @@ namespace FreeFit
             workout_options.push_back(custom_exercises_workout);
             custom_exercises_container->setContent(custom_exercises_workout);
             addWidget(custom_exercises_container,2,0);
-            
+
             all_exercises_workout->setRounds(3);
             filtered_exercises_workout->setRounds(3);
             custom_exercises_workout->setRounds(3);

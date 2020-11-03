@@ -140,7 +140,6 @@ namespace FreeFit
             CustomExercisesWorkoutOption(std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> w = nullptr, QWidget* parent = nullptr);
             void prepareWorkoutGeneration();
             void setColor(std::string c);
-            void setPossibleExercises(std::list<FreeFit::Data::Exercise> e);
             void setSavedWorkouts(std::list<FreeFit::Data::CustomExercisesWorkout> l)
             {
                 saved_workouts.clear();
