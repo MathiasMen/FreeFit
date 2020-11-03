@@ -48,8 +48,8 @@ namespace FreeFit
                 void removeExerciseByName(std::string name);
                 void setName(std::string n){workout_name = n;}
                 std::string getName(){return workout_name;}
-                void addExerciseToRoundIfPossible(std::string e);
-                void removeExerciseFromRoundIfPossible(std::string e);
+                void addExerciseToRound(std::string e);
+                void removeExerciseFromRound(std::string e);
             protected:
                 std::string workout_name = "";
                 std::list<Exercise> possible_exercises;
