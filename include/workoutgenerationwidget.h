@@ -160,7 +160,6 @@ namespace FreeFit
 
             MaterialTextField* workout_name_ln;
             QComboBox* custom_workout_selection;
-            QPushButton* save_workout_button;
             QPushButton* delete_workout_button;
             QWidget* filter_container;
             QHBoxLayout* filter_container_ly;
