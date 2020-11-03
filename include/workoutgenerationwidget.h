@@ -163,7 +163,6 @@ namespace FreeFit
             void updateSavedWorkouts();
             void registerCustomWorkout(FreeFit::Data::CustomExercisesWorkout w);
 
-            std::shared_ptr<FreeFit::Data::CustomExercisesWorkout> specialized_workout;
             std::vector<FreeFit::Data::CustomExercisesWorkout> saved_workouts;
             std::string path_to_saved_workouts;
 

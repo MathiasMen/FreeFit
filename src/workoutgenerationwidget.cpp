@@ -225,24 +225,17 @@ namespace FreeFit
 
             QSpacerItem* vertical_spacer = new QSpacerItem(1,1,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding);
             layout()->addItem(vertical_spacer);
-            specialized_workout = w;
-
-            updateExistingExercises();
         }
 
         void CustomExercisesWorkoutOption::setPossibleExercises(std::list<FreeFit::Data::Exercise> e)
         {
             WorkoutOptionBase::setPossibleExercises(e);
-            specialized_workout->setPossibleExercises(e);
-
-            existing_exercises_list->clear();
-            selected_exercises_list->clear();
-            updateExistingExercises();
         }
 
         void CustomExercisesWorkoutOption::updateExistingExercises()
         {
-            std::list<std::string> exercise_names = specialized_workout->getExercisesPerRoundNames();
+            FreeFit::Data::CustomExercisesWorkout current_workout = saved_workouts[custom_workout_selection->currentIndex()];
+            std::list<std::string> exercise_names = current_workout.getExercisesPerRoundNames();
             std::list<std::string> filtered_exercise_names;
             
             std::list<std::string> selected_exercise_names;
