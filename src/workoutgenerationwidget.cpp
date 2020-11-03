@@ -275,7 +275,7 @@ namespace FreeFit
             {
                 QString exercise_name = s->text();
                 selected_exercises_list->addItem(exercise_name);
-                saved_workouts[custom_workout_selection->currentIndex()].addExerciseToRoundIfPossible(exercise_name.toStdString());
+                saved_workouts[custom_workout_selection->currentIndex()].addExerciseToRound(exercise_name.toStdString());
                 delete s;
             }
         }
@@ -287,7 +287,7 @@ namespace FreeFit
             {
                 QString exercise_name = s->text();
                 existing_exercises_list->addItem(exercise_name);
-                saved_workouts[custom_workout_selection->currentIndex()].removeExerciseFromRoundIfPossible(exercise_name.toStdString());
+                saved_workouts[custom_workout_selection->currentIndex()].removeExerciseFromRound(exercise_name.toStdString());
                 delete s;
             }
         }
@@ -319,6 +319,7 @@ namespace FreeFit
             custom_workout_selection->clear();
             for (auto w : l)
             {
+                w.setPossibleExercises(workout_data->getPossibleExercises());
                 saved_workouts.push_back(w);
                 registerCustomWorkout(w);
             }
@@ -331,8 +332,10 @@ namespace FreeFit
             selected_exercises_list->clear();
 
             FreeFit::Data::CustomExercisesWorkout w = saved_workouts[id_w];
-
-            setPossibleExercises(w.getPossibleExercisesMinusRoundExercises());
+            for (auto e : w.getExercisesPerRound())
+                selected_exercises_list->addItem(QString::fromStdString(e.getName()));
+            for (auto e : w.getPossibleExercisesMinusRoundExercises())
+                existing_exercises_list->addItem(QString::fromStdString(e.getName()));
         }
 
         void CustomExercisesWorkoutOption::changeCurrentWorkoutName(QString n)
