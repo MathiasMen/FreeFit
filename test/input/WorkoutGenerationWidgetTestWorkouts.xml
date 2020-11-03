@@ -19,14 +19,6 @@
         0
       </SELECTED>
     </EXERCISE>
-    <EXERCISE>
-      <NAME>
-        Situp
-      </NAME>
-      <SELECTED>
-        0
-      </SELECTED>
-    </EXERCISE>
   </WORKOUT>
   <WORKOUT>
     <NAME>
@@ -34,7 +26,7 @@
     </NAME>
     <EXERCISE>
       <NAME>
-        Pushup2
+        Pushup
       </NAME>
       <SELECTED>
         1
@@ -42,18 +34,10 @@
     </EXERCISE>
     <EXERCISE>
       <NAME>
-        Plank2
+        Plank
       </NAME>
       <SELECTED>
-        0
-      </SELECTED>
-    </EXERCISE>
-    <EXERCISE>
-      <NAME>
-        Situp2
-      </NAME>
-      <SELECTED>
-        0
+        1
       </SELECTED>
     </EXERCISE>
   </WORKOUT>
