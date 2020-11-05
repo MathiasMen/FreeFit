@@ -268,6 +268,17 @@ namespace FreeFit
             updateFilterLabel();
         }
 
+        void CustomExercisesWorkoutOption::addNewWorkout()
+        {
+            std::list<FreeFit::Data::CustomExercisesWorkout> l;
+            for (auto w : saved_workouts)
+                l.push_back(w);
+            FreeFit::Data::CustomExercisesWorkout new_workout{workout_data->getPossibleExercises()};
+            new_workout.setName("New Workout");
+            l.push_back(new_workout);
+            setSavedWorkouts(l);
+        }
+
         void CustomExercisesWorkoutOption::addButtonClicked()
         {
             QList<QListWidgetItem*> selected_items = existing_exercises_list->selectedItems();
