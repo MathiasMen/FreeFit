@@ -145,8 +145,9 @@ namespace FreeFit
 
             std::vector<FreeFit::Data::CustomExercisesWorkout>* getSavedWorkouts(){return &saved_workouts;}
             void writeXML();
-        private slots:
+        public slots:
             void selectSavedWorkout(int id_w);
+        private slots:
             void changeCurrentWorkoutName(QString n);
             void updateExistingExercises();
             void addNewWorkout();

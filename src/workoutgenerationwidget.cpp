@@ -334,7 +334,6 @@ namespace FreeFit
                 saved_workouts.push_back(w);
                 registerCustomWorkout(w);
             }
-            selectSavedWorkout(0);
         }
 
         void CustomExercisesWorkoutOption::selectSavedWorkout(int id_w)
@@ -459,6 +458,7 @@ namespace FreeFit
             FreeFit::Data::WorkoutXMLReader r(path_to_saved_workouts);
             CustomExercisesWorkoutOption* c_opt = dynamic_cast<CustomExercisesWorkoutOption*>(custom_exercises_workout);
             c_opt->setSavedWorkouts(r.getWorkoutList());
+            c_opt->selectSavedWorkout(0);
         }
     }
 }
